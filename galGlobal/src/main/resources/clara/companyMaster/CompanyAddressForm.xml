@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<VerticalLayout margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" 
+                xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling">
+    <errorMsg:ErrorLabel id="errorMsg"/>
+    
+    <HorizontalLayout id="hLayout1" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout1" width="100%" height="100%">
+            <Label id="labelAddress1" value="Address 1" contentMode="HTML" />
+            <TextField id="address1" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout id="hLayout2" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout2" width="100%" height="100%">          
+            <Label id="labelCity" value="City" contentMode="HTML" />
+            <TextField id="city" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+   
+    <HorizontalLayout id="hLayout3" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout3" width="100%" height="100%">         
+            <Label id="labelZipCode" value="Zip Code" contentMode="HTML" />
+            <TextField id="zipCode" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout id="hLayout4" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout4" width="100%" height="100%">    
+            <Label id="labelCountry" value="Country" contentMode="HTML" />
+            <ComboBox id="country" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout id="hLayout5" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout5" width="100%" height="100%">        
+            <Label id="labelAddress2" value="Address 2" contentMode="HTML" />
+            <TextField id="address2" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout id="hLayout6" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout6" width="100%" height="100%">       
+            <Label id="labelState" value="State" contentMode="HTML" />
+            <ComboBox id="state" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout id="hLayout7" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout7" width="100%" height="100%">       
+            <Label id="labelRegionCode" value="Region Code" contentMode="HTML" />
+            <TextField id="regionCode" inputPrompt="" />
+        </CssLayout>
+    </HorizontalLayout>
+</VerticalLayout>
+

@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+   
+    <entity id="items-count-with-identifier">
+        <query> 
+            <![CDATA[
+                
+                SELECT
+                    COUNT(*)
+                FROM
+                    (SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION,
+                        BM.BRAND_NAME,
+                        IM.ITEM_NO,
+                        IM.ITEM_NAME,
+                        IM.ITEM_MASTER_SID,
+                        II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+                        IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER,
+                        SAHIS.AVAILABLE_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID        
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ITEM_IDENTIFIER II ON
+                        II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                LEFT JOIN ITEM_QUALIFIER IQ ON
+                        II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID    
+                LEFT JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                        SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID	
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID] 
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="items-count">
+        <query> 
+            <![CDATA[
+                SELECT
+                    COUNT(*)
+                FROM
+                    (SELECT
+                            DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                            CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                            HT1.DESCRIPTION,
+                            BM.BRAND_NAME,
+                            IM.ITEM_NO,
+                            IM.ITEM_NAME,
+                            IM.ITEM_MASTER_SID,
+                            SAHIS.AVAILABLE_CHECKBOX
+                    FROM
+                            ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                    INNER JOIN CCP_DETAILS CCPD ON
+                            CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                            AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID                            
+                    INNER JOIN ITEM_MASTER IM ON
+                            CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    INNER JOIN HELPER_TABLE HT1 ON
+                            HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                    INNER JOIN BRAND_MASTER BM ON
+                            IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                    LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                            GL.NDC8 = IM.NDC8      
+                    LEFT JOIN COMPANY_MASTER CM ON
+                            CM.COMPANY_ID = GL.COMPANY_CODE
+                    LEFT JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                            SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID	
+                            AND SAHIS.USER_ID = [$USER_ID] 
+                            AND SAHIS.SESSION_ID = [$SESSION_ID]
+                    WHERE
+                            IM.INBOUND_STATUS <> 'D'
+                            AND CO.USER_ID = [$USER_ID] 
+                            AND CO.SESSION_ID = [$SESSION_ID] 
+            ]]>
+        </query>
+    </entity>
+    
+        <entity id="items-search-with-identifier">
+        <query> 
+            <![CDATA[
+                
+                SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION,
+                        BM.BRAND_NAME,
+                        IM.ITEM_NO,
+                        IM.ITEM_NAME,
+                        IM.ITEM_MASTER_SID,
+                        II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+                        IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER,
+                        SAHIS.AVAILABLE_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID                        
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ITEM_IDENTIFIER II ON
+                        II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                LEFT JOIN ITEM_QUALIFIER IQ ON
+                        II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID      
+                LEFT JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                        SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID	
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]          
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID] 
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="items-search">
+        <query> 
+            <![CDATA[
+                SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION,
+                        BM.BRAND_NAME,
+                        IM.ITEM_NO,
+                        IM.ITEM_NAME,
+                        IM.ITEM_MASTER_SID,
+                        SAHIS.AVAILABLE_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID                        
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                        SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID	
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]      
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID] 
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="selected-items-count-with-identifier">
+        <query> 
+            <![CDATA[
+                
+                SELECT
+                    COUNT(*)
+                FROM
+                    (SELECT
+                    DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                    CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                    HT1.DESCRIPTION AS THERAPUTIC_CLASS,
+                    BM.BRAND_NAME AS BRAND_NAME,
+                    IM.ITEM_NO AS ITEM_NO,
+                    IM.ITEM_NAME AS ITEM_NAME,
+                    IM.ITEM_MASTER_SID,
+                    II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+                    IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER,
+                    SAHIS.SELECTED_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID                        
+                INNER JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                                SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+                INNER JOIN ITEM_MASTER IM ON
+                        SAHIS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID	
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ITEM_IDENTIFIER II ON
+                        II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                LEFT JOIN ITEM_QUALIFIER IQ ON
+                        II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID		
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.SELECTED_RECORDS = 1
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="selected-items-count">
+        <query> 
+            <![CDATA[
+                    
+                SELECT
+                    COUNT(*)
+                FROM
+                    (SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION AS THERAPUTIC_CLASS,
+                        BM.BRAND_NAME AS BRAND_NAME,
+                        IM.ITEM_NO AS ITEM_NO,
+                        IM.ITEM_NAME AS ITEM_NAME,
+                        IM.ITEM_MASTER_SID,
+                        SAHIS.SELECTED_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID        
+                INNER JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                        SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+                INNER JOIN ITEM_MASTER IM ON
+                        SAHIS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID	
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID	
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.SELECTED_RECORDS = 1
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="selected-items-search-with-identifier">
+        <query> 
+            <![CDATA[
+                
+                SELECT
+                    DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                    CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                    HT1.DESCRIPTION AS THERAPUTIC_CLASS,
+                    BM.BRAND_NAME AS BRAND_NAME,
+                    IM.ITEM_NO AS ITEM_NO,
+                    IM.ITEM_NAME AS ITEM_NAME,
+                    IM.ITEM_MASTER_SID,
+                    II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+                    IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER,
+                    SAHIS.SELECTED_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID        
+                INNER JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                                SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+                INNER JOIN ITEM_MASTER IM ON
+                        SAHIS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID	
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ITEM_IDENTIFIER II ON
+                        II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                LEFT JOIN ITEM_QUALIFIER IQ ON
+                        II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID		
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.SELECTED_RECORDS = 1
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="selected-items-search">
+        <query> 
+            <![CDATA[
+                    
+                SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION AS THERAPUTIC_CLASS,
+                        BM.BRAND_NAME AS BRAND_NAME,
+                        IM.ITEM_NO AS ITEM_NO,
+                        IM.ITEM_NAME AS ITEM_NAME,
+                        IM.ITEM_MASTER_SID,
+                        SAHIS.SELECTED_CHECKBOX
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID        
+                INNER JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                        SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+                INNER JOIN ITEM_MASTER IM ON
+                        SAHIS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID	
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE	
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.USER_ID = [$USER_ID] 
+                        AND SAHIS.SESSION_ID = [$SESSION_ID]
+                        AND SAHIS.SELECTED_RECORDS = 1
+            ]]>
+        </query>
+    </entity>
+
+    <entity id="temp-insert-merge-without-identifier">
+        <query> 
+            <![CDATA[
+                    
+                DECLARE @TEMP_ITEMS TABLE (ITEM_MASTER_SID INT)
+
+                INSERT INTO @TEMP_ITEMS (ITEM_MASTER_SID)
+
+                SELECT
+                        DISTINCT IM.ITEM_MASTER_SID
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID        
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                                SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID	
+                                AND SAHIS.USER_ID = [$USER_ID] 
+                                AND SAHIS.SESSION_ID = [$SESSION_ID]
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID]
+                        
+            ]]>
+        </query>
+    </entity>
+
+        <entity id="temp-insert-merge-with-identifier">
+        <query> 
+            <![CDATA[
+                    
+                DECLARE @TEMP_ITEMS TABLE (ITEM_MASTER_SID INT)
+
+                INSERT INTO @SALES(ITEM_MASTER_SID)
+
+                SELECT
+                        DISTINCT IM.ITEM_MASTER_SID
+                FROM
+                        ST_AL_HISTORY_CUSTOMER_SELECTION CO
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                        AND CCPD.COMPANY_MASTER_SID = CO.COMPANY_MASTER_SID                 
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                LEFT JOIN dbo.GL_COST_CENTER_MASTER GL ON
+                        GL.NDC8 = IM.NDC8      
+                LEFT JOIN COMPANY_MASTER CM ON
+                        CM.COMPANY_ID = GL.COMPANY_CODE
+                LEFT JOIN ITEM_IDENTIFIER II ON
+                        II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                LEFT JOIN ITEM_QUALIFIER IQ ON
+                        II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID
+                LEFT JOIN ST_AL_HISTORY_ITEM_SELECTION SAHIS ON
+                                SAHIS.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID		
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+                        AND CO.USER_ID = [$USER_ID] 
+                        AND CO.SESSION_ID = [$SESSION_ID]
+                        
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="merge-add-all">
+        <query> 
+            <![CDATA[
+            MERGE ST_AL_HISTORY_ITEM_SELECTION AS T
+                USING @TEMP_ITEMS AS S
+                ON T.ITEM_MASTER_SID = S.ITEM_MASTER_SID   
+                   AND T.USER_ID = [$USER_ID]
+                   AND T.SESSION_ID = [$SESSION_ID]
+                WHEN NOT MATCHED THEN
+                  INSERT (ITEM_MASTER_SID,          
+                          AVAILABLE_CHECKBOX,
+                          SELECTED_RECORDS,
+                          USER_ID,
+                          SESSION_ID,
+                          LAST_MODIFIED_DATE)
+                  VALUES (S.ITEM_MASTER_SID,          
+                          [$AVAILABLE_CHECKBOX],
+                          [$SELECTED_RECORDS],
+                          [$USER_ID],
+                          [$SESSION_ID],
+                          Getdate())
+                WHEN matched THEN
+                  UPDATE SET T.SELECTED_RECORDS = [$SELECTED_RECORDS], 
+                  T.AVAILABLE_CHECKBOX =[$AVAILABLE_CHECKBOX],
+                  LAST_MODIFIED_DATE=GETDATE();
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="merge-check-all">
+        <query> 
+            <![CDATA[
+            MERGE ST_AL_HISTORY_ITEM_SELECTION AS T
+                USING @TEMP_ITEMS AS S
+                ON T.ITEM_MASTER_SID = S.ITEM_MASTER_SID   
+                   AND T.USER_ID = [$USER_ID]
+                   AND T.SESSION_ID = [$SESSION_ID]
+                WHEN NOT MATCHED THEN
+                  INSERT (ITEM_MASTER_SID,          
+                          AVAILABLE_CHECKBOX,
+                          USER_ID,
+                          SESSION_ID,
+                          LAST_MODIFIED_DATE)
+                  VALUES (S.ITEM_MASTER_SID,          
+                          [$AVAILABLE_CHECKBOX],
+                          [$USER_ID],
+                          [$SESSION_ID],
+                          Getdate())
+                WHEN matched THEN
+                  UPDATE SET T.AVAILABLE_CHECKBOX =[$AVAILABLE_CHECKBOX],
+                  LAST_MODIFIED_DATE=GETDATE();
+            ]]>
+        </query>
+    </entity>
+    
+        
+    <entity id="remove-selected-items">
+        <query> 
+            <![CDATA[
+                UPDATE
+                        ST_AL_HISTORY_ITEM_SELECTION
+                SET
+                        SELECTED_RECORDS = 0,
+                        SELECTED_CHECKBOX = 0,
+                        LAST_MODIFIED_DATE = GETDATE()
+                WHERE
+                        USER_ID = [$USER_ID]
+                        AND SESSION_ID = [$SESSION_ID]
+                        AND SELECTED_CHECKBOX = 1;
+            ]]>
+        </query>
+    </entity>
+    
+        
+    <entity id="remove-all-items">
+        <query> 
+            <![CDATA[
+                UPDATE
+                        ST_AL_HISTORY_ITEM_SELECTION
+                SET
+                        SELECTED_RECORDS = 0,
+                        SELECTED_CHECKBOX = 0,
+                        LAST_MODIFIED_DATE = GETDATE()
+                WHERE
+                        USER_ID = [$USER_ID]
+                        AND SESSION_ID = [$SESSION_ID];
+                                      
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="add-item-to-temp-table-on-check">
+        <query> 
+            <![CDATA[
+            IF NOT EXISTS (SELECT  1 FROM ST_AL_HISTORY_ITEM_SELECTION WHERE ITEM_MASTER_SID =[$ITEM_MASTER_SID] AND USER_ID=[$USER_ID] AND SESSION_ID=[$SESSION_ID])
+            BEGIN 
+                INSERT INTO ST_AL_HISTORY_ITEM_SELECTION (
+                          ITEM_MASTER_SID,          
+                          AVAILABLE_CHECKBOX,
+                          USER_ID,
+                          SESSION_ID,
+                          LAST_MODIFIED_DATE) 
+                VALUES ([$ITEM_MASTER_SID],[$AVAILABLE_CHECKBOX],[$USER_ID],[$SESSION_ID],GETDATE())
+            END
+            ELSE
+            BEGIN
+                UPDATE ST_AL_HISTORY_ITEM_SELECTION SET AVAILABLE_CHECKBOX = [$AVAILABLE_CHECKBOX] ,
+                LAST_MODIFIED_DATE=GETDATE() WHERE USER_ID = [$USER_ID] AND SESSION_ID = [$SESSION_ID] 
+                AND ITEM_MASTER_SID=[$ITEM_MASTER_SID]
+            END;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="update-temp-table-on-available-uncheck">
+        <query> 
+            <![CDATA[
+                UPDATE ST_AL_HISTORY_ITEM_SELECTION SET AVAILABLE_CHECKBOX = [$AVAILABLE_CHECKBOX] ,
+                LAST_MODIFIED_DATE=GETDATE() WHERE USER_ID = [$USER_ID] AND SESSION_ID = [$SESSION_ID] 
+                AND ITEM_MASTER_SID=[$ITEM_MASTER_SID]
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="update-temp-table-on-selected-check-uncheck">
+        <query> 
+            <![CDATA[
+                UPDATE ST_AL_HISTORY_ITEM_SELECTION SET SELECTED_CHECKBOX = [$SELECTED_CHECKBOX] ,
+                LAST_MODIFIED_DATE=GETDATE() WHERE USER_ID = [$USER_ID] AND SESSION_ID = [$SESSION_ID] 
+                AND ITEM_MASTER_SID=[$ITEM_MASTER_SID]
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="update-on-add-item">
+        <query> 
+            <![CDATA[
+                UPDATE ST_AL_HISTORY_ITEM_SELECTION 
+                SET SELECTED_RECORDS = 1,
+                AVAILABLE_CHECKBOX = 0,
+                LAST_MODIFIED_DATE=GETDATE() 
+                WHERE USER_ID = [$USER_ID] 
+                AND SESSION_ID = [$SESSION_ID] 
+                AND AVAILABLE_CHECKBOX = 1;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="update-on-selected-item-on-checkall">
+        <query> 
+            <![CDATA[
+            UPDATE
+                    ST_AL_HISTORY_ITEM_SELECTION
+            SET
+                    SELECTED_CHECKBOX = [$SELECTED_CHECKBOX],
+                    LAST_MODIFIED_DATE = GETDATE()
+            WHERE
+                    USER_ID = [$USER_ID]
+                    AND SESSION_ID = [$SESSION_ID]
+                    AND SELECTED_RECORDS = 1;
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="update-all-available-checkbox">
+        <query> 
+            <![CDATA[
+            UPDATE
+                    ST_AL_HISTORY_ITEM_SELECTION
+            SET
+                    AVAILABLE_CHECKBOX = [$AVAILABLE_CHECKBOX],
+                    LAST_MODIFIED_DATE = GETDATE()
+            WHERE
+                    USER_ID = [$USER_ID]
+                    AND SESSION_ID = [$SESSION_ID];
+         ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="atleast-one-item-checked">
+        <query> 
+            <![CDATA[
+            IF EXISTS (SELECT 1
+                        FROM   ST_AL_HISTORY_ITEM_SELECTION
+                        WHERE  [$CHECKBOX_COLUMN] = 1
+                        AND USER_ID = [$USER_ID]
+                        AND SESSION_ID = [$SESSION_ID])
+                SELECT 1
+            ELSE
+                SELECT 0 
+         ]]>
+        </query>
+    </entity>
+    
+        
+    <entity id="load-item-qualifier">
+        <query> 
+            <![CDATA[
+            SELECT DISTINCT
+                IQ.ITEM_QUALIFIER_SID,
+                IQ.ITEM_QUALIFIER_NAME
+            FROM
+                    ST_AL_HISTORY_CUSTOMER_SELECTION ST
+            JOIN CCP_DETAILS CCP ON
+                    CCP.CONTRACT_MASTER_SID = ST.CONTRACT_MASTER_SID 
+                    AND CCP.COMPANY_MASTER_SID = ST.COMPANY_MASTER_SID
+            JOIN ITEM_MASTER IM ON
+                    IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+            JOIN ITEM_IDENTIFIER IID ON
+                    IID.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+            JOIN ITEM_QUALIFIER IQ ON
+                    IID.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID
+            WHERE
+                    IQ.ITEM_QUALIFIER_NAME IS NOT NULL
+                    AND USER_ID = [$USER_ID]
+                    AND SESSION_ID = [$SESSION_ID];
+        ]]>
+        </query>
+    </entity>
+    
+    <entity id="selected-customers-check">
+        <query> 
+            <![CDATA[
+            IF EXISTS (SELECT 1
+                        FROM   dbo.ST_AL_HISTORY_CUSTOMER_SELECTION
+                        WHERE  SELECTED_RECORDS = 1
+                        AND USER_ID = [$USER_ID]
+                        AND SESSION_ID = [$SESSION_ID])
+                SELECT 1
+            ELSE
+                SELECT 0 
+         ]]>
+        </query>
+    </entity>
+    
+        <entity id="selected-items-check">
+        <query> 
+            <![CDATA[
+            IF EXISTS (SELECT 1
+                        FROM   ST_AL_HISTORY_ITEM_SELECTION
+                        WHERE  SELECTED_RECORDS = 1
+                        AND USER_ID = [$USER_ID]
+                        AND SESSION_ID = [$SESSION_ID])
+                SELECT 1
+            ELSE
+                SELECT 0 
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="alternate-history-selection-count">
+        <query> 
+            <![CDATA[
+           SELECT
+                   COUNT(CCP.CCP_DETAILS_SID)
+           FROM
+                   dbo.CCP_DETAILS CCP
+           JOIN(
+                           SELECT
+                                   CG.COMPANY_MASTER_SID,
+                                   CG.CONTRACT_MASTER_SID,
+                                   IG.ITEM_MASTER_SID
+                           FROM
+                                   (
+                                           SELECT
+                                                   COMPANY_MASTER_SID,
+                                                   CONTRACT_MASTER_SID,
+                                                   USER_ID,
+                                                   SESSION_ID
+                                           FROM
+                                                   dbo.ST_AL_HISTORY_CUSTOMER_SELECTION
+                                           WHERE
+                                                   USER_ID = [$USER_ID]
+                                                   AND SESSION_ID = [$SESSION_ID]
+                                                   AND SELECTED_RECORDS = 1
+                                   ) CG
+                           JOIN(
+                                           SELECT
+                                                   ITEM_MASTER_SID,
+                                                   USER_ID,
+                                                   SESSION_ID
+                                           FROM
+                                                   dbo.ST_AL_HISTORY_ITEM_SELECTION
+                                           WHERE
+                                                   USER_ID = [$USER_ID]
+                                                   AND SESSION_ID = [$SESSION_ID]
+                                                   AND SELECTED_RECORDS = 1
+                                   ) IG ON
+                                   IG.USER_ID = CG.USER_ID
+                                   AND IG.SESSION_ID = CG.SESSION_ID
+                   ) SCCP ON
+                   SCCP.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                   AND SCCP.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                   AND SCCP.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                   JOIN COMPANY_MASTER CM ON SCCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID @COMPANY_FILTER
+                   JOIN ITEM_MASTER IM ON SCCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID @ITEM_FILTER
+                   JOIN CONTRACT_MASTER CON ON SCCP.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID @CONTRACT_FILTER;
+            ]]>
+        </query>
+    </entity>
+    
+        <entity id="alternate-history-selection">
+        <query> 
+            <![CDATA[
+    
+                DECLARE @ACTUALS_CCP UDT_CCP_DETAILS
+                    , @START_DATE DATETIME = ('@?START_DATE DATETIME')
+                    , @END_DATE DATETIME = ('@?END_DATE DATETIME')
+                    , @SCREEN_NAME VARCHAR(50) = '@?SCREEN_NAME'
+                    , @USER_ID INT=@?USER_ID
+                    , @SESSION_ID INT=@?SESSION_ID
+
+                INSERT INTO @ACTUALS_CCP (
+                       CONTRACT_MASTER_SID
+                       , COMPANY_MASTER_SID
+                       , ITEM_MASTER_SID
+                       )
+                SELECT   TEMP_CCP_TABLE.CONTRACT_MASTER_SID
+                       , TEMP_CCP_TABLE.COMPANY_MASTER_SID
+                       , TEMP_CCP_TABLE.ITEM_MASTER_SID
+                       FROM
+               (SELECT DISTINCT CCP.CONTRACT_MASTER_SID
+                       , CCP.COMPANY_MASTER_SID
+                       , CCP.ITEM_MASTER_SID
+                       , CCP.CCP_DETAILS_SID
+                FROM DBO.CCP_DETAILS CCP
+                INNER JOIN (
+                       SELECT CG.COMPANY_MASTER_SID
+                              , CG.CONTRACT_MASTER_SID
+                              , IG.ITEM_MASTER_SID
+                       FROM (
+				SELECT
+					COMPANY_MASTER_SID,
+					CONTRACT_MASTER_SID,
+					USER_ID,
+					SESSION_ID
+				FROM
+					dbo.ST_AL_HISTORY_CUSTOMER_SELECTION
+				WHERE
+					USER_ID = @?USER_ID
+					AND SESSION_ID = @?SESSION_ID
+					AND SELECTED_RECORDS = 1
+                              ) CG
+                       INNER JOIN (
+                              SELECT
+                                    ITEM_MASTER_SID,
+                                    USER_ID,
+                                    SESSION_ID
+                                FROM
+                                    dbo.ST_AL_HISTORY_ITEM_SELECTION
+                                WHERE
+                                    USER_ID = @?USER_ID
+                                    AND SESSION_ID = @?SESSION_ID
+                                    AND SELECTED_RECORDS = 1
+                              ) IG
+                              ON IG.USER_ID = CG.USER_ID
+                                     AND IG.SESSION_ID = CG.SESSION_ID
+                       ) SCCP
+                       ON SCCP.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                              AND SCCP.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                              AND SCCP.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                              JOIN COMPANY_MASTER CM ON SCCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID @COMPANY_FILTER
+                              JOIN ITEM_MASTER IM ON SCCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID @ITEM_FILTER
+                              JOIN CONTRACT_MASTER CON ON SCCP.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID @CONTRACT_FILTER
+                        ORDER BY CCP.CCP_DETAILS_SID OFFSET @?START_INDEX ROWS FETCH NEXT @?END_INDEX ROWS ONLY) TEMP_CCP_TABLE;
+
+                IF OBJECT_ID('TEMPDB.DBO.#TEMP', 'U') IS NOT NULL
+                       DROP TABLE #TEMP;
+
+                CREATE TABLE #TEMP (
+                       CCP_DETAILS_SID INT
+                       , CONTRACT_MASTER_SID INT
+                       , COMPANY_MASTER_SID INT
+                       , ITEM_MASTER_SID INT
+                       , PERIOD_SID INT
+                       , PROJECTION_SALES NUMERIC(22, 6)
+                       , PROJECTION_UNITS NUMERIC(22, 6)
+                       , PROJECTION_DISCOUNT NUMERIC(22, 6)
+                       , RS_MODEL_SID INT
+                       )
+
+                IF @SCREEN_NAME = 'Sales Projection'
+                BEGIN
+                       INSERT INTO #TEMP (
+                              CCP_DETAILS_SID
+                              , CONTRACT_MASTER_SID
+                              , COMPANY_MASTER_SID
+                              , ITEM_MASTER_SID
+                              , PERIOD_SID
+                              , PROJECTION_SALES
+                              , PROJECTION_UNITS
+                              )
+                       SELECT CCD.CCP_DETAILS_SID
+                              , cd.CONTRACT_MASTER_SID
+                              , cd.COMPANY_MASTER_SID
+                              , cd.ITEM_MASTER_SID
+                              , PERIOD_SID
+                              , COALESCE(PROJECTION_SALES, 0) AS PROJECTION_SALES
+                              , COALESCE(PROJECTION_UNITS, 0) AS PROJECTION_UNITS
+                       FROM @ACTUALS_CCP cd
+                       INNER JOIN CCP_DETAILS CCD
+                              ON CCD.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+                                     AND CCD.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                                     AND CCD.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                       CROSS APPLY (
+                              SELECT OP.PROJECTION_DETAILS_SID
+                                     , OP.CCP_DETAILS_SID
+                                     , SUM(SP.PROJECTION_SALES) PROJECTION_SALES
+                                     , SUM(SP.PROJECTION_UNITS) PROJECTION_UNITS
+                                     , P.PERIOD_SID
+                              FROM (
+                                     SELECT TOP 1 PD.PROJECTION_DETAILS_SID
+                                           , PD.CCP_DETAILS_SID
+                                     FROM PROJECTION_MASTER PM
+                                     INNER JOIN WORKFLOW_MASTER WM
+                                           ON PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID                           
+                                                  AND WM.WORKFLOW_STATUS_ID = (
+                                                         SELECT HELPER_TABLE_SID
+                                                         FROM HELPER_TABLE
+                                                         WHERE LIST_NAME = 'WORKFLOWSTATUS'
+                                                                AND DESCRIPTION = 'APPROVED'
+                                                         )
+                                     INNER JOIN PROJECTION_DETAILS PD
+                                           ON WM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                                     WHERE PD.CCP_DETAILS_SID = CCD.CCP_DETAILS_SID
+                                     AND PM.FORECASTING_TYPE ='Non Mandated'
+                                     ORDER BY WM.MODIFIED_DATE DESC
+                                     ) OP
+                              INNER JOIN NM_SALES_PROJECTION SP
+                                     ON OP.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID
+                              INNER JOIN PERIOD P
+                                     ON SP.PERIOD_SID = P.PERIOD_SID
+                              WHERE P.PERIOD_DATE BETWEEN @START_DATE
+                                           AND @END_DATE
+                              GROUP BY OP.CCP_DETAILS_SID
+                                     , P.PERIOD_SID
+                                     , OP.PROJECTION_DETAILS_SID
+                              ) CS
+                END
+                ELSE
+                BEGIN
+                       INSERT INTO #TEMP (
+                              CCP_DETAILS_SID
+                              , CONTRACT_MASTER_SID
+                              , COMPANY_MASTER_SID
+                              , ITEM_MASTER_SID
+                              , PERIOD_SID
+                              , PROJECTION_DISCOUNT
+                              , RS_MODEL_SID
+                              )
+                       SELECT CCD.CCP_DETAILS_SID
+                              , cd.CONTRACT_MASTER_SID
+                              , cd.COMPANY_MASTER_SID
+                              , cd.ITEM_MASTER_SID
+                              , PERIOD_SID
+                              , COALESCE(PROJECTION_DISCOUNT, 0) AS PROJECTION_DISCOUNT
+                              , RS_MODEL_SID
+                       FROM @ACTUALS_CCP cd
+                       INNER JOIN CCP_DETAILS CCD
+                              ON CCD.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+                                     AND CCD.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                                     AND CCD.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                       CROSS APPLY (
+                              SELECT OP.PROJECTION_DETAILS_SID
+                                     , OP.CCP_DETAILS_SID
+                                     , SUM(SP.PROJECTION_SALES) PROJECTION_DISCOUNT
+                                     , SP.RS_MODEL_SID
+                                     , P.PERIOD_SID
+                              FROM (
+                                     SELECT TOP 1 PD.PROJECTION_DETAILS_SID
+                                           , PD.CCP_DETAILS_SID
+                                     FROM PROJECTION_MASTER PM
+                                     INNER JOIN WORKFLOW_MASTER WM
+                                           ON PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID                           
+                                                  AND WM.WORKFLOW_STATUS_ID = (
+                                                         SELECT HELPER_TABLE_SID
+                                                         FROM HELPER_TABLE
+                                                         WHERE LIST_NAME = 'WORKFLOWSTATUS'
+                                                                AND DESCRIPTION = 'APPROVED'
+                                                         )
+                                     INNER JOIN PROJECTION_DETAILS PD
+                                           ON WM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                                     WHERE PD.CCP_DETAILS_SID = CCD.CCP_DETAILS_SID
+                                     AND PM.FORECASTING_TYPE ='Non Mandated'
+                                     ORDER BY WM.MODIFIED_DATE DESC
+                                     ) OP
+                              INNER JOIN NM_DISCOUNT_PROJECTION SP
+                                     ON OP.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID
+                              INNER JOIN PERIOD P
+                                     ON SP.PERIOD_SID = P.PERIOD_SID
+                              WHERE P.PERIOD_DATE BETWEEN @START_DATE
+                                           AND @END_DATE
+                              GROUP BY OP.CCP_DETAILS_SID
+                                     , P.PERIOD_SID
+                                     , OP.PROJECTION_DETAILS_SID
+                                     , SP.RS_MODEL_SID
+                              ) CS
+                END
+
+                IF @SCREEN_NAME = 'Sales Projection'
+                BEGIN
+                       SELECT SUM(SALES) AS ACTUAL_SALES
+                              , ISNULL(SUM(PROJECTION_SALES), 0) AS PROJECTION_SALES
+                              @?FILTER-FREQUENCY
+                              , YEAR
+                              , COMPANY_NO
+                              , COMPANY_NAME
+                              , CONTRACT_NO
+                              , CONTRACT_NAME
+                              , CCP_DETAILS_SID
+                              , ITEM_NO
+                              , ITEM_NAME
+                              , SUM(QUANTITY) AS ACTUAL_UNITS
+                              , ISNULL(SUM(PROJECTION_units), 0) AS PROJECTION_UNITS
+                       FROM (
+                              SELECT DISTINCT SALES
+                                     , T.PROJECTION_SALES
+                                     , @?INNER-FREQUENCY
+                                     , U.YEAR
+                                     , CM.COMPANY_NO
+                                     , CM.COMPANY_NAME
+                                     , CON_M.CONTRACT_NO
+                                     , CON_M.CONTRACT_NAME
+                                     , CCP.CCP_DETAILS_SID
+                                     , IM.ITEM_NO
+                                     , IM.ITEM_NAME
+                                     , u.QUANTITY
+                                     , PROJECTION_units
+                              FROM UDF_ACTUALS_DETAILS(@ACTUALS_CCP, @END_DATE, @START_DATE) U
+                              INNER JOIN CONTRACT_MASTER CON_M
+                                     ON CON_M.CONTRACT_MASTER_SID = U.CONTRACT_MASTER_SID
+                              INNER JOIN COMPANY_MASTER CM
+                                     ON CM.COMPANY_MASTER_SID = U.COMPANY_MASTER_SID
+                              INNER JOIN ITEM_MASTER IM
+                                     ON IM.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                              INNER JOIN CCP_DETAILS CCP
+                                     ON CCP.COMPANY_MASTER_SID = U.COMPANY_MASTER_SID
+                                           AND CCP.CONTRACT_MASTER_SID = U.CONTRACT_MASTER_SID
+                                           AND CCP.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                                           AND U.QUANTITY_INCLUSION = 'Y'
+                              LEFT JOIN #TEMP T
+                                     ON T.COMPANY_MASTER_SID = U.COMPANY_MASTER_SID
+                                           AND T.CONTRACT_MASTER_SID = U.CONTRACT_MASTER_SID
+                                           AND T.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                                           AND T.PERIOD_SID = U.PERIOD_SID
+                              ) a
+                       GROUP BY CCP_DETAILS_SID
+                              @?FILTER-FREQUENCY
+                              , YEAR
+                              , COMPANY_NO
+                              , COMPANY_NAME
+                              , CONTRACT_NO
+                              , CONTRACT_NAME
+                              , ITEM_NO
+                              , ITEM_NAME
+                       ORDER BY CCP_DETAILS_SID
+                              , YEAR
+                              @?FILTER-FREQUENCY
+                END
+                ELSE
+                BEGIN
+                       SELECT SUM(DISCOUNT) AS ACTUAL_AMOUNT
+                              , ISNULL(SUM(PROJECTION_SALES), 0) AS PROJECTION_DISCOUNT
+                              @?FILTER-FREQUENCY
+                              , YEAR
+                              , COMPANY_NO
+                              , COMPANY_NAME
+                              , CONTRACT_NO
+                              , CONTRACT_NAME
+                              , CCP_DETAILS_SID
+                              , ITEM_NO
+                              , ITEM_NAME
+                              , RS_MODEL_SID
+                       FROM (
+                              SELECT DISTINCT DISCOUNT
+                                     , T.PROJECTION_SALES
+                                     , @?INNER-FREQUENCY
+                                     , U.YEAR
+                                     , CM.COMPANY_NO
+                                     , CM.COMPANY_NAME
+                                     , CON_M.CONTRACT_NO
+                                     , CON_M.CONTRACT_NAME
+                                     , CCP.CCP_DETAILS_SID
+                                     , IM.ITEM_NO
+                                     , IM.ITEM_NAME
+                                     , T.RS_MODEL_SID
+                              FROM UDF_ACTUALS_DETAILS(@ACTUALS_CCP, @END_DATE, @START_DATE) U
+                              LEFT JOIN #TEMP T
+                                     ON T.COMPANY_MASTER_SID = U.COMPANY_MASTER_SID
+                                           AND T.CONTRACT_MASTER_SID = U.CONTRACT_MASTER_SID
+                                           AND T.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                                           AND T.PERIOD_SID = U.PERIOD_SID
+                              INNER JOIN CONTRACT_MASTER CON_M
+                                     ON CON_M.CONTRACT_MASTER_SID = U.CONTRACT_MASTER_SID
+                              INNER JOIN COMPANY_MASTER CM
+                                     ON CM.COMPANY_MASTER_SID = U.COMPANY_MASTER_SID
+                              INNER JOIN ITEM_MASTER IM
+                                     ON IM.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                              INNER JOIN CCP_DETAILS CCP
+                                     ON CCP.COMPANY_MASTER_SID = U.COMPANY_MASTER_SID
+                                           AND CCP.CONTRACT_MASTER_SID = U.CONTRACT_MASTER_SID
+                                           AND CCP.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                              ) a
+                       GROUP BY 
+                               YEAR
+                              @?FILTER-FREQUENCY 
+                              , COMPANY_NO
+                              , COMPANY_NAME
+                              , CONTRACT_NO
+                              , CONTRACT_NAME
+                              , CCP_DETAILS_SID
+                              , ITEM_NO
+                              , ITEM_NAME
+                              , RS_MODEL_SID
+                       ORDER BY CCP_DETAILS_SID
+                              , RS_MODEL_SID
+                              , YEAR
+                              @?FILTER-FREQUENCY
+                END
+     ]]>
+        </query>
+    </entity>
+    
+    <entity id="get-selected-ccps">
+        <query> 
+            <![CDATA[
+            SELECT
+                   CCP.CCP_DETAILS_SID
+           FROM
+                   dbo.CCP_DETAILS CCP
+           JOIN(
+                           SELECT
+                                   CG.COMPANY_MASTER_SID,
+                                   CG.CONTRACT_MASTER_SID,
+                                   IG.ITEM_MASTER_SID
+                           FROM
+                                   (
+                                           SELECT
+                                                   COMPANY_MASTER_SID,
+                                                   CONTRACT_MASTER_SID,
+                                                   USER_ID,
+                                                   SESSION_ID
+                                           FROM
+                                                   dbo.ST_AL_HISTORY_CUSTOMER_SELECTION
+                                           WHERE
+                                                   USER_ID = [$USER_ID]
+                                                   AND SESSION_ID = [$SESSION_ID]
+                                                   AND SELECTED_RECORDS = 1
+                                   ) CG
+                           JOIN(
+                                           SELECT
+                                                   ITEM_MASTER_SID,
+                                                   USER_ID,
+                                                   SESSION_ID
+                                           FROM
+                                                   dbo.ST_AL_HISTORY_ITEM_SELECTION
+                                           WHERE
+                                                   USER_ID = [$USER_ID]
+                                                   AND SESSION_ID = [$SESSION_ID]
+                                                   AND SELECTED_RECORDS = 1
+                                   ) IG ON
+                                   IG.USER_ID = CG.USER_ID
+                                   AND IG.SESSION_ID = CG.SESSION_ID
+                   ) SCCP ON
+                   SCCP.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                   AND SCCP.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                   AND SCCP.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID;
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="delete-customer-items-from-temp-table">
+        <query> 
+            <![CDATA[  
+            DELETE SAHIS
+            FROM
+                    ST_AL_HISTORY_ITEM_SELECTION SAHIS
+            WHERE
+                    SAHIS.USER_ID = [$USER_ID]
+                    AND SAHIS.SESSION_ID = [$SESSION_ID];
+
+            DELETE SAHCS
+            FROM
+                    ST_AL_HISTORY_CUSTOMER_SELECTION SAHCS
+            WHERE
+                    SAHCS.USER_ID = [$USER_ID]
+                    AND SAHCS.SESSION_ID = [$SESSION_ID];
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="delete-unselected-customers">
+        <query> 
+            <![CDATA[  
+            DELETE SAHCS
+            FROM
+                    ST_AL_HISTORY_CUSTOMER_SELECTION SAHCS
+            WHERE
+                    SAHCS.USER_ID = [$USER_ID]
+                    AND SAHCS.SESSION_ID = [$SESSION_ID]
+                    AND (SELECTED_RECORDS IS NULL OR SELECTED_RECORDS = 0);
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="delete-unselected-items">
+        <query> 
+            <![CDATA[  
+            DELETE SAHIS
+            FROM
+                    ST_AL_HISTORY_ITEM_SELECTION SAHIS
+            WHERE
+                    SAHIS.USER_ID = [$USER_ID]
+                    AND SAHIS.SESSION_ID = [$SESSION_ID]
+                    AND (SELECTED_RECORDS IS NULL OR SELECTED_RECORDS = 0);
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="allocation-check">
+        <query> 
+            <![CDATA[ 
+            DECLARE @FREQUENCY        CHAR(1) = '[$FREQUENCY]',
+                @START_PERIOD     INT = [$START_PERIOD],
+                @START_YEAR       INT = [$START_YEAR],
+                @END_PERIOD       INT = [$END_PERIOD],
+                @END_YEAR         INT = [$END_YEAR],
+                @START_PERIOD_SID INT,
+                @END_PERIOD_SID   INT
+    
+        SELECT @START_PERIOD_SID = MIN (PERIOD_SID),
+               @END_PERIOD_SID = MAX(PERIOD_SID)
+        FROM   PERIOD
+        WHERE  ( CASE @FREQUENCY
+                   WHEN 'M' THEN MONTH
+                   WHEN 'S' THEN SEMI_ANNUAL
+                   WHEN 'Q' THEN QUARTER
+                   ELSE YEAR
+                 END = @START_PERIOD
+                 AND YEAR = @START_YEAR )
+                OR ( CASE @FREQUENCY
+                       WHEN 'M' THEN MONTH
+                       WHEN 'S' THEN SEMI_ANNUAL
+                       WHEN 'Q' THEN QUARTER
+                       ELSE YEAR
+                     END = @END_PERIOD
+                     AND YEAR = @END_YEAR );
+
+        WITH CTE
+             AS (SELECT PERIOD_SID,
+                        PERIOD_DATE,
+                        MONTH,
+                        QUARTER,
+                        SEMI_ANNUAL,
+                        YEAR,
+                        PERIOD = CONCAT(CASE
+                                   WHEN LEFT(@FREQUENCY, 1) = 'M' THEN MONTH
+                                   WHEN LEFT(@FREQUENCY, 1) = 'Q' THEN QUARTER
+                                   WHEN LEFT(@FREQUENCY, 1) = 'S' THEN SEMI_ANNUAL
+                                   ELSE YEAR
+                                 END,' ', YEAR)
+                 FROM   PERIOD)
+        SELECT DISTINCT PROJECTION_DETAILS_SID
+        FROM   DBO.[$TABLE_NAME] ST
+               JOIN CTE C
+                 ON C.PERIOD_SID = ST.PERIOD_SID
+        WHERE  ST.USER_ID = [$USER_ID]
+               AND ST.SESSION_ID = [$SESSION_ID]
+               AND ST.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID
+               AND PERIOD IN ([$ALLOCATED_PERIODS])
+               AND ST.AVAILABLE_CHECKBOX = 1
+        GROUP  BY PROJECTION_DETAILS_SID,
+                  PERIOD,
+                  YEAR
+        HAVING SUM(ISNULL(ST.ACTUAL_ALLOCATION_PERCENT, 0)) = 0
+               AND SUM(ISNULL(ST.PROJECTION_ALLOCATION_PERCENT, 0)) = 0;
+     ]]>
+        </query>
+    </entity>
+    
+</sql>

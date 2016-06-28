@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="mainPanel" width="100%" > 
+    <VerticalLayout id="mainLayout" spacing="true" margin="true" immediate="true" styleName="bootstrap-forecast" width="100%">
+        <Panel caption="Search Criteria">
+            <VerticalLayout  styleName = "width-auto" spacing="true" margin="true" immediate="true" >
+                <GridLayout rows="2" columns="2" spacing="true" margin="false"
+                            immediate="true" >      
+                    <Label caption="Trading Partner #: " contentMode="HTML" width="150px" />
+                    <TextField id="tradingPartnerNo" immediate="true"  width="200px"/>
+                    <Label caption="Trading Partner Name: " contentMode="HTML" width="159px" />
+                    <TextField id="tradingPartnerName" immediate="true" width="200px" />
+                    
+                </GridLayout>
+                
+                <HorizontalLayout spacing="true" margin="false"
+                          immediate="true">
+                    <Button id="searchTP" caption="SEARCH" ></Button>
+                    <Button id="resetTP" caption="RESET" ></Button>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>  
+          
+        <Panel caption="Results" >
+            <VerticalLayout   id="tableLayout" styleName = "width-auto" spacing="false" margin="true" immediate="true" >
+                <!--<HorizontalLayout id="controlLayout"/>-->
+            </VerticalLayout>
+        </Panel>  
+
+        <HorizontalLayout  spacing="true" margin="false"
+                          immediate="true">
+            <Button id="select" caption="SELECT"></Button>
+            <Button id="reset" caption="RESET"></Button>
+            <Button id="close" caption="CLOSE"></Button>
+        </HorizontalLayout>
+          
+    </VerticalLayout>
+</Panel>  
+       

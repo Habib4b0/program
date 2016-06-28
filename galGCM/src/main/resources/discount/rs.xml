@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable"
+        xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
+        xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="promoteTpToChVerticalLayout" spacing="true"
+                    margin="true" immediate="true" styleName = "width-auto">
+        
+        <Panel id="removeDiscountPanel1" caption="Search Criteria">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="10" rows="4">
+                    <Label caption="RS ID: " contentMode="HTML" />
+                    <TextField id="rsId" inputPrompt="" immediate="true"/>
+                    <Label caption="RS Name: " contentMode="HTML" />
+                    <TextField id="rsName" inputPrompt="" immediate="true"/>
+                    <Label caption="Rebate Program Type: " contentMode="HTML" />
+                    <ComboBox id="rebateProgramType" immediate="true" width="205px"/>
+                    <Label caption="RS Status: " contentMode="HTML" />
+                    <ComboBox id="rsStatus" immediate="true" width="205px"/>
+                    <Label caption="RS End Date:" contentMode="HTML" />
+                    <PopupDateField id="rsEndDate" inputPrompt="" />      
+                    
+                    <Label caption="RS No: " contentMode="HTML" />
+                    <TextField id="rsNo" inputPrompt="" immediate="true"/>
+                    <Label caption="RS Type: " contentMode="HTML" />
+                    <ComboBox id="rsType" immediate="true" width="205px"/>
+                     <Label caption="RS Category " contentMode="HTML" />
+                    <ComboBox id="rsCategory" inputPrompt="" immediate="true" width="205px"/>              
+                    <Label caption="RS Start Date:" contentMode="HTML" />
+                    <PopupDateField id="rsStartDate" inputPrompt="" /> 
+                    
+                    
+                    
+                                        
+                </GridLayout>                
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout >
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET"  />
+        </HorizontalLayout>
+        <Panel id="removeDiscountPanel2" caption="Results">
+            <VerticalLayout styleName="width-auto" >
+                <VerticalLayout id="rsTableLayout"  immediate="true">
+                </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="selectBtn" caption="SELECT"  />
+                    <Button id="closeBtn" caption="CLOSE"  />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

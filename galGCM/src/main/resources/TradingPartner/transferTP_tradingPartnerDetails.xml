@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<VerticalLayout>
+<Panel caption = "Current-Customer Details">
+    <VerticalLayout spacing="false" margin="true" immediate="true">
+                
+        <VerticalLayout id="currentTradingPartnerTableLayout" spacing="true" margin="false" immediate="true">
+        </VerticalLayout>
+                
+        <HorizontalLayout  margin = "true" spacing = "true">
+            <Button id="excelBtnCurrent" primaryStyleName="link"/>
+            <Button id="currentRemove" caption="REMOVE" alignment="BOTTOM_LEFT" /> 
+        </HorizontalLayout>
+        
+    </VerticalLayout>
+</Panel>
+
+<Panel caption = "Transfer-Customer Details">
+    <VerticalLayout spacing="false" margin="true" immediate="true">
+                
+        <VerticalLayout id="transferTradingPartnerTableLayout" spacing="true" margin="false" immediate="true">
+        </VerticalLayout>
+                
+        <HorizontalLayout  margin = "true" spacing = "true">
+            <Button id="excelBtn" primaryStyleName="link"/>
+            <Button id="transferRemove" caption="REMOVE" alignment="BOTTOM_LEFT" /> 
+        </HorizontalLayout>
+        
+    </VerticalLayout>
+</Panel>
+</VerticalLayout>

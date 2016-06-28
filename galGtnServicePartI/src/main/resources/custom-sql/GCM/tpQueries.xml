@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<custom-sql>
+    <sql id="updateCfpDetails">
+		<![CDATA[
+                DECLARE @USER_ID VARCHAR(100) = '?',
+                        @SESSION_ID VARCHAR(100) = '?'
+                DECLARE @TEMP_TABLE AS TABLE(COMPANY_MASTER_SID INT)
+INSERT INTO @TEMP_TABLE
+SELECT token
+FROM   Udf_splitstring ('?', ',')
+
+MERGE CFP_CONTRACT_DETAILS AS Target
+USING (SELECT DISTINCT CFP_CONTRACT_SID,
+                       COMPANY_MASTER_SID,
+                       START_DATE,
+                       END_DATE,
+                       STATUS,
+                       USER_ID,
+                       CREATED_DATE,
+                       INBOUND_STATUS,
+                       RECORD_LOCK_STATUS,
+                       OPERATION
+       FROM   (SELECT GCM.CFP_CONTRACT_SID,
+                      CFP_D.COMPANY_MASTER_SID,
+                      GCM.[START_DATE],
+                      GCM.[END_DATE],
+                      GCM.STATUS,
+                      USER_ID,
+                      Getdate() CREATED_DATE,
+                      'A'       INBOUND_STATUS,
+                      'false'   RECORD_LOCK_STATUS,
+                      OPERATION
+               FROM   CFP_CONTRACT_DETAILS CFP_D
+               JOIN   GCM_GLOBAL_DETAILS GCM ON GCM.CFP_CONTRACT_SID = CFP_D.CFP_CONTRACT_SID
+               WHERE  GCM.USER_ID = @USER_ID
+                      AND GCM.SESSION_ID = @SESSION_ID
+                      AND OPERATION = '1'
+                      AND CFP_D.COMPANY_MASTER_SID IN (SELECT COMPANY_MASTER_SID FROM @TEMP_TABLE)
+                      AND START_DATE IS NOT NULL
+               UNION
+               SELECT     A1.CFP_CONTRACT_SID,
+                          B.COMPANY_MASTER_SID,
+                          A1.[START_DATE],
+                          A1.[END_DATE],
+                          A1.STATUS,
+                          USER_ID,
+                          Getdate() CREATED_DATE,
+                          'A'       INBOUND_STATUS,
+                          'false'   RECORD_LOCK_STATUS,
+                          OPERATION
+               FROM       GCM_GLOBAL_DETAILS A1
+               CROSS JOIN @TEMP_TABLE B
+               WHERE      A1.USER_ID = @USER_ID
+                          AND A1.SESSION_ID = @SESSION_ID
+                          AND OPERATION = '2' )A
+       GROUP  BY CFP_CONTRACT_SID,
+                 COMPANY_MASTER_SID,
+                 [START_DATE],
+                 [END_DATE],
+                 STATUS,
+                 USER_ID,
+                 CREATED_DATE,
+                 INBOUND_STATUS,
+                 RECORD_LOCK_STATUS,
+                 OPERATION) AS SOURCE
+ON ( Target.CFP_CONTRACT_SID = SOURCE.CFP_CONTRACT_SID
+     AND Target.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID
+     AND SOURCE.OPERATION = '1' )
+WHEN MATCHED THEN
+  UPDATE SET Target.COMPANY_START_DATE = SOURCE.START_DATE,
+             Target.COMPANY_END_DATE = ?,
+             Target.CFP_CONTRACT_ATTACHED_STATUS = SOURCE.STATUS,
+             Target.MODIFIED_BY = SOURCE.USER_ID,
+             Target.MODIFIED_DATE = Getdate(),
+             Target.INBOUND_STATUS = 'C',
+             Target.RECORD_LOCK_STATUS = 0,
+             Target."SOURCE" = 'GCM'
+WHEN NOT MATCHED AND SOURCE.OPERATION = '2' THEN
+  INSERT(CFP_CONTRACT_SID,
+         COMPANY_MASTER_SID,
+         COMPANY_START_DATE,
+         COMPANY_END_DATE,
+         CFP_CONTRACT_ATTACHED_STATUS,
+         CREATED_BY,
+         CREATED_DATE,
+         INBOUND_STATUS,
+         RECORD_LOCK_STATUS,
+         "SOURCE")
+  VALUES(SOURCE.CFP_CONTRACT_SID,
+         SOURCE.COMPANY_MASTER_SID,
+         SOURCE.START_DATE,
+         SOURCE.END_DATE,
+         SOURCE.STATUS,
+         SOURCE.USER_ID,
+         SOURCE.CREATED_DATE,
+         SOURCE.INBOUND_STATUS,
+         0,
+         'GCM');  
+                ]]>
+    </sql>
+    
+    <sql id="tp.searchLinkedCompanies">
+	<![CDATA[
+          SELECT CM1.COMPANY_MASTER_SID,
+          CM1.COMPANY_ID,
+          CM1.COMPANY_NO,
+          CM1.COMPANY_NAME,
+          CM2.COMPANY_MASTER_SID AS 'COMPANY_MASTER_SID_2',
+          CM2.COMPANY_ID AS 'COMPANY_ID_2',
+          CM2.COMPANY_NO AS 'COMPANY_NO_2',
+          CM2.COMPANY_NAME AS 'COMPANY_NAME_2'
+          FROM GCM_COMPANY_LINK CM1
+          JOIN GCM_COMPANY_LINK CM2 ON CM2."LINK_ID"=CAST(CM1.COMPANY_MASTER_SID AS VARCHAR)
+          WHERE CM1.SESSION_ID = '?' AND CM2.SESSION_ID = '?' AND CM1.LINK_ID = '0'
+        ]]>
+    </sql>
+    
+    <sql id="tp.RemoveStartDateFromTemp">
+	<![CDATA[
+          UPDATE GCM_GLOBAL_DETAILS SET START_DATE = null , END_DATE = null WHERE USER_ID = '?' AND SESSION_ID = '?' AND SCREEN_NAME = '?'
+        ]]>
+    </sql>
+    
+    <sql id="tp.transferIFPQuery">
+	<![CDATA[
+        DECLARE @BEFORE INT,
+        @AFTER  INT,
+        @OLD_CONTRACT_MASTER_SID INT = ?,
+        @NEW_CONTRACT_MASTER_SID INT = ?
+
+        SELECT @BEFORE = Max(IFP_CONTRACT_SID)
+        FROM   IFP_CONTRACT
+        
+        INSERT INTO IFP_CONTRACT
+                    (IFP_MODEL_SID,
+                     IFP_NAME,
+                     IFP_TYPE,
+                     IFP_CATEGORY,
+                     IFP_DESIGNATION,
+                     IFP_STATUS,
+                     IFP_START_DATE,
+                     IFP_END_DATE,
+                     CONTRACT_MASTER_SID,
+                     CFP_CONTRACT_SID,
+                     IFP_CONTRACT_ATTACHED_STATUS,
+                     IFP_CONTRACT_ATTACHED_DATE,
+                     PARENT_IFP_ID,
+                     PARENT_IFP_NAME,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE)
+        SELECT B.IFP_MODEL_SID,
+               B.IFP_NAME,
+               B.IFP_TYPE,
+               B.IFP_CATEGORY,
+               B.IFP_DESIGNATION,
+               B.IFP_STATUS,
+               B.IFP_START_DATE,
+               B.IFP_END_DATE,
+               @NEW_CONTRACT_MASTER_SID,
+               C.CFP_CONTRACT_SID,
+               B.IFP_CONTRACT_ATTACHED_STATUS,
+               B.IFP_CONTRACT_ATTACHED_DATE,
+               B.PARENT_IFP_ID,
+               B.PARENT_IFP_NAME,
+               B.INBOUND_STATUS,
+               B.RECORD_LOCK_STATUS,
+               B.BATCH_ID,
+               B.SOURCE,
+               B.CREATED_BY,
+               B.CREATED_DATE,
+               B.MODIFIED_BY,
+               B.MODIFIED_DATE
+        FROM   CFP_CONTRACT A
+        JOIN   IFP_CONTRACT B ON A.CFP_CONTRACT_SID = B.CFP_CONTRACT_SID
+                             AND A.CONTRACT_MASTER_SID = B.CONTRACT_MASTER_SID
+        JOIN   (SELECT CFP_CONTRACT_SID,
+                       CFP_MODEL_SID
+                FROM   CFP_CONTRACT
+                WHERE  CFP_CONTRACT_SID IN (?)) C ON A.CFP_MODEL_SID = C.CFP_MODEL_SID
+        WHERE  A.CFP_CONTRACT_SID IN (?) AND A.CONTRACT_MASTER_SID = @OLD_CONTRACT_MASTER_SID;
+        
+        SELECT @AFTER = Max(IFP_CONTRACT_SID)
+        FROM   IFP_CONTRACT
+        
+        INSERT INTO IFP_CONTRACT_DETAILS
+                    (IFP_CONTRACT_SID,
+                     ITEM_MASTER_SID,
+                     ITEM_START_DATE,
+                     ITEM_END_DATE,
+                     TOTAL_VOLUME_COMMITMENT,
+                     TOTAL_DOLLAR_COMMITMENT,
+                     TOTAL_MARKETSHARE_COMMITMENT,
+                     COMMITMENT_PERIOD,
+                     IFP_CONTRACT_ATTACHED_STATUS,
+                     IFP_CONTRACT_ATTACHED_DATE,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE)
+        SELECT A.IFP_CONTRACT_SID,
+               B.ITEM_MASTER_SID,
+               B.ITEM_START_DATE,
+               B.ITEM_END_DATE,
+               B.TOTAL_VOLUME_COMMITMENT,
+               B.TOTAL_DOLLAR_COMMITMENT,
+               B.TOTAL_MARKETSHARE_COMMITMENT,
+               B.COMMITMENT_PERIOD,
+               B.IFP_CONTRACT_ATTACHED_STATUS,
+               B.IFP_CONTRACT_ATTACHED_DATE,
+               B.INBOUND_STATUS,
+               B.RECORD_LOCK_STATUS,
+               B.BATCH_ID,
+               B.SOURCE,
+               B.CREATED_BY,
+               B.CREATED_DATE,
+               B.MODIFIED_BY,
+               B.MODIFIED_DATE
+        FROM   (SELECT CFP_CONTRACT_SID,
+                       IFP_CONTRACT_SID,
+                       IFP_MODEL_SID
+                FROM   IFP_CONTRACT
+                WHERE  IFP_CONTRACT_SID > @BEFORE
+                       AND IFP_CONTRACT_SID <= @AFTER) A
+        JOIN   (SELECT D.CFP_CONTRACT_SID,
+                       B.IFP_MODEL_SID,
+                       C.ITEM_MASTER_SID,
+                       C.ITEM_START_DATE,
+                       C.ITEM_END_DATE,
+                       C.TOTAL_VOLUME_COMMITMENT,
+                       C.TOTAL_DOLLAR_COMMITMENT,
+                       C.TOTAL_MARKETSHARE_COMMITMENT,
+                       C.COMMITMENT_PERIOD,
+                       C.IFP_CONTRACT_ATTACHED_STATUS,
+                       C.IFP_CONTRACT_ATTACHED_DATE,
+                       C.INBOUND_STATUS,
+                       C.RECORD_LOCK_STATUS,
+                       C.BATCH_ID,
+                       C.SOURCE,
+                       C.CREATED_BY,
+                       C.CREATED_DATE,
+                       C.MODIFIED_BY,
+                       C.MODIFIED_DATE
+                FROM   CFP_CONTRACT A
+                JOIN   IFP_CONTRACT B ON A.CFP_CONTRACT_SID = B.CFP_CONTRACT_SID
+                                     AND A.CONTRACT_MASTER_SID = B.CONTRACT_MASTER_SID
+                                     AND A.CONTRACT_MASTER_SID = @OLD_CONTRACT_MASTER_SID
+                JOIN   IFP_CONTRACT_DETAILS C ON C.IFP_CONTRACT_SID = B.IFP_CONTRACT_SID
+                JOIN   (SELECT CFP_CONTRACT_SID,
+                               CFP_MODEL_SID
+                        FROM   CFP_CONTRACT
+                        WHERE  CFP_CONTRACT_SID IN (?)) D ON A.CFP_MODEL_SID = D.CFP_MODEL_SID 
+                WHERE  A.CFP_CONTRACT_SID IN (?)) B ON A.CFP_CONTRACT_SID = A.CFP_CONTRACT_SID 
+                                                  AND A.IFP_MODEL_SID = B.IFP_MODEL_SID 
+           ]]>
+    </sql> 
+    
+    <sql id="tp.getCustomersHavingCommonItems">
+	<![CDATA[
+        DECLARE @PROJECTION_MASTER_SID_SRC INT = ?,
+        @PROJECTION_MASTER_SID_MAP INT = ?,
+        @CONTRACT_MASTER_SID_SRC   INT = ?,
+        @CONTRACT_MASTER_SID_DST   INT = ?,
+        @COMPANY_MAP_STR           VARCHAR(500) = '?'
+
+        DECLARE @SOURCE TABLE
+          (
+             PROJECTION_DETAILS_SID INT,
+             CCP_DETAILS_SID        INT,
+             CONTRACT_MASTER_SID    INT,
+             COMPANY_MASTER_SID     INT,
+             ITEM_MASTER_SID        INT
+          )
+        DECLARE @MAP TABLE
+          (
+             PROJECTION_DETAILS_SID INT,
+             CCP_DETAILS_SID        INT,
+             CONTRACT_MASTER_SID    INT,
+             COMPANY_MASTER_SID     INT,
+             ITEM_MASTER_SID        INT
+          )
+
+        IF Object_id('TEMPDB..#TEMP_DETAILS') IS NOT NULL
+          DROP TABLE #TEMP_DETAILS
+
+        CREATE TABLE #TEMP_DETAILS
+          (
+             SOURCE_CONTRACT INT,
+             SOURCE_COMPANY  INT,
+             MAP_CONTRACT    INT,
+             MAPPED_COMPANY  INT
+          )
+
+        INSERT INTO #TEMP_DETAILS
+                    (SOURCE_CONTRACT,
+                     SOURCE_COMPANY,
+                     MAP_CONTRACT,
+                     MAPPED_COMPANY)
+        SELECT @CONTRACT_MASTER_SID_SRC                AS SOURCE_CONTRACT,
+               LEFT(TOKEN, Charindex('-', TOKEN) - 1)  AS SOURCE_COMPANY,
+               @CONTRACT_MASTER_SID_DST                AS MAP_CONTRACT,
+               RIGHT(TOKEN, Charindex('-', TOKEN) - 1) AS MAPPED_COMPANY
+        FROM   UDF_SPLITSTRING(@COMPANY_MAP_STR, ',')
+
+        INSERT INTO @SOURCE
+        SELECT PD.PROJECTION_DETAILS_SID,
+               CCP.CCP_DETAILS_SID,
+               IFP.CONTRACT_MASTER_SID,
+               CFPD.COMPANY_MASTER_SID,
+               IFD.ITEM_MASTER_SID
+        FROM   IFP_CONTRACT_DETAILS IFD
+        JOIN   IFP_CONTRACT IFP ON IFD.IFP_CONTRACT_SID = IFP.IFP_CONTRACT_SID
+        JOIN   CFP_CONTRACT CFP ON CFP.CONTRACT_MASTER_SID = IFP.CONTRACT_MASTER_SID
+        JOIN   CFP_CONTRACT_DETAILS CFPD ON CFP.CFP_CONTRACT_SID = CFPD.CFP_CONTRACT_SID
+        JOIN   CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = IFP.CONTRACT_MASTER_SID
+                              AND CCP.COMPANY_MASTER_SID = CFPD.COMPANY_MASTER_SID
+                              AND CCP.ITEM_MASTER_SID = IFD.ITEM_MASTER_SID
+        JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+        WHERE  IFP.CONTRACT_MASTER_SID = @CONTRACT_MASTER_SID_SRC
+               AND PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID_SRC
+               AND CFPD.COMPANY_MASTER_SID IN (SELECT SOURCE_COMPANY
+                                               FROM   #TEMP_DETAILS)
+
+        INSERT INTO @MAP
+        SELECT PD.PROJECTION_DETAILS_SID,
+               CCP.CCP_DETAILS_SID,
+               IFP.CONTRACT_MASTER_SID,
+               CFPD.COMPANY_MASTER_SID,
+               IFD.ITEM_MASTER_SID
+        FROM   IFP_CONTRACT_DETAILS IFD
+        JOIN   IFP_CONTRACT IFP ON IFD.IFP_CONTRACT_SID = IFP.IFP_CONTRACT_SID
+        JOIN   CFP_CONTRACT CFP ON CFP.CONTRACT_MASTER_SID = IFP.CONTRACT_MASTER_SID
+        JOIN   CFP_CONTRACT_DETAILS CFPD ON CFP.CFP_CONTRACT_SID = CFPD.CFP_CONTRACT_SID
+        JOIN   CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = IFP.CONTRACT_MASTER_SID
+                              AND CCP.COMPANY_MASTER_SID = CFPD.COMPANY_MASTER_SID
+                              AND CCP.ITEM_MASTER_SID = IFD.ITEM_MASTER_SID
+        JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+        WHERE  IFP.CONTRACT_MASTER_SID = @CONTRACT_MASTER_SID_DST
+               AND PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID_MAP
+               AND CFPD.COMPANY_MASTER_SID IN (SELECT MAPPED_COMPANY
+                                               FROM   #TEMP_DETAILS)
+
+        SELECT DISTINCT CAST(S.COMPANY_MASTER_SID AS VARCHAR(50))  AS SOURCE_COMPANY    
+        FROM   @SOURCE S
+        JOIN   @MAP M ON S.ITEM_MASTER_SID = M.ITEM_MASTER_SID
+        WHERE  M.COMPANY_MASTER_SID IN (SELECT TD.MAPPED_COMPANY
+                                        FROM   #TEMP_DETAILS TD
+                                WHERE  TD.SOURCE_COMPANY = S.COMPANY_MASTER_SID) 
+ 
+           ]]>
+    </sql>
+    <sql id="single contract check for customere check">
+	<![CDATA[
+       SELECT Count(DISTINCT CONTRACT_MASTER_SID)
+FROM   GCM_GLOBAL_DETAILS
+WHERE   USER_ID='?'
+AND SESSION_ID='?'
+AND SCREEN_NAME='?'
+and CHECK_RECORD=1
+ 
+           ]]>
+    </sql>
+</custom-sql>

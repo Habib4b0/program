@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout margin="true" spacing="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" 
+xmlns:errorMsg="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:b="urn:import:org.asi.ui.extfilteringtable">
+	 <errorMsg:ErrorLabel id="errorLB" />
+	 <HorizontalLayout styleName="responsiveTabGrid">
+		<CssLayout id="cssLayout" width="100%" height="100%">	
+		
+			<Label id="companyIdLabel" value="Company ID" contentMode="HTML" />
+			<TextField id="companyId"  immediate="true" />
+			
+			<Label id="companyNoLabel" value="Company No" contentMode="HTML" />
+			<TextField id="companyNo"  immediate="true" />
+			
+			<Label id="companyNameLabel" value="Company Name" contentMode="HTML" />
+			<TextField id="companyName"  immediate="true" />
+			
+			<Label id="companyStatusLabel" value="Company Status" contentMode="HTML" />
+			<ComboBox id="companyStatus"  immediate="true" />
+			
+			<Label id="companyTypeLabel" value="Company Type" contentMode="HTML" />
+			<ComboBox id="companyType"  immediate="true" />
+			
+		</CssLayout>
+	</HorizontalLayout>
+	<HorizontalLayout>
+		<Button id="searchBtn" caption="SEARCH" immediate="true"/>
+		<Button id="resetBtn" caption="RESET" immediate="true"/>
+	</HorizontalLayout>
+<!--	<HorizontalLayout styleName="prev-next-layout">
+		<Button id="previousColumnBtn" caption="&lt;&lt;" styleName="prev-column-button" immediate="true"/>
+		<Button id="nextColumnBtn" caption="&gt;&gt;" styleName="next-column-button" immediate="true"/>
+	</HorizontalLayout>-->
+	<b:ExtFilterTable id="resultsTable" />
+           <HorizontalLayout immediate="true" spacing="true">
+            <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
+            <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" />
+        </HorizontalLayout>
+</VerticalLayout>

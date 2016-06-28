@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:p="urn:vaadin:parent"
+	xmlns:b="urn:import:org.asi.ui.customtextfield">
+	<VerticalLayout styleName="bootstrap-forecast" width="100%">
+		<Panel id="panel1" caption="Projection Options">
+
+			<HorizontalLayout id="horizontalLayout" spacing="true"
+				margin="true" immediate="true" height="196px">
+
+				<GridLayout spacing="true" margin="false" id="dsLayout"
+					immediate="true" columns="4" rows="3">
+					<Label value="Mode: " contentMode="HTML" />
+					<OptionGroup multiSelect="false" id="modeOption"
+						immediate="true" enable="true" styleName = "horizontal"></OptionGroup>
+
+					<Label value="" contentMode="HTML" />
+					<Label value="" contentMode="HTML" />
+
+					<Label value="Private Views: " contentMode="HTML" width="99px"/>
+					<b:CustomTextField id="privateViewText" styleName="searchicon"
+						inputPrompt=""></b:CustomTextField>
+
+					<Label value="Projection Name: " contentMode="HTML" />
+					<TextField id="projectionNameText" ></TextField>
+
+
+					<Label value="Public Views: " contentMode="HTML" />
+					<b:CustomTextField id="publicViewText" styleName="searchicon"
+						inputPrompt=""></b:CustomTextField>
+
+					<Label value="Description: " contentMode="HTML" width="121px" />
+					<TextField id="descriptionText" ></TextField>
+
+				</GridLayout>
+
+				<Panel id="timeperiod" caption="Time period" >
+					<GridLayout id="gridLayout" spacing="true" margin="true"
+						immediate="true" columns="2" rows="2" width="360px" height="130px" >
+					                       
+                        <Label value="From: " contentMode="HTML" width="49px" />
+                        <ComboBox id="fromDateEdit" dateFormat="dd/mm/yyyy" />
+                        <Label value="To: " contentMode="HTML" width="49px"/>
+                        <ComboBox id="toDateEdit" dateFormat="dd/mm/yyyy" />
+					</GridLayout>
+				</Panel>
+			</HorizontalLayout>
+		</Panel>
+
+<Panel id="panel2" caption="Customer Selection"  width="100%" >
+			<VerticalLayout id="vLayout" spacing="true" margin="true"
+				immediate="true" >
+				<HorizontalLayout id="hdLayout1" spacing="true"
+					margin="false" immediate="true" styleName="dataTransferGridforNM">
+					<Label value="Hierarchy:" contentMode="HTML" />
+					<b:CustomTextField id="customerHierarchy" styleName="searchicon"
+						inputPrompt="" />
+                                        <Label value="Relationship:" contentMode="HTML"  ></Label>
+                                      <ComboBox id="customerRelationEdit" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+					<Label value="Forecast Level:" contentMode="HTML" />
+					<ComboBox id="customerlevel" nullSelectionAllowed="false"
+						inputPrompt="-Select One-" immediate="true" />
+					<Label value="Customer Group:" contentMode="HTML" />
+					<b:CustomTextField id="customerGP" styleName="searchicon"
+						/>
+
+				</HorizontalLayout>
+
+				<!-- panel inserted -->
+				<Panel>
+					<VerticalLayout spacing="true" margin="true" immediate="true">
+				
+						<HorizontalLayout id="vlLayout2" spacing="true"
+							margin="false" styleName = "dataTransferGrid">
+							<Label value="Level:" contentMode="HTML"></Label>
+							<ComboBox id="levelDDLB" nullSelectionAllowed="false"
+								inputPrompt="-Select One-" immediate="true" />
+						</HorizontalLayout>
+                                                <HorizontalLayout styleName="dataTransferGridForCT">
+						<GridLayout spacing="true" margin="false" id="csGTable"
+							immediate="true" columns="3" rows="1">
+							<a:ExtFilterTable id="availableCustomer" width="400px" height="280px" styleName="table-header-normal" immediate="true" selectable="true" pageLength="8" />
+
+							<VerticalLayout spacing="true" margin="flase"
+								immediate="true">
+                                                            <Label value="" contentMode="HTML" height="60px" />
+                                                            
+								<Button id="moveLeftBtn" caption="&gt;" width="50px"></Button>
+								<Button id="moveRightBtn" caption="&lt;" width="50px"></Button>
+								<Button id="allBtn" caption="ALL" width="50px"></Button>
+							</VerticalLayout>
+							<TreeTable id="selectedCustomer" width="400px" height="280px"
+								styleName="table-header-normal"  pageLength="8"
+								immediate="true" selectable="true" />
+						</GridLayout>
+                                                </HorizontalLayout>
+					</VerticalLayout>
+				</Panel>
+				<!-- panel inserted -->
+
+
+			</VerticalLayout>
+		</Panel>
+<Panel id="panel3" caption="Product Selection"  >
+			<VerticalLayout id="verticalLay" spacing="true"
+				margin="true">
+                           <HorizontalLayout spacing = "true" margin="false" styleName="dataTransferGridforNM">
+				<GridLayout id="grid3" spacing="true" margin="false" columns="6" rows="2"
+					immediate="true">
+					<Label value="Company:" contentMode="HTML" width="108px"/>
+					<ComboBox id="company" nullSelectionAllowed="false" inputPrompt="-Select One-" immediate="true" />
+					<Label value="Hierarchy:" contentMode="HTML" width="108px"/>
+					<b:CustomTextField id="productHierarchy" styleName="searchicon"
+						inputPrompt="" />
+				<Label value="Relationship:" contentMode="HTML"  ></Label>
+                      <ComboBox id="productRelationEdit" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                                                <Label value="Forecast Level:" contentMode="HTML" />
+					<ComboBox id="productlevel" nullSelectionAllowed="false"
+						inputPrompt="-Select One-" immediate="true" />
+					<Label value="Product Group:" contentMode="HTML" />
+					<b:CustomTextField id="productGP" styleName="searchicon" />
+                                       
+                       <Label value="" contentMode="HTML"  ></Label>
+                        <Label value="" contentMode="HTML"  ></Label>
+				</GridLayout>
+                            </HorizontalLayout>
+				<Panel>
+                                    <VerticalLayout spacing="true" margin="true">
+                                     <HorizontalLayout id="hLayout3" spacing="true"
+					margin="false" styleName = "dataTransferGrid">
+					<Label value="Level:" contentMode="HTML"></Label>
+					<ComboBox id="productlevelDdlb" nullSelectionAllowed="false" inputPrompt="-Select One-" immediate="true"
+					 />
+				</HorizontalLayout>
+                                <HorizontalLayout styleName="dataTransferGridForCT">
+				<GridLayout spacing="true" margin="false" id="GTable"
+					immediate="true" columns="3" rows="1">
+					<a:ExtFilterTable id="availableProduct" width="400px" height="280px"
+						 styleName="table-header-normal" immediate="true"
+						selectable="true" />
+					<VerticalLayout spacing="true" margin="false"
+						immediate="true">
+                                             <Label value="" contentMode="HTML" height="60px" />
+						<Button id="moveLeftProduct" caption="&gt;" width="50px" ></Button>
+						<Button id="moveRightProduct" caption="&lt;" width="50px"></Button>
+						<Button id="allProductBtn" caption="ALL" width="50px"></Button>
+					</VerticalLayout>
+                                       
+					<TreeTable id="selectedProduct" width="400px" height="280px"
+						styleName="table-header-normal"  pageLength="8"
+						immediate="true" selectable="true" />
+                                        
+				</GridLayout>  
+                                </HorizontalLayout> 
+                                    </VerticalLayout>
+                                </Panel>
+				
+			</VerticalLayout>
+
+		</Panel>
+
+
+	</VerticalLayout>
+
+</Panel>

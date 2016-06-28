@@ -1,0 +1,367 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.cff.dto;
+
+import com.stpl.app.cff.abstractCff.AbstractCustomTreeView;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.app.cff.logic.CommonLogic;
+import static com.stpl.app.cff.logic.CommonLogic.isValidViewName;
+import com.stpl.app.cff.logic.CustomViewLogic;
+import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.parttwo.model.CffCustomViewMaster;
+import com.vaadin.data.util.AbstractContainer;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.ui.Table;
+import java.util.List;
+import org.asi.ui.container.ExtTreeContainer;
+import org.jboss.logging.Logger;
+// TODO: Auto-generated Javadoc
+//import com.vaadin.ui.container.ExtTreeContainer;
+
+/**
+ * The Class CustomTreeBuild.
+ *
+ * @author maheshj
+ */
+public class CustomTreeBuild extends AbstractCustomTreeView {
+
+    SessionDTO session;
+    int customId = 0;
+    boolean isSelect = false;
+    CffCustomViewMaster customView = null;
+    private static final Logger LOGGER = Logger.getLogger(CustomTreeBuild.class);
+    CustomViewLogic relationBuildLogic = new CustomViewLogic(); 
+
+    /**
+     * The Constructor.
+     *
+     * @param string the string
+     * @param projectionId the projection id
+     */
+    public CustomTreeBuild(String string, SessionDTO session) {
+        this(string, session, 0);
+	// TODO Auto-generated constructor stub
+    }
+
+    /**
+     * The Constructor.
+     *
+     * @param string the string
+     * @param projectionId the projection id
+     * @param customId
+     */
+    public CustomTreeBuild(String string, SessionDTO session, int customId) {
+        super();
+        this.session = session;
+        this.customId = customId;
+        if (customId != 0) {
+            isSelect = true;
+        }
+        init();
+    }
+
+    @Override
+    protected int customTreeSelectLogic(String viewName) {
+         LOGGER.info("customTreeSelectLogic started");
+        int returnBack = customTreeSaveLogic(viewName);
+
+        if (returnBack != 0) {
+            isSelect = true;
+            customId = returnBack;
+        }
+         
+        LOGGER.info("customTreeSelectLogic ended" + returnBack);
+        return returnBack;
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#customTreeCloseLogic()
+     */
+    @Override
+    protected void customTreeCloseLogic() {
+        close();
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#customTreeAddCustomerLogic()
+     */
+    @Override
+    protected void customTreeAddCustomerLogic() {
+        // Logic to be written here
+        customTreeAddLogic(customerTable);
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#customTreeAddProductLogic()
+     */
+    @Override
+    protected void customTreeAddProductLogic() {
+        // Logic to be written here
+        customTreeAddLogic(productTable);
+    }
+
+    private void customTreeAddLogic(Table table) {
+        Object itemId = table.getValue();
+        Object treeItemId = treeTable.getValue();
+        treeTable.setImmediate(true);
+        if (itemId != null) {
+            Leveldto pitemId = (Leveldto) itemId;
+            if (treeTable.getItemIds().size() >= 1) {
+                Object treeItemId1 = treeTable.lastItemId();
+                Leveldto titemId = (Leveldto) treeItemId;
+                Leveldto tlitemId = (Leveldto) treeItemId1;
+
+                if (treeItemId == null || treeItemId.equals(treeItemId1)) {
+
+                    if (isValidTree(table, pitemId.getHierarchyIndicator())) {
+                        pitemId.setTreeLevelNo(treeTable.getItemIds().size() + 1);
+                        treeTable.addItem(itemId);
+                        table.removeItem(itemId);
+                        treeTable.setParent(itemId, treeItemId1);
+                        treeTable.setCollapsed(treeItemId1, false);
+                    } else {
+                        AbstractNotificationUtils.getErrorNotification("Invalid Structure", "You cannot add " + pitemId.getLevel()
+                                + " as a child to " + tlitemId.getLevel());
+                    }
+
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("Invalid Structure", "You cannot add " + pitemId.getLevel()
+                            + " as a child to " + titemId.getLevel());
+                }
+            } else {
+                pitemId.setTreeLevelNo(1);
+                treeTable.addItem(itemId);
+                table.removeItem(itemId);
+                treeTable.setChildrenAllowed(itemId, true);
+            }
+        } else {
+            AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a " + table.getCaption() + " level to move");
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#customTreeRemoveCustomerLogic()
+     */
+    @Override
+    protected void customTreeRemoveCustomerLogic() {
+        customTreeRemoveLogic(customerTable);
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#customTreeRemoveProductLogic()
+     */
+    @Override
+    protected void customTreeRemoveProductLogic() {
+        customTreeRemoveLogic(productTable);
+    }
+
+    private void customTreeRemoveLogic(Table table) {
+        Object treeItemId = treeTable.getValue();
+        if (treeItemId == null) {
+            AbstractNotificationUtils.getErrorNotification("No level selected", "Please select a level to remove from tree structure");
+        } else if (table.getCaption().contains(((Leveldto) treeItemId).getHierarchyIndicator())) {
+            if (!treeTable.hasChildren(treeItemId)) {
+                try {
+                    if (treeTable.removeItem(treeItemId)) {
+                        table.addItem(treeItemId);
+                    }
+                } catch (Exception e) {
+                    LOGGER.error(e);
+                }
+            }
+        } else {
+            AbstractNotificationUtils.getErrorNotification("Illegal level", "Level which is selected belogs to" + ((table.getCaption().equals(customerTable.getCaption())) ? productTable.getCaption() : customerTable.getCaption()));
+        }
+
+    }
+
+    private boolean isValidTree(Table table, String hierarchyIndicator) {
+        Object treeLastItem = treeTable.lastItemId();
+          LOGGER.info("treeLastItem.getLevelNo()=" + ((Leveldto) treeLastItem).getLevelNo());
+        Object movingItem = table.getValue();
+          LOGGER.info("movingItem.getLevelNo()=" + ((Leveldto) movingItem).getLevelNo());
+        if (movingItem != null) {
+            if (getLastLevelNo(hierarchyIndicator, treeLastItem) < ((Leveldto) movingItem).getLevelNo()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isTreeitem(Object item) {
+        List itemids = treecontainer.getItemIds();
+        for (Object item1 : itemids) {
+            int treeHid = ((Leveldto) item1).getHierarchyId();
+            int tableHid = ((Leveldto) item).getHierarchyId();
+            String treeHind = ((Leveldto) item1).getHierarchyIndicator();
+            String tableHind = ((Leveldto) item).getHierarchyIndicator();
+            if (treeHid == tableHid && tableHind.equals(treeHind)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int getLastLevelNo(String hierarchyIndicator, Object treeLastItem) {
+        if (treeLastItem == null) {
+            return 0;
+        }
+        Leveldto dto = (Leveldto) treeLastItem;
+        if (dto.getHierarchyIndicator().equals(hierarchyIndicator)) {
+            return dto.getLevelNo();
+        } else {
+            return getLastLevelNo(hierarchyIndicator, treeTable.getParent(treeLastItem));
+        }
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#customTreeSaveLogic(com.vaadin.data.util.AbstractContainer, java.lang.String)
+     */
+    @Override
+    protected int customTreeSaveLogic(String viewName) {
+        LOGGER.info("customTreeSaveLogic started");
+        try {
+            int returnBack = 0;
+            if (viewName != null && viewName.trim().length() > 0) {
+                if (isValidViewName(session.getProjectionId(), viewName, customId)) {
+                    if (customId > 0) {
+                        relationBuildLogic.executeDelete(String.valueOf(customId));
+                    }
+                    returnBack = CommonLogic.customViewSaveLogic(session, customId, viewName, treecontainer.getItemIds());
+                    relationBuildLogic.getData_custom_view(String.valueOf(session.getProjectionId()), String.valueOf(returnBack));
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("Error", "That view name is taken. Please enter a new View name.");
+                }
+
+            } else {
+                AbstractNotificationUtils.getErrorNotification("Empty view name", "Please enter a view name");
+            }
+            customId = returnBack;
+            LOGGER.info("customTreeSaveLogic ended" + returnBack);
+            return returnBack;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return 0;
+        }
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#loadCustomTree()
+     */
+    @Override
+    protected void loadCustomTree() {
+        if (treecontainer == null) {
+            treecontainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+        }
+        treecontainer.removeAllItems();
+        List<Leveldto> customList = CommonLogic.getCustomTree(customId);
+        Leveldto parent = null;
+        for (Leveldto lvlDTO : customList) {
+            treecontainer.addItem(lvlDTO);
+            if (parent != null) {
+                treecontainer.setParent(lvlDTO, parent);
+                treeTable.setCollapsed(parent, false);
+            }
+            parent = lvlDTO;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#loadCustomers()
+     */
+    @Override
+    protected void loadCustomers() {
+        if (customerContainer == null) {
+            customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        }
+        LOGGER.info("loadCustomers projectionId=" + session.getProjectionId()+"session level number========"+session.getCustomerLevelNumber());
+        List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.valueOf(session.getCustomerLevelNumber()));
+        LOGGER.info("loadCustomers customerList size=" + customerList.size());
+        int size = customerList.size();
+        for (int i = 0; i < size; i++) {
+            Object obj = customerList.get(i);
+            if (isTreeitem(obj)) {
+                customerList.remove(obj);
+                size--;
+                i--;
+            }
+        }
+
+        LOGGER.info("loadCustomers customerList size=" + customerList.size());
+        customerContainer.addAll(customerList);
+    }
+
+    /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#loadProducts()
+     */
+    @Override
+    protected void loadProducts() {
+        if (productContainer == null) {
+            productContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        }
+        LOGGER.info("loadProducts projectionId=" + session.getProjectionId()+"=====product level number======="+session.getProductLevelNumber());
+        List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.valueOf(session.getProductLevelNumber()));
+        LOGGER.info("loadProducts productList size=" + productList.size());
+        int size = productList.size();
+        for (int i = 0; i < size; i++) {
+            Object obj = productList.get(i);
+            if (isTreeitem(obj)) {
+                productList.remove(obj);
+                size--;
+                i--;
+            }
+        }
+        LOGGER.info("loadProducts productList size=" + productList.size());
+        productContainer.addAll(productList);
+    }
+
+    @Override
+    protected String getCustomMasterData() {
+        String str = "";
+        customView = CommonLogic.getCustomView(customId);
+        customId = 0;
+        if (customView != null) {
+            str = customView.getViewName();
+            customId = customView.getCffCustomViewMasterSid();
+        }
+        return str;
+    }
+
+    @Override
+    protected AbstractContainer getProductsContainer() {
+        if (productContainer == null) {
+            productContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        }
+        return productContainer;
+    }
+
+    @Override
+    protected AbstractContainer getCustomersContainer() {
+        if (customerContainer == null) {
+            customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        }
+        return customerContainer;
+    }
+
+    @Override
+    protected AbstractContainer getCustomTreeContainer() {
+        if (treecontainer == null) {
+            treecontainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+        }
+        return treecontainer;
+    }
+
+    public int getCustomId() {
+        return customId;
+    }
+
+    public boolean isIsSelect() {
+        return isSelect;
+    }
+
+}

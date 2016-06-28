@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:c="urn:import:org.asi.ui.customtextfield" >
+
+    <VerticalLayout margin="true" spacing="true" >
+        <p:ErrorLabel id="errorMsg"/>
+        <Panel caption="Current Active File">
+             <VerticalLayout spacing="true" margin="true" immediate="true" >
+                    <HorizontalLayout spacing="true" styleName="responsiveTabGrid">
+                           <CssLayout id="cssLayout">
+                        <Label id="fileTypeLb" value="File Types"  contentMode="HTML" immediate="true" width="100px"/>
+                        <ComboBox id="fileTypeCombo" nullSelectionAllowed="false" inputPrompt="-Select One-" immediate="true" width="200px"/>  
+			
+                        <Label id="countryLb" value="Country"  contentMode="HTML" immediate="true" width="100px" />
+                        <ComboBox id="country" nullSelectionAllowed="false" inputPrompt="-Select One-" immediate="true" width="202px" />  
+                        <Label value="Current File" contentMode="HTML" immediate="true" width="100px" />
+                        <TextField id="currentFile" enabled="true" immediate="true" width="193px" /> 
+                        
+                        <Label value="Effective Date" contentMode="HTML" immediate="true" width="100px"/>
+                        <TextField id="effectiveDateStr" enabled="true" immediate="true" width="193px"/> 
+                    </CssLayout>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel> 
+        
+        <Panel caption="File Selection">
+            <VerticalLayout  id="searchPanel" styleName = "responsiveTabGrid">
+                <HorizontalLayout spacing="true" styleName="responsiveTabGrid" margin="true" >
+                    <CssLayout id="selectFileCssLayout" immediate="true" width="100%" height="100%">
+                        
+                        <Label value="Select File" contentMode="HTML" immediate="true"  styleName="filemanagement-selectedfile" width="100px"/>
+                        <c:CustomTextField id="selectFile" inputPrompt="" immediate="true"
+                                            styleName="searchText-nonabsolute" width="250px" />
+                        
+                        <Button id="saveBtn" caption="SAVE" immediate="true"/>
+                        <Button id="resetBtn" caption="RESET" immediate="true" />
+                    </CssLayout>
+                </HorizontalLayout>       
+            </VerticalLayout>
+        </Panel>
+        
+        
+        <Panel caption="File History"  >
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>            
+        </Panel>
+        
+        <HorizontalLayout spacing="true" margin="false" styleName="responsiveTabGrid" >
+            <CssLayout immediate="true" width="100%" height="100%">
+                <Button id="autoUpdate" caption="AUTO UPDATE" immediate="true"/>
+                <Button id="processTracking" caption="PROCESS TRACKING" immediate="true" />
+                <Button id="excelExportDetail" immediate="true" primaryStyleName="link" />
+            </CssLayout>
+        </HorizontalLayout>
+        
+                                                         
+    </VerticalLayout>
+</Panel>

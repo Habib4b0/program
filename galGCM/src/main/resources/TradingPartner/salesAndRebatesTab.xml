@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<VerticalLayout margin = "false" spacing = "true" immediate = "true">
+    <VerticalLayout id="tradingPartnerSalesTableLayout" spacing="true" margin="false" immediate="true">
+    </VerticalLayout>
+    <VerticalLayout id="tradingPartnerRebatesTableLayout" spacing="true" margin="false" immediate="true">
+    </VerticalLayout>
+</VerticalLayout>

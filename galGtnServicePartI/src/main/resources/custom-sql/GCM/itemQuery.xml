@@ -1,0 +1,715 @@
+<?xml version="1.0"?>
+<custom-sql>
+    <sql id="LoadCompany">
+		<![CDATA[
+             SELECT DISTINCT CM.COMPANY_MASTER_SID,
+                CM.COMPANY_NAME
+FROM   ITEM_MASTER IM
+       JOIN COMPANY_MASTER CM
+         ON CM.COMPANY_MASTER_SID = IM.MANUFACTURER_ID
+          AND CM.COMPANY_NAME LIKE '?'  
+        GROUP  BY CM.COMPANY_MASTER_SID,
+          CM.COMPANY_NAME
+ORDER  BY CM.COMPANY_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+
+		]]>
+    </sql> 
+    <sql id="LoadCompanyCount">
+		<![CDATA[
+                SELECT Count ( DISTINCT CM.COMPANY_MASTER_SID)
+FROM   ITEM_MASTER IM
+       JOIN COMPANY_MASTER CM
+         ON CM.COMPANY_MASTER_SID = IM.MANUFACTURER_ID 
+         AND CM.COMPANY_NAME LIKE '?'
+
+		]]>
+    </sql> 
+    <sql id="LoadForm">
+		<![CDATA[
+                SELECT 
+       HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.FORM = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?'
+GROUP  BY HT.HELPER_TABLE_SID,
+          HT.DESCRIPTION
+          ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+		]]>
+    </sql>
+    <sql id="LoadFormCount">
+		<![CDATA[
+                SELECT 
+       COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.FORM = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+ 
+
+		]]>
+    </sql>
+    <sql id="LoadBrand">
+		<![CDATA[
+               SELECT  BT.BRAND_MASTER_SID, BT.BRAND_NAME
+FROM   ITEM_MASTER IT
+       JOIN BRAND_MASTER BT
+         ON IT.BRAND_MASTER_SID=BT.BRAND_MASTER_SID
+		 and BT.BRAND_NAME is not null
+                 AND BT.BRAND_NAME like '?'
+		 GRoup by BT.BRAND_MASTER_SID, BT.BRAND_NAME
+                 ORDER BY BT.BRAND_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY 
+
+		]]>
+    </sql>
+    <sql id="LoadBrandCount">
+		<![CDATA[
+               SELECT  COUNT(DISTINCT BT.BRAND_MASTER_SID)
+FROM   ITEM_MASTER IT
+       JOIN BRAND_MASTER BT
+         ON IT.BRAND_MASTER_SID=BT.BRAND_MASTER_SID
+		 and BT.BRAND_NAME is not null
+                 AND BT.BRAND_NAME like '?'
+		  
+
+		]]>
+    </sql>
+    
+    
+    <sql id="LoadStrength">
+		<![CDATA[
+            SELECT 
+       HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.STRENGTH = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?'
+GROUP  BY HT.HELPER_TABLE_SID,
+          HT.DESCRIPTION
+           ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;    
+
+		]]>
+    </sql>
+    
+    <sql id="LoadStrengthCount">
+		<![CDATA[
+            SELECT 
+       COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.STRENGTH = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+
+
+		]]>
+    </sql>
+    
+    <sql id="LoadType">
+		<![CDATA[
+              SELECT 
+       HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.ITEM_TYPE = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?'
+GROUP  BY HT.HELPER_TABLE_SID,
+          HT.DESCRIPTION
+          ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+		]]>
+    </sql>
+    <sql id="LoadTypeCount">
+		<![CDATA[
+              SELECT 
+       COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.ITEM_TYPE = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+
+
+		]]>
+    </sql>
+    <sql id="LoadCategory">
+		<![CDATA[
+           SELECT 
+       HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.ITEM_CATEGORY = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?'
+GROUP  BY HT.HELPER_TABLE_SID,
+          HT.DESCRIPTION
+          ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+  
+
+		]]>
+    </sql>
+    <sql id="LoadCategoryCount">
+		<![CDATA[
+           SELECT 
+       COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.ITEM_CATEGORY = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+  
+
+		]]>
+    </sql>
+    <sql id="LoadTherapeuticClass">
+		<![CDATA[
+           SELECT 
+       HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?'
+GROUP  BY HT.HELPER_TABLE_SID,
+          HT.DESCRIPTION
+          ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+  
+
+		]]>
+    </sql>
+    <sql id="LoadTherapeuticClassCount">
+		<![CDATA[
+           SELECT 
+       COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IT
+       JOIN HELPER_TABLE HT
+         ON it.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+
+  
+
+		]]>
+    </sql>
+    <sql id="Load Market Type">
+		<![CDATA[
+         SELECT DISTINCT HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   CONTRACT_MASTER CONT
+       JOIN HELPER_TABLE HT
+         ON CONT.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?' 
+ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+		]]>
+    </sql>
+    <sql id="Load Market Type Count">
+		<![CDATA[
+         SELECT COUNT( DISTINCT HT.HELPER_TABLE_SID)
+FROM   CONTRACT_MASTER CONT
+       JOIN HELPER_TABLE HT
+         ON CONT.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?' ;
+
+
+		]]>
+    </sql>
+    <sql id="Load Search Results">
+		<![CDATA[
+        SELECT DISTINCT IT.ITEM_MASTER_SID,
+                CM.COMPANY_NAME                    AS COMPANY,
+                IT.ITEM_ID,
+                IT.ITEM_NO,
+                IT.ITEM_NAME,
+                IT.ITEM_DESC,
+                TherapeuticClass.DESCRIPTION AS TherapeuticClass,
+                BM.BRAND_NAME                AS BRAND,
+                form.DESCRIPTION             AS FORM,
+                Strength.DESCRIPTION         AS STRENGTH,
+                IT.RECORD_LOCK_STATUS        AS PLACEHOLDER,
+                IT.NDC9,
+                item_category.DESCRIPTION    AS item_category,
+                item_type.DESCRIPTION        AS item_type
+               
+FROM   ITEM_MASTER IT
+    LEFT JOIN ITEM_IDENTIFIER ID
+         ON ID.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+      LEFT JOIN ITEM_QUALIFIER IQ
+         ON IQ.ITEM_QUALIFIER_SID = ID.ITEM_QUALIFIER_SID
+          
+       LEFT JOIN HELPER_TABLE Form
+         ON Form.HELPER_TABLE_SID = IT.FORM
+         JOIN HELPER_TABLE Strength
+         ON Strength.HELPER_TABLE_SID = IT.STRENGTH
+          AND (IQ.ITEM_QUALIFIER_SID LIKE '?' OR IQ.ITEM_QUALIFIER_SID IS NULL) 
+           AND (ID.ITEM_IDENTIFIER_VALUE LIKE '?' OR ID.ITEM_IDENTIFIER_VALUE IS NULL)
+         
+            AND ( IT.ITEM_ID LIKE '?'
+                   OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+                   OR IT.ITEM_NAME IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+                   OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.FORM LIKE '?'
+                   OR IT.FORM IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+                   OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+                   OR IT.ITEM_DESC IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+                   OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+                   OR IT.STRENGTH IS NULL )
+            AND ( IT.NDC9 LIKE '?'
+                   OR IT.NDC9 IS NULL )
+            AND IsNull( IT.ITEM_CATEGORY,0) LIKE '?' 
+             AND IsNull( IT.ITEM_TYPE,0) LIKE '?'
+            AND (IT.RECORD_LOCK_STATUS LIKE '?')       
+           
+    LEFT JOIN COMPANY_MASTER CM
+        ON CM.COMPANY_MASTER_SID=IT.MANUFACTURER_ID
+      
+
+     LEFT  JOIN BRAND_MASTER BM
+         ON IT.BRAND_MASTER_SID = BM.brand_master_sid
+     LEFT  JOIN HELPER_TABLE TherapeuticClass
+         ON TherapeuticClass.HELPER_TABLE_SID = IT.THERAPEUTIC_CLASS
+      LEFT JOIN HELPER_TABLE item_category
+         ON item_category.HELPER_TABLE_SID = IT.ITEM_CATEGORY
+      LEFT JOIN HELPER_TABLE item_type
+         ON item_type.HELPER_TABLE_SID = IT.ITEM_TYPE
+          
+     
+                 
+                 WHERE  
+  IsNull(CM.COMPANY_MASTER_SID,'0') LIKE '?'   AND
+( IT.ITEM_MASTER_SID LIKE '?'
+                   OR IT.ITEM_MASTER_SID IS NULL )
+            AND Isnull(CM.COMPANY_MASTER_SID, '0') LIKE '?'            
+            AND ( IT.ITEM_ID LIKE '?'
+                   OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+                   OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+                   OR IT.ITEM_NAME IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+                   OR IT.ITEM_DESC IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+                   OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+                   OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.FORM LIKE '?'
+                   OR IT.FORM IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+                   OR IT.STRENGTH IS NULL )
+             AND (IT.RECORD_LOCK_STATUS LIKE '?')     
+            AND ( IT.NDC9 LIKE '?'
+                   OR IT.NDC9 IS NULL )
+           AND IsNull( IT.ITEM_CATEGORY,0) LIKE '?' 
+             AND IsNull( IT.ITEM_TYPE,0) LIKE '?'
+                   
+                   
+                   
+ORDER  BY it.item_master_sid 
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+ 
+
+ DELETE FROM GCM_GLOBAL_DETAILS
+WHERE CREATED_DATE <= GETDATE() - 2
+  AND MODULE_NAME = 'ITEM_MANAGEMENT';
+
+		]]>
+    </sql>
+    <sql id="Load Search Results Count">
+		<![CDATA[
+         SELECT count(DISTINCT IT.ITEM_MASTER_SID)
+FROM   ITEM_MASTER IT
+     LEFT  JOIN ITEM_IDENTIFIER ID
+         ON ID.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+      LEFT JOIN ITEM_QUALIFIER IQ
+         ON IQ.ITEM_QUALIFIER_SID = ID.ITEM_QUALIFIER_SID
+           
+      LEFT JOIN HELPER_TABLE Form
+         ON Form.HELPER_TABLE_SID = IT.FORM
+          JOIN HELPER_TABLE Strength
+         ON Strength.HELPER_TABLE_SID = IT.STRENGTH
+         AND (IQ.ITEM_QUALIFIER_SID LIKE '?' OR IQ.ITEM_QUALIFIER_SID IS NULL) 
+             AND (ID.ITEM_IDENTIFIER_VALUE LIKE '?' OR ID.ITEM_IDENTIFIER_VALUE IS NULL)
+             AND ( IT.ITEM_ID LIKE '?'
+                   OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+                   OR IT.ITEM_NAME IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+                   OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.FORM LIKE '?'
+                   OR IT.FORM IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+                   OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+                   OR IT.ITEM_DESC IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+                   OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+                   OR IT.STRENGTH IS NULL )
+            AND ( IT.NDC9 LIKE '?'
+                   OR IT.NDC9 IS NULL )
+            AND IsNull( IT.ITEM_CATEGORY,0) LIKE '?' 
+             AND IsNull( IT.ITEM_TYPE,0) LIKE '?'
+            AND (IT.RECORD_LOCK_STATUS LIKE '?')       
+              
+       LEFT JOIN COMPANY_MASTER CM
+        ON CM.COMPANY_MASTER_SID=IT.MANUFACTURER_ID
+      
+     
+     LEFT  JOIN BRAND_MASTER BM
+         ON IT.BRAND_MASTER_SID = BM.brand_master_sid
+     LEFT  JOIN HELPER_TABLE TherapeuticClass
+         ON TherapeuticClass.HELPER_TABLE_SID = IT.THERAPEUTIC_CLASS
+      LEFT JOIN HELPER_TABLE item_category
+         ON item_category.HELPER_TABLE_SID = IT.ITEM_CATEGORY
+      LEFT JOIN HELPER_TABLE item_type
+         ON item_type.HELPER_TABLE_SID = IT.ITEM_TYPE
+          
+     
+                 
+                 WHERE  IsNull(CM.COMPANY_MASTER_SID,0) LIKE '?'
+            AND
+      ( IT.ITEM_MASTER_SID LIKE '?'
+          OR IT.ITEM_MASTER_SID IS NULL )
+            AND Isnull(CM.COMPANY_MASTER_SID, '0') LIKE '?'
+            AND ( IT.ITEM_ID LIKE '?'
+              OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+              OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+              OR IT.ITEM_NAME IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+              OR IT.ITEM_DESC IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+              OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+              OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.FORM LIKE '?'
+              OR IT.FORM IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+              OR IT.STRENGTH IS NULL )
+             AND (IT.RECORD_LOCK_STATUS LIKE '?')     
+            AND ( IT.NDC9 LIKE '?'
+              OR IT.NDC9 IS NULL )
+            AND IsNull( IT.ITEM_CATEGORY,0) LIKE '?' 
+             AND IsNull( IT.ITEM_TYPE,0) LIKE '?'
+
+
+                   
+		]]>
+    </sql>
+    
+    <sql id="Load Search Results For Transfer">
+		<![CDATA[
+        SELECT DISTINCT IT.ITEM_MASTER_SID,
+                CM.COMPANY_NAME                    AS COMPANY,
+                IT.ITEM_ID,
+                IT.ITEM_NO,
+                IT.ITEM_NAME,
+                IT.ITEM_DESC,
+                TherapeuticClass.DESCRIPTION AS TherapeuticClass,
+                BM.BRAND_NAME                AS BRAND,
+                form.DESCRIPTION             AS FORM,
+                Strength.DESCRIPTION         AS STRENGTH,
+                IT.RECORD_LOCK_STATUS        AS PLACEHOLDER,
+                IT.NDC9,
+                item_category.DESCRIPTION    AS item_category,
+                item_type.DESCRIPTION        AS item_type
+               
+FROM   ITEM_MASTER IT
+    JOIN ITEM_IDENTIFIER ID
+         ON ID.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+       JOIN ITEM_QUALIFIER IQ
+         ON IQ.ITEM_QUALIFIER_SID = ID.ITEM_QUALIFIER_SID
+           AND (IQ.ITEM_QUALIFIER_SID LIKE '?') 
+           AND (ID.ITEM_IDENTIFIER_VALUE LIKE '?')
+       JOIN HELPER_TABLE Form
+         ON Form.HELPER_TABLE_SID = IT.FORM
+            AND ( IT.ITEM_ID LIKE '?'
+                   OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+                   OR IT.ITEM_NAME IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+                   OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.FORM LIKE '?'
+                   OR IT.FORM IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+                   OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+                   OR IT.ITEM_DESC IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+                   OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+                   OR IT.STRENGTH IS NULL )
+            AND ( IT.NDC9 LIKE '?'
+                   OR IT.NDC9 IS NULL )
+            AND ( IT.ITEM_CATEGORY LIKE '?'
+                   OR IT.ITEM_CATEGORY IS NULL )
+            AND ( IT.ITEM_TYPE LIKE '?'
+                   OR IT.ITEM_TYPE IS NULL )
+            AND (IT.RECORD_LOCK_STATUS LIKE '?')       
+           
+    LEFT JOIN COMPANY_MASTER CM
+        ON CM.COMPANY_MASTER_SID=IT.MANUFACTURER_ID
+      
+JOIN HELPER_TABLE Strength
+         ON Strength.HELPER_TABLE_SID = IT.STRENGTH
+       JOIN BRAND_MASTER BM
+         ON IT.BRAND_MASTER_SID = BM.brand_master_sid
+       JOIN HELPER_TABLE TherapeuticClass
+         ON TherapeuticClass.HELPER_TABLE_SID = IT.THERAPEUTIC_CLASS
+       JOIN HELPER_TABLE item_category
+         ON item_category.HELPER_TABLE_SID = IT.ITEM_CATEGORY
+       JOIN HELPER_TABLE item_type
+         ON item_type.HELPER_TABLE_SID = IT.ITEM_TYPE
+           AND IsNull(CM.COMPANY_MASTER_SID,'0') LIKE '?'
+         JOIN IFP_CONTRACT_DETAILS IFP_CD
+         ON IFP_CD.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+       JOIN PS_CONTRACT_DETAILS PS
+         ON PS.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+     
+                 
+                 WHERE  ( IT.ITEM_MASTER_SID LIKE '?'
+                   OR IT.ITEM_MASTER_SID IS NULL )
+            AND Isnull(CM.COMPANY_MASTER_SID, '0') LIKE '?'            
+            AND ( IT.ITEM_ID LIKE '?'
+                   OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+                   OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+                   OR IT.ITEM_NAME IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+                   OR IT.ITEM_DESC IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+                   OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+                   OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.FORM LIKE '?'
+                   OR IT.FORM IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+                   OR IT.STRENGTH IS NULL )
+             AND (IT.RECORD_LOCK_STATUS LIKE '?')     
+            AND ( IT.NDC9 LIKE '?'
+                   OR IT.NDC9 IS NULL )
+            AND ( IT.ITEM_CATEGORY LIKE '?'
+                   OR IT.ITEM_CATEGORY IS NULL )
+            AND ( IT.ITEM_TYPE LIKE '?'
+                   OR IT.ITEM_TYPE IS NULL )
+ORDER  BY it.item_master_sid 
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+ 
+  DELETE FROM GCM_GLOBAL_DETAILS
+WHERE CREATED_DATE <= GETDATE() - 2
+  AND MODULE_NAME = 'ITEM_MANAGEMENT';
+
+		]]>
+    </sql>
+    <sql id="Load Search Results For Transfer Count">
+		<![CDATA[
+         SELECT count(DISTINCT IT.ITEM_MASTER_SID)
+FROM   ITEM_MASTER IT
+       JOIN ITEM_IDENTIFIER ID
+         ON ID.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+       JOIN ITEM_QUALIFIER IQ
+         ON IQ.ITEM_QUALIFIER_SID = ID.ITEM_QUALIFIER_SID
+           AND (IQ.ITEM_QUALIFIER_SID LIKE '?') 
+             AND (ID.ITEM_IDENTIFIER_VALUE LIKE '?')
+       JOIN HELPER_TABLE Form
+         ON Form.HELPER_TABLE_SID = IT.FORM
+             AND ( IT.ITEM_ID LIKE '?'
+                   OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+                   OR IT.ITEM_NAME IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+                   OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.FORM LIKE '?'
+                   OR IT.FORM IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+                   OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+                   OR IT.ITEM_DESC IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+                   OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+                   OR IT.STRENGTH IS NULL )
+            AND ( IT.NDC9 LIKE '?'
+                   OR IT.NDC9 IS NULL )
+            AND ( IT.ITEM_CATEGORY LIKE '?'
+                   OR IT.ITEM_CATEGORY IS NULL )
+            AND ( IT.ITEM_TYPE LIKE '?'
+                   OR IT.ITEM_TYPE IS NULL )
+            AND (IT.RECORD_LOCK_STATUS LIKE '?')       
+              
+       LEFT JOIN COMPANY_MASTER CM
+        ON CM.COMPANY_MASTER_SID=IT.MANUFACTURER_ID
+      
+       JOIN HELPER_TABLE Strength
+         ON Strength.HELPER_TABLE_SID = IT.STRENGTH
+       JOIN BRAND_MASTER BM
+         ON IT.BRAND_MASTER_SID = BM.brand_master_sid
+       JOIN HELPER_TABLE TherapeuticClass
+         ON TherapeuticClass.HELPER_TABLE_SID = IT.THERAPEUTIC_CLASS
+       JOIN HELPER_TABLE item_category
+         ON item_category.HELPER_TABLE_SID = IT.ITEM_CATEGORY
+       JOIN HELPER_TABLE item_type
+         ON item_type.HELPER_TABLE_SID = IT.ITEM_TYPE
+          AND IsNull(CM.COMPANY_MASTER_SID,0) LIKE '?'
+        JOIN IFP_CONTRACT_DETAILS IFP_CD
+         ON IFP_CD.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+       JOIN PS_CONTRACT_DETAILS PS
+         ON PS.ITEM_MASTER_SID = IT.ITEM_MASTER_SID
+     
+                 
+                 WHERE  ( IT.ITEM_MASTER_SID LIKE '?'
+          OR IT.ITEM_MASTER_SID IS NULL )
+            AND Isnull(CM.COMPANY_MASTER_SID, '0') LIKE '?'
+            AND ( IT.ITEM_ID LIKE '?'
+              OR IT.ITEM_ID IS NULL )
+            AND ( IT.ITEM_NO LIKE '?'
+              OR IT.ITEM_NO IS NULL )
+            AND ( IT.ITEM_NAME LIKE '?'
+              OR IT.ITEM_NAME IS NULL )
+            AND ( IT.ITEM_DESC LIKE '?'
+              OR IT.ITEM_DESC IS NULL )
+            AND ( IT.THERAPEUTIC_CLASS LIKE '?'
+              OR IT.THERAPEUTIC_CLASS IS NULL )
+            AND ( IT.BRAND_MASTER_SID LIKE '?'
+              OR IT.BRAND_MASTER_SID IS NULL )
+            AND ( IT.FORM LIKE '?'
+              OR IT.FORM IS NULL )
+            AND ( IT.STRENGTH LIKE '?'
+              OR IT.STRENGTH IS NULL )
+             AND (IT.RECORD_LOCK_STATUS LIKE '?')     
+            AND ( IT.NDC9 LIKE '?'
+              OR IT.NDC9 IS NULL )
+            AND ( IT.ITEM_CATEGORY LIKE '?'
+              OR IT.ITEM_CATEGORY IS NULL )
+            AND ( IT.ITEM_TYPE LIKE '?'
+                   OR IT.ITEM_TYPE IS NULL )
+
+
+                   
+		]]>
+    </sql>
+    <sql id="getLatestApproved">
+		<![CDATA[
+         SELECT TOP(1) PROJECTION_MASTER_SID,FORECASTING_TYPE
+FROM   projection_master PM
+where IS_APPROVED='A'
+ORDER  BY modified_date DESC ;
+
+
+		]]>
+    </sql> 
+    <sql id="Load IFP Status">
+		<![CDATA[
+         SELECT DISTINCT HT.HELPER_TABLE_SID,  HT.DESCRIPTION
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HT
+         ON IFP.IFP_STATUS = HT.HELPER_TABLE_SID 
+		 AND HT.DESCRIPTION like '?' 
+ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+ 
+
+		]]>
+    </sql>
+    <sql id="Load IFP Status Count">
+		<![CDATA[
+          select COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HT
+         ON IFP.IFP_STATUS  = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+ 
+
+		]]>
+    </sql>
+    <sql id="Load IFP TYPE">
+		<![CDATA[
+         SELECT DISTINCT HT.HELPER_TABLE_SID,  HT.DESCRIPTION
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HT
+         ON IFP.IFP_TYPE = HT.HELPER_TABLE_SID
+		 AND HT.DESCRIPTION LIKE '?'
+ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+ 
+
+		]]>
+    </sql>
+    <sql id="Load IFP TYPE Count">
+		<![CDATA[
+          select COUNT(DISTINCT HT.HELPER_TABLE_SID)
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HT
+         ON IFP.IFP_TYPE  = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?';
+ 
+
+		]]>
+    </sql>  
+   
+    <sql id="LoadIdentifierType Count">
+		<![CDATA[
+                SELECT COUNT(*) FROM (SELECT DISTINCT IQ.ITEM_QUALIFIER_SID,
+                IQ.ITEM_QUALIFIER_VALUE
+FROM   ITEM_MASTER IM
+       JOIN ITEM_IDENTIFIER ID
+         ON ID.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       JOIN ITEM_QUALIFIER IQ
+         ON IQ.ITEM_QUALIFIER_SID = ID.ITEM_QUALIFIER_SID
+         AND IQ.ITEM_QUALIFIER_VALUE LIKE '?' ) co
+
+		]]>
+    </sql> 
+    <sql id="LoadIdentifierType">
+		<![CDATA[
+               SELECT DISTINCT IQ.ITEM_QUALIFIER_SID,
+                IQ.ITEM_QUALIFIER_VALUE
+FROM   ITEM_MASTER IM
+       JOIN ITEM_IDENTIFIER ID
+         ON ID.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       JOIN ITEM_QUALIFIER IQ
+         ON IQ.ITEM_QUALIFIER_SID = ID.ITEM_QUALIFIER_SID
+         AND IQ.ITEM_QUALIFIER_VALUE LIKE '?'
+GROUP  BY IQ.ITEM_QUALIFIER_SID, IQ.ITEM_QUALIFIER_VALUE ORDER BY IQ.ITEM_QUALIFIER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+		]]>
+    </sql>
+    
+    
+    <sql id="CCP Insert">
+		<![CDATA[
+           INSERT into CCP_DETAILS (CONTRACT_MASTER_SID,COMPANY_MASTER_SID,ITEM_MASTER_SID) 
+select
+CONTRACT_MASTER_SID, CFP_CD.COMPANY_MASTER_SID, '?' as Item
+from GCM_GLOBAL_DETAILS GCM
+JOIN CFP_CONTRACT_DETAILS CFP_CD on CFP_CD.CFP_CONTRACT_SID=GCM.CFP_CONTRACT_SID
+where GCm.SESSION_ID='?'
+and GCm.OPERATION='SUMMARY'
+and gcm.CHECK_RECORD=1
+and gcm.MODULE_NAME='ITEM_MANAGEMENT'
+
+		]]>
+    </sql>
+    <sql id="Load Alias Type Count">
+		<![CDATA[
+         SELECT COUNT( DISTINCT HT.HELPER_TABLE_SID)
+FROM   CONTRACT_ALIAS_MASTER CONT
+       JOIN HELPER_TABLE HT
+         ON CONT.CONTRACT_ALIAS_TYPE = HT.HELPER_TABLE_SID
+AND HT.DESCRIPTION like '?' ;
+
+
+		]]>
+    </sql>
+     <sql id="Load Alias Type">
+		<![CDATA[
+         SELECT DISTINCT HT.HELPER_TABLE_SID,HT.DESCRIPTION
+FROM   CONTRACT_ALIAS_MASTER CONT
+       JOIN HELPER_TABLE HT
+         ON CONT.CONTRACT_ALIAS_TYPE = HT.HELPER_TABLE_SID
+         AND HT.DESCRIPTION like '?' 
+ORDER BY HT.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+		]]>
+    </sql>
+</custom-sql>

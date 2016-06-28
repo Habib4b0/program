@@ -1,0 +1,132 @@
+<VerticalLayout margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent">
+    
+    <HorizontalLayout id="hLayout" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout" width="100%" height="100%">
+            <Label id="dosesPerUnitLB" value="Doses Per Unit" contentMode="HTML" />
+            <TextField id="dosesPerUnit" inputPrompt="" />
+            <Label id="shelfLifeLB" value="Shelf Life" contentMode="HTML" />
+            <TextField id="shelfLife" inputPrompt="" />
+            <Label id="shelfLifeTypeLB" value="Shelf Life Type" contentMode="HTML" />
+            <ComboBox id="shelfLifeType" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" />
+            <Label id="lastLotExpirationDateLB" value="Last Lot Expiration Date"
+                   contentMode="HTML" />
+            <PopupDateField id="lastLotExpirationDate" />
+            
+            <Label id="authorizedGenericLB" value="Authorized Generic Indicator"
+                   contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="authorizedGenericIndicator"
+                         immediate="true" enable="true" styleName = "horizontal" />
+                            
+              
+            <Label id="pediatricExclusiveIndicatorLB" value="Pediatric Exclusive Indicator"
+                   contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="pediatricIndicator"
+                         immediate="true" enable="true" styleName = "horizontal" />
+            
+            
+            <Label id="clottingFactorIndicatorLB" value="Clotting Factor Indicator"
+                   contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="clottingFactorIndicator"
+                         immediate="true" enable="true" styleName = "horizontal" />
+            
+            
+            <Label id="dualPricingIndicatorLB" value="Dual Pricing Indicator"
+                   contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="dualPricingIndicator"
+                         immediate="true" enable="true" styleName = "horizontal" />      
+            
+            
+            <Label id="authorizedGenericStartDateLB" value="Authorized Generic Start Date"
+                                  contentMode="HTML" />
+            <PopupDateField id="genericStartDate" />
+            
+            
+            <Label id="pediatricExclusiveStartDateLB" value="Pediatric Start Date"
+                         contentMode="HTML" />
+            <PopupDateField id="pediatricStartDate" />
+            
+            
+            <Label id="clottingFactorStartDateLB" value="Clotting Factor Start Date"
+                         contentMode="HTML" />
+            <PopupDateField id="clottingFactorStartDate" />
+            
+            <Label id="discontinuationDateLB" value="Discountinuation Date"
+                         contentMode="HTML" />
+            <PopupDateField id="discontinuationDate" />
+            
+            <Label id="authorizedGenericEndDateLB" value="Authorized Generic End Date"
+                         contentMode="HTML" />
+            <PopupDateField id="authorizedGenericEndDate" />
+            
+            
+            <Label id="pediatricExclusiveEndDateLB" value="Pediatric End Date"
+                         contentMode="HTML" />
+            <PopupDateField id="pediatricEndDate" />
+            
+            <Label id="clottingFactorEndDateLB" value="Clotting Factor End Date"
+                   contentMode="HTML" />
+            <PopupDateField id="clottingFactorEndDate" />
+            
+            <Label id="divestitureDateLB" value="Divestiture Date"
+                         contentMode="HTML" />
+            <PopupDateField id="divestitureDate" />
+            
+            
+            <Label id="newFormulationIndicatorLB" value="New Formulation Indicator"
+                   contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="newFormulationIndicator"
+                         immediate="true" enable="true" styleName = "horizontal" />   
+            
+            <Label id="baselineAmpLB" value="Baseline AMP" contentMode="HTML" />
+            <TextField id="baselineAmp" inputPrompt="" />
+            
+            <Label id="acquisitionDateLB" value="Acquisition Date"
+                    contentMode="HTML" />
+            <PopupDateField id="acquisitionDate" />
+            
+            <Label id="nonFederalExpirationDateLB" value="Non-Federal Expiration Date"
+                    contentMode="HTML" />
+            <PopupDateField id="nonFederalExpirationDate" />
+            
+            <Label id="baseCpiLB" value="Base CPI" contentMode="HTML" />
+            <TextField id="baseCpi" inputPrompt="" />
+            
+            <Label id="acquiredAmpLB" value="Acquired AMP" contentMode="HTML" />
+            <TextField id="acquiredAmp" inputPrompt="" />
+          
+            
+            <Label id="marketTerminationDateLB" value="Market Termination Date"
+                   contentMode="HTML" />
+            <PopupDateField id="marketTerminationDate" />
+            
+            <Label id="newFormulationStartDateLB" value="New Form Start Date"
+                   contentMode="HTML" />
+            <PopupDateField id="newFormStartDate" />
+            
+            <Label id="baseCpiPeriodLB" value="Base CPI Period"
+                   contentMode="HTML" />
+            <PopupDateField id="baseCpiPeriod" />
+            
+            --
+            
+            <Label id="acquiredBampLB" value="Acquired BAMP" contentMode="HTML" />
+            <TextField id="acquiredBamp" inputPrompt="" />
+            
+            
+            <Label id="newFormulationEndDateLB" value="New Form End Date"
+                   contentMode="HTML" />
+            <PopupDateField id="newFormEndDate" />
+            
+            
+            <Label id="draLB" value="DRA" contentMode="HTML" />
+            <TextField id="dra" inputPrompt="" />
+            
+            <Label id="obraBampLB" value="OBRA BAMP" contentMode="HTML" />
+            <TextField id="ObraBamp" inputPrompt="" />
+            
+            
+        </CssLayout>
+    </HorizontalLayout>
+        
+</VerticalLayout>

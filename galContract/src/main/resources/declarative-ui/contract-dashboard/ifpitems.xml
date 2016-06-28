@@ -1,0 +1,119 @@
+<VerticalLayout margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield"  xmlns:e="urn:import:org.asi.ui.extfilteringtable" xmlns:ef="urn:import:com.stpl.ifs.ui">
+    <VerticalLayout>
+    <HorizontalLayout id="hLayout1" styleName="responsiveTabGrid" margin="false">
+            <Label id="levelLB" value="Level" contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="level" immediate="true" enable="true" styleName = "horizontal"/>
+            <Label id="viewLB" value="View"  contentMode="HTML" />
+            <OptionGroup multiSelect="false" id="view" immediate="true" enable="true" styleName = "horizontal"/>
+    </HorizontalLayout>
+    </VerticalLayout>
+    <Panel id="infoPanel" >
+        <VerticalLayout margin="true" spacing="false" width="100%" height="100%">
+        <HorizontalLayout id="hLayout" margin="true" styleName="responsiveTabGrid">
+        
+            <CssLayout id="cssLayout" width="100%" height="100%">
+        
+                <Label id="itemFamilyplanIdLB" value="IFP ID" styleName= "mandatory" contentMode="HTML" />
+                <TextField id="itemFamilyplanId" inputPrompt="" />
+        
+                <Label id="itemFamilyplanNoLB" value="IFP No" styleName= "mandatory" contentMode="HTML" />
+                <TextField id="itemFamilyplanNo" inputPrompt="" />
+        
+                <Label id="itemFamilyplanNameLB" value="IFP Name" styleName= "mandatory" contentMode="HTML" />
+                <TextField id="itemFamilyplanName" inputPrompt="" />
+        
+        
+                    
+                <Label id="itemFamilyplanStatusLB" value="IFP Status" styleName= "mandatory" contentMode="HTML" />
+                <ComboBox id="itemFamilyplanStatus" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" /> 
+
+
+                <Label id="itemFamilyplanStartDateLB" styleName= "mandatory" value="IFP Start Date"
+                   contentMode="HTML" />
+                <PopupDateField id="itemFamilyplanStartDate" />  
+                    
+            
+                <Label id="itemFamilyplanEndDateLB" value="IFP End Date"
+                   contentMode="HTML" />
+                <PopupDateField id="ifpEndDate" />  
+                    
+                    
+                <Label id="itemFamilyplanDesignationLB" value="IFP Designation" contentMode="HTML" />
+                <ComboBox id="ifpDesignation" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" /> 
+            
+                <Label id="parentItemFamilyplanIdLB" value="Parent IFP ID" contentMode="HTML"  />
+                <b:CustomTextField id="parentIfpId" styleName="searchicon" />
+                                       
+                <Label id="parentItemFamilyplanNameLB" value="Parent IFP Name" contentMode="HTML"  />
+                <b:CustomTextField id="parentIfpName" styleName="searchicon" /> 
+            
+                <Label id="itemFamilyplanTypeLB" value="IFP Type" contentMode="HTML" />
+                <ComboBox id="ifpType" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" /> 
+            
+            
+                <Label id="createdByLB" value="Created By" contentMode="HTML" />
+                <TextField id="createdBy" inputPrompt="" />
+        
+                <Label id="createdDateLB" value="Created Date"
+                   contentMode="HTML" />
+                <PopupDateField id="createdDate" />  
+            
+                <Label id="itemFamilyplanCategoryLB" value="IFP Category" contentMode="HTML" />
+                <ComboBox id="ifpCategory" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" />     
+            
+                <Label id="modifiedByLB" value="Modified By" contentMode="HTML" />
+                <TextField id="modifiedBy" inputPrompt="" />
+        
+        
+                <Label id="modifiedDateLB" value="Modified Date"
+                   contentMode="HTML" />
+                <PopupDateField id="modifiedDate" />  
+            </CssLayout>
+        </HorizontalLayout>
+        </VerticalLayout>
+    </Panel>
+    <Panel  id="tablePanel" styleName="custom-margin" margin="true" >
+        <VerticalLayout id="tableLayout" spacing="false" margin="false" immediate="true" styleName="responsiveTabGrid" >
+        </VerticalLayout>
+    </Panel>
+ <VerticalLayout id="itemsLayout" spacing="true" styleName="custom-margin" width="100%" height="100%" >
+  <Panel caption="Mass Update" id="massPanel" spacing="true"  >
+   <VerticalLayout spacing="true" margin="true">
+    <HorizontalLayout  id="massLayout" styleName="responsiveTabGrid">
+        <CssLayout id="itemsCssLayout" width="100%" height="100%">
+            <OptionGroup multiSelect="false" id="massCheck"
+                             immediate="true" enable="true" styleName = "horizontal"/>
+            <ComboBox id="massField" nullSelectionAllowed="false"
+                           inputPrompt="-Select One" immediate="true" /> 
+                              
+            <PopupDateField id="massDate" />  
+            <ComboBox id="massValue" nullSelectionAllowed="false"
+                                        inputPrompt="-Select One" immediate="true" />   
+            <Button id="btnPopulate" caption="Populate" />
+            <Button id="btnAllPopulate" caption="Populate All" />
+        </CssLayout>
+    </HorizontalLayout>
+   </VerticalLayout>
+    </Panel>
+    <HorizontalLayout spacing="true" >
+        <Label value="Record: "  contentMode="HTML" immediate="true"  />
+        <OptionGroup multiSelect="true" id="record" immediate="true" enable="true" styleName = "horizontal"/>
+    </HorizontalLayout>
+                 
+    <Panel caption="Results" >
+    	<VerticalLayout id="resultsTableLayout" spacing="true">
+        </VerticalLayout>
+    </Panel> 
+    
+    <HorizontalLayout id="paginationLayout"  />    
+     <HorizontalLayout>      
+       <Button id="remove" caption="Remove" />
+     </HorizontalLayout>
+
+</VerticalLayout>
+  <Button id="excelBtn" immediate="true" />
+</VerticalLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="dsVerticalLayout" spacing="true"
+                    margin="true" immediate="true"  styleName="width-auto" >
+        <Panel id="csPanel" caption="Methodology Details">
+            <VerticalLayout id="vLayout" spacing="true" margin="true" immediate="true">
+                            <GridLayout spacing="true"  margin="false" immediate="true" columns="2" rows="1">
+                                <GridLayout spacing="true"  margin="false" immediate="true" columns="1" rows="4">
+                                    <Label caption=" " contentMode="HTML" />
+                                    <!--<Label caption=" " contentMode="HTML" />-->
+                                    <Label caption="Sales: " contentMode="HTML" styleName="pmpy-label2" />
+                                    <Label caption="Payments: " contentMode="HTML" styleName="pmpy-label2"/>
+<!--                                    <Label caption="Actual GTS: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Projected GTS: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Actual Payments: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Actual Rate: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Projected Payment: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Projected Rate: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Accrual: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Auto Accruals " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Manual Adjustments " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Payment True-Up " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Other " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Accrual Rate:" contentMode="HTML" styleName="pmpy-label"/>-->
+                                </GridLayout>
+                                <VerticalLayout id="tableLayout" spacing="true" margin="false" immediate="true">
+                                    <!--                        <b:ExtFilterTable id="pmpyTable" pageLength="5" immediate="true" selectable="true" styleName="table-header-normal"/>                                        -->
+                                </VerticalLayout>
+                            </GridLayout>
+                            <HorizontalLayout spacing="true" margin="false" immediate="true">
+                                <Button id="submitMethodBtn" caption="SELECT" alignment="BOTTOM_RIGHT" />                            
+                            </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

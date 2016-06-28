@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<custom-sql>
+    <sql id="na.saveToMainTable">
+		<![CDATA[
+UPDATE dbo.NA_PROJ_MASTER set MODIFIED_DATE = CURRENT_TIMESTAMP where NA_PROJ_MASTER_SID=?PID;
+   
+ MERGE PHS_PROJ AS TARGET
+		USING ( 
+		SELECT NA_PROJ_DETAILS_SID,
+		PERIOD_SID,
+		PRICE_TYPE,
+		PROJECTION_PRICE,
+		ADJUSTMENT,
+		NOTES
+		FROM dbo.ST_PHS_PROJ
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.NA_PROJ_DETAILS_SID=SOURCE.NA_PROJ_DETAILS_SID
+                    AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+                    AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.PROJECTION_PRICE=SOURCE.PROJECTION_PRICE,
+		TARGET.ADJUSTMENT=SOURCE.ADJUSTMENT,
+		TARGET.NOTES=SOURCE.NOTES
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 		
+                INSERT ( NA_PROJ_DETAILS_SID,
+           PERIOD_SID,
+           PRICE_TYPE,
+           PROJECTION_PRICE,
+           ADJUSTMENT,
+           NOTES )
+  VALUES(SOURCE.NA_PROJ_DETAILS_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.PROJECTION_PRICE,
+         SOURCE.ADJUSTMENT,
+         SOURCE.NOTES );
+                 
+MERGE PHS_ACTUALS AS TARGET
+		USING ( 
+		SELECT NA_PROJ_DETAILS_SID,
+		PERIOD_SID,
+		PRICE_TYPE,
+		ACTUAL_PRICE,
+		NOTES
+		FROM dbo.ST_PHS_ACTUALS
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.NA_PROJ_DETAILS_SID=SOURCE.NA_PROJ_DETAILS_SID
+                  AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+                    AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.ACTUAL_PRICE=SOURCE.ACTUAL_PRICE,
+		TARGET.NOTES=SOURCE.NOTES
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT ( NA_PROJ_DETAILS_SID,
+           PERIOD_SID,
+           PRICE_TYPE,
+           ACTUAL_PRICE,
+           NOTES )
+  VALUES(SOURCE.NA_PROJ_DETAILS_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.ACTUAL_PRICE,
+         SOURCE.NOTES );
+                  
+MERGE FCP_ACTUALS AS TARGET
+		USING ( 
+		SELECT NA_PROJ_DETAILS_SID,
+		PERIOD_SID,
+		PRICE_TYPE,
+		ACTUAL_PRICE,
+		NOTES
+		FROM dbo.ST_FCP_ACTUALS
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.NA_PROJ_DETAILS_SID=SOURCE.NA_PROJ_DETAILS_SID
+                    AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+                    AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.ACTUAL_PRICE=SOURCE.ACTUAL_PRICE,
+		TARGET.NOTES=SOURCE.NOTES
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT ( NA_PROJ_DETAILS_SID,
+           PERIOD_SID,
+           PRICE_TYPE,
+           ACTUAL_PRICE,
+           NOTES )
+  VALUES(SOURCE.NA_PROJ_DETAILS_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.ACTUAL_PRICE,
+         SOURCE.NOTES );
+                
+                
+MERGE FCP_PROJ AS TARGET
+		USING ( 
+		SELECT NA_PROJ_DETAILS_SID,
+		PERIOD_SID,
+		PRICE_TYPE,
+		PROJECTION_PRICE,
+		ADJUSTMENT,
+		NOTES
+		FROM dbo.ST_FCP_PROJ
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.NA_PROJ_DETAILS_SID=SOURCE.NA_PROJ_DETAILS_SID
+                AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+                AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.PROJECTION_PRICE=SOURCE.PROJECTION_PRICE,
+		TARGET.ADJUSTMENT=SOURCE.ADJUSTMENT,
+		TARGET.NOTES=SOURCE.NOTES
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 		
+  INSERT ( NA_PROJ_DETAILS_SID,
+           PERIOD_SID,
+           PRICE_TYPE,
+           PROJECTION_PRICE,
+           ADJUSTMENT,
+           NOTES )
+  VALUES(SOURCE.NA_PROJ_DETAILS_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.PROJECTION_PRICE,
+         SOURCE.ADJUSTMENT,
+         SOURCE.NOTES );
+                
+MERGE MEDICAID_URA_ACTUALS AS TARGET
+		USING ( 
+		SELECT NA_PROJ_DETAILS_SID,
+		PERIOD_SID,
+		PRICE_TYPE,
+		ACTUAL_PRICE,
+		BASE_YEAR,
+		NOTES,
+                ALT_BASE_YEAR
+		FROM dbo.ST_MEDICAID_URA_ACTUALS
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.NA_PROJ_DETAILS_SID=SOURCE.NA_PROJ_DETAILS_SID
+                AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+                AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.ACTUAL_PRICE=SOURCE.ACTUAL_PRICE,
+		TARGET.BASE_YEAR=SOURCE.BASE_YEAR,
+		TARGET.NOTES=SOURCE.NOTES,
+                TARGET.ALT_BASE_YEAR=SOURCE.ALT_BASE_YEAR
+                
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 		
+  INSERT ( NA_PROJ_DETAILS_SID,
+           PERIOD_SID,
+           PRICE_TYPE,
+           ACTUAL_PRICE,
+           BASE_YEAR,
+           NOTES,
+           ALT_BASE_YEAR )
+  VALUES(SOURCE.NA_PROJ_DETAILS_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.ACTUAL_PRICE,
+         SOURCE.BASE_YEAR,
+         SOURCE.NOTES,
+         SOURCE.ALT_BASE_YEAR );
+
+ MERGE MEDICAID_URA_PROJ AS TARGET
+		USING ( 
+		SELECT NA_PROJ_DETAILS_SID,
+		PERIOD_SID,
+		PRICE_TYPE,
+		PROJECTION_PRICE,
+		ADJUSTMENT,
+		NOTES
+		FROM dbo.ST_MEDICAID_URA_PROJ
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.NA_PROJ_DETAILS_SID=SOURCE.NA_PROJ_DETAILS_SID
+                    AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+                    AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.PROJECTION_PRICE=SOURCE.PROJECTION_PRICE,
+		TARGET.ADJUSTMENT=SOURCE.ADJUSTMENT,
+		TARGET.NOTES=SOURCE.NOTES
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		 
+  INSERT ( NA_PROJ_DETAILS_SID,
+           PERIOD_SID,
+           PRICE_TYPE,
+           PROJECTION_PRICE,
+           ADJUSTMENT,
+           NOTES )
+  VALUES(SOURCE.NA_PROJ_DETAILS_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.PROJECTION_PRICE,
+         SOURCE.ADJUSTMENT,
+         SOURCE.NOTES );
+       
+    MERGE NATIONAL_ASSUMPTIONS_ACTUALS AS TARGET
+                USING 
+                (SELECT ITEM_MASTER_SID, 
+                PERIOD_SID,
+                PRICE_TYPE,
+                ACTUAL_PRICE
+                FROM   dbo.ST_NATIONAL_ASSUMPTIONS_ACTUALS
+                WHERE  USER_ID=?UID AND SESSION_ID=?SID
+                ) AS SOURCE(ITEM_MASTER_SID,
+                PERIOD_SID,
+                PRICE_TYPE,
+                ACTUAL_PRICE)
+                ON ( TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID 
+                    AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID
+                    AND TARGET.PRICE_TYPE = SOURCE.PRICE_TYPE)
+                
+                WHEN MATCHED THEN
+                UPDATE SET TARGET.PERIOD_SID = SOURCE.PERIOD_SID,
+                TARGET.PRICE_TYPE = SOURCE.PRICE_TYPE,
+                TARGET.ACTUAL_PRICE = SOURCE.ACTUAL_PRICE
+                
+                WHEN NOT MATCHED BY TARGET THEN
+  INSERT (ITEM_MASTER_SID,
+          PERIOD_SID,
+          PRICE_TYPE,
+          ACTUAL_PRICE )
+  VALUES(SOURCE.ITEM_MASTER_SID,
+         SOURCE.PERIOD_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.ACTUAL_PRICE );
+           
+                
+    MERGE NATIONAL_ASSUMPTIONS_PROJ AS TARGET
+		USING ( 
+		SELECT ITEM_MASTER_SID,
+		PRICE_TYPE,
+		PERIOD_SID,		
+		PROJECTION_PRICE
+		FROM dbo.ST_NATIONAL_ASSUMPTIONS_PROJ
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE (ITEM_MASTER_SID,
+		PRICE_TYPE,
+		PERIOD_SID,		
+		PROJECTION_PRICE)
+		ON (TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID
+                    AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID
+                    AND TARGET.PRICE_TYPE = SOURCE.PRICE_TYPE)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 		
+		TARGET.PROJECTION_PRICE=SOURCE.PROJECTION_PRICE
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		
+  INSERT ( ITEM_MASTER_SID,
+           PRICE_TYPE,
+           PERIOD_SID,
+           PROJECTION_PRICE )
+  VALUES(SOURCE.ITEM_MASTER_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.PERIOD_SID,
+         SOURCE.PROJECTION_PRICE );
+                
+                
+MERGE NATIONAL_ASSUMPTIONS AS TARGET
+		USING ( 
+		SELECT NA_PROJ_MASTER_SID,
+                PRICE_TYPE,
+                BASELINE_METHODOLOGY,
+                FORECAST_METHODOLOGY,
+                BASELINE_PERIOD,
+                ROLLING_PERIOD,
+		START_PERIOD,
+		END_PERIOD,
+		GROWTH_RATE,
+		FREQUENCY,
+                PRICE_BASIS
+		FROM dbo.ST_NATIONAL_ASSUMPTIONS
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE (NA_PROJ_MASTER_SID,
+                PRICE_TYPE,
+                BASELINE_METHODOLOGY,
+                FORECAST_METHODOLOGY,
+                BASELINE_PERIOD,
+                ROLLING_PERIOD,
+		START_PERIOD,
+		END_PERIOD,
+		GROWTH_RATE,
+		FREQUENCY,
+                PRICE_BASIS )
+		ON (TARGET.NA_PROJ_MASTER_SID=SOURCE.NA_PROJ_MASTER_SID 
+                  AND TARGET.START_PERIOD=SOURCE.START_PERIOD 
+                  AND TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE 
+                  AND TARGET.END_PERIOD=SOURCE.END_PERIOD)
+
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PRICE_TYPE=SOURCE.PRICE_TYPE, 
+		TARGET.BASELINE_METHODOLOGY=SOURCE.BASELINE_METHODOLOGY, 
+		TARGET.FORECAST_METHODOLOGY=SOURCE.FORECAST_METHODOLOGY,
+                TARGET.BASELINE_PERIOD=SOURCE.BASELINE_PERIOD,
+                TARGET.ROLLING_PERIOD=SOURCE.ROLLING_PERIOD,
+				TARGET.START_PERIOD=SOURCE.START_PERIOD,
+				TARGET.END_PERIOD=SOURCE.END_PERIOD,
+				TARGET.GROWTH_RATE=SOURCE.GROWTH_RATE,
+				TARGET.FREQUENCY=SOURCE.FREQUENCY,
+                                TARGET.PRICE_BASIS=SOURCE.PRICE_BASIS
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		
+  INSERT ( NA_PROJ_MASTER_SID,
+           PRICE_TYPE,
+           BASELINE_METHODOLOGY,
+           FORECAST_METHODOLOGY,
+           BASELINE_PERIOD,
+           ROLLING_PERIOD,
+           START_PERIOD,
+           END_PERIOD,
+           GROWTH_RATE,
+           FREQUENCY,
+           PRICE_BASIS )
+  VALUES(SOURCE.NA_PROJ_MASTER_SID,
+         SOURCE.PRICE_TYPE,
+         SOURCE.BASELINE_METHODOLOGY,
+         SOURCE.FORECAST_METHODOLOGY,
+         SOURCE.BASELINE_PERIOD,
+         SOURCE.ROLLING_PERIOD,
+         SOURCE.START_PERIOD,
+         SOURCE.END_PERIOD,
+         SOURCE.GROWTH_RATE,
+         SOURCE.FREQUENCY,
+         SOURCE.PRICE_BASIS );
+                
+               UPDATE dbo.NA_PROJ_MASTER set SAVE_FLAG = 1 where NA_PROJ_MASTER_SID=?PID;
+                
+		]]>
+    </sql>
+    <sql id="na.saveTempNdcToMainTable">
+        <![CDATA[
+        
+                MERGE MEDICAID_NEW_NDC AS TARGET
+		USING (
+		SELECT NDC9,
+                WAC_PRICE,
+                BASE_YEAR_AMP,
+                BASE_YEAR_CPI,
+                FORECAST_AMP,
+		FORECAST_BESTPRICE
+		FROM dbo.ST_MEDICAID_NEW_NDC
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE (NDC9,
+                WAC_PRICE,
+                BASE_YEAR_AMP,
+                BASE_YEAR_CPI,
+                FORECAST_AMP,
+				FORECAST_BESTPRICE )
+		ON (TARGET.NDC9=SOURCE.NDC9)
+
+		WHEN MATCHED
+		THEN
+		UPDATE SET
+		TARGET.NDC9=SOURCE.NDC9,
+		TARGET.WAC_PRICE=SOURCE.WAC_PRICE,
+		TARGET.BASE_YEAR_AMP=SOURCE.BASE_YEAR_AMP,
+                TARGET.BASE_YEAR_CPI=SOURCE.BASE_YEAR_CPI,
+                TARGET.FORECAST_AMP=SOURCE.FORECAST_AMP,
+				TARGET.FORECAST_BESTPRICE=SOURCE.FORECAST_BESTPRICE
+		
+		WHEN NOT MATCHED BY TARGET
+		THEN
+		INSERT VALUES(SOURCE.NDC9,
+		SOURCE.WAC_PRICE,
+		SOURCE.BASE_YEAR_AMP,
+                SOURCE.BASE_YEAR_CPI,
+                SOURCE.FORECAST_AMP,
+		SOURCE.FORECAST_BESTPRICE
+		);
+                
+                MERGE FEDERAL_NEW_NDC AS TARGET
+		USING (
+		SELECT ITEM_MASTER_SID,
+                WAC_PRICE,
+                NON_FAMP,
+                FSS
+		FROM dbo.ST_FEDERAL_NEW_NDC
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE (ITEM_MASTER_SID,
+                WAC_PRICE,
+                NON_FAMP,
+                FSS)
+		ON (TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID)
+
+		WHEN MATCHED
+		THEN
+		UPDATE SET
+		TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID,
+		TARGET.WAC_PRICE=SOURCE.WAC_PRICE,
+		TARGET.NON_FAMP=SOURCE.NON_FAMP,
+                TARGET.FSS=SOURCE.FSS
+
+		WHEN NOT MATCHED BY TARGET
+		THEN
+		INSERT VALUES(SOURCE.ITEM_MASTER_SID,
+		SOURCE.WAC_PRICE,
+		SOURCE.NON_FAMP,
+                SOURCE.FSS
+		);
+                
+                ]]>
+    </sql>
+                 
+    <sql id="na.dleteTemp">
+		<![CDATA[
+		DELETE FROM dbo.ST_PHS_PROJ WHERE USER_ID=?UID AND SESSION_ID=?SID;
+		DELETE FROM dbo.ST_PHS_ACTUALS WHERE USER_ID=?UID AND SESSION_ID=?SID;
+                
+                DELETE FROM dbo.ST_FCP_PROJ WHERE USER_ID=?UID AND SESSION_ID=?SID;
+		DELETE FROM dbo.ST_FCP_ACTUALS WHERE USER_ID=?UID AND SESSION_ID=?SID;
+                DELETE FROM dbo.ST_MEDICAID_URA_PROJ WHERE USER_ID=?UID AND SESSION_ID=?SID;
+		DELETE FROM dbo.ST_MEDICAID_URA_ACTUALS WHERE USER_ID=?UID AND SESSION_ID=?SID;
+                DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS WHERE USER_ID=?UID AND SESSION_ID=?SID;
+                DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS_PROJ WHERE USER_ID=?UID AND SESSION_ID=?SID;
+		DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS_ACTUALS WHERE USER_ID=?UID AND SESSION_ID=?SID;
+                                
+                DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE USER_ID=?UID AND SESSION_ID=?SID;
+                DELETE FROM dbo.ST_FEDERAL_NEW_NDC WHERE USER_ID=?UID AND SESSION_ID=?SID;
+		]]>
+    </sql>
+     <sql id="na.clearTemp">
+		<![CDATA[
+		DELETE FROM dbo.ST_PHS_PROJ WHERE LAST_MODIFIED_DATE<'?LD';
+		DELETE FROM dbo.ST_PHS_ACTUALS WHERE LAST_MODIFIED_DATE<'?LD';
+                
+	        DELETE FROM dbo.ST_FCP_PROJ WHERE LAST_MODIFIED_DATE<'?LD';
+		DELETE FROM dbo.ST_FCP_ACTUALS WHERE LAST_MODIFIED_DATE<'?LD';
+                
+                DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS WHERE LAST_MODIFIED_DATE<'?LD';
+                DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS_PROJ WHERE LAST_MODIFIED_DATE<'?LD';
+		DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS_ACTUALS WHERE LAST_MODIFIED_DATE<'?LD';
+               
+		DELETE FROM dbo.ST_MEDICAID_URA_PROJ WHERE LAST_MODIFIED_DATE<'?LD';
+		DELETE FROM dbo.ST_MEDICAID_URA_ACTUALS WHERE LAST_MODIFIED_DATE<'?LD';
+                DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE LAST_MODIFIED_DATE<'?LD';
+                DELETE FROM dbo.ST_FEDERAL_NEW_NDC WHERE LAST_MODIFIED_DATE<'?LD';
+		]]>
+    </sql>
+    
+          <sql id="na.tempInsert">
+		<![CDATA[
+INSERT INTO ST_NATIONAL_ASSUMPTIONS (
+                NA_PROJ_MASTER_SID,
+                PRICE_TYPE,
+                BASELINE_METHODOLOGY,
+                FORECAST_METHODOLOGY,
+                BASELINE_PERIOD,
+                ROLLING_PERIOD,
+                START_PERIOD,
+		END_PERIOD,
+		GROWTH_RATE,
+		FREQUENCY,
+		USER_ID,
+		SESSION_ID,
+		LAST_MODIFIED_DATE,
+                PRICE_BASIS)
+		SELECT NA_PROJ_MASTER_SID,
+                PRICE_TYPE,
+                BASELINE_METHODOLOGY,
+                FORECAST_METHODOLOGY,
+                BASELINE_PERIOD,
+                ROLLING_PERIOD,
+                START_PERIOD,
+		END_PERIOD,
+		GROWTH_RATE,
+		FREQUENCY,
+                	?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE,
+                        PRICE_BASIS
+		FROM dbo.NATIONAL_ASSUMPTIONS
+		WHERE NA_PROJ_MASTER_SID=?PID;
+                
+INSERT INTO ST_MEDICAID_NEW_NDC (
+            NDC9,
+             WAC_PRICE,
+             BASE_YEAR_AMP,
+             BASE_YEAR_CPI,
+             FORECAST_AMP,
+             FORECAST_BESTPRICE,
+             USER_ID,
+             SESSION_ID,
+             LAST_MODIFIED_DATE)
+SELECT MN.NDC9,
+       WAC_PRICE,
+       BASE_YEAR_AMP,
+       BASE_YEAR_CPI,
+       FORECAST_AMP,
+       FORECAST_BESTPRICE,
+       ?UID USER_ID,
+       ?SID SESSION_ID,
+       '?LD' LAST_MODIFIED_DATE
+FROM   dbo.MEDICAID_NEW_NDC MN
+WHERE  EXISTS (SELECT 1
+               FROM   NA_PROJ_DETAILS PD
+                      INNER JOIN ITEM_MASTER IM
+                              ON PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               WHERE  MN.NDC9 = IM.NDC9
+                      AND NA_PROJ_MASTER_SID = ?PID)
+       AND NOT EXISTS (SELECT 1
+                       FROM   ITEM_MASTER IM
+                              INNER JOIN ITEM_PRICING IP
+                                      ON IM.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+                              INNER JOIN ITEM_PRICING_QUALIFIER IPQ
+                                      ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                              INNER JOIN NA_PROJ_DETAILS NPD
+                                      ON NPD.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+                       WHERE  mn.NDC9 = IM.NDC9
+                              AND NPD.NA_PROJ_MASTER_SID = ?PID
+                              AND IPQ.PRICING_QUALIFIER IN ( 'AMP', 'BP' )
+                       GROUP  BY IP.ITEM_MASTER_SID
+                       HAVING Count(DISTINCT IPQ.PRICING_QUALIFIER) <> 2);
+                      
+INSERT INTO ST_FEDERAL_NEW_NDC (
+                ITEM_MASTER_SID,
+             WAC_PRICE,
+             NON_FAMP,
+             FSS,
+             USER_ID,
+             SESSION_ID,
+             LAST_MODIFIED_DATE) 
+ SELECT FNN.ITEM_MASTER_SID,
+       WAC_PRICE,
+       NON_FAMP,
+       FSS,
+       ?UID    USER_ID,
+       ?SID SESSION_ID,
+       '?LD' LAST_MODIFIED_DATE
+FROM   dbo.FEDERAL_NEW_NDC FNN
+WHERE  EXISTS (SELECT 1
+               FROM   NA_PROJ_DETAILS PD
+                      INNER JOIN ITEM_MASTER IM
+                              ON PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               WHERE  FNN.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                      AND NA_PROJ_MASTER_SID = ?PID)
+       AND NOT EXISTS (SELECT 1
+                       FROM   ITEM_MASTER IM
+                              INNER JOIN ITEM_PRICING IP
+                                      ON IM.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+                              INNER JOIN ITEM_PRICING_QUALIFIER IPQ
+                                      ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+                              INNER JOIN NA_PROJ_DETAILS NPD
+                                      ON NPD.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+                       WHERE  FNN.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                              AND NPD.NA_PROJ_MASTER_SID = ?PID
+                              AND IPQ.PRICING_QUALIFIER IN ( 'QNON-FAMP', 'QFSS' )
+                       GROUP  BY IP.ITEM_MASTER_SID
+                       HAVING Count(DISTINCT IPQ.PRICING_QUALIFIER) <> 2);
+                                                                                      
+INSERT INTO ST_MEDICAID_URA_ACTUALS (
+			NA_PROJ_DETAILS_SID,
+			PERIOD_SID,
+                        PRICE_TYPE,
+                        ACTUAL_PRICE,
+                        BASE_YEAR,
+                        NOTES,
+			USER_ID,
+			SESSION_ID,
+			LAST_MODIFIED_DATE,
+                        ALT_BASE_YEAR)
+		SELECT A.NA_PROJ_DETAILS_SID,
+			A.PERIOD_SID,
+                        A.PRICE_TYPE,
+                        A.ACTUAL_PRICE,
+                        A.BASE_YEAR,
+                        A.NOTES, 
+			?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE,
+                        A.ALT_BASE_YEAR
+		FROM dbo.MEDICAID_URA_ACTUALS A,
+			dbo.NA_PROJ_DETAILS B
+		WHERE A.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
+			AND B.NA_PROJ_MASTER_SID=?PID;
+
+
+
+INSERT INTO ST_MEDICAID_URA_PROJ (
+			NA_PROJ_DETAILS_SID,
+			PERIOD_SID,
+                        PRICE_TYPE,
+                        PROJECTION_PRICE,
+                        ADJUSTMENT,
+                        NOTES,
+			USER_ID,
+			SESSION_ID,
+			LAST_MODIFIED_DATE)
+		SELECT A.NA_PROJ_DETAILS_SID,
+			A.PERIOD_SID,
+                        A.PRICE_TYPE,
+                        A.PROJECTION_PRICE,
+                        A.ADJUSTMENT,
+                        A.NOTES,
+			?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE 
+		FROM dbo.MEDICAID_URA_PROJ A,
+			dbo.NA_PROJ_DETAILS B
+		WHERE A.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
+			AND B.NA_PROJ_MASTER_SID=?PID;
+                        
+                 
+
+INSERT INTO ST_FCP_ACTUALS (
+			NA_PROJ_DETAILS_SID,
+			PERIOD_SID,
+                        PRICE_TYPE,
+		        ACTUAL_PRICE,
+		        NOTES,
+			USER_ID,
+			SESSION_ID,
+			LAST_MODIFIED_DATE)
+		SELECT A.NA_PROJ_DETAILS_SID,
+			A.PERIOD_SID,
+                        A.PRICE_TYPE,
+                        A.ACTUAL_PRICE,
+                        A.NOTES, 
+			?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE 
+		FROM dbo.FCP_ACTUALS A,
+			dbo.NA_PROJ_DETAILS B
+		WHERE A.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
+			AND B.NA_PROJ_MASTER_SID=?PID;
+              
+INSERT INTO ST_FCP_PROJ (
+			NA_PROJ_DETAILS_SID,
+			PERIOD_SID,
+                        PRICE_TYPE,
+                        PROJECTION_PRICE,
+                        ADJUSTMENT,
+                        NOTES,
+			USER_ID,
+			SESSION_ID,
+			LAST_MODIFIED_DATE)
+		SELECT A.NA_PROJ_DETAILS_SID,
+			A.PERIOD_SID,
+                        A.PRICE_TYPE,
+                        A.PROJECTION_PRICE,
+                        A.ADJUSTMENT,
+                        A.NOTES,
+			?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE 
+		FROM dbo.FCP_PROJ A,
+			dbo.NA_PROJ_DETAILS B
+		WHERE A.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
+			AND B.NA_PROJ_MASTER_SID=?PID;
+                        
+           
+
+INSERT INTO ST_PHS_ACTUALS (
+			NA_PROJ_DETAILS_SID,
+			PERIOD_SID,
+                        PRICE_TYPE,
+		        ACTUAL_PRICE,
+		        NOTES,
+			USER_ID,
+			SESSION_ID,
+			LAST_MODIFIED_DATE)
+		SELECT A.NA_PROJ_DETAILS_SID,
+			A.PERIOD_SID,
+                        A.PRICE_TYPE,
+                        A.ACTUAL_PRICE,
+                        A.NOTES, 
+			?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE 
+		FROM dbo.PHS_ACTUALS A,
+			dbo.NA_PROJ_DETAILS B
+		WHERE A.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
+			AND B.NA_PROJ_MASTER_SID=?PID;
+
+  
+           
+INSERT INTO ST_PHS_PROJ (
+			NA_PROJ_DETAILS_SID,
+			PERIOD_SID,
+                        PRICE_TYPE,
+                        PROJECTION_PRICE,
+                        ADJUSTMENT,
+                        NOTES,
+			USER_ID,
+			SESSION_ID,
+			LAST_MODIFIED_DATE)
+		SELECT A.NA_PROJ_DETAILS_SID,
+			A.PERIOD_SID,
+                        A.PRICE_TYPE,
+                        A.PROJECTION_PRICE,
+                        A.ADJUSTMENT,
+                        A.NOTES,
+			?UID USER_ID,
+			?SID SESSION_ID,
+			'?LD' LAST_MODIFIED_DATE 
+		FROM dbo.PHS_PROJ A,
+			dbo.NA_PROJ_DETAILS B
+		WHERE A.NA_PROJ_DETAILS_SID=B.NA_PROJ_DETAILS_SID
+			AND B.NA_PROJ_MASTER_SID=?PID;
+
+                ]]>
+          </sql>
+          
+          <sql id="getNaPriceTypes">
+           <![CDATA[   
+              SELECT DISTINCT NA_PROJ_MASTER_SID, 
+                PRICE_TYPE, 
+                BASELINE_METHODOLOGY, 
+                FORECAST_METHODOLOGY, 
+                GROWTH_RATE, 
+                START_PERIOD, 
+                END_PERIOD, 
+                BASELINE_PERIOD, 
+                ROLLING_PERIOD,
+        	FREQUENCY,
+                PRICE_BASIS
+                FROM   ST_NATIONAL_ASSUMPTIONS 
+                WHERE 
+            ]]>          
+            </sql>
+                        
+<sql id="getNdcList">
+            <![CDATA[                   
+            SELECT  NDC9, WAC_PRICE,BASE_YEAR_AMP, BASE_YEAR_CPI,FORECAST_AMP, FORECAST_BESTPRICE 
+            FROM ST_MEDICAID_NEW_NDC  WHERE 
+            ]]>
+     </sql>
+ <sql id="getFederalList">
+            <![CDATA[                   
+            SELECT  SFN.ITEM_MASTER_SID,IM.ITEM_NO, SFN.WAC_PRICE,SFN.NON_FAMP,SFN.FSS
+            FROM ST_FEDERAL_NEW_NDC SFN JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = SFN.ITEM_MASTER_SID  WHERE 
+            ]]>
+   </sql>
+   <sql id="getMedicaidNdcDesc">
+            <![CDATA[                   
+          SELECT IM.NDC9,
+              ITEM_DESC=CASE
+                          WHEN Count(DISTINCT im.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
+                          ELSE (SELECT TOP 1 ITEM_DESC
+                                FROM   ITEM_MASTER I
+                                WHERE  IM.NDC9 = I.NDC9)
+                        END
+                                    
+       FROM             ITEM_MASTER IM
+       WHERE IM.NDC9 ='?NDC9'
+       GROUP  BY IM.NDC9,
+                 IM.ITEM_DESC
+            ]]>
+   </sql>     
+   <sql id="getFederalNdcDesc">
+            <![CDATA[                   
+          SELECT IM.ITEM_NO,
+                 ITEM_NAME             
+                 FROM   ITEM_MASTER IM
+       WHERE IM.ITEM_MASTER_SID ='?IMID'
+            ]]>
+   </sql>    
+   
+   <sql id="getNewNdcCount">
+            <![CDATA[   DECLARE @NA_PROJ_MASTER_SID INT=?PID
+            
+    SELECT NPD.ITEM_MASTER_SID
+    FROM NA_PROJ_DETAILS NPD 
+LEFT OUTER JOIN ITEM_PRICING IP 
+    ON NPD.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+LEFT OUTER JOIN ITEM_PRICING_QUALIFIER IPQ
+     ON IP.ITEM_PRICING_QUALIFIER_SID = IPQ.ITEM_PRICING_QUALIFIER_SID
+    AND IPQ.PRICING_QUALIFIER IN ('AMP', 'BP', 'QNON-FAMP', 'QFSS' )
+    WHERE  NPD.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+    GROUP  BY NPD.ITEM_MASTER_SID
+    HAVING COUNT(DISTINCT IPQ.PRICING_QUALIFIER) <> 4
+            
+            ]]>
+   </sql>      
+   <sql          
+        id="UpdateBaseYearAdustments">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @USER_ID   INT=?UID,
+        @SESSION_ID   INT=?SID
+        
+UPDATE IM
+SET    IM.ALT_BASELINE_AMP = A.ALT_BASELINE_AMP,
+       IM.ALT_BASE_CPI = A.ALT_BASE_CPI
+FROM   ITEM_MASTER IM
+       INNER JOIN (SELECT Min(CASE
+                                WHEN PRICE_TYPE = 'AMP' THEN ALT_BASE_YEAR
+                              END) ALT_BASELINE_AMP,
+                          Min(CASE
+                                WHEN PRICE_TYPE = 'CPI-U' THEN ALT_BASE_YEAR
+                              END) ALT_BASE_CPI,
+                          IM.NDC9
+                   FROM   ITEM_MASTER IM
+                          INNER JOIN NA_PROJ_DETAILS NPD
+                                  ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                          INNER JOIN ST_MEDICAID_URA_ACTUALS MA
+                                  ON MA.NA_PROJ_DETAILS_SID = NPD.NA_PROJ_DETAILS_SID
+                   WHERE  NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+                          AND USER_ID = @USER_ID
+                          AND SESSION_ID = @SESSION_ID
+                          AND MA.PRICE_TYPE IN ( 'CPI-U', 'AMP' )
+                   GROUP  BY IM.NDC9)A
+               ON IM.NDC9 = A.NDC9 
+       
+       ]]>
+
+    </sql> 
+</custom-sql>

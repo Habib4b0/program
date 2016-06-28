@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:p="urn:import:com.stpl.app.gcm.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="parentVerticalLayout" spacing="true" margin="true" immediate="true">
+        <p:ErrorLabel id="errorMsg"/>
+        <Panel caption="Company Information:" spacing="true" margin="true" immediate="true">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <VerticalLayout>
+                    <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true"  id="gridLayout1" immediate="true" columns="6" rows="2">
+                            <Label value="Company ID: " id="companyIdLabel" contentMode="HTML"  width="114px" />
+                            <TextField id="companyId" immediate="true" />
+                            <Label value="Company NO: " id="companyNoLabel" contentMode="HTML" width="117px" />
+                            <TextField id="companyNo" immediate="true" />
+                            <Label value="Company Name: " id="companyNameLabel" contentMode="HTML" width="134px"/>
+                            <TextField id="companyName"   immediate="true" />
+                            <Label value="Company Status: " id="comapnyStatusLabel" contentMode="HTML" width="134px" />
+                            <ComboBox id="comapnyStatus" immediate="true" width="205px"/>
+                            <Label value="Company Start Date:" id="companyStartDateLabel" width="158px" contentMode="HTML"  />
+                            <PopupDateField id="companyStartDate" immediate="true"/>
+                            <Label value="Company Type: "  id="companyTypeLabel" contentMode="HTML" width="125px"  />
+                            <ComboBox id="companyType" immediate="true" width="205px"/>
+                         </GridLayout>
+					</HorizontalLayout>
+				     <HorizontalLayout>
+                     <Button id="infoResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </HorizontalLayout>
+        </Panel>
+          
+        <Panel caption="Company Identifier Information:" spacing="true" margin="true" immediate="true">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <VerticalLayout>
+                    <HorizontalLayout id="horizontalLayout2" spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true"  id="gridLayout2" immediate="true" columns="6" rows="2">
+                            <Label value="Company Qualifier Name : " id="qualifierNameLabel" width="205px" contentMode="HTML"  />
+                            <ComboBox id="qualifierName" immediate="true" width="205px"/>
+                            <Label value="Company Identifier: " id="companyIdentifierLabel"  width="205px" contentMode="HTML"  />
+                            <TextField id="companyIdentifier" immediate="true" />
+                            <Label value="Identifier Status: " id="identifierStatusLabel"  width="205px" contentMode="HTML"  />
+                            <ComboBox id="identifierStatus" immediate="true" width="205px"/>
+                            <Label value=" Start Date:"  id="startDateLabel" contentMode="HTML"  />
+                            <PopupDateField id="startDate" immediate="true"/>
+                            <Label value="End Date:" id="endDateLabel" contentMode="HTML"   />
+                            <PopupDateField id="endDate" immediate="true"  />
+                        </GridLayout>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing = "true" margin = "true" immediate="true">
+                        <GridLayout spacing="true" immediate="true" columns="4" rows="1">
+                            <Button id="identifierAttachBtn" caption="Attach" alignment="BOTTOM_LEFT" />
+                            <Button id="identifierResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                        </GridLayout>
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </HorizontalLayout>
+            
+        </Panel>
+        
+        <Panel id="companyIdentifierResults" caption="Company Identifier Results">
+            <VerticalLayout>
+                
+                <a:ExtFilterTable id="identifierResults"  styleName="table-header-normal"  immediate="true" />
+                <GridLayout spacing="true" immediate="true" columns="4" rows="1">
+                    <Button id="identifierRemoveBtn" caption="Remove" alignment="BOTTOM_LEFT" />
+                     <Button id="identifierTableResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                </GridLayout>    
+                        
+            </VerticalLayout>
+        </Panel>
+        
+        
+        <Panel caption="Company Trade Class Information:" spacing="true" margin="true" immediate="true">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <VerticalLayout>
+                    <HorizontalLayout id="horizontalLayout3" spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true"  id="gridLayout3" immediate="true" columns="6" rows="1">
+                            <Label value="Trade Class : "  id="tradeClassLabel"  contentMode="HTML"  width="205px" />
+                            <ComboBox id="tradeClass" immediate="true" width="205px"/>
+                            <Label value="Trade Class Start Date:" id="tradeStartDateLabel"   width="168px" contentMode="HTML"  />
+                            <PopupDateField id="tradeStartDate" immediate="true"/>
+                            <Label value="Trade Class End Date:" id="tradeEndDateLabel"  width="168px" contentMode="HTML"  />
+                            <PopupDateField id="tradeEndDate" immediate="true"/>
+                        </GridLayout>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing = "true" margin = "true" immediate="true">
+                        <GridLayout spacing="true" immediate="true" columns="4" rows="1">
+                            <Button id="tradeAttachBtn" caption="Attach" alignment="BOTTOM_LEFT" />
+                            <Button id="tradeResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                        </GridLayout>
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </HorizontalLayout>
+            
+        </Panel>  
+        <Panel id="tradeClassresults" caption="Trade Class Results">
+            <VerticalLayout>
+                
+                <a:ExtFilterTable id="tradeResults"  styleName="table-header-normal"  immediate="true" />
+                <GridLayout spacing="true" immediate="true" columns="2" rows="1">
+                    <Button id="tradeRemoveBtn" caption="Remove" alignment="BOTTOM_LEFT" />
+                     <Button id="tradeTableResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                </GridLayout>    
+                        
+            </VerticalLayout>
+        </Panel>
+              
+     <VerticalLayout>
+       <GridLayout spacing="true" immediate="true" columns="2" rows="1">
+        <Button id="companyAdd" caption="Add" alignment="BOTTOM_LEFT" />
+       </GridLayout>    
+                        
+            </VerticalLayout>   
+    </VerticalLayout>
+    
+</Panel>

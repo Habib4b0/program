@@ -1,0 +1,166 @@
+package com.stpl.app.security.busineessRoleMgmt.logic;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.stpl.app.model.BusinessroleMaster;
+import com.stpl.app.model.impl.BusinessroleMasterImpl;
+import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
+import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
+import com.stpl.app.security.dao.BusinessRoleMgmtLogicDAO;
+import com.stpl.app.security.dao.impl.BusinessRoleMgmtLogicDAOImpl;
+import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.portal.kernel.dao.orm.Criterion;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.util.BeanItemContainer;
+
+public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterDTO>{
+	private static final Logger LOGGER = LogManager
+			.getLogger(BusinessRoleMgmtLogic.class.getName());
+    public BusinessRoleMgmtLogic() {
+        super(BusinessroleMasterDTO.class);
+
+    }
+ BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
+
+    public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException,
+            PortalException {
+    	DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
+				.forClass(BusinessroleMaster.class);
+    	Criterion criterion = RestrictionsFactoryUtil.eq("isActive", "Y");
+    	criterion = RestrictionsFactoryUtil.or(criterion , RestrictionsFactoryUtil.isNull("isActive"));
+    	businessroleMasterDynamicQuery.add(criterion);
+		@SuppressWarnings("unchecked")
+		List<BusinessroleMaster> list = dao.getBusinessroleMasterList(businessroleMasterDynamicQuery);                
+        List<BusinessroleMasterDTO> searchList = new ArrayList<BusinessroleMasterDTO>();
+//        List<BusinessroleMaster> list1 = BusinessroleMasterLocalServiceUtil
+//                .getBusinessroleMasters(0, BusinessroleMasterLocalServiceUtil.getBusinessroleMastersCount());
+        searchList = getCustomizedListFromModel(list);
+
+        return searchList;
+    }
+
+    public List<BusinessroleMasterDTO> getCustomizedListFromModel(
+            List<BusinessroleMaster> list) {
+        List<BusinessroleMasterDTO> searchItemList = new ArrayList<BusinessroleMasterDTO>();
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                BusinessroleMasterDTO businessroleMasterDTO = new BusinessroleMasterDTO();
+                BusinessroleMaster businessroleMaster = (BusinessroleMaster) list.get(i);
+                businessroleMasterDTO.setCreatedBy(businessroleMaster.getCreatedBy());
+                businessroleMasterDTO.setCreatedDate(CommonUtils.convertDateToString(businessroleMaster.getCreatedDate()));
+                businessroleMasterDTO.setHierarchyLevel(String.valueOf(businessroleMaster.getHierarchyLevel()));
+                businessroleMasterDTO.setUserId(businessroleMaster.getUsersSid());
+                businessroleMasterDTO.setProcessed(businessroleMaster.getProcessed());
+                businessroleMasterDTO.setBusinessroleName(businessroleMaster.getBusinessroleName());
+                businessroleMasterDTO.setModifiedBy(businessroleMaster.getModifiedBy());
+                businessroleMasterDTO.setModifiedDate(CommonUtils.convertDateToString(businessroleMaster.getModifiedDate()));
+                businessroleMasterDTO.setBusinessroleDesc(businessroleMaster.getBusinessroleDesc());
+                businessroleMasterDTO.setBusinessroleMasterSid(businessroleMaster.getBusinessroleMasterSid());
+                businessroleMasterDTO.setIsActive(businessroleMaster.getIsActive());
+                businessroleMasterDTO.setSystemId(String.valueOf(businessroleMaster.getBusinessroleMasterSid()));
+                searchItemList.add(businessroleMasterDTO);
+
+            }
+        }
+        return searchItemList;
+    }
+
+	public String saveBusinessRoleMgmt(ErrorfulFieldGroup searchBusinessRoleForm) {
+		
+		if(searchBusinessRoleForm.getField("businessroleMasterSid").getValue()!=null && !"0".equals(searchBusinessRoleForm.getField("businessroleMasterSid").getValue().toString())){
+			updateBusinessRoleMgmt(searchBusinessRoleForm);
+			return "success";
+		}else{
+			return addBusinessRoleMgmt(searchBusinessRoleForm);
+		}
+		
+		
+	}
+
+	private void updateBusinessRoleMgmt(
+			ErrorfulFieldGroup searchBusinessRoleForm) {
+		String businessroleDesc=searchBusinessRoleForm.getField("businessroleDesc").getValue().toString();
+		String businessroleName=searchBusinessRoleForm.getField("businessroleName").getValue().toString();
+		String hierarchyLevel=searchBusinessRoleForm.getField("hierarchyLevel").getValue().toString();
+		Integer businessroleMasterSid =  Integer.parseInt(searchBusinessRoleForm.getField("businessroleMasterSid").getValue().toString());
+		try {
+			BusinessroleMaster businessroleMaster = BusinessroleMasterLocalServiceUtil.fetchBusinessroleMaster(businessroleMasterSid);
+			businessroleMaster.setBusinessroleDesc(businessroleDesc);
+			businessroleMaster.setBusinessroleName(businessroleName);
+			businessroleMaster.setHierarchyLevel(Integer.parseInt(hierarchyLevel));
+			businessroleMaster.setModifiedDate(new Date());
+			dao.updateBusinessRoleMgmt(businessroleMaster);
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+                       
+			LOGGER.error(e);
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+                  
+			LOGGER.error(e);
+		}
+	}
+
+	private String addBusinessRoleMgmt(ErrorfulFieldGroup searchBusinessRoleForm) {
+		BusinessroleMaster businessroleMaster = BusinessroleMasterLocalServiceUtil.createBusinessroleMaster(0);
+                LOGGER.info("addBusinessRoleMgmt");
+		String businessroleDesc=searchBusinessRoleForm.getField("businessroleDesc").getValue().toString();
+		String businessroleName=searchBusinessRoleForm.getField("businessroleName").getValue().toString();
+		String hierarchyLevel=searchBusinessRoleForm.getField("hierarchyLevel").getValue().toString();
+		businessroleMaster.setBusinessroleName(businessroleName);
+		businessroleMaster.setBusinessroleDesc(businessroleDesc);
+		businessroleMaster.setHierarchyLevel(Integer.parseInt(hierarchyLevel));
+		businessroleMaster.setCreatedDate(new Date());
+                businessroleMaster.setModifiedDate(new Date());
+                businessroleMaster.setCreatedBy(0);
+                businessroleMaster.setModifiedBy(0);
+		businessroleMaster.setIsActive("Y");
+		try {
+			DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
+					.forClass(BusinessroleMaster.class);
+	    	businessroleMasterDynamicQuery.add(RestrictionsFactoryUtil.eq("businessroleName", businessroleName));
+			@SuppressWarnings("unchecked")
+			List<BusinessroleMaster> list = dao.getBusinessroleMasterList(businessroleMasterDynamicQuery);
+			if(list!=null && list.size()>0){
+				return "already exists";
+			}
+	        dao.saveBusinessRoleMgmt(businessroleMaster);
+			return "success";
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+                    
+			LOGGER.error(e);
+			return null;
+		}
+                catch (Exception e) {
+			// TODO Auto-generated catch block
+                   
+			LOGGER.error(e);
+			return null;
+		}
+		
+	}
+
+	public void deleteBusinessRole(int businessroleMasterSid) {
+		try {
+			BusinessroleMaster businessroleMaster = dao.getBusinessRoleUsingId(businessroleMasterSid);
+			businessroleMaster.setIsActive("N");
+			dao.updateBusinessRoleMgmt(businessroleMaster);
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error(e);
+		}
+		
+	}
+
+}

@@ -1,0 +1,3317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+ 
+    <sql id="Load contract Item">
+		<![CDATA[
+     SELECT DISTINCT Temp.PROJECTION_MASTER_SID
+      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                 Temp.PRice_protection_START_date,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP.IFP_CONTRACT_SID,
+                TEMP.PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                  ST.DESCRIPTION AS ST1,
+                 PTT.DESCRIPTION AS ST2,
+                  PTF.DESCRIPTION AS ST3,
+                   PT.DESCRIPTION AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( CM.CONTRACT_TYPE LIKE '?'
+                        OR CM.CONTRACT_TYPE IS NULL )
+      LEFT JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+ LEFT JOIN HELPER_TABLE PTT
+         ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+         LEFT JOIN HELPER_TABLE PTF
+         ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+         LEFT JOIN HELPER_TABLE PT
+         ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval         
+       JOIN CFP_CONTRACT CCT
+         ON Temp.cfP_contract_sid = CCT.cfP_contract_sid
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp.IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp.PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ?
+ORDER  BY TEMP.PROJECTION_MASTER_SID
+ 
+
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+		]]>
+    </sql>
+    <sql id="Item Load contract Count">
+		<![CDATA[
+     SELECT Count (*)
+FROM   (  SELECT DISTINCT Temp.PROJECTION_MASTER_SID
+      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                 Temp.PRice_protection_START_date,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP.IFP_CONTRACT_SID,
+                TEMP.PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                  ST.DESCRIPTION AS ST1,
+                 PTT.DESCRIPTION AS ST2,
+                  PTF.DESCRIPTION AS ST3,
+                   PT.DESCRIPTION AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+ LEFT JOIN HELPER_TABLE PTT
+         ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+         LEFT JOIN HELPER_TABLE PTF
+         ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+         LEFT JOIN HELPER_TABLE PT
+         ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval         
+       JOIN CFP_CONTRACT CCT
+         ON Temp.cfP_contract_sid = CCT.cfP_contract_sid
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp.IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp.PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ? ) IHG 
+		]]>
+    </sql>
+    <sql id="ProjectionTransferItemCountQuery">
+		<![CDATA[
+     SELECT Count (*)
+FROM   ( SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                Temp.PRice_protection_START_date,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP.PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            and Temp.item_master_sid in (?)
+            AND Temp.session_id = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.SUB_MODULE_NAME = '?'
+            AND Temp.MODULE_NAME ='ITEM_MANAGEMENT'
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+      LEFT JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+      LEFT JOIN CFP_CONTRACT CCT
+         ON Temp.cfP_contract_sid = CCT.cfP_contract_sid
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp.IFP_contract_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp.PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' )?) IHG 
+		]]>
+    </sql>
+    <sql id="ProjectionTransferItemDataQuery">
+		<![CDATA[
+     SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                 Temp.PRice_protection_START_date,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP.IFP_CONTRACT_SID,
+                TEMP.PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                  ST.DESCRIPTION AS ST1,
+                 PTT.DESCRIPTION AS ST2,
+                  PTF.DESCRIPTION AS ST3,
+                   PT.DESCRIPTION AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            and Temp.item_master_sid in (?)
+            AND Temp.session_id = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.SUB_MODULE_NAME = '?'
+            AND Temp.MODULE_NAME ='ITEM_MANAGEMENT'
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+      LEFT JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+ LEFT JOIN HELPER_TABLE PTT
+         ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+         LEFT JOIN HELPER_TABLE PTF
+         ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+         LEFT JOIN HELPER_TABLE PT
+         ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval         
+       JOIN CFP_CONTRACT CCT
+         ON Temp.cfp_contract_sid = CCT.cfP_contract_sid
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp.IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp.PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ?
+ORDER  BY TEMP.PROJECTION_MASTER_SID 
+
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+		]]>
+    </sql>
+
+    <sql id="Abstract Data update For Add">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    ? = ?
+WHERE  CONTRACT_MASTER_SID = ?
+       AND CFP_CONTRACT_SID = ?
+       AND IFP_CONTRACT_SID = ?
+       AND PS_CONTRACT_SID = ?
+       AND RS_CONTRACT_SID = ?
+       AND SESSION_ID = '?'
+      
+       AND OPERATION = '?' 
+       
+		]]>
+    </sql>
+    <sql id="Abstract Data update">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    ? = ?
+WHERE  CONTRACT_MASTER_SID = ?
+       AND CFP_CONTRACT_SID = ?
+       AND  IFP_CONTRACT_SID = ?
+       AND PS_CONTRACT_SID = ?
+       AND RS_CONTRACT_SID = ?
+       AND SESSION_ID = '?'
+       AND PROJECTION_MASTER_SID='?'
+       AND ITEM_MASTER_SID='?'
+       AND OPERATION = '?' 
+       
+		]]>
+    </sql>
+ 
+
+    <sql id="Abstract Data update CheckRecord For Add">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    ? = ?
+WHERE  CONTRACT_MASTER_SID = ?
+       AND CFP_CONTRACT_SID = ?
+       AND IFP_CONTRACT_SID = ?
+       AND PS_CONTRACT_SID = ?
+       AND RS_CONTRACT_SID = ?
+       AND SESSION_ID = '?'
+      AND( OPERATION = '?' OR  OPERATION = 'SUMMARY')
+       
+		]]>
+    </sql>
+    <sql id="Abstract Data update CheckRecord">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    ? = ?
+WHERE  CONTRACT_MASTER_SID = ?
+       AND CFP_CONTRACT_SID = ?
+       AND IFP_CONTRACT_SID = ?
+       AND PS_CONTRACT_SID = ?
+       AND RS_CONTRACT_SID = ?
+       AND SESSION_ID = '?'
+        AND PROJECTION_MASTER_SID='?'
+        AND ITEM_MASTER_SID='?'
+      AND( OPERATION = '?' OR  OPERATION = 'SUMMARY')
+       
+		]]>
+    </sql>
+  
+    <sql id="Insert Contract For Search1">
+		<![CDATA[
+     INSERT INTO GCM_GLOBAL_DETAILS (ITEM_STATUS, START_DATE, 
+CONTRACT_PRICE_START_DATE, CONTRACT_PRICE_END_DATE, CONTRACT_PRICE
+, PRICE, PRICE_PROTECTION_START_DATE,
+ PRICE_PROTECTION_END_DATE, PRICE_TOLERANCE_TYPE, PRICE_TOLERANCE, PRICE_TOLERANCE_FREQUENCY, PRICE_TOLERANCE_INTERVAL,
+ BASE_PRICE, ITEM_REBATE_START_DATE, ITEM_REBATE_END_DATE, FORMULA_ID, FORMULA_METHOD_ID, REBATE_AMOUNT, CONTRACT_MASTER_SID, 
+CFP_CONTRACT_SID, IFP_CONTRACT_SID, PS_CONTRACT_SID, RS_CONTRACT_SID, ITEM_MASTER_SID, PROJECTION_MASTER_SID, SESSION_ID, OPERATION,SUB_MODULE_NAME, MODULE_NAME,CREATED_DATE
+)
+SELECT DISTINCT  ICD.IFP_CONTRACT_ATTACHED_STATUS  AS CONTRACT_STATUS,
+                ICD.ITEM_START_DATE AS ITEM_START_DATE,
+              
+                PSCD.CONTRACT_PRICE_START_DATE,
+                PSCD.CONTRACT_PRICE_END_DATE,
+                PSCD.CONTRACT_PRICE,
+                PSCD.PRICE,
+                PSCD.PRICE_PROTECTION_START_DATE,
+                PSCD.PRICE_PROTECTION_END_DATE,
+                PSCD.PRICE_TOLERANCE_TYPE,
+                PSCD.PRICE_TOLERANCE,
+                PSCD.PRICE_TOLERANCE_FREQUENCY,
+                PSCD.PRICE_TOLERANCE_INTERVAL,
+                PSCD.BASE_PRICE,
+                RSCD.ITEM_REBATE_START_DATE,
+                RSCD.ITEM_REBATE_END_DATE,
+                RSCD.FORMULA_ID,
+                RSCD.FORMULA_METHOD_ID,
+                RSCD.REBATE_AMOUNT,
+                CM.CONTRACT_MASTER_SID,
+                CCT.CFP_CONTRACT_SID,
+                IFP_CONT.IFP_CONTRACT_SID,
+                PSC.PS_CONTRACT_SID,
+                RSC.RS_CONTRACT_SID,
+                ICD.ITEM_MASTER_SID,
+                PM.PROJECTION_MASTER_SID,
+                '?',
+                '?',
+                '?',
+                'ITEM_MANAGEMENT',getdate()
+FROM   WORKFLOW_MASTER WM
+       JOIN PROJECTION_MASTER PM
+         ON WM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN PROJECTION_DETAILS pd
+         ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN CCP_DETAILS ccp
+         ON pd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+       INNER JOIN CONTRACT_MASTER CM
+               ON cm.CONTRACT_MASTER_SID = ccp.CONTRACT_MASTER_SID
+       INNER JOIN CFP_CONTRACT CCT
+               ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID
+                  AND CM.INBOUND_STATUS <> 'D'
+                  AND CCT.INBOUND_STATUS <> 'D'
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                  AND IFP_CONT.INBOUND_STATUS <> 'D'
+                  AND CM.CONTRACT_MASTER_SID = IFP_CONT.CONTRACT_MASTER_SID
+       INNER JOIN IFP_CONTRACT_DETAILS ICD
+               ON IFP_CONT.IFP_CONTRACT_SID = ICD.IFP_CONTRACT_SID
+                  AND icd.ITEM_MASTER_SID IN( ? )
+                    AND ICD.ITEM_MASTER_SID=ccp.ITEM_MASTER_SID
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+                  AND PSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                  AND PSC.INBOUND_STATUS <> 'D'
+       INNER JOIN PS_CONTRACT_DETAILS PSCD
+               ON PSCD.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+                  AND PSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+            AND RSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+            AND RSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+            AND RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+            AND RSC.INBOUND_STATUS <> 'D'
+       JOIN RS_CONTRACT_DETAILS RSCD
+         ON RSCD.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID
+            AND RSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+ORDER  BY PROJECTION_MASTER_SID 
+;
+		]]>
+    </sql>
+    <sql id="InsertContractDataForProjTransfer">
+		<![CDATA[
+   INSERT INTO GCM_GLOBAL_DETAILS
+            (ITEM_STATUS,
+             START_DATE,
+         
+             CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE,
+             CONTRACT_PRICE,
+             PRICE,
+             PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE,
+             ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE,
+             FORMULA_ID,
+             FORMULA_METHOD_ID,
+             REBATE_AMOUNT,
+             CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+              IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             ITEM_MASTER_SID,
+             PROJECTION_MASTER_SID,
+             SESSION_ID,
+             OPERATION,
+             SUB_MODULE_NAME,
+              MODULE_NAME)
+SELECT DISTINCT  ICD.IFP_CONTRACT_ATTACHED_STATUS  AS CONTRACT_STATUS,
+                ICD.ITEM_START_DATE AS ITEM_START_DATE,
+              
+                PSCD.CONTRACT_PRICE_START_DATE,
+                PSCD.CONTRACT_PRICE_END_DATE,
+                PSCD.CONTRACT_PRICE,
+                PSCD.PRICE,
+                PSCD.PRICE_PROTECTION_START_DATE,
+                PSCD.PRICE_PROTECTION_END_DATE,
+                PSCD.PRICE_TOLERANCE_TYPE,
+                PSCD.PRICE_TOLERANCE,
+                PSCD.PRICE_TOLERANCE_FREQUENCY,
+                PSCD.PRICE_TOLERANCE_INTERVAL,
+                PSCD.BASE_PRICE,
+                RSCD.ITEM_REBATE_START_DATE,
+                RSCD.ITEM_REBATE_END_DATE,
+                RSCD.FORMULA_ID,
+                RSCD.FORMULA_METHOD_ID,
+                RSCD.REBATE_AMOUNT,
+                CM.CONTRACT_MASTER_SID,
+                CCT.CFP_CONTRACT_SID,
+                IFP_CONT.IFP_CONTRACT_SID,
+                PSC.PS_CONTRACT_SID,
+                RSC.RS_CONTRACT_SID,
+                ICD.ITEM_MASTER_SID,
+                PM.PROJECTION_MASTER_SID,
+                '?',
+                '?',
+                '?',
+                'ITEM_MANAGEMENT'
+FROM   WORKFLOW_MASTER WM
+       JOIN PROJECTION_MASTER PM
+         ON WM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN PROJECTION_DETAILS pd
+         ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN CCP_DETAILS ccp
+         ON pd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+       INNER JOIN CONTRACT_MASTER CM
+               ON cm.CONTRACT_MASTER_SID = ccp.CONTRACT_MASTER_SID
+       INNER JOIN CFP_CONTRACT CCT
+               ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID
+                  AND CM.INBOUND_STATUS <> 'D'
+                  AND CCT.INBOUND_STATUS <> 'D'
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                  AND IFP_CONT.INBOUND_STATUS <> 'D'
+                  AND CM.CONTRACT_MASTER_SID = IFP_CONT.CONTRACT_MASTER_SID
+       INNER JOIN IFP_CONTRACT_DETAILS ICD
+               ON IFP_CONT.IFP_CONTRACT_SID = ICD.IFP_CONTRACT_SID
+                  AND icd.ITEM_MASTER_SID IN( ? )
+                    AND ICD.ITEM_MASTER_SID=ccp.ITEM_MASTER_SID
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+                  AND PSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                  AND PSC.INBOUND_STATUS <> 'D'
+       INNER JOIN PS_CONTRACT_DETAILS PSCD
+               ON PSCD.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+                  AND PSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+            AND RSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+            AND RSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+            AND RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+            AND RSC.INBOUND_STATUS <> 'D'
+       JOIN RS_CONTRACT_DETAILS RSCD
+         ON RSCD.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID
+            AND RSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+ORDER  BY PROJECTION_MASTER_SID 
+;
+		]]>
+        </sql>          
+    <sql id="InsertContractDataForProjTransferSearch">
+		<![CDATA[
+   INSERT INTO GCM_GLOBAL_DETAILS
+            (ITEM_STATUS,
+             START_DATE,
+         
+             CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE,
+             CONTRACT_PRICE,
+             PRICE,
+             PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE,
+             ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE,
+             FORMULA_ID,
+             FORMULA_METHOD_ID,
+             REBATE_AMOUNT,
+             CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+              IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             ITEM_MASTER_SID,
+             PROJECTION_MASTER_SID,
+             SESSION_ID,
+             OPERATION,
+             SUB_MODULE_NAME,
+              MODULE_NAME)
+SELECT DISTINCT  ICD.IFP_CONTRACT_ATTACHED_STATUS  AS CONTRACT_STATUS,
+                ICD.ITEM_START_DATE AS ITEM_START_DATE,
+              
+                PSCD.CONTRACT_PRICE_START_DATE,
+                PSCD.CONTRACT_PRICE_END_DATE,
+                PSCD.CONTRACT_PRICE,
+                PSCD.PRICE,
+                PSCD.PRICE_PROTECTION_START_DATE,
+                PSCD.PRICE_PROTECTION_END_DATE,
+                PSCD.PRICE_TOLERANCE_TYPE,
+                PSCD.PRICE_TOLERANCE,
+                PSCD.PRICE_TOLERANCE_FREQUENCY,
+                PSCD.PRICE_TOLERANCE_INTERVAL,
+                PSCD.BASE_PRICE,
+                RSCD.ITEM_REBATE_START_DATE,
+                RSCD.ITEM_REBATE_END_DATE,
+                RSCD.FORMULA_ID,
+                RSCD.FORMULA_METHOD_ID,
+                RSCD.REBATE_AMOUNT,
+                CM.CONTRACT_MASTER_SID,
+                CCT.CFP_CONTRACT_SID,
+                IFP_CONT.IFP_CONTRACT_SID,
+                PSC.PS_CONTRACT_SID,
+                RSC.RS_CONTRACT_SID,
+                ICD.ITEM_MASTER_SID,
+                PM.PROJECTION_MASTER_SID,
+                '?',
+                '?',
+                '?',
+                'ITEM_MANAGEMENT'
+FROM   WORKFLOW_MASTER WM
+       JOIN PROJECTION_MASTER PM
+         ON WM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN PROJECTION_DETAILS pd
+         ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN CCP_DETAILS ccp
+         ON pd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+       INNER JOIN CONTRACT_MASTER CM
+               ON cm.CONTRACT_MASTER_SID = ccp.CONTRACT_MASTER_SID
+       INNER JOIN CFP_CONTRACT CCT
+               ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID
+                  AND CM.INBOUND_STATUS <> 'D'
+                  AND CCT.INBOUND_STATUS <> 'D'
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                  AND IFP_CONT.INBOUND_STATUS <> 'D'
+                  AND CM.CONTRACT_MASTER_SID = IFP_CONT.CONTRACT_MASTER_SID
+       INNER JOIN IFP_CONTRACT_DETAILS ICD
+               ON IFP_CONT.IFP_CONTRACT_SID = ICD.IFP_CONTRACT_SID
+              
+                    AND ICD.ITEM_MASTER_SID=ccp.ITEM_MASTER_SID
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+                  AND PSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                  AND PSC.INBOUND_STATUS <> 'D'
+       INNER JOIN PS_CONTRACT_DETAILS PSCD
+               ON PSCD.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+                  AND PSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+            AND RSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+            AND RSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+            AND RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+          
+       JOIN RS_CONTRACT_DETAILS RSCD
+         ON RSCD.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID
+            AND RSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+ORDER  BY PROJECTION_MASTER_SID 
+;
+		]]>
+    </sql>
+    <sql id="InsertContractDataForProjTransferSearch">
+		<![CDATA[
+   INSERT INTO GCM_GLOBAL_DETAILS
+            (ITEM_STATUS,
+             START_DATE,
+         
+             CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE,
+             CONTRACT_PRICE,
+             PRICE,
+             PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE,
+             ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE,
+             FORMULA_ID,
+             FORMULA_METHOD_ID,
+             REBATE_AMOUNT,
+             CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+              IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             ITEM_MASTER_SID,
+             PROJECTION_MASTER_SID,
+             SESSION_ID,
+             OPERATION,
+             SUB_MODULE_NAME,
+              MODULE_NAME)
+SELECT DISTINCT  ICD.IFP_CONTRACT_ATTACHED_STATUS  AS CONTRACT_STATUS,
+                ICD.ITEM_START_DATE AS ITEM_START_DATE,
+              
+                PSCD.CONTRACT_PRICE_START_DATE,
+                PSCD.CONTRACT_PRICE_END_DATE,
+                PSCD.CONTRACT_PRICE,
+                PSCD.PRICE,
+                PSCD.PRICE_PROTECTION_START_DATE,
+                PSCD.PRICE_PROTECTION_END_DATE,
+                PSCD.PRICE_TOLERANCE_TYPE,
+                PSCD.PRICE_TOLERANCE,
+                PSCD.PRICE_TOLERANCE_FREQUENCY,
+                PSCD.PRICE_TOLERANCE_INTERVAL,
+                PSCD.BASE_PRICE,
+                RSCD.ITEM_REBATE_START_DATE,
+                RSCD.ITEM_REBATE_END_DATE,
+                RSCD.FORMULA_ID,
+                RSCD.FORMULA_METHOD_ID,
+                RSCD.REBATE_AMOUNT,
+                CM.CONTRACT_MASTER_SID,
+                CCT.CFP_CONTRACT_SID,
+                IFP_CONT.IFP_CONTRACT_SID,
+                PSC.PS_CONTRACT_SID,
+                RSC.RS_CONTRACT_SID,
+                ICD.ITEM_MASTER_SID,
+                PM.PROJECTION_MASTER_SID,
+                '?',
+                '?',
+                '?',
+                'ITEM_MANAGEMENT'
+FROM   WORKFLOW_MASTER WM
+       JOIN PROJECTION_MASTER PM
+         ON WM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN PROJECTION_DETAILS pd
+         ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN CCP_DETAILS ccp
+         ON pd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+       INNER JOIN CONTRACT_MASTER CM
+               ON cm.CONTRACT_MASTER_SID = ccp.CONTRACT_MASTER_SID
+       INNER JOIN CFP_CONTRACT CCT
+               ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID
+                  AND CM.INBOUND_STATUS <> 'D'
+                  AND CCT.INBOUND_STATUS <> 'D'
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                  AND IFP_CONT.INBOUND_STATUS <> 'D'
+                  AND CM.CONTRACT_MASTER_SID = IFP_CONT.CONTRACT_MASTER_SID
+       INNER JOIN IFP_CONTRACT_DETAILS ICD
+               ON IFP_CONT.IFP_CONTRACT_SID = ICD.IFP_CONTRACT_SID
+          AND ICD.ITEM_MASTER_SID=ccp.ITEM_MASTER_SID         
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+                  AND PSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                  AND PSC.INBOUND_STATUS <> 'D'
+       INNER JOIN PS_CONTRACT_DETAILS PSCD
+               ON PSCD.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+                  AND PSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+            AND RSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+            AND RSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+            AND RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+       JOIN RS_CONTRACT_DETAILS RSCD
+         ON RSCD.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID
+            AND RSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+ORDER  BY PROJECTION_MASTER_SID 
+;
+		]]>
+    </sql>
+   
+    <sql id="Insert Contract For Transfer">
+		<![CDATA[
+      DECLARE @TEMP_TABLE AS TABLE
+  (
+     CCP_DETAILS_SID       INT,
+     CONTRACT_MASTER_SID   INT,
+     COMPANY_MASTER_SID    INT,
+     ITEM_MASTER_SID       INT,
+     PROJECTION_MASTER_SID INT
+  )
+
+INSERT INTO @TEMP_TABLE
+            (CCP_DETAILS_SID,
+             CONTRACT_MASTER_SID,
+             COMPANY_MASTER_SID,
+             ITEM_MASTER_SID,
+             PROJECTION_MASTER_SID)
+SELECT CCP.CCP_DETAILS_SID,
+       CCP.CONTRACT_MASTER_SID,
+       CCP.COMPANY_MASTER_SID,
+       CCP.ITEM_MASTER_SID,
+       WM.PROJECTION_MASTER_SID
+FROM   WORKFLOW_MASTER WM
+JOIN   PROJECTION_DETAILS PD ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+JOIN   CCP_DETAILS CCP ON pd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+
+DECLARE @TEMP_TABLE_VALID_CONTRACT AS TABLE
+  (
+     CCP_DETAILS_SID       INT,
+     CONTRACT_MASTER_SID   INT,
+     COMPANY_MASTER_SID    INT,
+     ITEM_MASTER_SID       INT,
+     PROJECTION_MASTER_SID INT
+  )
+
+INSERT INTO @TEMP_TABLE_VALID_CONTRACT
+            (CCP_DETAILS_SID,
+             CONTRACT_MASTER_SID,
+             COMPANY_MASTER_SID,
+             ITEM_MASTER_SID,
+             PROJECTION_MASTER_SID)
+SELECT     A.CCP_DETAILS_SID,
+           A.CONTRACT_MASTER_SID,
+           A.COMPANY_MASTER_SID,
+           A.ITEM_MASTER_SID,
+           A.PROJECTION_MASTER_SID
+FROM       @TEMP_TABLE A
+INNER JOIN CONTRACT_MASTER CM ON CM.CONTRACT_MASTER_SID = A.CONTRACT_MASTER_SID
+                             AND CM.INBOUND_STATUS <> 'D'
+
+INSERT INTO GCM_GLOBAL_DETAILS
+            (CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+             IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             ITEM_MASTER_SID,
+             PROJECTION_MASTER_SID,
+             SESSION_ID,
+             OPERATION,
+             SUB_MODULE_NAME,
+             MODULE_NAME,
+             CREATED_DATE)
+SELECT     DISTINCT T.CONTRACT_MASTER_SID,
+                    CCT.CFP_CONTRACT_SID,
+                    IFP_CONT.IFP_CONTRACT_SID,
+                    PSC.PS_CONTRACT_SID,
+                    RSC.RS_CONTRACT_SID,
+                    ICD.ITEM_MASTER_SID,
+                    T.PROJECTION_MASTER_SID,
+                    '?' as SessionId,
+                    '?' as Screen,
+                    '?' as Submo,
+                    'ITEM_MANAGEMENT' as Modu,
+                    Getdate() as Date
+FROM       @TEMP_TABLE_VALID_CONTRACT T
+INNER JOIN CFP_CONTRACT CCT ON T.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID
+                           AND CCT.INBOUND_STATUS <> 'D'
+INNER JOIN CFP_CONTRACT_DETAILS CCT_D ON CCT.CFP_CONTRACT_SID = CCT_D.CFP_CONTRACT_SID
+                                     AND CCT_D.COMPANY_MASTER_SID = T.COMPANY_MASTER_SID
+                                     AND CCT_D.INBOUND_STATUS <> 'D'
+INNER JOIN IFP_CONTRACT IFP_CONT ON IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                                AND IFP_CONT.INBOUND_STATUS <> 'D'
+                                AND T.CONTRACT_MASTER_SID = IFP_CONT.CONTRACT_MASTER_SID
+                                AND IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+INNER JOIN IFP_CONTRACT_DETAILS ICD ON IFP_CONT.IFP_CONTRACT_SID = ICD.IFP_CONTRACT_SID
+                                   AND icd.ITEM_MASTER_SID = T.ITEM_MASTER_SID
+                                   AND icd.INBOUND_STATUS <> 'D'
+INNER JOIN PS_CONTRACT PSC ON PSC.CONTRACT_MASTER_SID = T.CONTRACT_MASTER_SID
+                          AND PSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                          AND psc.CFP_CONTRACT_SID = cct.CFP_CONTRACT_SID
+                          AND PSC.INBOUND_STATUS <> 'D'
+INNER JOIN PS_CONTRACT_DETAILS PSCD ON PSCD.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+                                   AND PSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+                                   AND pscd.INBOUND_STATUS <> 'D'
+JOIN       RS_CONTRACT RSC ON RSC.CONTRACT_MASTER_SID = T.CONTRACT_MASTER_SID
+                          AND RSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                          AND RSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                          AND RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+                          AND RSC.INBOUND_STATUS <> 'D'
+JOIN       RS_CONTRACT_DETAILS RSCD ON RSCD.RS_CONTRACT_SID = RSC.RS_CONTRACT_SID
+                                   AND RSCD.ITEM_MASTER_SID = icd.ITEM_MASTER_SID
+                                   AND RSCD.INBOUND_STATUS <> 'D' order by T.PROJECTION_MASTER_SID 
+		]]>
+    </sql>
+   
+    <sql id="Submit check">
+		<![CDATA[
+SELECT 1
+FROM   GCM_GLOBAL_DETAILS
+WHERE  EXISTS(SELECT *
+              FROM   GCM_GLOBAL_DETAILS
+              WHERE  ITEM_STATUS IS NOT NULL
+                     AND START_DATE IS NOT NULL
+                     AND END_DATE IS NOT NULL
+                     AND CONTRACT_PRICE_START_DATE IS NOT NULL
+                     AND CONTRACT_PRICE_END_DATE IS NOT NULL
+                     AND CONTRACT_PRICE IS NOT NULL
+                     AND PRICE IS NOT NULL
+                     AND PRICE_PROTECTION_START_DATE IS NOT NULL
+                     AND PRICE_PROTECTION_END_DATE IS NOT NULL
+                     AND PRICE_TOLERANCE_TYPE IS NOT NULL
+                     AND PRICE_TOLERANCE IS NOT NULL
+                     AND PRICE_TOLERANCE_FREQUENCY IS NOT NULL
+                     AND PRICE_TOLERANCE_INTERVAL IS NOT NULL
+                     AND BASE_PRICE IS NOT NULL
+                     AND ITEM_REBATE_START_DATE IS NOT NULL
+                     AND ITEM_REBATE_END_DATE IS NOT NULL
+                     AND FORMULA_ID IS NOT NULL
+                     AND FORMULA_METHOD_ID IS NOT NULL
+                     AND REBATE_AMOUNT IS NOT NULL 
+					 AND session_id='?'
+					 AND OPERATION='?'
+					 AND MODULE_NAME='ITEM_MANAGEMENT')  
+		]]>
+    </sql>
+    
+   
+    <sql id="Abstract Mass update">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    ? = '?'
+WHERE 
+        SESSION_ID = '?'
+       AND OPERATION = '?' 
+       AND CHECK_RECORD=1
+		]]>
+    </sql>
+    <sql id="Abstract FieldFactory Values Update">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    ? = ?
+WHERE 
+        SESSION_ID = '?'
+       AND OPERATION = '?' 
+       AND CHECK_RECORD=1
+		]]>
+    </sql>
+   
+    <sql id="Check All contract">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    CHECK_RECORD=?
+WHERE  
+        SESSION_ID = '?'
+       AND OPERATION = '?' 
+         AND MODULE_NAME='ITEM_MANAGEMENT'
+		]]>
+    </sql>
+    <sql id="Submit condition check">
+		<![CDATA[
+SELECT Count(*)
+FROM   (SELECT 1 AS CO
+        FROM   GCM_GLOBAL_DETAILS
+        WHERE  EXISTS(SELECT * FROM GCM_GLOBAL_DETAILS WHERE  
+            (START_DATE IS  NULL  OR ITEM_STATUS IS  NULL OR END_DATE IS NULL
+                                OR CONTRACT_PRICE_START_DATE IS NULL
+                                OR CONTRACT_PRICE IS NULL
+                                OR PRICE IS NULL
+                                OR PRICE_PROTECTION_START_DATE IS NULL
+                                OR PRICE_PROTECTION_END_DATE IS NULL
+                                OR PRICE_TOLERANCE_TYPE IS NULL
+                                OR PRICE_TOLERANCE IS NULL
+                                OR PRICE_TOLERANCE_FREQUENCY IS NULL
+                                OR PRICE_TOLERANCE_INTERVAL IS NULL
+                                OR BASE_PRICE IS NULL
+                                OR ITEM_REBATE_START_DATE IS NULL
+                                OR ITEM_REBATE_END_DATE IS NULL )
+               AND 
+            session_id = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1)) a 
+		]]>
+    </sql>
+    <sql id="Contract Insert Add">
+		<![CDATA[
+INSERT INTO GCM_GLOBAL_DETAILS
+            (CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+              IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             ITEM_MASTER_SID,
+             SESSION_ID,
+             OPERATION,
+             SUB_MODULE_NAME,
+             MODULE_NAME,
+PROJECTION_MASTER_SID,CREATED_DATE)
+SELECT DISTINCT CM.CONTRACT_MASTER_SID,
+                CCT.CFP_CONTRACT_SID,
+                IFP_CONT.IFP_CONTRACT_SID,
+                PSC.PS_CONTRACT_SID,
+                RSC.RS_CONTRACT_SID,
+                ?,
+                '?',
+                '?',
+                '?',
+                'ITEM_MANAGEMENT',PM.PROJECTION_MASTER_SID,getdate()
+FROM   WORKFLOW_MASTER WM
+       JOIN PROJECTION_MASTER PM
+         ON wm.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN PROJECTION_DETAILS PD
+         ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+       JOIN CCP_DETAILS CCP
+         ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+       INNER JOIN CONTRACT_MASTER CM
+               ON CM.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+       INNER JOIN (SELECT CONTRACT_MASTER_SID
+                   FROM   IFP_CONTRACT_DETAILS IFP_CD
+                          INNER JOIN IFP_CONTRACT IFP_CON
+                                  ON IFP_CON.IFP_CONTRACT_SID = IFP_CD.IFP_CONTRACT_SID
+                   GROUP  BY CONTRACT_MASTER_SID
+                   HAVING Count(CASE
+                                  WHEN ITEM_MASTER_SID IN ( ? ) THEN 1
+                                END) = 0) F_CON
+               ON F_CON.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+       INNER JOIN CFP_CONTRACT CCT
+               ON CM.CONTRACT_MASTER_SID = CCT.CONTRACT_MASTER_SID
+                  AND CM.INBOUND_STATUS <> 'D'
+                  AND CCT.INBOUND_STATUS <> 'D'
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                  AND IFP_CONT.INBOUND_STATUS <> 'D'
+                  AND CM.CONTRACT_MASTER_SID = IFP_CONT.CONTRACT_MASTER_SID
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+                  AND PSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                  AND PSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+                  AND PSC.INBOUND_STATUS <> 'D'
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+            AND RSC.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+            AND RSC.IFP_CONTRACT_SID = IFP_CONT.IFP_CONTRACT_SID
+            AND RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID
+            AND RSC.INBOUND_STATUS <> 'D'
+ORDER  BY CONTRACT_MASTER_SID 
+
+
+		]]>
+    </sql>
+    
+    
+    
+    <sql id="Add Load Contract">
+		<![CDATA[
+SELECT DISTINCT    Wm.PROJECTION_MASTER_SID AS projectionId,
+WS.DESCRIPTION AS workflow,
+                 COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                Temp.PRice_protection_start_date,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                 ST.DESCRIPTION AS ST1,
+                 PTT.DESCRIPTION AS ST2,
+                  PTF.DESCRIPTION AS ST3,
+                   PT.DESCRIPTION AS ST4 
+FROM   GCM_GLOBAL_DETAILS Temp JOIN WORKFLOW_MASTER Wm on Wm.PROJECTION_MASTER_SID=Temp.PROJECTION_MASTER_SID
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND ( CM.CONTRACT_MASTER_SID LIKE '?' )
+            AND ( CM.CONTRACT_MASTER_SID LIKE '?' )
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( CM.CONT_HOLD_COMPANY_MASTER_SID LIKE '?'
+                        OR CM.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+                        ?  ?
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( CM.CONTRACT_TYPE LIKE '?'
+                        OR CM.CONTRACT_TYPE IS NULL )
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID 
+            AND ( CCT.CFP_CONTRACT_SID LIKE '?' )
+       JOIN CFP_CONTRACT_DETAILS CFP_CONT
+         ON CFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+            AND ( CFP_CONT.COMPANY_MASTER_SID LIKE '?' )
+            AND ( CFP_CONT.COMPANY_MASTER_SID LIKE '?' )
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+                  AND ( IFP_CONT.IFP_CONTRACT_SID LIKE '?' )
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+                  AND ( PSC.PS_CONTRACT_SID LIKE '?' )
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( RSC.RS_CONTRACT_SID LIKE '?'
+                   OR RSC.RS_CONTRACT_SID IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS 
+LEFT JOIN HELPER_TABLE PTT
+         ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+         LEFT JOIN HELPER_TABLE PTF
+         ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+         LEFT JOIN HELPER_TABLE PT
+         ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval  
+LEFT JOIN HELPER_TABLE WS ON WS.HELPER_TABLE_SID = Wm.WORKFLOW_STATUS_ID ?
+			  order by  TEMP.CONTRACT_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+		]]>
+    </sql>
+    
+    
+    <sql id="Add Load Contract Count">
+		<![CDATA[
+SELECT Count(*)
+FROM   (SELECT DISTINCT Wm.PROJECTION_MASTER_SID AS projectionId,
+WS.DESCRIPTION AS workflow,
+                        COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                        CM.CONTRACT_NO,
+                        CM.CONTRACT_NAME,
+                        Market_Type.DESCRIPTION AS MARKET_TYPE,
+                        CM.START_DATE           AS CM_START,
+                        CM.END_DATE             AS CM_END,
+                        Temp.ITEM_STATUS,
+                        Temp.START_DATE         AS TEM_START,
+                        Temp.END_DATE           AS TEM_END,
+                        Temp.CONTRACT_PRICE_START_DATE,
+                        Temp.CONTRACT_PRICE_END_DATE,
+                        Temp.contract_price,
+                        Temp.price,
+                        Temp.PRice_protection_start_date,
+                        Temp.PRice_protection_end_date,
+                        Temp.price_tolerance_type,
+                        Temp.price_tolerance,
+                        Temp.price_tolerance_frequency,
+                        Temp.price_tolerance_interval,
+                        Temp.base_price,
+                        Temp.ITEM_REBATE_START_DATE,
+                        Temp.ITEM_REBATE_End_DATE,
+                        Temp.formula_id,
+                        Temp.formula_method_id,
+                        Temp.REBATE_AMOUNT,
+                        CFP_M.CFP_NO,
+                        CCT.CFP_NAME,
+                        IFP_M.IFP_NO,
+                        IFP_CONT.IFP_NAME,
+                        PS_M.PS_NO,
+                        PSC.PS_NAME,
+                        RS_M.RS_NO,
+                        RSC.RS_NAME,
+                        'RAR CAT'               AS RARCategory,
+                        Temp.check_record,
+                        TEMP.CONTRACT_MASTER_SID,
+                        TEMP.CFP_CONTRACT_SID,
+                        TEMP. IFP_CONTRACT_SID,
+                        TEMP. PS_CONTRACT_SID,
+                        TEMP.RS_CONTRACT_SID,
+                        Temp.item_master_sid,
+                        ST.DESCRIPTION
+        FROM   GCM_GLOBAL_DETAILS Temp JOIN WORKFLOW_MASTER Wm on Wm.PROJECTION_MASTER_SID=Temp.PROJECTION_MASTER_SID
+               JOIN CONTRACT_MASTER CM
+                 ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+                    AND Temp.session_id = '?'
+                    AND Temp.OPERATION = '?'
+                    AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+                    AND ( CM.CONTRACT_MASTER_SID LIKE '?' )
+                    AND ( CM.CONTRACT_MASTER_SID LIKE '?' )
+               LEFT JOIN COMPANY_MASTER COMP
+                      ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                         AND ( CM.CONT_HOLD_COMPANY_MASTER_SID LIKE '?'
+                                OR CM.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+                                ?  ?
+               LEFT JOIN HELPER_TABLE Market_Type
+                      ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                         AND ( CM.CONTRACT_TYPE LIKE '?'
+                                OR CM.CONTRACT_TYPE IS NULL )
+               JOIN CFP_CONTRACT CCT
+                 ON Temp.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID 
+                    AND ( CCT.CFP_CONTRACT_SID LIKE '?' )
+               JOIN CFP_CONTRACT_DETAILS CFP_CONT
+                 ON CFP_CONT.CFP_CONTRACT_SID = CCT.CFP_CONTRACT_SID
+                    AND ( CFP_CONT.COMPANY_MASTER_SID LIKE '?' )
+                    AND ( CFP_CONT.COMPANY_MASTER_SID LIKE '?' )
+               INNER JOIN CFP_MODEL CFP_M
+                       ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+               INNER JOIN IFP_CONTRACT IFP_CONT
+                       ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+                          AND ( IFP_CONT.IFP_CONTRACT_SID LIKE '?' )
+               INNER JOIN IFP_MODEL IFP_M
+                       ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+               INNER JOIN PS_CONTRACT PSC
+                       ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+                          AND ( PSC.PS_CONTRACT_SID LIKE '?' )
+               INNER JOIN PS_MODEL PS_M
+                       ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+               JOIN RS_CONTRACT RSC
+                 ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+                    AND ( RSC.RS_CONTRACT_SID LIKE '?'
+                           OR RSC.RS_CONTRACT_SID IS NULL )
+               LEFT JOIN RS_MODEL RS_M
+                      ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+               LEFT JOIN HELPER_TABLE ST
+                      ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS 
+LEFT JOIN HELPER_TABLE WS ON WS.HELPER_TABLE_SID = Wm.WORKFLOW_STATUS_ID ?
+) A 
+
+		]]>
+    </sql>
+    
+    <sql id="Submitting the contract">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?'
+
+MERGE GCM_GLOBAL_DETAILS TARGET
+USING (SELECT ITEM_STATUS,
+              START_DATE,
+              END_DATE,
+              CONTRACT_PRICE_START_DATE,
+              CONTRACT_PRICE_END_DATE,
+              CONTRACT_PRICE,
+              PRICE,
+              PRICE_PROTECTION_START_DATE,
+              PRICE_PROTECTION_END_DATE,
+              PRICE_TOLERANCE_TYPE,
+              PRICE_TOLERANCE,
+              PRICE_TOLERANCE_FREQUENCY,
+              PRICE_TOLERANCE_INTERVAL,
+              BASE_PRICE,
+              ITEM_REBATE_START_DATE,
+              ITEM_REBATE_END_DATE,
+              FORMULA_ID,
+              FORMULA_METHOD_ID,
+              REBATE_AMOUNT,
+              CONTRACT_MASTER_SID,
+              CFP_CONTRACT_SID,
+               IFP_CONTRACT_SID,
+              PS_CONTRACT_SID,
+              RS_CONTRACT_SID,
+              ITEM_MASTER_SID,
+              SESSION_ID,
+              OPERATION,
+              MODULE_NAME,
+              CHECK_RECORD
+       FROM   GCM_GLOBAL_DETAILS
+       WHERE  SESSION_ID = @SESSION_ID
+              AND OPERATION = @OPERATION
+              AND MODULE_NAME = 'ITEM_MANAGEMENT') SOURCE
+ON SOURCE.CONTRACT_MASTER_SID = TARGET.CONTRACT_MASTER_SID
+   AND SOURCE. IFP_CONTRACT_SID = TARGET. IFP_CONTRACT_SID
+   AND SOURCE. PS_CONTRACT_SID = TARGET. PS_CONTRACT_SID
+   AND SOURCE.RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID
+   AND SOURCE.SESSION_ID = @SESSION_ID
+   AND TARGET.SESSION_ID = @SESSION_ID
+   AND TARGET.OPERATION = 'SUMMARY'
+   AND TARGET.MODULE_NAME = 'ITEM_MANAGEMENT'
+WHEN MATCHED AND TARGET.CHECK_RECORD = 0 AND TARGET.OPERATION = 'SUMMARY' THEN
+  DELETE
+WHEN MATCHED AND TARGET.OPERATION = 'SUMMARY' AND SOURCE.CHECK_RECORD = 1 AND SOURCE.SESSION_ID=@SESSION_ID THEN
+  UPDATE SET ITEM_STATUS = TARGET.ITEM_STATUS,
+             START_DATE = TARGET.START_DATE,
+             END_DATE = TARGET.END_DATE,
+             CONTRACT_PRICE_START_DATE = TARGET.CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE = TARGET.CONTRACT_PRICE_END_DATE,
+             CONTRACT_PRICE = TARGET.CONTRACT_PRICE,
+             PRICE = TARGET.PRICE,
+             PRICE_PROTECTION_START_DATE = TARGET.PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE = TARGET.PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE = TARGET.PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE = TARGET.PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY = TARGET.PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL = TARGET.PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE = TARGET.BASE_PRICE,
+             ITEM_REBATE_START_DATE = TARGET.ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE = TARGET.ITEM_REBATE_END_DATE,
+             FORMULA_ID = TARGET.FORMULA_ID,
+             FORMULA_METHOD_ID = TARGET.FORMULA_METHOD_ID,
+             REBATE_AMOUNT = TARGET.REBATE_AMOUNT,
+             CONTRACT_MASTER_SID = TARGET.CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID = TARGET.CFP_CONTRACT_SID,
+              IFP_CONTRACT_SID = TARGET. IFP_CONTRACT_SID,
+             PS_CONTRACT_SID = TARGET. PS_CONTRACT_SID,
+             RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID,
+             ITEM_MASTER_SID = TARGET.ITEM_MASTER_SID,
+             SESSION_ID = TARGET.SESSION_ID,
+             OPERATION = TARGET.OPERATION,
+             MODULE_NAME = TARGET.MODULE_NAME,
+             CHECK_RECORD = TARGET.CHECK_RECORD
+WHEN NOT MATCHED AND SOURCE.CHECK_RECORD = 1 THEN
+  INSERT (ITEM_STATUS,
+          START_DATE,
+          END_DATE,
+          CONTRACT_PRICE_START_DATE,
+          CONTRACT_PRICE_END_DATE,
+          CONTRACT_PRICE,
+          PRICE,
+          PRICE_PROTECTION_START_DATE,
+          PRICE_PROTECTION_END_DATE,
+          PRICE_TOLERANCE_TYPE,
+          PRICE_TOLERANCE,
+          PRICE_TOLERANCE_FREQUENCY,
+          PRICE_TOLERANCE_INTERVAL,
+          BASE_PRICE,
+          ITEM_REBATE_START_DATE,
+          ITEM_REBATE_END_DATE,
+          FORMULA_ID,
+          FORMULA_METHOD_ID,
+          REBATE_AMOUNT,
+          CONTRACT_MASTER_SID,
+          CFP_CONTRACT_SID,
+           IFP_CONTRACT_SID,
+          PS_CONTRACT_SID,
+          RS_CONTRACT_SID,
+          ITEM_MASTER_SID,
+          SESSION_ID,
+          OPERATION,
+          MODULE_NAME,
+          CHECK_RECORD)
+  VALUES (SOURCE.ITEM_STATUS,
+          SOURCE. START_DATE,
+          SOURCE. END_DATE,
+          SOURCE. CONTRACT_PRICE_START_DATE,
+          SOURCE. CONTRACT_PRICE_END_DATE,
+          SOURCE. CONTRACT_PRICE,
+          SOURCE. PRICE,
+          SOURCE. PRICE_PROTECTION_START_DATE,
+          SOURCE. PRICE_PROTECTION_END_DATE,
+          SOURCE. PRICE_TOLERANCE_TYPE,
+          SOURCE. PRICE_TOLERANCE,
+          SOURCE. PRICE_TOLERANCE_FREQUENCY,
+          SOURCE. PRICE_TOLERANCE_INTERVAL,
+          SOURCE. BASE_PRICE,
+          SOURCE. ITEM_REBATE_START_DATE,
+          SOURCE. ITEM_REBATE_END_DATE,
+          SOURCE. FORMULA_ID,
+          SOURCE. FORMULA_METHOD_ID,
+          SOURCE. REBATE_AMOUNT,
+          SOURCE. CONTRACT_MASTER_SID,
+          SOURCE. CFP_CONTRACT_SID,
+          SOURCE.  IFP_CONTRACT_SID,
+          SOURCE. PS_CONTRACT_SID,
+          SOURCE. RS_CONTRACT_SID,
+          SOURCE. ITEM_MASTER_SID,
+          SOURCE. SESSION_ID,
+          'SUMMARY',
+          SOURCE. MODULE_NAME,
+          1 ); 
+		]]>
+    </sql>
+    
+    <sql id="Submitting the contract For UPdate">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?',
+		@SUMMARY VARCHAR(50)='?'
+
+MERGE GCM_GLOBAL_DETAILS TARGET
+USING (SELECT ITEM_STATUS,
+              START_DATE,
+              END_DATE,
+              CONTRACT_PRICE_START_DATE,
+              CONTRACT_PRICE_END_DATE,
+              CONTRACT_PRICE,
+              PRICE,
+              PRICE_PROTECTION_START_DATE,
+              PRICE_PROTECTION_END_DATE,
+              PRICE_TOLERANCE_TYPE,
+              PRICE_TOLERANCE,
+              PRICE_TOLERANCE_FREQUENCY,
+              PRICE_TOLERANCE_INTERVAL,
+              BASE_PRICE,
+              ITEM_REBATE_START_DATE,
+              ITEM_REBATE_END_DATE,
+              FORMULA_ID,
+              FORMULA_METHOD_ID,
+              REBATE_AMOUNT,
+              CONTRACT_MASTER_SID,
+              CFP_CONTRACT_SID,
+               IFP_CONTRACT_SID,
+              PS_CONTRACT_SID,
+              RS_CONTRACT_SID,
+              ITEM_MASTER_SID,
+              PROJECTION_MASTER_SID,
+              SESSION_ID,
+              OPERATION,
+              SUB_MODULE_NAME,
+              MODULE_NAME,
+              CHECK_RECORD
+       FROM   GCM_GLOBAL_DETAILS
+       WHERE  SESSION_ID = @SESSION_ID
+              AND OPERATION = @OPERATION
+              AND MODULE_NAME = 'ITEM_MANAGEMENT') SOURCE
+ON SOURCE.CONTRACT_MASTER_SID = TARGET.CONTRACT_MASTER_SID
+   AND SOURCE. IFP_CONTRACT_SID = TARGET. IFP_CONTRACT_SID
+   AND SOURCE. PS_CONTRACT_SID = TARGET. PS_CONTRACT_SID
+   AND SOURCE.RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID
+   AND SOURCE.ITEm_MAster_sid = TARGET.ITEm_MAster_sid
+   AND SOURCE.PROJECTION_MASTER_SID = TARGET.PROJECTION_MASTER_SID
+   AND SOURCE.SESSION_ID = @SESSION_ID
+   AND TARGET.SESSION_ID = @SESSION_ID
+   AND TARGET.OPERATION = @SUMMARY
+
+   AND TARGET.MODULE_NAME = 'ITEM_MANAGEMENT'
+WHEN MATCHED AND TARGET.CHECK_RECORD = 0 AND TARGET.OPERATION = @SUMMARY THEN
+  DELETE
+WHEN MATCHED AND TARGET.OPERATION = @SUMMARY AND SOURCE.CHECK_RECORD = 1 AND SOURCE.SESSION_ID=@SESSION_ID THEN
+  UPDATE SET ITEM_STATUS = TARGET.ITEM_STATUS,
+             START_DATE = TARGET.START_DATE,
+             END_DATE = TARGET.END_DATE,
+             CONTRACT_PRICE_START_DATE = TARGET.CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE = TARGET.CONTRACT_PRICE_END_DATE,
+             CONTRACT_PRICE = TARGET.CONTRACT_PRICE,
+             PRICE = TARGET.PRICE,
+             PRICE_PROTECTION_START_DATE = TARGET.PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE = TARGET.PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE = TARGET.PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE = TARGET.PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY = TARGET.PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL = TARGET.PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE = TARGET.BASE_PRICE,
+             ITEM_REBATE_START_DATE = TARGET.ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE = TARGET.ITEM_REBATE_END_DATE,
+             FORMULA_ID = TARGET.FORMULA_ID,
+             FORMULA_METHOD_ID = TARGET.FORMULA_METHOD_ID,
+             REBATE_AMOUNT = TARGET.REBATE_AMOUNT,
+             CONTRACT_MASTER_SID = TARGET.CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID = TARGET.CFP_CONTRACT_SID,
+             IFP_CONTRACT_SID = TARGET.IFP_CONTRACT_SID,
+             PS_CONTRACT_SID = TARGET.PS_CONTRACT_SID,
+             RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID,
+             ITEM_MASTER_SID = TARGET.ITEM_MASTER_SID,
+             SESSION_ID = TARGET.SESSION_ID,
+             OPERATION = TARGET.OPERATION,
+
+             MODULE_NAME = TARGET.MODULE_NAME,
+             CHECK_RECORD = TARGET.CHECK_RECORD
+WHEN NOT MATCHED AND SOURCE.CHECK_RECORD = 1 THEN
+  INSERT (ITEM_STATUS,
+          START_DATE,
+          END_DATE,
+          CONTRACT_PRICE_START_DATE,
+          CONTRACT_PRICE_END_DATE,
+          CONTRACT_PRICE,
+          PRICE,
+          PRICE_PROTECTION_START_DATE,
+          PRICE_PROTECTION_END_DATE,
+          PRICE_TOLERANCE_TYPE,
+          PRICE_TOLERANCE,
+          PRICE_TOLERANCE_FREQUENCY,
+          PRICE_TOLERANCE_INTERVAL,
+          BASE_PRICE,
+          ITEM_REBATE_START_DATE,
+          ITEM_REBATE_END_DATE,
+          FORMULA_ID,
+          FORMULA_METHOD_ID,
+          REBATE_AMOUNT,
+          CONTRACT_MASTER_SID,
+          CFP_CONTRACT_SID,
+          IFP_CONTRACT_SID,
+          PS_CONTRACT_SID,
+          RS_CONTRACT_SID,
+          ITEM_MASTER_SID,
+          PROJECTION_MASTER_SID,
+          SESSION_ID,
+          OPERATION,
+          MODULE_NAME,
+          CHECK_RECORD)
+  VALUES (SOURCE.ITEM_STATUS,
+          SOURCE. START_DATE,
+          SOURCE. END_DATE,
+          SOURCE. CONTRACT_PRICE_START_DATE,
+          SOURCE. CONTRACT_PRICE_END_DATE,
+          SOURCE. CONTRACT_PRICE,
+          SOURCE. PRICE,
+          SOURCE. PRICE_PROTECTION_START_DATE,
+          SOURCE. PRICE_PROTECTION_END_DATE,
+          SOURCE. PRICE_TOLERANCE_TYPE,
+          SOURCE. PRICE_TOLERANCE,
+          SOURCE. PRICE_TOLERANCE_FREQUENCY,
+          SOURCE. PRICE_TOLERANCE_INTERVAL,
+          SOURCE. BASE_PRICE,
+          SOURCE. ITEM_REBATE_START_DATE,
+          SOURCE. ITEM_REBATE_END_DATE,
+          SOURCE. FORMULA_ID,
+          SOURCE. FORMULA_METHOD_ID,
+          SOURCE. REBATE_AMOUNT,
+          SOURCE. CONTRACT_MASTER_SID,
+          SOURCE. CFP_CONTRACT_SID,
+          SOURCE. IFP_CONTRACT_SID,
+          SOURCE. PS_CONTRACT_SID,
+          SOURCE. RS_CONTRACT_SID,
+          SOURCE. ITEM_MASTER_SID,
+          PROJECTION_MASTER_SID,
+          SOURCE. SESSION_ID,
+          @SUMMARY,
+          SOURCE.  MODULE_NAME,
+          1 );  
+ 
+
+ 
+		]]>
+    </sql>
+    <sql id="SubmittingthecontractForUPdateProjTransfer">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?',
+		@SUMMARY VARCHAR(50)='?'
+
+MERGE GCM_GLOBAL_DETAILS TARGET
+USING (SELECT ITEM_STATUS,
+              START_DATE,
+              END_DATE,
+              CONTRACT_PRICE_START_DATE,
+              CONTRACT_PRICE_END_DATE,
+              CONTRACT_PRICE,
+              PRICE,
+              PRICE_PROTECTION_START_DATE,
+              PRICE_PROTECTION_END_DATE,
+              PRICE_TOLERANCE_TYPE,
+              PRICE_TOLERANCE,
+              PRICE_TOLERANCE_FREQUENCY,
+              PRICE_TOLERANCE_INTERVAL,
+              BASE_PRICE,
+              ITEM_REBATE_START_DATE,
+              ITEM_REBATE_END_DATE,
+              FORMULA_ID,
+              FORMULA_METHOD_ID,
+              REBATE_AMOUNT,
+              CONTRACT_MASTER_SID,
+              CFP_CONTRACT_SID,
+              IFP_CONTRACT_SID,
+              PS_CONTRACT_SID,
+              RS_CONTRACT_SID,
+              ITEM_MASTER_SID,
+              PROJECTION_MASTER_SID,
+              SESSION_ID,
+              OPERATION,
+              SUB_MODULE_NAME,
+              MODULE_NAME,
+              CHECK_RECORD
+       FROM   GCM_GLOBAL_DETAILS
+       WHERE  SESSION_ID = @SESSION_ID
+              AND OPERATION = @OPERATION
+              AND MODULE_NAME = 'ITEM_MANAGEMENT') SOURCE
+ON SOURCE.CONTRACT_MASTER_SID = TARGET.CONTRACT_MASTER_SID
+   AND SOURCE.IFP_CONTRACT_SID = TARGET.IFP_CONTRACT_SID
+   AND SOURCE.PS_CONTRACT_SID = TARGET.PS_CONTRACT_SID
+   AND SOURCE.RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID
+   AND SOURCE.ITEm_MAster_sid = TARGET.ITEm_MAster_sid
+   AND SOURCE.PROJECTION_MASTER_SID = TARGET.PROJECTION_MASTER_SID
+   AND SOURCE.SESSION_ID = @SESSION_ID
+   AND TARGET.SESSION_ID = @SESSION_ID
+   AND TARGET.OPERATION = @SUMMARY
+   AND TARGET. MODULE_NAME = 'ITEM_MANAGEMENT'
+WHEN MATCHED AND TARGET.CHECK_RECORD = 0 AND TARGET.OPERATION = @SUMMARY THEN
+  DELETE
+WHEN MATCHED AND TARGET.OPERATION = @SUMMARY AND SOURCE.CHECK_RECORD = 1 AND SOURCE.SESSION_ID=@SESSION_ID THEN
+  UPDATE SET ITEM_STATUS = TARGET.ITEM_STATUS,
+             START_DATE = TARGET.START_DATE,
+             END_DATE = TARGET.END_DATE,
+             CONTRACT_PRICE_START_DATE = TARGET.CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE = TARGET.CONTRACT_PRICE_END_DATE,
+             CONTRACT_PRICE = TARGET.CONTRACT_PRICE,
+             PRICE = TARGET.PRICE,
+             PRICE_PROTECTION_START_DATE = TARGET.PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE = TARGET.PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE = TARGET.PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE = TARGET.PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY = TARGET.PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL = TARGET.PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE = TARGET.BASE_PRICE,
+             ITEM_REBATE_START_DATE = TARGET.ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE = TARGET.ITEM_REBATE_END_DATE,
+             FORMULA_ID = TARGET.FORMULA_ID,
+             FORMULA_METHOD_ID = TARGET.FORMULA_METHOD_ID,
+             REBATE_AMOUNT = TARGET.REBATE_AMOUNT,
+             CONTRACT_MASTER_SID = TARGET.CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID = TARGET.CFP_CONTRACT_SID,
+             IFP_CONTRACT_SID = TARGET.IFP_CONTRACT_SID,
+             PS_CONTRACT_SID = TARGET.PS_CONTRACT_SID,
+             RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID,
+             ITEM_MASTER_SID = TARGET.ITEM_MASTER_SID,
+             SESSION_ID = TARGET.SESSION_ID,
+             OPERATION = TARGET.OPERATION,
+              SUB_MODULE_NAME = TARGET. SUB_MODULE_NAME,
+              MODULE_NAME = TARGET.MODULE_NAME,
+             CHECK_RECORD = TARGET.CHECK_RECORD
+WHEN NOT MATCHED AND SOURCE.CHECK_RECORD = 1 THEN
+  INSERT (ITEM_STATUS,
+          START_DATE,
+          END_DATE,
+          CONTRACT_PRICE_START_DATE,
+          CONTRACT_PRICE_END_DATE,
+          CONTRACT_PRICE,
+          PRICE,
+          PRICE_PROTECTION_START_DATE,
+          PRICE_PROTECTION_END_DATE,
+          PRICE_TOLERANCE_TYPE,
+          PRICE_TOLERANCE,
+          PRICE_TOLERANCE_FREQUENCY,
+          PRICE_TOLERANCE_INTERVAL,
+          BASE_PRICE,
+          ITEM_REBATE_START_DATE,
+          ITEM_REBATE_END_DATE,
+          FORMULA_ID,
+          FORMULA_METHOD_ID,
+          REBATE_AMOUNT,
+          CONTRACT_MASTER_SID,
+          CFP_CONTRACT_SID,
+          IFP_CONTRACT_SID,
+          PS_CONTRACT_SID,
+          RS_CONTRACT_SID,
+          ITEM_MASTER_SID,
+          PROJECTION_MASTER_SID,
+          SESSION_ID,
+          OPERATION,
+          SUB_MODULE_NAME,
+          MODULE_NAME,
+          CHECK_RECORD)
+  VALUES (SOURCE.ITEM_STATUS,
+          SOURCE. START_DATE,
+          SOURCE. END_DATE,
+          SOURCE. CONTRACT_PRICE_START_DATE,
+          SOURCE. CONTRACT_PRICE_END_DATE,
+          SOURCE. CONTRACT_PRICE,
+          SOURCE. PRICE,
+          SOURCE. PRICE_PROTECTION_START_DATE,
+          SOURCE. PRICE_PROTECTION_END_DATE,
+          SOURCE. PRICE_TOLERANCE_TYPE,
+          SOURCE. PRICE_TOLERANCE,
+          SOURCE. PRICE_TOLERANCE_FREQUENCY,
+          SOURCE. PRICE_TOLERANCE_INTERVAL,
+          SOURCE. BASE_PRICE,
+          SOURCE. ITEM_REBATE_START_DATE,
+          SOURCE. ITEM_REBATE_END_DATE,
+          SOURCE. FORMULA_ID,
+          SOURCE. FORMULA_METHOD_ID,
+          SOURCE. REBATE_AMOUNT,
+          SOURCE. CONTRACT_MASTER_SID,
+          SOURCE. CFP_CONTRACT_SID,
+          SOURCE. IFP_CONTRACT_SID,
+          SOURCE. PS_CONTRACT_SID,
+          SOURCE. RS_CONTRACT_SID,
+          SOURCE. ITEM_MASTER_SID,
+          PROJECTION_MASTER_SID,
+          SOURCE. SESSION_ID,
+          @SUMMARY,
+          SOURCE.  SUB_MODULE_NAME,SOURCE.  MODULE_NAME,
+          1 );  
+
+ 
+
+ 
+		]]>
+    </sql>
+    <sql id="Loading items in summary">
+		<![CDATA[
+SELECT DISTINCT COMP.COMPANY_NAME,
+                CM.contract_no,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION,
+                CM.START_DATE,
+                CM.END_DATE,
+                CFP.CFP_NAME,
+                IFP.IFP_NAME,
+                PS.PS_NAME,
+                RS.RS_NAME,
+                'RAR Category' AS RAR_CAT,
+                Status.DESCRIPTION,
+                Temp.Start_date,
+                Temp.END_DATE,
+                CM.CONTRACT_MASTER_SID,
+                CFP.CFP_CONTRACT_SID,
+                IFP.IFP_CONTRACT_SID,
+                PS.PS_CONTRACT_SID,
+                RS.RS_CONTRACT_SID
+   FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON Temp.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+            AND SESSION_ID = '?'
+            AND MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND OPERATION = 'SUMMARY'
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+       JOIN HELPER_TABLE Status
+         ON Status.HELPER_TABLE_SID = Temp.ITEM_STATUS
+       JOIN CFP_CONTRACT CFP
+         ON Temp.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID
+       JOIN IFP_CONTRACT IFP
+         ON Temp. IFP_CONTRACT_SID = IFP.IFP_CONTRACT_SID
+       JOIN PS_CONTRACT PS
+         ON Temp. PS_CONTRACT_SID = PS.PS_CONTRACT_SID
+       JOIN RS_CONTRACT RS
+         ON Temp.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+        ORDER  BY CM.CONTRACT_MASTER_SID 
+ ; 
+
+ 
+		]]>
+    </sql>
+    <sql id="Load contract Item For transfer">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?',
+        @contractId INT
+        
+        
+SELECT @contractId = Temp2.CONTRACT_MASTER_SID
+
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = @SESSION_ID
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = @OPERATION;
+
+     SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                TEMP.PRICE_PROTECTION_START_DATE,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION          AS ST1,
+                PTT.DESCRIPTION         AS ST2,
+                PTF.DESCRIPTION         AS ST3,
+                PT.DESCRIPTION          AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = @SESSION_ID
+            AND Temp.OPERATION = 'TransferContract'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND   Temp.ITEM_MASTER_SID IN( ? ) 
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+           AND Temp.CONTRACT_MASTER_SID NOT IN
+(
+   @contractId
+)
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+      LEFT JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+         LEFT JOIN HELPER_TABLE PTT
+         ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+         LEFT JOIN HELPER_TABLE PTF
+         ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+         LEFT JOIN HELPER_TABLE PT
+         ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID =  CCT.CFP_CONTRACT_SID
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ?
+ORDER  BY TEMP.PROJECTION_MASTER_SID 
+
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+		]]>
+    </sql>
+  
+    <sql id="Item Load contract Count for transfer">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?',
+        @contractId INT
+        
+        
+SELECT @contractId = Temp2.CONTRACT_MASTER_SID
+
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = @SESSION_ID
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = @OPERATION;
+    
+
+SELECT COUNT(*) FROM (SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                TEMP.PRICE_PROTECTION_START_DATE,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION          AS ST1,
+                PTT.DESCRIPTION         AS ST2,
+                PTF.DESCRIPTION         AS ST3,
+                PT.DESCRIPTION          AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = @SESSION_ID
+            AND Temp.OPERATION = 'TransferContract'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND Temp.ITEM_MASTER_SID IN( ? )
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+              AND Temp.CONTRACT_MASTER_SID NOT IN
+(
+   @contractId
+)
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( CM.CONTRACT_TYPE LIKE '?'
+                        OR CM.CONTRACT_TYPE IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+       LEFT JOIN HELPER_TABLE PTT
+              ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+       LEFT JOIN HELPER_TABLE PTF
+              ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+       LEFT JOIN HELPER_TABLE PT
+              ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID =  CCT.CFP_CONTRACT_SID
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' )?) IHG 
+		]]>
+    </sql>
+  
+
+
+
+
+
+    <sql id="LoadcontractItemForProjectiontransfer">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?'
+
+     SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                TEMP.PRICE_PROTECTION_START_DATE,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION          AS ST1,
+                PTT.DESCRIPTION         AS ST2,
+                PTF.DESCRIPTION         AS ST3,
+                PT.DESCRIPTION          AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = @SESSION_ID
+            AND Temp.OPERATION = 'TransferContract'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND   Temp.ITEM_MASTER_SID IN( ? ) 
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+           AND Temp.GCM_GLOBAL_DETAILS_SID NOT IN ( select  Temp2.GCM_GLOBAL_DETAILS_SID
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = @SESSION_ID
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = @OPERATION  )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+      LEFT JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+         LEFT JOIN HELPER_TABLE PTT
+         ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+         LEFT JOIN HELPER_TABLE PTF
+         ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+         LEFT JOIN HELPER_TABLE PT
+         ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID =  CCT.CFP_CONTRACT_SID
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ?
+ORDER  BY TEMP.PROJECTION_MASTER_SID 
+
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+		]]>
+    </sql>
+    <sql id="ItemLoadcontractCountforProjectiontransfer">
+		<![CDATA[
+    DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?'
+    
+
+SELECT COUNT(*) FROM (SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                TEMP.PRICE_PROTECTION_START_DATE,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION          AS ST1,
+                PTT.DESCRIPTION         AS ST2,
+                PTF.DESCRIPTION         AS ST3,
+                PT.DESCRIPTION          AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = @SESSION_ID
+            AND Temp.OPERATION = 'TransferContract'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND Temp.ITEM_MASTER_SID IN( ? )
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+            AND Temp.GCM_GLOBAL_DETAILS_SID NOT IN ( select  Temp2.GCM_GLOBAL_DETAILS_SID
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = @SESSION_ID
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = @OPERATION  )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+       LEFT JOIN HELPER_TABLE PTT
+              ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+       LEFT JOIN HELPER_TABLE PTF
+              ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+       LEFT JOIN HELPER_TABLE PT
+              ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID =  CCT.CFP_CONTRACT_SID
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' )?) IHG 
+		]]>
+    </sql>
+    <sql id="Load Non Selected item Contract">
+		<![CDATA[
+     DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?'
+       
+     SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                TEMP.PRICE_PROTECTION_START_DATE,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION          AS ST1,
+                PTT.DESCRIPTION         AS ST2,
+                PTF.DESCRIPTION         AS ST3,
+                PT.DESCRIPTION          AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = @SESSION_ID
+            AND Temp.OPERATION = 'TransferContract'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+            AND Temp.GCM_GLOBAL_DETAILS_SID NOT IN ( select  Temp2.GCM_GLOBAL_DETAILS_SID
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = @SESSION_ID
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = @OPERATION  )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+       LEFT JOIN HELPER_TABLE PTT
+              ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+       LEFT JOIN HELPER_TABLE PTF
+              ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+       LEFT JOIN HELPER_TABLE PT
+              ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID =  CCT.CFP_CONTRACT_SID
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ?
+ORDER  BY TEMP.PROJECTION_MASTER_SID 
+
+
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+		]]>
+    </sql>
+    <sql id="Load Non Selected item Contract Count">
+		<![CDATA[
+    DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @OPERATION  VARCHAR(100) ='?',
+      @gcmDetailSId INT
+
+SELECT @gcmDetailSId = Temp2.GCM_GLOBAL_DETAILS_SID
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = @SESSION_ID
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = @OPERATION;
+
+SELECT COUNT(*) FROM (SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
+                HT.DESCRIPTION          AS Status,
+                COMP.COMPANY_NAME       AS CONTRACT_HOLDER,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                Market_Type.DESCRIPTION AS MARKET_TYPE,
+                CM.START_DATE           AS CM_START,
+                CM.END_DATE             AS CM_END,
+                Temp.ITEM_STATUS,
+                Temp.START_DATE         AS TEM_START,
+                Temp.END_DATE           AS TEM_END,
+                Temp.CONTRACT_PRICE_START_DATE,
+                Temp.CONTRACT_PRICE_END_DATE,
+                Temp.contract_price,
+                Temp.price,
+                TEMP.PRICE_PROTECTION_START_DATE,
+                Temp.PRice_protection_end_date,
+                Temp.price_tolerance_type,
+                Temp.price_tolerance,
+                Temp.price_tolerance_frequency,
+                Temp.price_tolerance_interval,
+                Temp.base_price,
+                Temp.ITEM_REBATE_START_DATE,
+                Temp.ITEM_REBATE_End_DATE,
+                Temp.formula_id,
+                Temp.formula_method_id,
+                Temp.REBATE_AMOUNT,
+                CFP_M.CFP_NO,
+                CCT.CFP_NAME,
+                IFP_M.IFP_NO,
+                IFP_CONT.IFP_NAME,
+                PS_M.PS_NO,
+                PSC.PS_NAME,
+                RS_M.RS_NO,
+                RSC.RS_NAME,
+                'RAR CAT'               AS RARCategory,
+                Temp.check_record,
+                TEMP.CONTRACT_MASTER_SID,
+                TEMP.CFP_CONTRACT_SID,
+                TEMP. IFP_CONTRACT_SID,
+                TEMP. PS_CONTRACT_SID,
+                TEMP.RS_CONTRACT_SID,
+                Temp.item_master_sid,
+                ST.DESCRIPTION          AS ST1,
+                PTT.DESCRIPTION         AS ST2,
+                PTF.DESCRIPTION         AS ST3,
+                PT.DESCRIPTION          AS ST4
+FROM   GCM_GLOBAL_DETAILS Temp
+       JOIN CONTRACT_MASTER CM
+         ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND Temp.session_id = @SESSION_ID
+            AND Temp.OPERATION = 'TransferContract'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND ( cm.contract_no LIKE '?' )
+            AND ( cm.CONTRACT_NAME LIKE '?'
+                   OR cm.CONTRACT_NAME IS NULL )
+          AND Temp.GCM_GLOBAL_DETAILS_SID NOT IN ( @gcmDetailSId )
+       JOIN WORKFLOW_MASTER WM
+         ON wm.PROJECTION_MASTER_SID = TEMP.PROJECTION_MASTER_SID
+       LEFT JOIN helper_table HT
+              ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+       LEFT JOIN COMPANY_MASTER COMP
+              ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID
+                 AND ( COMP.COMPANY_NAME LIKE '?'
+                        OR cm.CONT_HOLD_COMPANY_MASTER_SID IS NULL )
+       LEFT JOIN HELPER_TABLE Market_Type
+              ON CM.CONTRACT_TYPE = Market_Type.HELPER_TABLE_SID
+                 AND ( Market_Type.DESCRIPTION LIKE '?'
+                        OR Market_Type.DESCRIPTION IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = Temp.ITEM_STATUS
+       LEFT JOIN HELPER_TABLE PTT
+              ON PTT.HELPER_TABLE_SID = Temp.price_tolerance_type
+       LEFT JOIN HELPER_TABLE PTF
+              ON PTF.HELPER_TABLE_SID = Temp.price_tolerance_frequency
+       LEFT JOIN HELPER_TABLE PT
+              ON PT.HELPER_TABLE_SID = Temp.price_tolerance_interval
+       JOIN CFP_CONTRACT CCT
+         ON Temp.CFP_CONTRACT_SID =  CCT.CFP_CONTRACT_SID
+       INNER JOIN CFP_MODEL CFP_M
+               ON CCT.CFP_MODEL_SID = CFP_M.CFP_MODEL_SID
+                  AND ( CFP_M.CFP_NO LIKE '?' )
+       INNER JOIN IFP_CONTRACT IFP_CONT
+               ON IFP_CONT.IFP_CONTRACT_SID = Temp. IFP_CONTRACT_SID
+       INNER JOIN IFP_MODEL IFP_M
+               ON IFP_CONT.IFP_MODEL_SID = IFP_M.IFP_MODEL_SID
+                  AND ( IFP_M.IFP_NO LIKE '?' )
+       INNER JOIN PS_CONTRACT PSC
+               ON PSC.PS_CONTRACT_SID = Temp. PS_CONTRACT_SID
+       INNER JOIN PS_MODEL PS_M
+               ON PSC.PS_MODEL_SID = PS_M.PS_MODEL_SID
+                  AND ( PS_M.PS_NO LIKE '?'
+                         OR PS_M.PS_NO IS NULL )
+       JOIN RS_CONTRACT RSC
+         ON RSC.RS_CONTRACT_SID = Temp.RS_CONTRACT_SID
+            AND ( rsc.RS_ID LIKE '?' )
+            AND ( rsc.RS_NAME LIKE '?'
+                   OR rsc.RS_NAME IS NULL )
+            AND ( rsc.RS_TYPE LIKE '?' )
+            AND ( rsc.RS_CATEGORY LIKE '?'
+                   OR rsc.RS_CATEGORY IS NULL )
+            AND ( rsc.REBATE_PROGRAM_TYPE LIKE '?'
+                   OR rsc.REBATE_PROGRAM_TYPE IS NULL )
+            AND ( rsc.RS_ALIAS LIKE '?'
+                   OR rsc.RS_ALIAS IS NULL )
+       LEFT JOIN RS_MODEL RS_M
+              ON RSC.RS_MODEL_SID = RS_M.RS_MODEL_SID
+                 AND ( RS_M.RS_NO LIKE '?' ) ? ) ch
+		]]>
+    </sql>
+    <sql id="checkrecord condition check">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    CHECK_RECORD = '0'
+WHERE  SESSION_ID = '?'
+       AND OPERATION = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT' 
+
+		]]>
+    </sql>
+    
+    <sql id="TransferIFP">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+               @SUMMARY    VARCHAR(50)='TRANSFER SUMMARY'
+
+MERGE IFP_CONTRACT_DETAILS TARGET
+USING (SELECT DISTINCT TEmp.ITEM_STATUS,
+              TEmp.START_DATE,
+             TEmp. END_DATE,
+              TEmp.CONTRACT_MASTER_SID,
+              TEmp.CFP_CONTRACT_SID,
+               TEmp.IFP_CONTRACT_SID,
+              IM.ITEM_MASTER_SID,
+              SESSION_ID,
+              OPERATION,
+              MODULE_NAME
+       FROM   GCM_GLOBAL_DETAILS TEmp JOIN ITEM_MASTER IM on IM.ITEM_MASTER_SID in (?)
+       WHERE  SESSION_ID =@SESSION_ID
+              AND OPERATION = @SUMMARY
+              AND MODULE_NAME = 'ITEM_MANAGEMENT') SOURCE
+ON SOURCE. IFP_CONTRACT_SID = TARGET.IFP_CONTRACT_SID
+   AND SOURCE.ITEm_MAster_sid = TARGET.ITEm_MAster_sid
+   AND SOURCE.SESSION_ID = @SESSION_ID
+WHEN MATCHED THEN
+  UPDATE SET IFP_CONTRACT_ATTACHED_STATUS = SOURCE. ITEM_STATUS,
+             ITEM_START_DATE = SOURCE.START_DATE,
+             ITEM_END_DATE = SOURCE.END_DATE
+WHEN NOT MATCHED THEN
+  INSERT (IFP_CONTRACT_SID,
+          ITEM_MASTER_SID,
+          ITEM_START_DATE,
+          ITEM_END_DATE,
+          IFP_CONTRACT_ATTACHED_STATUS,
+          IFP_CONTRACT_ATTACHED_DATE,
+          INBOUND_STATUS,
+          CREATED_BY)
+  VALUES( SOURCE. IFP_CONTRACT_SID,
+          SOURCE.ITEM_MASTER_SID,
+          SOURCE.START_DATE,
+          SOURCE.END_DATE,
+          SOURCE.ITEM_STATUS,
+          Getdate(),
+          'A',
+          '?'); 
+ 
+
+		]]>
+    </sql>
+    <sql id="Non Approved Submit check">
+		<![CDATA[
+SELECT Count(*)
+FROM   (SELECT WM.PROJECTION_MASTER_SID,
+               HT.DESCRIPTION
+        FROM   GCM_GLOBAL_DETAILS IMTD
+               JOIN WORKFLOW_MASTER WM
+                 ON WM.PROJECTION_MASTER_SID = IMTD.PROJECTION_MASTER_SID
+               JOIN helper_table HT
+                 ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+        WHERE  IMTD.session_id = '?'
+               AND IMTD.OPERATION = '?'
+               AND IMTD.MODULE_NAME = 'ITEM_MANAGEMENT'
+               AND IMTD.CHECK_RECORD = 1
+               AND HT.DESCRIPTION <> 'Approved') ABC 
+
+		]]>
+    </sql>
+    <sql id="PendingSubmitcheckForProjTransfer">
+		<![CDATA[
+SELECT Count(*)
+FROM   (SELECT WM.PROJECTION_MASTER_SID,
+               HT.DESCRIPTION
+        FROM   GCM_GLOBAL_DETAILS IMTD
+               JOIN WORKFLOW_MASTER WM
+                 ON WM.PROJECTION_MASTER_SID = IMTD.PROJECTION_MASTER_SID
+               JOIN helper_table HT
+                 ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+        WHERE  IMTD.session_id = '?'
+               AND IMTD.OPERATION = '?'
+               AND IMTD.MODULE_NAME = 'ITEM_MANAGEMENT'
+               AND IMTD.CHECK_RECORD = 1
+               AND HT.DESCRIPTION = 'Pending') ABC 
+
+		]]>
+    </sql>
+    <sql id="SavedRejectedSubmitcheckForProjTransfer">
+    
+		<![CDATA[
+SELECT Count(*)
+FROM   (SELECT WM.PROJECTION_MASTER_SID,
+               HT.DESCRIPTION
+        FROM   GCM_GLOBAL_DETAILS IMTD
+               JOIN WORKFLOW_MASTER WM
+                 ON WM.PROJECTION_MASTER_SID = IMTD.PROJECTION_MASTER_SID
+               JOIN helper_table HT
+                 ON ht.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+        WHERE  IMTD.session_id = '?'
+               AND IMTD.OPERATION = '?'
+               AND IMTD.MODULE_NAME = 'ITEM_MANAGEMENT'
+               AND IMTD.CHECK_RECORD = 1
+               AND (HT.DESCRIPTION = 'Saved' or HT.DESCRIPTION = 'Rejected') ) ABC 
+
+		]]>
+    </sql>
+    
+   
+    
+    <sql id="TransferPS">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @SUMMARY    VARCHAR(50)='TRANSFER SUMMARY'
+
+MERGE PS_CONTRACT_DETAILS TARGET
+USING (SELECT DISTINCT TEMP.ITEM_STATUS,
+                       TEMP.CONTRACT_PRICE_START_DATE,
+                       TEMP.CONTRACT_PRICE_END_DATE,
+                       TEMP.CONTRACT_PRICE,
+                       TEMP.PRICE,
+                       TEMP.PRICE_PROTECTION_START_DATE,
+                      TEMP. PRICE_PROTECTION_END_DATE,
+                       TEMP.PRICE_TOLERANCE_TYPE,
+                       TEMP.PRICE_TOLERANCE,
+                       TEMP.PRICE_TOLERANCE_FREQUENCY,
+                       TEMP.PRICE_TOLERANCE_INTERVAL,
+                       TEMP.BASE_PRICE,
+                       TEMP.PS_CONTRACT_SID,
+                       IM.ITEM_MASTER_SID,
+                       SESSION_ID
+       FROM   GCM_GLOBAL_DETAILS TEMP JOIN ITEM_MASTER IM on IM.ITEM_MASTER_SID in (?)
+       WHERE  SESSION_ID = @SESSION_ID
+              AND OPERATION = @SUMMARY
+              AND MODULE_NAME = 'ITEM_MANAGEMENT') SOURCE
+ON SOURCE. PS_CONTRACT_SID = TARGET.PS_CONTRACT_SID
+   AND SOURCE.ITEm_MAster_sid = TARGET.ITEm_MAster_sid
+   AND SOURCE.SESSION_ID = @SESSION_ID
+WHEN MATCHED THEN
+  UPDATE SET PS_CONTRACT_ATTACHED_STATUS = SOURCE. ITEM_STATUS,
+             contract_PRICE_START_DATE = SOURCE.CONTRACT_PRICE_START_DATE,
+             CONTRACT_PRICE_END_DATE = SOURCE.CONTRACT_PRICE_END_DATE,
+             PRICE = SOURCE.PRICE,
+             PRICE_PROTECTION_START_DATE = SOURCE.PRICE_PROTECTION_START_DATE,
+             PRICE_PROTECTION_END_DATE = SOURCE.PRICE_PROTECTION_END_DATE,
+             PRICE_TOLERANCE_TYPE = SOURCE.PRICE_TOLERANCE_TYPE,
+             PRICE_TOLERANCE = SOURCE.PRICE_TOLERANCE,
+             PRICE_TOLERANCE_FREQUENCY = SOURCE.PRICE_TOLERANCE_FREQUENCY,
+             PRICE_TOLERANCE_INTERVAL = SOURCE.PRICE_TOLERANCE_INTERVAL,
+             BASE_PRICE = SOURCE.BASE_PRICE,
+             ITEM_PRICING_QUALIFIER_SID = 51
+WHEN NOT MATCHED THEN
+  INSERT (PS_CONTRACT_SID,
+          ITEM_MASTER_SID,
+          PS_CONTRACT_ATTACHED_STATUS,
+          contract_PRICE_START_DATE,
+          CONTRACT_PRICE_END_DATE,
+          PRICE,
+          PRICE_PROTECTION_START_DATE,
+          PRICE_PROTECTION_END_DATE,
+          PRICE_TOLERANCE_TYPE,
+          PRICE_TOLERANCE,
+          PRICE_TOLERANCE_FREQUENCY,
+          PRICE_TOLERANCE_INTERVAL,
+          BASE_PRICE,
+          ITEM_PRICING_QUALIFIER_SID,
+          INBOUND_STATUS,
+          CREATED_BY)
+  VALUES( SOURCE. PS_CONTRACT_SID,
+          SOURCE.ITEM_MASTER_SID,
+          SOURCE.ITEM_STATUS,
+          SOURCE.contract_PRICE_START_DATE,
+          SOURCE.CONTRACT_PRICE_END_DATE,
+          SOURCE.PRICE,
+          SOURCE.PRICE_PROTECTION_START_DATE,
+          SOURCE.PRICE_PROTECTION_END_DATE,
+          SOURCE.PRICE_TOLERANCE_TYPE,
+          SOURCE.PRICE_TOLERANCE,
+          SOURCE.PRICE_TOLERANCE_FREQUENCY,
+          SOURCE.PRICE_TOLERANCE_INTERVAL,
+          SOURCE.BASE_PRICE,
+          51,
+          'A',
+          '?'); 
+		]]>
+    </sql>
+    <sql id="TransferRS">
+		<![CDATA[
+DECLARE @SESSION_ID VARCHAR(100) ='?',
+        @SUMMARY    VARCHAR(50)='TRANSFER SUMMARY'
+
+MERGE RS_CONTRACT_DETAILS TARGET
+USING (SELECT DISTINCT TEMP.ITEM_STATUS,
+                       TEMP.ITEM_REBATE_START_DATE,
+                       TEMP.ITEM_REBATE_END_DATE,
+                       TEMP.FORMULA_ID,
+                       TEMP.FORMULA_METHOD_ID,
+                       TEMP.REBATE_AMOUNT,
+                       TEMP.RS_CONTRACT_SID,
+                       IM.ITEM_MASTER_SID
+       FROM   GCM_GLOBAL_DETAILS TEMP JOIN ITEM_MASTER IM on IM. ITEM_MASTER_SID in (?)
+       WHERE  SESSION_ID = @SESSION_ID
+              AND OPERATION = 'TRANSFER SUMMARY'
+              AND MODULE_NAME = 'ITEM_MANAGEMENT') SOURCE
+ON SOURCE.RS_CONTRACT_SID = TARGET.RS_CONTRACT_SID
+   AND SOURCE.ITEm_MAster_sid = TARGET.ITEm_MAster_sid
+WHEN MATCHED THEN
+  UPDATE SET RS_CONTRACT_ATTACHED_STATUS = SOURCE. ITEM_STATUS,
+             ITEM_REBATE_START_DATE = SOURCE.ITEM_REBATE_START_DATE,
+             ITEM_REBATE_END_DATE = SOURCE.ITEM_REBATE_END_DATE,
+             FORMULA_ID = SOURCE.FORMULA_ID,
+             FORMULA_METHOD_ID = SOURCE.FORMULA_METHOD_ID,
+             REBATE_AMOUNT = SOURCE.REBATE_AMOUNT
+WHEN NOT MATCHED THEN
+  INSERT (RS_CONTRACT_SID,
+          ITEM_MASTER_SID,
+          RS_CONTRACT_ATTACHED_STATUS,
+          ITEM_REBATE_START_DATE,
+          ITEM_REBATE_END_DATE,
+          FORMULA_ID,
+          FORMULA_METHOD_ID,
+          REBATE_AMOUNT,
+          INBOUND_STATUS,
+          CREATED_BY)
+  VALUES( SOURCE.RS_CONTRACT_SID,
+          SOURCE.ITEM_MASTER_SID,
+          SOURCE.ITEM_STATUS,
+          SOURCE.ITEM_REBATE_START_DATE,
+          SOURCE.ITEM_REBATE_END_DATE,
+          SOURCE.FORMULA_ID,
+          SOURCE.FORMULA_METHOD_ID,
+          SOURCE.REBATE_AMOUNT,
+          'A',
+          '?'); 
+		]]>
+    </sql>
+    <sql id="UPDATING END DATE FOR CURRENT CONTRACT">
+		<![CDATA[
+UPDATE IFP_C
+SET    ITEM_END_DATE = Temp.END_DATE
+FROM   IFP_CONTRACT_DETAILS IFP_C
+       JOIN GCM_GLOBAL_DETAILS Temp
+         ON Temp. IFP_CONTRACT_SID = IFP_C.IFP_CONTRACT_SID
+            AND Temp.ITEM_MASTER_SID = IFP_C.ITEM_MASTER_SID
+            AND Temp.SESSION_ID = '?'
+            AND Temp.OPERATION = 'CURRENT SUMMARY'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT' 
+		
+		]]>
+    </sql>
+    <sql id="Checking the items in one contract">
+		<![CDATA[
+SELECT count(Distinct CONTRACT_MASTER_SID)
+FROM   IFP_CONTRACT IC
+       INNER JOIN IFP_CONTRACT_DETAILS ICD
+               ON IC.IFP_CONTRACT_SID = ICD.IFP_CONTRACT_SID
+GROUP  BY CONTRACT_MASTER_SID
+HAVING Count(CASE
+               WHEN ITEM_MASTER_SID IN ( ?) THEN 1
+             END) = ?
+
+
+		
+		]]>
+    </sql>
+    
+    <sql id="Close button delete">
+		<![CDATA[
+     
+   DECLARE @SESSION_ID VARCHAR(100) ='?'
+       
+
+DELETE FROM GCM_GLOBAL_DETAILS
+WHERE  session_id = @SESSION_ID
+      
+       AND MODULE_NAME = 'ITEM_MANAGEMENT' 
+
+						 			
+		]]>
+    </sql>
+    <sql id="helperTableQuery">
+		<![CDATA[
+     
+   SELECT DISTINCT HT.HELPER_TABLE_SID,
+                HT.DESCRIPTION
+FROM   ? IT
+       JOIN HELPER_TABLE HT
+         ON it.? = HT.HELPER_TABLE_SID 
+
+						 			
+		]]>
+    </sql>
+    <sql id="Mass Update checkreord check">
+		<![CDATA[
+     
+   SELECT Count(1)
+FROM   GCM_GLOBAL_DETAILS
+WHERE  SESSION_ID = '?'
+       AND OPERATION = '?'
+       AND check_record = 1 
+
+
+						 			
+		]]>
+    </sql>
+    <sql id="Mass Update data check">
+		<![CDATA[
+     
+SELECT Count(GCM_GLOBAL_DETAILS_SID)
+FROM   GCM_GLOBAL_DETAILS
+WHERE  SESSION_ID = '?'
+       AND CHECK_RECORD = 1
+       AND OPERATION = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND ? IS NOT  NULL 
+
+
+						 			
+		]]>
+    </sql>
+    <sql id="Single contract check">
+		<![CDATA[
+     
+SELECT Count(DISTINCT CONTRACT_MASTER_SID)
+FROM   GCM_GLOBAL_DETAILS
+WHERE  SESSION_ID = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND OPERATION = '?' 
+	   AND CHECK_RECORD=1
+		]]>
+    </sql>
+  
+    <sql id="Resetting CheckRecord">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    CHECK_RECORD = 0
+WHERE  SESSION_ID = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND OPERATION = '?' 
+
+		]]>
+    </sql>
+    <sql id="ResettingCheckRecordForProjTransfer">
+		<![CDATA[
+UPDATE GCM_GLOBAL_DETAILS
+SET    CHECK_RECORD = 0
+WHERE  SESSION_ID = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND OPERATION = '?' 
+
+		]]>
+    </sql>
+    <sql id="Selecting one contract">
+		<![CDATA[
+SELECT Count(*)
+FROM   GCM_GLOBAL_DETAILS
+WHERE  session_id = '?'
+       AND OPERATION = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT' 
+	   AND check_record=1
+
+
+		]]>
+    </sql>
+  
+    <sql id="Submit endDate check">
+		<![CDATA[
+SELECT Count(*)
+FROM   GCM_GLOBAL_DETAILS
+WHERE  END_DATE IS NULL
+       AND SESSION_ID = '?'
+       AND OPERATION = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND CHECK_RECORD = 1 
+		]]>
+    </sql>
+    <sql id="latestAndGreatestProjection">
+		<![CDATA[
+        SELECT TOP 1 PM.PROJECTION_MASTER_SID,PM.FORECASTING_TYPE
+             FROM   PROJECTION_MASTER PM
+                    JOIN PROJECTION_DETAILS PD
+                      ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+                         AND PM.IS_APPROVED = 'A'
+                    JOIN CCP_DETAILS CCPT
+                      ON CCPT.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                    JOIN GCM_GLOBAL_DETAILS IMTD
+                      ON IMTD.CONTRACT_MASTER_SID = CCPT.CONTRACT_MASTER_SID
+                         AND IMTD.SESSION_ID = '?'
+                         AND IMTD.OPERATION = '?'
+                         AND IMTD.MODULE_NAME = 'ITEM_MANAGEMENT'
+                         AND IMTD.CHECK_RECORD = 1
+             ORDER  BY PM.MODIFIED_DATE DESC 
+		]]>
+    </sql>
+    <sql id="SalesUnitsCheck">
+		<![CDATA[
+SELECT Sum(SA.?),
+       Sum(SA.?)
+FROM   PROJECTION_DETAILS PD1
+       JOIN ? SA
+         ON SA.PROJECTION_DETAILS_SID = PD1.PROJECTION_DETAILS_SID
+        AND PD1.PROJECTION_MASTER_SID=?
+		]]>
+    </sql>
+    <sql id="Cancel Remove">
+		<![CDATA[
+DELETE FROM GCM_GLOBAL_DETAILS
+WHERE  session_id = '?'
+       AND OPERATION = '?'
+       AND MODULE_NAME = 'ITEM_MANAGEMENT' 
+
+
+		]]>
+    </sql>
+    <sql id="Update sales in projection">
+		<![CDATA[
+UPDATE NM
+SET    PROJECTION_SALES = 0,
+       PROJECTION_UNITS = 0
+FROM   PROJECTION_DETAILS PD
+       JOIN ? NM
+         ON PD.PROJECTION_DETAILS_SID = NM.PROJECTION_DETAILS_SID
+            AND PD.PROJECTION_MASTER_SID = '?'
+       JOIN CCP_DETAILS CCP
+         ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+       JOIN GCM_GLOBAL_DETAILS Temp
+         ON Temp.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+            AND Temp.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+            AND Temp.SESSION_ID = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND CCP.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND CCP.ITEM_MASTER_SID = Temp.ITEM_MASTER_SID
+       JOIN PERIOD PER
+         ON NM.PERIOD_SID < PER.PERIOD_SID
+            AND PER.MONTH = Month(Temp.START_DATE)
+            AND PER.YEAR = Year(Temp.START_DATE)
+       JOIN PERIOD PER1
+         ON NM.PERIOD_SID > PER.PERIOD_SID
+            AND PER1.MONTH = Month(Temp.END_DATE)
+            AND PER1.YEAR = Year(Temp.END_DATE) 
+
+
+		]]>
+    </sql>
+    <sql id="Remove sales in projection">
+		<![CDATA[
+UPDATE NM
+SET    PROJECTION_SALES = 0,
+       PROJECTION_UNITS = 0
+FROM   PROJECTION_DETAILS PD
+       JOIN ? NM
+         ON PD.PROJECTION_DETAILS_SID = NM.PROJECTION_DETAILS_SID
+            AND PD.PROJECTION_MASTER_SID = '?'
+       JOIN CCP_DETAILS CCP
+         ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+       JOIN GCM_GLOBAL_DETAILS Temp
+         ON Temp.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+            AND Temp.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+            AND Temp.SESSION_ID = '?'
+            AND Temp.OPERATION = '?'
+            AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND CCP.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
+            AND CCP.ITEM_MASTER_SID = Temp.ITEM_MASTER_SID
+       JOIN PERIOD PER
+         ON NM.PERIOD_SID >= PER.PERIOD_SID
+            AND PER.MONTH = Month(Getdate())
+            AND PER.YEAR = Year(Getdate())
+     
+
+
+		]]>
+    </sql>
+    <sql id="Transfer Input table Insert">
+		<![CDATA[
+INSERT INTO FUTURE_EVENTS_INPUT
+            (FROM_PROJECTION,
+             COPY_FROM_PROJECTION,
+             TO_PROJECTION,
+             COPY_TO_PROJECTION,
+             FROM_CONTRACT_MASTER_SID,
+             TO_CONTRACT_MASTER_SID,
+             ITEM_MASTER_SID,
+             FROM_END_DATE,
+             TO_START_DATE,
+             TRANSFER_FLAG,
+             SESSION_ID)
+SELECT '?',
+       '?',
+       '?',
+       '?',
+       Temp1.CONTRACT_MASTER_SID,
+       Temp2.CONTRACT_MASTER_SID,
+       '?',
+       Max(Temp1.END_DATE),
+       Max(Temp2.START_DATE),
+       '?',
+       '?'
+FROM   GCM_GLOBAL_DETAILS Temp1
+       JOIN GCM_GLOBAL_DETAILS Temp2
+         ON Temp1.SESSION_ID = Temp2.SESSION_ID
+            AND Temp1.MODULE_NAME = Temp2.MODULE_NAME
+            AND Temp1.SESSION_ID = '?'
+            AND Temp1.OPERATION = 'CURRENT SUMMARY'
+            AND Temp1.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND Temp2.OPERATION = 'Transfer Summary' 
+	group by Temp1.CONTRACT_MASTER_SID,Temp2.CONTRACT_MASTER_SID
+     
+
+
+		]]>
+    </sql>
+    <sql id="getContractMasterSid">
+		<![CDATA[
+SELECT top 1 CONTRACT_MASTER_SID
+FROM   GCM_GLOBAL_DETAILS Temp2
+WHERE  Temp2.SESSION_ID = '?'
+       AND Temp2.MODULE_NAME = 'ITEM_MANAGEMENT'
+       AND Temp2.OPERATION = 'SUMMARY';
+		]]>
+    </sql>
+    <sql id="tabChangeCheck">
+		<![CDATA[
+SELECT Count(*)
+FROM   GCM_GLOBAL_DETAILS Temp
+WHERE  Temp.session_id = '?'
+       AND Temp.OPERATION = '?'
+       AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT' 
+		]]>
+    </sql>
+    <sql id="tabChangeCheckProjTransfer">
+		<![CDATA[
+SELECT Count(*)
+FROM   GCM_GLOBAL_DETAILS Temp
+WHERE  Temp.SESSION_ID = '?'
+       AND Temp.OPERATION = '?'
+       AND Temp.MODULE_NAME = 'ITEM_MANAGEMENT' 
+		]]>
+    </sql>
+    <sql id="endDateBeforeStartDate">
+		<![CDATA[
+SELECT DISTINCT ?
+FROM   GCM_GLOBAL_DETAILS
+WHERE  CONTRACT_MASTER_SID = ?
+       AND CFP_CONTRACT_SID = ?
+       AND  IFP_CONTRACT_SID = ?
+       AND  PS_CONTRACT_SID = ?
+       AND RS_CONTRACT_SID = ?
+       AND SESSION_ID = '?'
+       AND PROJECTION_MASTER_SID = '?'
+       AND ITEM_MASTER_SID = '?'
+       AND OPERATION = '?' 
+ 
+		]]>
+    </sql>
+    <sql id="endDateBeforeStartDateAdd">
+		<![CDATA[
+SELECT DISTINCT ?
+FROM   GCM_GLOBAL_DETAILS
+WHERE  CONTRACT_MASTER_SID = ?
+       AND CFP_CONTRACT_SID = ?
+       AND  IFP_CONTRACT_SID = ?
+       AND  PS_CONTRACT_SID = ?
+       AND RS_CONTRACT_SID = ?
+       AND SESSION_ID = '?'
+       AND OPERATION = '?' 
+ 
+		]]>
+    </sql>
+    <sql id="allItemsCheckForProjectionTrnsfer">
+		<![CDATA[
+
+DECLARE @ITEM_MASTER_SID       VARCHAR(500)=?,
+        @ITEM_MASTER_SID_COUNT INT
+SELECT @ITEM_MASTER_SID_COUNT = Count(TOKEN)
+FROM   Udf_splitstring(@ITEM_MASTER_SID, ',')
+
+SELECT *
+FROM   (SELECT Count(ITEM_MASTER_SID) CNT,
+               IFP_CONTRACT_SID
+        FROM   GCM_GLOBAL_DETAILS
+        WHERE  item_master_sid IN (@ITEM_MASTER_SID )
+        and  session_id = '?' 
+AND OPERATION = 'TransferContract'
+ AND MODULE_NAME = 'ITEM_MANAGEMENT'
+        GROUP  BY IFP_CONTRACT_SID)A
+WHERE  CNT = @ITEM_MASTER_SID_COUNT  
+    ]]>
+    </sql>
+    <sql id="ComboBox List Name Query">
+		<![CDATA[
+
+SELECT
+    HELPER_TABLE_SID,
+    DESCRIPTION
+FROM
+    dbo.HELPER_TABLE
+WHERE
+    LIST_NAME  = '?'
+ 
+		]]>
+    </sql>
+    <sql id="Mass Update Multiple End date Check">
+		<![CDATA[
+SELECT
+    DISTINCT ?
+FROM
+    GCM_GLOBAL_DETAILS
+WHERE
+    SESSION_ID = '?'
+    AND OPERATION = '?' 
+    AND MODULE_NAME = 'ITEM_MANAGEMENT'
+    AND CHECK_RECORD =1
+		]]>
+    </sql>
+    
+    <sql id="Prod Hirarechy UPdate">
+		<![CDATA[
+INSERT INTO PROJECTION_PROD_HIERARCHY
+(
+   PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID
+)
+SELECT
+'?', RELATIONSHIP_LEVEL_SID
+from RELATIONSHIP_LEVEL_DEFINITION
+where RELATIONSHIP_BUILDER_SID=?
+and RELATIONSHIP_LEVEL_VALUES in (?)
+		]]>
+    </sql>
+
+     <sql id="contractItemCheck">
+		<![CDATA[
+
+
+select distinct cm.CONTRACT_NO,cm.CONTRACT_NAME from dbo.CONTRACT_MASTER cm 
+join  dbo.PS_CONTRACT c on c.CONTRACT_MASTER_SID =cm.CONTRACT_MASTER_SID  
+and c.CONTRACT_MASTER_SID in (?) and
+ c.CONTRACT_MASTER_SID not in (select co.CONTRACT_MASTER_SID 
+from dbo.PS_CONTRACT_DETAILS ps join dbo.PS_CONTRACT co 
+on co.PS_CONTRACT_SID=ps.PS_CONTRACT_SID and
+(
+? 
+)
+and
+
+ ps.ITEM_MASTER_SID ='?') 
+]]>
+    </sql>
+  <sql id="Submit check Pojection Transfer">
+		<![CDATA[
+    SELECT
+    COUNT(*)
+    FROM (SELECT
+    1 AS CO
+    FROM GCM_GLOBAL_DETAILS
+    WHERE EXISTS (SELECT
+    *
+    FROM GCM_GLOBAL_DETAILS
+    WHERE (START_DATE IS NULL   
+    OR ITEM_STATUS IS NULL)
+    AND session_id = '?'
+    AND OPERATION = '?'
+    AND MODULE_NAME = 'ITEM_MANAGEMENT'
+    AND CHECK_RECORD = 1)) a 
+		]]>
+    </sql>
+    <sql id="getCurrentContractEndDate">
+		<![CDATA[
+   SELECT DISTINCT
+  END_DATE
+FROM dbo.GCM_GLOBAL_DETAILS
+WHERE SUB_MODULE_NAME = 'Projection Transfer'
+AND "OPERATION" = 'current summary'
+AND SESSION_ID = '?'
+AND PRICE_TOLERANCE_TYPE LIKE '?'
+AND PRICE_TOLERANCE_INTERVAL LIKE '?'
+AND PRICE_TOLERANCE LIKE '?'
+AND PRICE_TOLERANCE_FREQUENCY LIKE '?'
+		]]>
+    </sql>
+</custom-sql>

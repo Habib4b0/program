@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout margin="true" spacing="true" >
+       
+        <Panel caption="Forecast Configuration" width="100%">
+            <VerticalLayout width="1240px" margin="true" spacing="true">
+                <p:ErrorLabel id="errorMsg"/>
+                  <CssLayout id="cssLayout1" width="100%" height="100%">
+                <GridLayout immediate="true" rows="3" columns="2" >
+                    
+                    <Label value="Business Process" contentMode="HTML" immediate="true" width="230px" styleName ="lableright" />
+                    <ComboBox id="businessProcess" nullSelectionAllowed="true" inputPrompt="-Select One" immediate="true" />  
+                    <Label value="Process type" contentMode="HTML" immediate="true" width="230px" styleName ="lableright"  />
+                    <OptionGroup id="processType" enabled="true" immediate="true" styleName = "horizontal" />
+                    <Label value="Mode" contentMode="HTML" immediate="true" width="230px" styleName ="lableright" />
+                    <OptionGroup id="mode" enabled="true" immediate="true" styleName = "horizontal" />
+                  
+                </GridLayout></CssLayout>
+                <GridLayout immediate="true" rows="2" columns="8" styleName = "minWidth50px" margin="false" >
+                    <Label value="Historical Data Frequency" id ="historyLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright" />
+                    <ComboBox id="historicalInterval" nullSelectionAllowed="true" inputPrompt="-Select One" immediate="true" />  
+                    <Label value="Historical Data Interval" id ="historyIntervalLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright" />
+                    <TextField id="historicalValue" enabled="true" immediate="true" />  
+                    <Label value="Historical Data Time Period From" id ="fromLabel" contentMode="HTML" immediate="true" width="230px" styleName ="lableright"  />  
+                    <PopupDateField id="historicalPeriod" immediate="true"/>
+
+                    <Label value="Historical Data Period" id ="historicPeriodLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright" />
+                    <TextField id="historicPeriod" enabled="true" immediate="true" />  
+
+                    <Label value="Future Interval Frequency" id ="futureLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright" />
+                    <ComboBox id="futureInterval" nullSelectionAllowed="true" inputPrompt="-Select One" immediate="true" />  
+                    <Label value="Future Interval" id ="futureIntervalLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                    <TextField id="futureValue" enabled="true" immediate="true" />  
+                    <Label value="Historical Data Time Period To" id ="toLabel" contentMode="HTML" immediate="true" width="230px"  styleName ="lableright" />  
+                    <PopupDateField id="futurePeriod" immediate="true"/>
+                         
+                    <Label value="Forecast Period" contentMode="HTML" id ="forecastPeriodLabel" immediate="true" width="173px" styleName ="lableright" />
+                    <TextField id="forecastPeriod" enabled="true" immediate="true" />  
+                  
+                </GridLayout>
+                
+                <HorizontalLayout id="buttonLayout" spacing="true" margin="true" >
+                    <Button id="saveBtn" caption="SAVE" immediate="true" />
+                    <Button id="resetBtn" caption="RESET" immediate="true" />
+                </HorizontalLayout>
+                 
+                
+            </VerticalLayout>
+        </Panel>  
+        <Panel caption="Results" id="resultsTable">
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>  
+        </Panel>
+       
+        <HorizontalLayout spacing="true" margin="false" styleName="responsiveGrid" >
+            <Button id="excelExport" immediate="true" primaryStyleName="link" />
+        </HorizontalLayout>
+                                                         
+    </VerticalLayout>
+</Panel>

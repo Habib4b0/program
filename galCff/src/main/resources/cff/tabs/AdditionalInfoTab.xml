@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel >
+
+    <VerticalLayout margin="true" spacing="true"  immediate="true" styleName="bootstrap-forecast">
+
+        <Panel  width="50%" height="515px" caption="Notes">
+            <VerticalLayout margin="true" spacing="true"  immediate="true" style = "width-auto" width="100%">
+                <HorizontalLayout id="horizontallayout"  spacing="true" width="100%">
+                    <Label value="Enter New Note: " contentMode="HTML" width="122px"/>
+                    <TextArea id="newNotes" description="Enter New Notes" rows="7" width="45em" componentAlignment="TOP_RIGHT"/>
+                </HorizontalLayout>
+                <HorizontalLayout id="hlayout" >  
+                    <Label value=" " contentMode="HTML" width="665px"/>
+                    <Button id="addNotesBtn" caption="ADD NOTE"/>
+                </HorizontalLayout>
+                <HorizontalLayout  spacing="true">
+                    <Label value="Notes History: " contentMode="HTML" width="122px"/>
+                    <TextArea id="notesHistory" rows="7" width="45em"  componentAlignment="TOP_RIGHT"/>
+                </HorizontalLayout>
+                <HorizontalLayout spacing="true"  margin="false">
+                    <Button id="wordBtn" primaryStyleName="link"></Button>
+                    <Button id="pdfBtn" primaryStyleName="link"></Button>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+
+        <Panel width="50%" caption="Attachments">
+
+            <VerticalLayout margin="true" spacing="true"  immediate="true">
+                <HorizontalLayout  margin="false" spacing="true"  immediate="true"> 
+                    <Label value="Add Attachment: " contentMode="HTML" width = "122px" />
+                    <VerticalLayout id="layout" immediate="true"></VerticalLayout>
+                </HorizontalLayout>
+                <GridLayout immediate="true" rows="1" columns="2"  margin="false" spacing="true">
+                    <Label value="Attachments: " contentMode="HTML" width = "122px"/>
+                    <Table styleName="table-header-center" id="resultsTable" height="140px" width="500px" immediate="true" />
+                </GridLayout>
+                
+                <HorizontalLayout margin="false" spacing="fase"  immediate="true">
+                    <Label value=" " contentMode="HTML" width="612px" />
+                    <Button id="removeBtn" caption="REMOVE"/>
+                </HorizontalLayout>
+               
+            </VerticalLayout>
+        </Panel>
+        <Button id="closeBtn" caption="CLOSE"/>
+    </VerticalLayout>
+
+
+</Panel>  

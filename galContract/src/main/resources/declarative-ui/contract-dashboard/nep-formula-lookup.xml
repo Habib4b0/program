@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="lookup" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:el="urn:import:com.stpl.app.ui.errorhandling">
+    
+    <VerticalLayout styleName="custom-margin" spacing="true">
+
+        <!--<el:ErrorLabel id="errorMsg" />-->
+
+        <HorizontalLayout id="hlayout" spacing="false" margin="false" immediate="true" styleName="responsiveTabGrid">
+            <CssLayout id="cssLayout" immediate="true" width="100%" height="100%">
+		
+                <Label id="nepFormulaTypeLabel" value="Net Sales Formula Type" contentMode="HTML" immediate="true" />
+                <ComboBox id="nepFormulaType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+                
+                <Label id="nepFormulaIDLabel" value="Net Sales Formula ID" contentMode="HTML" immediate="true" />
+                <TextField id="nepFormulaID" enabled="true" immediate="true" />
+			
+                <Label id="nepFormulaNoLabel" value="Net Sales Formula No" contentMode="HTML" immediate="true" />
+                <TextField id="nepFormulaNo" enabled="true" immediate="true" />
+			
+                <Label id="nepFormulaNameLabel" value="Net Sales Formula Name" contentMode="HTML" immediate="true" />
+                <TextField id="nepFormulaName" enabled="true" immediate="true" />                	
+				
+            </CssLayout>
+        </HorizontalLayout>
+
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="searchBtn" caption="SEARCH" immediate="true" width="80" />
+            <Button id="resetBtn" caption="RESET" immediate="true" width="80" />
+        </HorizontalLayout>
+	
+        <VerticalLayout id="tablelayout" spacing="true"/>        
+        <HorizontalLayout id="controlLayout" immediate="true" spacing="true"/>
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
+            <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" />
+        </HorizontalLayout>
+
+    </VerticalLayout>
+</Panel>

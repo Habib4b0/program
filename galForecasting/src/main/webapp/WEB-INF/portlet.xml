@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+    <!-- Portlet for NonMandated -->
+    <portlet>
+        <description>Commercial Portlet</description>
+        <portlet-name>Commercial</portlet-name>
+        <display-name>Commercial</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.galforecasting.ui.ForecastUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Commercial</title>
+            <short-title>Commercial</short-title>
+            <keywords>Commercial</keywords>
+        </portlet-info>
+    </portlet>
+        
+    <portlet>
+        <description>Government</description>
+        <portlet-name>Government</portlet-name>
+        <display-name>Government</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.galforecasting.ui.ForecastUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Data Selection - Government</title>
+            <short-title>Data Selection - Government</short-title>
+            <keywords>Government</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Returns portlet</description>
+        <portlet-name>Returns</portlet-name>
+        <display-name>Returns</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.galforecasting.ui.ForecastUI</value>
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Data Selection - Returns</title>
+            <short-title>Returns</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    
+    <portlet>
+        <description>National Assumptions</description>
+        <portlet-name>NationalAssumptions</portlet-name>
+        <display-name>National Assumptionsr</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.galforecasting.nationalassumptions.ui.NationalAssumptionsUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>National Assumptions </title>
+            <short-title>National Assumptions</short-title>
+            <keywords>National Assumptions</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Accrual Rate Projection</description>
+        <portlet-name>AccrualRateProjection</portlet-name>
+        <display-name>Accrual Rate Projection</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.galforecasting.ui.ForecastUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Accrual Rate Projection Data Selection</title>
+            <short-title>Accrual Rate Projection Data Selection</short-title>
+            <keywords>Accrual Rate Projection</keywords>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="mainPanel" xmlns:a="urn:import:org.tepi.filtertable" xmlns:b="urn:import:org.asi.ui.extfilteringtable" xmlns:c="urn:import:org.asi.ui.customtextfield" width="100%" > 
+    <VerticalLayout id="mainLayout" spacing="true" margin="true" immediate="true" styleName="bootstrap-forecast" width="100%">
+        <Panel caption="Trading Partner Information">
+            <VerticalLayout  styleName = "width-auto" spacing="true" margin="true" immediate="true" >
+                <GridLayout rows="1" columns="6" spacing="true" margin="false"
+                            immediate="true" >      
+                    <Label caption="Contract Holder: " contentMode="HTML" width="150px" />
+                    <TextField id="pmpyContractHolder" immediate="true"  width="200px"/>
+                    <Label caption="Trading Partner No: " contentMode="HTML" width="159px" />
+                    <TextField id="tradingPartnerNo" immediate="true" width="200px" />
+                    <Label caption="Trading Partner Name: " contentMode="HTML" width="159px" />
+                    <TextField id="tradingPartnerName" immediate="true" width="200px"/>
+                </GridLayout>
+        
+            </VerticalLayout>
+        </Panel>  
+          
+        <Panel caption="Selection Criteria">
+            <VerticalLayout  styleName = "width-auto" spacing="false" margin="true" immediate="true" >
+                <GridLayout rows="1" columns="10" spacing="true" margin="false"
+                            immediate="true" >      
+                    <Label caption="Contract Holders: " contentMode="HTML" width="150px" />
+                    <ComboBox id="contract" nullSelectionAllowed="true"
+                              immediate="true" styleName="comboxsize"/>
+                    <Label caption="Trading Partner: " contentMode="HTML" width="115px" />
+                    <c:CustomTextField id="tradingPartner" inputPrompt="" immediate="true"
+                                       styleName="searchText" />
+                    <Label caption="Frequency: " contentMode="HTML"/>
+                    <TextField id="frequency" immediate="true" width="200px"/>
+                    <Label caption="History: " contentMode="HTML"  />
+                    <TextField id="history" immediate="true" width="200px" />
+                    <Button id="generate" caption="GENERATE"></Button>
+                    <Button id="btnResetSearch" caption="RESET"></Button>
+                </GridLayout>
+        
+            </VerticalLayout>
+        </Panel>  
+
+        <HorizontalLayout spacing="true" immediate="true" >
+            
+            <Panel width="973px" >
+                <VerticalLayout spacing="true" margin="true" immediate="true">
+                <Panel caption="Contract Holder History">
+                    <VerticalLayout spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true" margin="false" immediate="true" columns="2" rows="1" height="125px">
+                            <GridLayout spacing="true" margin="false" immediate="true" columns="1" rows="5">
+                                <Label caption="  " contentMode="HTML" />
+                                <Label caption="Actual Sales: " contentMode="HTML"  width="112px" />
+                                <Label caption="Unit Volume: " contentMode="HTML" />
+                                <Label caption="Lives: " contentMode="HTML" />
+                                <Label caption=" " contentMode="HTML" />
+                            </GridLayout>
+                              <VerticalLayout id="contractTableLayout" spacing="true" margin="false" immediate="true">
+                            </VerticalLayout>
+                        </GridLayout>
+                        <HorizontalLayout spacing="true" margin="false" immediate="true">
+                            <Button id="totalLivesChartCh" primaryStyleName="link"  immediate="true"  />
+                            <Button id="excelExportCh" primaryStyleName="link"  immediate="true"  />                                      
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                <Panel caption="Trading Partner History">
+                    <VerticalLayout spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true" margin="false" immediate="true" columns="2" rows="1" height="125px">
+                            <GridLayout spacing="true" margin="false" immediate="true" columns="1" rows="5">
+                                <Label caption="  " contentMode="HTML" />
+                                <Label caption="Actual Sales: " contentMode="HTML" width="112px"/>
+                                <Label caption="Unit Volume: " contentMode="HTML" />
+                                <Label caption="Lives: " contentMode="HTML" />
+                                <Label caption=" " contentMode="HTML" />
+                            </GridLayout>
+                            <VerticalLayout id="table2" spacing="true" margin="false" immediate="true">
+                            </VerticalLayout>
+                        </GridLayout>
+                        <HorizontalLayout spacing="true" margin="false" immediate="true">
+                            <Button id="totalLivesChartTp" primaryStyleName="link"  immediate="true"  />
+                            <Button id="excelExportTp" primaryStyleName="link"  immediate="true"  />                                    
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                </VerticalLayout>
+            </Panel>
+           
+            
+            <Panel caption="Calculator"  width="100%" >
+                <VerticalLayout  styleName = "width-auto" spacing="true" margin="true" immediate="true" >
+                    <GridLayout rows="1" columns="4" spacing="true" margin="false"
+                                            immediate="true" >      
+                        <Label caption="Variable: " contentMode="HTML" />        
+                        <OptionGroup id="salesOrUnits" enabled="true" immediate="true" styleName = "horizontal" />
+                        <Button id="populate" caption="POPULATE" ></Button>            
+    
+                    </GridLayout>
+                    <GridLayout rows="8" columns="3" spacing="true" margin="false"
+                                            immediate="true" >      
+                        <Label caption="Sales/Units: " contentMode="HTML" />        
+                        <TextField id="sales" inputPrompt="" immediate="true" styleName="txtRightAlign"  />
+                        <Label caption="  " contentMode="HTML" />
+       
+                        <Label caption="Market Share (%): " contentMode="HTML" />        
+                        <TextField id="marketShare" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Label caption="  " contentMode="HTML" />          
+     
+                        <Label caption="Analog Lives: " contentMode="HTML" />        
+                        <TextField id="analogLives" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Button id="calculateOne" caption="CALCULATE"></Button>
+       
+                        <Label caption="Value Per Life: " contentMode="HTML" />        
+                        <TextField id="valuePerLife" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Label caption="  " contentMode="HTML" />   
+        
+                        <Label caption="Market Share (%): " contentMode="HTML" />        
+                        <TextField id="marketShare1" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Label caption="  " contentMode="HTML" />   
+       
+                        <Label caption="Projected Lives: " contentMode="HTML" />        
+                        <TextField id="projectedLives" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Button id="calculateTwo" caption="CALCULATE"></Button>
+       
+                        <Label caption="Total Sales/Units: " contentMode="HTML" />        
+                        <TextField id="totalSales" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Label caption="  " contentMode="HTML" />   
+       
+                        <Label caption="Projection Period Total: " contentMode="HTML" />        
+                        <TextField id="projectionPeriodTotal" inputPrompt="" immediate="true" styleName="txtRightAlign"  />     
+                        <Label caption="  " contentMode="HTML" />   
+       
+                    </GridLayout>
+        
+                </VerticalLayout>
+            </Panel> 
+            
+        </HorizontalLayout>
+          
+        <HorizontalLayout id="buttonLayout" spacing="true" margin="false"
+                              immediate="true">
+            <Label caption=" " contentMode="HTML" width="657px" />
+            <Label caption="Effective Period: " contentMode="HTML" />
+            <ComboBox id="effectivePeriod" nullSelectionAllowed="true " immediate="true" styleName="comboxsize"/>
+            <Button id="btnResetCalculation" caption="RESET"></Button>
+            <Button id="btnimport" caption="IMPORT"></Button>
+            <Button id="btnRemove" caption="CLOSE"></Button>
+            <Button id="excelExportCalculation" primaryStyleName="link" />
+        </HorizontalLayout>
+          
+    </VerticalLayout>
+</Panel>  
+       

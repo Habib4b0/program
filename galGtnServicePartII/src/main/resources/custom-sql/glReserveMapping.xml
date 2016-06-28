@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<custom-sql>
+    <sql id="gl.loadGLSystemData">
+	<![CDATA[
+            MERGE AC_GL_RSV_MAPPING_MASTER AS TARGET
+USING (SELECT CM.COMPANY_MASTER_SID,
+              RSM.REBATE_PROGRAM_TYPE,
+              RSM.RS_TYPE,
+              CM.CREATED_BY,
+              Max(CM.CREATED_DATE)  CREATED_DATE,
+              CM.MODIFIED_BY,
+              Max(CM.MODIFIED_DATE) MODIFIED_DATE,
+              Max(GC."SOURCE")      SRC,
+              ''                    FREQUENCY,
+              'A'                   INBOUND_STATUS
+       FROM   GL_COST_CENTER_MASTER GC
+       JOIN   COMPANY_MASTER CM ON GC.COMPANY_CODE = CM.COMPANY_ID
+                               AND CM.INBOUND_STATUS <> 'D'
+       JOIN   ITEM_MASTER IM ON GC.NDC8 = IM.NDC8
+                            AND GC.INBOUND_STATUS <> 'D'
+                            AND IM.INBOUND_STATUS <> 'D'
+       JOIN   RS_DETAILS RS ON RS.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                           AND RS.INBOUND_STATUS <> 'D'
+       JOIN   RS_MODEL RSM ON RSM.RS_MODEL_SID = RS.RS_MODEL_SID
+                          AND RSM.INBOUND_STATUS <> 'D'
+       GROUP  BY CM.COMPANY_MASTER_SID,
+                 RSM.REBATE_PROGRAM_TYPE,
+                 RSM.RS_TYPE,
+                 CM.CREATED_BY,
+                 CM.MODIFIED_BY) AS SOURCE_Table
+ON ( TARGET.GL_COMPANY_MASTER_SID = SOURCE_Table.COMPANY_MASTER_SID
+     AND TARGET.REBATE_PROGRAM_TYPE = SOURCE_Table.REBATE_PROGRAM_TYPE
+     AND TARGET.RS_TYPE = SOURCE_Table.RS_TYPE )
+WHEN MATCHED THEN
+  UPDATE SET TARGET.MODIFIED_BY = SOURCE_Table.MODIFIED_BY,
+             TARGET.MODIFIED_DATE = SOURCE_Table.MODIFIED_DATE
+WHEN NOT MATCHED BY TARGET THEN
+  INSERT (GL_COMPANY_MASTER_SID,
+          RS_TYPE,
+          REBATE_PROGRAM_TYPE,
+          FREQUENCY,
+          SOURCE,
+          CREATED_BY,
+          CREATED_DATE,
+          MODIFIED_BY,
+          MODIFIED_DATE,
+          INBOUND_STATUS)
+  VALUES( SOURCE_Table.COMPANY_MASTER_SID,
+          SOURCE_Table.RS_TYPE,
+          SOURCE_Table.REBATE_PROGRAM_TYPE,
+          SOURCE_Table.FREQUENCY,
+          SOURCE_Table.SRC,
+          SOURCE_Table.CREATED_BY,
+          SOURCE_Table.CREATED_DATE,
+          SOURCE_Table.MODIFIED_BY,
+          SOURCE_Table.MODIFIED_DATE,
+          SOURCE_Table.INBOUND_STATUS);
+
+        ]]>
+    </sql>
+    
+    <sql id="gl.getCompany">
+	<![CDATA[
+            SELECT DISTINCT CM.COMPANY_NAME,CM.COMPANY_MASTER_SID FROM AC_GL_RSV_MAPPING_MASTER GLM
+            JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=GLM.GL_COMPANY_MASTER_SID ORDER BY CM.COMPANY_NAME;
+        ]]>
+    </sql>
+    
+    <sql id="gl.loadDSType">
+	<![CDATA[
+            SELECT DISTINCT RPT.DESCRIPTION, GLM.REBATE_PROGRAM_TYPE FROM AC_GL_RSV_MAPPING_MASTER GLM
+            JOIN HELPER_TABLE RPT ON GLM.REBATE_PROGRAM_TYPE=RPT.HELPER_TABLE_SID
+                WHERE GLM.GL_COMPANY_MASTER_SID like '?C_SID?' 
+                  AND GLM.RS_TYPE like '?RPT_ID?' ORDER BY RPT.DESCRIPTION;
+        ]]>
+    </sql>
+    
+    <sql id="gl.loadDType">
+	<![CDATA[
+            SELECT DISTINCT RT.DESCRIPTION, GLM.RS_TYPE FROM AC_GL_RSV_MAPPING_MASTER GLM
+            JOIN HELPER_TABLE RT ON GLM.RS_TYPE=RT.HELPER_TABLE_SID
+            WHERE GLM.GL_COMPANY_MASTER_SID like '?C_SID?'
+                 ORDER BY RT.DESCRIPTION;
+        ]]>
+    </sql>
+    
+    <sql id="gl.loadSearchTable">
+	<![CDATA[
+            SELECT GLM.AC_GL_RSV_MAPPING_MASTER_SID, CM.COMPANY_NAME, DT.DESCRIPTION DEDECTION_TYPE, DST.DESCRIPTION DEDECTION_SUB_TYPE, 
+            GLM.CREATED_BY, GLM.CREATED_DATE, GLM.MODIFIED_BY, GLM.MODIFIED_DATE, GLM."SOURCE", GLM.FREQUENCY 
+            FROM AC_GL_RSV_MAPPING_MASTER GLM
+            JOIN COMPANY_MASTER CM ON GLM.GL_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                AND CM.COMPANY_MASTER_SID like '?CM_SID?' AND GLM.REBATE_PROGRAM_TYPE like '?DST_SID?' AND GLM.RS_TYPE like '?DT_SID?' AND GLM.FREQUENCY like '?FREQUENCY?' ?WHERE? AND GLM.INBOUND_STATUS <>'D'
+            JOIN HELPER_TABLE DT ON DT.HELPER_TABLE_SID=GLM.RS_TYPE
+            JOIN HELPER_TABLE DST ON DST.HELPER_TABLE_SID=GLM.REBATE_PROGRAM_TYPE
+            ?FILTER?
+            ?SORT? OFFSET ?ST? ROWS FETCH NEXT ?OFF? ROWS ONLY
+        ]]>
+    </sql>
+    <sql id="gl.loadCountSearchTable">
+	<![CDATA[
+            SELECT COUNT(*) FROM (SELECT GLM.AC_GL_RSV_MAPPING_MASTER_SID, CM.COMPANY_NAME, DT.DESCRIPTION DEDECTION_TYPE, DST.DESCRIPTION DEDECTION_SUB_TYPE, 
+            GLM.CREATED_BY, GLM.CREATED_DATE, GLM.MODIFIED_BY, GLM.MODIFIED_DATE, GLM."SOURCE", GLM.FREQUENCY 
+            FROM AC_GL_RSV_MAPPING_MASTER GLM
+            JOIN COMPANY_MASTER CM ON GLM.GL_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                AND CM.COMPANY_MASTER_SID like '?CM_SID?' AND GLM.REBATE_PROGRAM_TYPE like '?DST_SID?' AND GLM.RS_TYPE like '?DT_SID?' AND GLM.FREQUENCY like '?FREQUENCY?' ?WHERE? AND GLM.INBOUND_STATUS <>'D'
+            JOIN HELPER_TABLE DT ON DT.HELPER_TABLE_SID=GLM.RS_TYPE
+            JOIN HELPER_TABLE DST ON DST.HELPER_TABLE_SID=GLM.REBATE_PROGRAM_TYPE ?FILTER? ) AS CO;
+        ]]>
+    </sql>
+    
+    <sql id="gl.loadSearchTableCount">
+	<![CDATA[
+            SELECT COUNT(*) REC_CNT
+            FROM AC_GL_RSV_MAPPING_MASTER GLM
+            JOIN COMPANY_MASTER CM ON GLM.GL_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                AND CM.COMPANY_MASTER_SID like '?CM_SID?' AND GLM.REBATE_PROGRAM_TYPE like '?DT_SID?' AND GLM.RS_TYPE like '?DST_SID?' 
+            JOIN HELPER_TABLE DT ON DT.HELPER_TABLE_SID=GLM.REBATE_PROGRAM_TYPE 
+            JOIN HELPER_TABLE DST ON DST.HELPER_TABLE_SID=GLM.RS_TYPE;
+        ]]>
+    </sql>
+    
+    <sql id="gl.recCount">
+	<![CDATA[
+           SELECT COUNT(*) CNT FROM AC_GL_RESERVE_ACCOUNT WHERE 
+            AC_GL_RSV_MAPPING_MASTER_SID=?SID?
+            AND TYPE=?TYP?
+            AND ACCOUNT_ID='?AID?'
+            AND INDICATOR='?IND?'
+            AND PERIOD_INDICATOR='?PIND?'; 
+        ]]>
+    </sql>
+    
+    <sql id="gl.accReserveUpdate">
+	<![CDATA[
+            UPDATE AC_GL_RESERVE_ACCOUNT SET
+            ACCOUNT_NUMBER='?ANO?',
+            ACCOUNT_DESCRIPTION='?ADESC?',
+            REMARK='?REMARK?',
+            SUB_LEDGER_TYPE='?SLTYP?',
+            MODULE_TYPE='?BP?' 
+            WHERE 
+            AC_GL_RSV_MAPPING_MASTER_SID=?SID?
+            AND TYPE=?TYP?
+            AND ACCOUNT_ID='?AID?'
+            AND INDICATOR='?IND?'
+            AND PERIOD_INDICATOR='?PIND?';
+        ]]>
+    </sql>
+    
+    <sql id="gl.accReserveInsert">
+	<![CDATA[
+            INSERT INTO AC_GL_RESERVE_ACCOUNT 
+            (AC_GL_RSV_MAPPING_MASTER_SID,
+            TYPE,
+            ACCOUNT_ID,
+            ACCOUNT_NUMBER,
+            ACCOUNT_DESCRIPTION,
+            REMARK,
+            SUB_LEDGER_TYPE,
+            INDICATOR,
+            PERIOD_INDICATOR,MODULE_TYPE)
+            VALUES (?SID?,?TYP?,'?AID?','?ANO?','?ADESC?','?REMARK?','?SLTYP?','?IND?','?PIND?','?BP?'); 
+        ]]>
+    </sql>
+    
+    <sql id="gl.loadAccDetailsTable">
+	<![CDATA[
+            SELECT 
+            AC_GL_RSV_MAPPING_MASTER_SID,
+            TYP.HELPER_TABLE_SID TYP_ID,
+            TYP.DESCRIPTION TYP,
+            ACCOUNT_ID,
+            ACCOUNT_NUMBER,
+            ACCOUNT_DESCRIPTION,
+            REMARK,
+            SUB_LEDGER_TYPE,
+            INDICATOR,
+            PERIOD_INDICATOR,
+            MODULE_TYPE FROM AC_GL_RESERVE_ACCOUNT GL
+            JOIN HELPER_TABLE TYP ON GL."TYPE"=TYP.HELPER_TABLE_SID WHERE AC_GL_RSV_MAPPING_MASTER_SID=?GLM_SID?;
+        ]]>
+    </sql>
+    
+    <sql id="gl.resAccRemoveLine">
+	<![CDATA[
+           DELETE FROM AC_GL_RESERVE_ACCOUNT WHERE 
+            AC_GL_RSV_MAPPING_MASTER_SID=?SID?
+            AND TYPE=?TYP?
+            AND ACCOUNT_ID='?AID?'
+            AND INDICATOR='?IND?'
+            AND PERIOD_INDICATOR='?PIND?'; 
+        ]]>
+    </sql>
+    
+    <sql id="gl.saveFrequency">
+	<![CDATA[
+            UPDATE AC_GL_RSV_MAPPING_MASTER SET FREQUENCY='?FREQ?',CREATED_BY=?CREATEDBY?,CREATED_DATE=getdate(),MODIFIED_BY=?MODIFIEDBY?,MODIFIED_DATE=getdate() WHERE AC_GL_RSV_MAPPING_MASTER_SID=?GL_SID?;
+        ]]>
+    </sql>
+    
+    <sql id="loadselectedrules">
+	<![CDATA[
+            SELECT TRD.TRANSACTION_RULES_DEF_SID,TRD.RULE_NAME, TRD.VERSION_NO as VERSION,TRD.RULE_FLOW_GROUP_NAME as CATEGORY,TRD.CREATED_DATE as createdDate,TRD.MODIFIED_DATE as modifiedDate,TRD.QUERY
+                FROM TRANSACTION_RULES_DEFINITION TRD
+                JOIN AC_GL_RESERVE_ACCOUNT_RULES ACRULES ON TRD.TRANSACTION_RULES_DEF_SID=ACRULES.TRANSACTION_RULES_DEF_SID AND ACRULES.AC_GL_RSV_MAPPING_MASTER_SID= ?AC_GL_RSV_MAPPING_MASTER_SID?;
+        ]]>
+    </sql>
+    <sql id="deleteQuery">
+	<![CDATA[
+            Update AC_GL_RSV_MAPPING_MASTER set INBOUND_STATUS='D' where AC_GL_RSV_MAPPING_MASTER_SID= ?AC_GL_RSV_MAPPING_MASTER_SID?;
+        ]]>
+    </sql>
+    <sql id="versionNoFromGLtable">
+	<![CDATA[
+            Select  Distinct MAX(TRANSACTION_RULES_DEF_SID) as TRDS,MAX(VERSION_NO) as VERSION from AC_GL_RESERVE_ACCOUNT_RULES where AC_GL_RSV_MAPPING_MASTER_SID= ?AC_GL_RSV_MAPPING_MASTER_SID?;
+        ]]>
+    </sql>
+    <sql id="versionNoFromBPMtables">
+	<![CDATA[
+            Select Distinct VERSION_NO from TRANSACTION_RULES_DEFINITION where TRANSACTION_RULES_DEF_SID= ?TRANSACTION_RULES_DEFINITION_SID?;
+        ]]>
+    </sql>
+    <sql id="updateGlVersionNo">
+	<![CDATA[
+            update AC_GL_RESERVE_ACCOUNT_RULES set VERSION_NO=?VERSION_NO? where AC_GL_RSV_MAPPING_MASTER_SID= ?AC_GL_RSV_MAPPING_MASTER_SID?;
+        ]]>
+    </sql>
+    <sql id="historyrules">
+	<![CDATA[
+            SELECT distinct TRD.TRANSACTION_RULES_DEF_SID,TRD.RULE_NAME, TRD.VERSION_NO as VERSION,TRD.RULE_FLOW_GROUP_NAME as CATEGORY,TRD.CREATED_DATE as createdDate,TRD.MODIFIED_DATE as modifiedDate,TRD.QUERY
+                FROM HIST_TRANSACTION_RULES_DEF TRD
+                JOIN HIST_AC_GL_RSV_ACCOUNT_RULES ACRULES ON TRD.TRANSACTION_RULES_DEF_SID=ACRULES.TRANSACTION_RULES_DEF_SID AND ACRULES.AC_GL_RSV_MAPPING_MASTER_SID= ?AC_GL_RSV_MAPPING_MASTER_SID? 
+                order by TRD.RULE_NAME;
+        ]]>
+    </sql>
+    <sql id="gl.loadHistAccDetailsTable">
+	<![CDATA[
+            SELECT 
+            AC_GL_RSV_MAPPING_MASTER_SID,
+            TYP.HELPER_TABLE_SID TYP_ID,
+            TYP.DESCRIPTION TYP,
+            ACCOUNT_ID,
+            ACCOUNT_NUMBER,
+            ACCOUNT_DESCRIPTION,
+            REMARK,
+            SUB_LEDGER_TYPE,
+            INDICATOR,
+            PERIOD_INDICATOR,
+            MODULE_TYPE,CREATED_DATE,MODIFIED_DATE FROM HIST_AC_GL_RESERVE_ACCOUNT GL
+            JOIN HELPER_TABLE TYP ON GL."TYPE"=TYP.HELPER_TABLE_SID WHERE AC_GL_RSV_MAPPING_MASTER_SID=?GLM_SID?;
+        ]]>
+    </sql>
+    
+</custom-sql>

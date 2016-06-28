@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<custom-sql>    
+    
+    <sql id="temp-customer-contract-table">
+        
+        <![CDATA[ 
+            DECLARE @COMPANY TABLE
+            (COMPANY_MASTER_SID INT)
+            INSERT INTO @COMPANY(COMPANY_MASTER_SID)
+            SELECT DISTINCT COMPANY_SID FROM AH_TEMP_DETAILS
+            WHERE USER_ID = @USER_ID AND SESSION_ID = @SESSION_ID
+            AND SCREEN_NAME LIKE 'Customer_Selection';
+
+            DECLARE @CONTRACT TABLE
+            (CONTRACT_MASTER_SID INT)
+            INSERT INTO @CONTRACT(CONTRACT_MASTER_SID)
+            SELECT DISTINCT COMPONENT_MASTER_SID FROM AH_TEMP_DETAILS
+            WHERE USER_ID = @USER_ID AND SESSION_ID = @SESSION_ID
+            AND SCREEN_NAME LIKE 'Customer_Selection';
+        ]]>
+        
+    </sql>       
+    
+    <sql id="items-count">
+        
+        <![CDATA[ 
+            SELECT
+                COUNT(*)
+            FROM
+                (SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION,
+                        BM.BRAND_NAME,
+                        IM.ITEM_NO,
+                        IM.ITEM_NAME,
+                        IM.ITEM_MASTER_SID
+                FROM
+                        @CONTRACT CO
+                JOIN dbo.CONTRACT_MASTER CON_M ON
+                        CON_M.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                INNER JOIN dbo.COMPANY_MASTER CM ON
+                        CON_M.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CON_M.CONTRACT_MASTER_SID
+                INNER JOIN @COMPANY COMP ON
+                        COMP.COMPANY_MASTER_SID = CCPD.COMPANY_MASTER_SID
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+        ]]>
+        
+    </sql>   
+    
+    <sql id="items-count-with-identifier">
+        
+        <![CDATA[ 
+            SELECT
+                COUNT(*)
+            FROM
+                (SELECT
+                        DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                        CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                        HT1.DESCRIPTION,
+                        BM.BRAND_NAME,
+                        IM.ITEM_NO,
+                        IM.ITEM_NAME,
+                        IM.ITEM_MASTER_SID,
+                        II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+                        IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER
+                FROM
+                        @CONTRACT CO
+                JOIN dbo.CONTRACT_MASTER CON_M ON
+                        CON_M.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+                INNER JOIN dbo.COMPANY_MASTER CM ON
+                        CON_M.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                INNER JOIN DBO.CCP_DETAILS CCPD ON
+                        CCPD.CONTRACT_MASTER_SID = CON_M.CONTRACT_MASTER_SID
+                INNER JOIN @COMPANY COMP ON
+                        COMP.COMPANY_MASTER_SID = CCPD.COMPANY_MASTER_SID
+                INNER JOIN ITEM_MASTER IM ON
+                        CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN ITEM_IDENTIFIER II ON
+                        II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                INNER JOIN ITEM_QUALIFIER IQ ON
+                        II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID
+                INNER JOIN HELPER_TABLE HT1 ON
+                        HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+                INNER JOIN BRAND_MASTER BM ON
+                        IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                WHERE
+                        IM.INBOUND_STATUS <> 'D'
+        ]]>
+        
+    </sql>  
+    
+    <sql id="items-search">
+        
+        <![CDATA[ 
+            SELECT
+                    DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                    CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                    HT1.DESCRIPTION,
+                    BM.BRAND_NAME,
+                    IM.ITEM_NO,
+                    IM.ITEM_NAME,
+                    IM.ITEM_MASTER_SID
+            FROM
+                    @CONTRACT CO
+            JOIN dbo.CONTRACT_MASTER CON_M ON
+                    CON_M.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+            INNER JOIN dbo.COMPANY_MASTER CM ON
+                    CON_M.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+            INNER JOIN DBO.CCP_DETAILS CCPD ON
+                    CCPD.CONTRACT_MASTER_SID = CON_M.CONTRACT_MASTER_SID
+            INNER JOIN @COMPANY COMP ON
+                    COMP.COMPANY_MASTER_SID = CCPD.COMPANY_MASTER_SID
+            INNER JOIN ITEM_MASTER IM ON
+                    CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+            INNER JOIN HELPER_TABLE HT1 ON
+                    HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+            INNER JOIN BRAND_MASTER BM ON
+                    IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+            WHERE
+                    IM.INBOUND_STATUS <> 'D'
+        ]]>
+        
+    </sql>    
+    
+    <sql id="items-search-with-identifier">
+
+        <![CDATA[ 
+            SELECT
+                    DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+                    CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+                    HT1.DESCRIPTION,
+                    BM.BRAND_NAME,
+                    IM.ITEM_NO,
+                    IM.ITEM_NAME,
+                    IM.ITEM_MASTER_SID,
+                    II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+                    IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER
+            FROM
+                    @CONTRACT CO
+            JOIN dbo.CONTRACT_MASTER CON_M ON
+                    CON_M.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+            INNER JOIN dbo.COMPANY_MASTER CM ON
+                    CON_M.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+            INNER JOIN DBO.CCP_DETAILS CCPD ON
+                    CCPD.CONTRACT_MASTER_SID = CON_M.CONTRACT_MASTER_SID
+            INNER JOIN @COMPANY COMP ON
+                    COMP.COMPANY_MASTER_SID = CCPD.COMPANY_MASTER_SID
+            INNER JOIN ITEM_MASTER IM ON
+                    CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+            INNER JOIN ITEM_IDENTIFIER II ON
+                    II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+            INNER JOIN ITEM_QUALIFIER IQ ON
+                    II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID
+            INNER JOIN HELPER_TABLE HT1 ON
+                    HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+            INNER JOIN BRAND_MASTER BM ON
+                    IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+            WHERE
+                    IM.INBOUND_STATUS <> 'D'
+        ]]>
+
+    </sql>  
+    
+    <sql id="insert-items-to-temp-table">
+
+        <![CDATA[ 
+        INSERT	
+        INTO 
+        AH_TEMP_DETAILS
+            (BUSINESS_UNIT_NO,
+            BUSINESS_UNIT_NAME,
+            THERAPUTIC_CLASS,
+            BRAND_NAME,
+            ITEM_NO,
+            ITEM_NAME,
+            ITEM_MASTER_SID,
+            ITEM_IDENTIFIER_TYPE,
+            ITEM_IDENTIFIER,				
+            CHECK_RECORD,
+            SCREEN_NAME,
+            USER_ID,
+            SESSION_ID,
+            CREATED_BY,
+            CREATED_DATE)
+        (SELECT
+            DISTINCT CM.COMPANY_NO AS BUSINESS_UNIT_NO,
+            CM.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+            HT1.DESCRIPTION,
+            BM.BRAND_NAME,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.ITEM_MASTER_SID,
+            II.ITEM_IDENTIFIER_VALUE AS ITEM_IDENTIFIER_TYPE,
+            IQ.ITEM_QUALIFIER_NAME AS ITEM_IDENTIFIER,
+            '1',
+            'Item_Selection',
+            @USER_ID,
+            @SESSION_ID,
+            @USER_ID,
+            @CREATED_DATE        
+        FROM
+                @CONTRACT CO
+        INNER JOIN dbo.CONTRACT_MASTER CON_M ON
+                CON_M.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID
+        INNER JOIN dbo.COMPANY_MASTER CM ON
+                CON_M.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+        INNER JOIN DBO.CCP_DETAILS CCPD ON
+                CCPD.CONTRACT_MASTER_SID = CON_M.CONTRACT_MASTER_SID
+        INNER JOIN @COMPANY COMP ON
+                COMP.COMPANY_MASTER_SID = CCPD.COMPANY_MASTER_SID
+        INNER JOIN ITEM_MASTER IM ON
+                CCPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+        INNER JOIN ITEM_IDENTIFIER II ON
+                II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+        INNER JOIN ITEM_QUALIFIER IQ ON
+                II.ITEM_QUALIFIER_SID = IQ.ITEM_QUALIFIER_SID
+        INNER JOIN HELPER_TABLE HT1 ON
+                HT1.HELPER_TABLE_SID = IM.THERAPEUTIC_CLASS
+        INNER JOIN BRAND_MASTER BM ON
+                IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+        WHERE
+                IM.INBOUND_STATUS <> 'D' 
+                AND IM.ITEM_MASTER_SID IN (@ITEM_MASTER_SID)
+        ]]>
+
+    </sql>  
+    
+        <sql id="alt-hist-selection-ccp-count">
+
+        <![CDATA[ 
+            DECLARE @COMPANY_CONTRACT TABLE
+            (
+                COMPANY_MASTER_SID INT,
+                CONTRACT_MASTER_SID INT
+            ) 
+            INSERT INTO @COMPANY_CONTRACT(COMPANY_MASTER_SID,CONTRACT_MASTER_SID) 
+            SELECT
+                    DISTINCT COMPANY_SID,COMPONENT_MASTER_SID
+            FROM
+                    AH_TEMP_DETAILS
+            WHERE
+                    USER_ID = @USER_ID
+                    AND SESSION_ID = @SESSION_ID
+                    AND SCREEN_NAME LIKE 'Customer_Selection';
+
+            DECLARE @ITEM TABLE
+            (	
+                    ITEM_MASTER_SID INT
+            ) 
+            INSERT INTO @ITEM(ITEM_MASTER_SID) 
+            SELECT
+                    DISTINCT ITEM_MASTER_SID
+            FROM
+                    AH_TEMP_DETAILS
+            WHERE
+                    USER_ID = @USER_ID
+                    AND SESSION_ID = @SESSION_ID
+                    AND SCREEN_NAME LIKE 'Item_Selection';
+
+            SELECT
+                    COUNT(CCP.CCP_DETAILS_SID)
+            FROM
+                    CCP_DETAILS CCP
+            JOIN @COMPANY_CONTRACT CC ON
+                    CC.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                    AND CC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+            JOIN @ITEM I ON
+            I.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID;
+        ]]>
+
+    </sql> 
+    
+    <sql id="remove-items-temp-table">
+        
+        <![CDATA[ 
+            DELETE
+            FROM
+                AH_TEMP_DETAILS
+            WHERE
+                ITEM_MASTER_SID IN(
+                        SELECT
+                                ITEM_MASTER_SID
+                        FROM
+                                AH_TEMP_DETAILS
+                        WHERE
+                                SESSION_ID = @SESSION_ID
+                                AND USER_ID = @USER_ID
+                                AND CHECK_RECORD = 0)
+                AND SESSION_ID = @SESSION_ID
+                AND USER_ID = @USER_ID;
+        ]]>
+        
+    </sql>   
+    
+    <sql id="remove-all-items-temp-table">
+        
+        <![CDATA[ 
+            DELETE
+            FROM
+                AH_TEMP_DETAILS
+            WHERE
+                SESSION_ID = @SESSION_ID
+                AND USER_ID = @USER_ID
+                AND AH.SCREEN_NAME LIKE 'Item_Selection';
+        ]]>
+        
+    </sql>   
+    
+    <sql id="update-items">
+
+    <![CDATA[ 
+        UPDATE 
+            AH  
+        SET 
+            CHECK_RECORD = @CHECK_RECORD
+        FROM 
+            AH_TEMP_DETAILS AH                
+        WHERE AH.USER_ID = @USER_ID 
+        AND AH.SESSION_ID = @SESSION_ID
+        AND AH.SCREEN_NAME LIKE 'Item_Selection'
+        AND AH.ITEM_MASTER_SID = @ITEM_MASTER_SID;
+     ]]>
+        
+    </sql> 
+    
+</custom-sql>

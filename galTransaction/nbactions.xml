@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-custom build</actionName>
+            <displayName>custom build</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>compile</goal>
+                <goal>package</goal>
+                <goal>-Dmaven.wagon.http.ssl.insecure=true</goal>
+                <goal>-Dmaven.wagon.http.ssl.allowall=true</goal>
+            </goals>
+        </action>
+    </actions>

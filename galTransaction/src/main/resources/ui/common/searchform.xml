@@ -1,0 +1,38 @@
+<VerticalLayout spacing="true" id="mainLayout"  xmlns:ef="urn:import:org.asi.ui.extfilteringtable" xmlns:el="urn:import:com.stpl.app.ui.errorhandling">
+    <el:ErrorLabel id="errorMsg" />
+    <!--<Label id="errorMsg" styleName="myerror"/>-->
+    <Panel caption="Search Criteria">
+        <VerticalLayout id="searchFieldVerticalLayout" styleName="bootstrap-search-criteria">
+            <HorizontalLayout id="searchFieldLayout" styleName="responsiveGrid">
+                <CssLayout id="cssLayout1" width="100%" height="100%">     
+                </CssLayout>
+            </HorizontalLayout >
+            <HorizontalLayout id="searchFieldLayout1" styleName="responsiveGrid">
+                <CssLayout id="cssLayout" width="100%" height="100%">     
+                </CssLayout>
+            </HorizontalLayout>
+  
+            <HorizontalLayout id="buttonLayout">
+  
+            </HorizontalLayout> 
+        </VerticalLayout>
+    </Panel>
+   
+    <Panel caption="Results" id = "resultsPanel">
+        <VerticalLayout id="tableLayout">
+            <OptionGroup id= "currenthistory">
+            </OptionGroup>
+            <!--<ef:ExtFilterTable id="filterTable" immediate="true" />--> 
+        </VerticalLayout>
+    </Panel> 
+    <VerticalLayout>
+        <HorizontalLayout>
+            <Button id="generateBtn" Caption="Generate" immediate="true" Visible="false"/>
+            <Button id="excelBtn" />
+        </HorizontalLayout>
+    </VerticalLayout>
+    <HorizontalLayout id="invalidButtonLayout">
+        <Button id="reprocessBtn" caption="REPROCESS" enabled="true" immediate="true" />
+        <Button id="removeBtn" caption="REMOVE" enabled="true" immediate="true" />            
+    </HorizontalLayout> 
+</VerticalLayout>

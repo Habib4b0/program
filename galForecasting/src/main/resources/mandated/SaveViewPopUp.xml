@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns="urn:import:com.vaadin.ui"   xmlns:p="urn:vaadin:parent">
+<VerticalLayout margin="true" spacing="true" width="100%" styleName="bootstrap-forecast">
+<GridLayout id="grid" rows="2" columns="2" margin="false" spacing="true">
+<Label value="" contentMode="HTML" />
+<OptionGroup id="publicprivateView" multiSelect="false" enabled="true" immediate="true" styleName = "horizontal"/>
+<Label value="View Name:" contentMode="HTML" />
+<TextField id="viewName" inputPrompt="" />
+</GridLayout>
+<HorizontalLayout margin="false" spacing="true">
+<Button id="cancelBtn" caption="CANCEL" immediate="true" />
+<Button id="addBtn" caption="ADD" immediate="true" />
+<Button id="updateBtn" caption="UPDATE" immediate="true" />
+</HorizontalLayout>
+</VerticalLayout>
+</Panel>

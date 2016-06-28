@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" >
+    
+    <VerticalLayout>
+        <Panel>
+            <VerticalLayout id="calendarTable" spacing="true" margin="false" immediate="true">
+                <GridLayout id="calendarInformation" spacing="true" margin="true" immediate="true" columns="2" rows="4">
+
+                    <Label caption="Existing Calender Name:" contentMode="HTML" spacing="true" />
+                    <ComboBox id="existingCalender" immediate="true" width="207px"/>
+
+                    <Label id = "calendarNameLbel" caption="Calendar Name:" contentMode="HTML" spacing="true" />
+                    <TextField id="calendarName"  immediate="true" width="197px" />
+
+                    <Label caption="Calendar Year" contentMode="HTML" spacing="true" />
+                    <ComboBox id="year" immediate="true" width="207px"/>
+                            
+                    <Label caption="Default Holidays:" contentMode="HTML" spacing="true" />
+                    <CheckBox id="defaultHoliday" immediate="true" enable="true" styleName = "horizontal"/>
+                            
+                </GridLayout>   
+                <Panel id = "calendarPanel">
+                            
+                </Panel>
+                        
+            </VerticalLayout>
+        </Panel>
+                   
+        <HorizontalLayout>
+            <Button caption="EDIT" id="editBtn" immediate="true" />
+            <Button caption="RESET" id="resetBtn" immediate="true"/>   
+            <Button caption="SAVE" id="saveBtn" immediate="true"/>   
+            <Button caption="DELETE" id="deleteBtn" immediate="true"/> 
+            <Button caption="BACK" id="backBtn" immediate="true"/>   
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

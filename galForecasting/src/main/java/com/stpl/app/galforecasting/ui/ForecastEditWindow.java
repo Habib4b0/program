@@ -1,0 +1,74 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.galforecasting.ui;
+
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.app.galforecasting.logic.NonMandatedLogic;
+import com.stpl.app.galforecasting.sessionutils.SessionDTO;
+import com.stpl.app.galforecasting.ui.form.DataSelectionForm;
+import com.stpl.app.galforecasting.utils.CommonUtils;
+import com.stpl.app.galforecasting.utils.Constant;
+import java.util.HashMap;
+import java.util.Map;
+import org.asi.ui.customwindow.CustomWindow;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+
+public class ForecastEditWindow extends CustomWindow {
+
+    /**
+     * The Constant LOGGER.
+     */
+    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastEditWindow.class);
+
+    SessionDTO session;
+    private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
+    ExtFilterTable resultTable;
+    String screenName;
+    final DataSelectionForm dataSelectionForm;
+
+    public ForecastEditWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) throws Exception {
+        super(projectionName);
+        this.session = session;
+        this.resultTable = resultTable;
+        this.screenName = screenName;
+        this.dataSelectionForm = dataSelectionForm;
+        init();
+        addStyleName("valo-theme-customwindow");
+        setMinimizeToTray();
+    }
+
+    private void init() throws Exception {
+        center();
+        setWidth(100, Unit.PERCENTAGE);
+        setPositionX(Constant.ZERO);
+        setPositionY(Constant.ZERO);
+        addStyleName(Constant.BOOTSTRAP_UI);
+        addStyleName(Constant.BOOTSTRAP);
+        addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+        setClosable(false);
+        loadSessionDTO();
+        setContent(new ForecastEditView(session, dataSelectionDTO, this, resultTable, screenName, dataSelectionForm));
+    }
+
+    private void loadSessionDTO() {
+        int projectionId = session.getProjectionId();
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        NonMandatedLogic logic = new NonMandatedLogic();
+        if (projectionId != 0) {
+            try {
+                parameters.put(Constant.PROJECTION_ID, projectionId);
+                dataSelectionDTO = logic.getProjection(projectionId);
+                session.setHasTradingPartner(logic.hasTradingPartner(projectionId));
+                session.setProjectionName(dataSelectionDTO.getProjectionName());
+                session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
+                session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
+            } catch (Exception ex) {
+                LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
+            }
+        } else {
+            dataSelectionDTO = new DataSelectionDTO();
+        }
+    }
+}

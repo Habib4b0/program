@@ -1,0 +1,748 @@
+<?xml version="1.0"?>
+<custom-sql>
+    <sql id="availableCustomers">
+		<![CDATA[
+                        SELECT DISTINCT CN.CONTRACT_MASTER_SID,CN.CONTRACT_NO,CN.CONTRACT_NAME,CFPCD.COMPANY_MASTER_SID,
+                     CM.COMPANY_NAME,CM.COMPANY_NO
+                        from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID 
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID
+                        JOIN CFP_CONTRACT CFPC ON CFPC.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+                        JOIN CFP_CONTRACT_DETAILS CFPCD ON CFPCD.CFP_CONTRACT_SID=CFPC.CFP_CONTRACT_SID
+                        JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=CFPCD.COMPANY_MASTER_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND CN.CONTRACT_TYPE=? AND UD.UDC2= ? 
+                        AND RSC.REBATE_PROGRAM_TYPE like '?' AND CN.CONTRACT_MASTER_SID like '?'
+                        ?
+                        ORDER BY CFPCD.COMPANY_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+  		]]>
+    </sql>
+    <sql id="availableCustomersCount">
+		<![CDATA[
+                SELECT count  (*) from (Select  DISTINCT  CN.CONTRACT_MASTER_SID, CFPCD.COMPANY_MASTER_SID
+                        from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID 
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID
+                        JOIN CFP_CONTRACT CFPC ON CFPC.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+                        JOIN CFP_CONTRACT_DETAILS CFPCD ON CFPCD.CFP_CONTRACT_SID=CFPC.CFP_CONTRACT_SID
+                        JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=CFPCD.COMPANY_MASTER_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND CN.CONTRACT_TYPE=? AND UD.UDC2= ?
+                        AND RSC.REBATE_PROGRAM_TYPE like '?' AND CN.CONTRACT_MASTER_SID like '?' ?) rslt;
+                ]]>
+    </sql>
+    <sql id="availableProducts">
+		<![CDATA[
+                        SELECT DISTINCT   IM.ITEM_MASTER_SID,IM.NDC8,IM.ITEM_NAME,BR.BRAND_NAME,GLC.COMPANY_COST_CENTER
+                        from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID AND RSC.REBATE_PROGRAM_TYPE like '%' AND CN.CONTRACT_MASTER_SID like '%'
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID AND UD.MASTER_TYPE = 'RS_CONTRACT'
+                        JOIN CFP_CONTRACT CFPC ON CFPC.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+                        JOIN CFP_CONTRACT_DETAILS CFPCD ON CFPCD.CFP_CONTRACT_SID=CFPC.CFP_CONTRACT_SID
+                        JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=CFPCD.COMPANY_MASTER_SID
+                        JOIN IFP_CONTRACT IFP_CN ON CFPC.CFP_CONTRACT_SID=IFP_CN.CFP_CONTRACT_SID
+                        JOIN IFP_CONTRACT_DETAILS IFP_CD ON IFP_CD.IFP_CONTRACT_SID=IFP_CN.IFP_CONTRACT_SID
+                        JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID=IFP_CD.ITEM_MASTER_SID
+                        JOIN BRAND_MASTER BR ON BR.BRAND_MASTER_SID=IM.BRAND_MASTER_SID
+                        JOIN GL_COST_CENTER_MASTER GLC ON GLC.COMPANY_CODE IN (SELECT COMPANY_ID FROM COMPANY_MASTER WHERE COMPANY_MASTER_SID like '?' ?) AND IM.NDC8=GLC.NDC8 AND GLC.INBOUND_STATUS <> 'D'
+                        ORDER BY IM.ITEM_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+  		]]>
+    </sql>
+    <sql id="availableProductsCount">
+		<![CDATA[
+                select count (*) from (SELECT DISTINCT   IM.ITEM_MASTER_SID,IM.NDC8,IM.ITEM_NAME,BR.BRAND_NAME,GLC.COMPANY_COST_CENTER
+                        from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID AND RSC.REBATE_PROGRAM_TYPE like '%' AND CN.CONTRACT_MASTER_SID like '%'
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID AND UD.MASTER_TYPE = 'RS_CONTRACT'
+                        JOIN CFP_CONTRACT CFPC ON CFPC.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+                        JOIN CFP_CONTRACT_DETAILS CFPCD ON CFPCD.CFP_CONTRACT_SID=CFPC.CFP_CONTRACT_SID
+                        JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=CFPCD.COMPANY_MASTER_SID
+                        JOIN IFP_CONTRACT IFP_CN ON CFPC.CFP_CONTRACT_SID=IFP_CN.CFP_CONTRACT_SID
+                        JOIN IFP_CONTRACT_DETAILS IFP_CD ON IFP_CD.IFP_CONTRACT_SID=IFP_CN.IFP_CONTRACT_SID
+                        JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID=IFP_CD.ITEM_MASTER_SID
+                        JOIN BRAND_MASTER BR ON BR.BRAND_MASTER_SID=IM.BRAND_MASTER_SID
+                        JOIN GL_COST_CENTER_MASTER GLC ON GLC.COMPANY_CODE IN (SELECT COMPANY_ID FROM COMPANY_MASTER WHERE COMPANY_MASTER_SID like '?' ?) AND IM.NDC8=GLC.NDC8 AND GLC.INBOUND_STATUS <> 'D')rs;
+                ]]>
+    </sql>
+    <sql id="insertcustomersIntoST_ACC_CLOSURE_DETAILS">
+		<![CDATA[
+                INSERT INTO ST_ACC_CLOSURE_DETAILS (?, ?, ?, ?, ? ?, 
+                MODULE_NAME, CHECK_RECORD, USER_ID, SESSION_ID, LAST_MODIFIED_DATE) 
+                VALUES (?, '?', '?', ?, '?', '?', 
+                        '?',1, '?', '?', '?');
+                ]]>
+    </sql>
+     <sql id="insertproductsIntoST_ACC_CLOSURE_DETAILS">
+		<![CDATA[
+                INSERT INTO ST_ACC_CLOSURE_DETAILS (?, ?, ?, ?, ?, 
+                MODULE_NAME, CHECK_RECORD, USER_ID, SESSION_ID, LAST_MODIFIED_DATE) 
+                VALUES (?, '?', '?', '?', '?',
+                        '?',1, '?', '?', '?');
+                ]]>
+    </sql>
+    <sql id="commonCountForCP">
+		<![CDATA[
+                select count (*) from (SELECT  DISTINCT ?, ?, ?, ?, ? ? 
+                FROM ST_ACC_CLOSURE_DETAILS
+                WHERE MODULE_NAME like '?' AND USER_ID = '?' AND  SESSION_ID = '?' AND CHECK_RECORD = 1)result;
+                ]]>
+    </sql>
+    <sql id="commonQueryForCP">
+		<![CDATA[
+                SELECT  DISTINCT ?, ?, ?, ?, ? ? 
+                FROM ST_ACC_CLOSURE_DETAILS TEMP
+                WHERE MODULE_NAME like '?' AND USER_ID = '?' AND  SESSION_ID = '?' AND CHECK_RECORD = 1 ?
+                ]]>
+    </sql>
+    <sql id="tempDataDelete">
+		<![CDATA[
+                DELETE from ?
+            WHERE ?='?' AND ?='?' AND ? like '?' ?
+       ]]>
+    </sql> 
+   
+    <sql id="gtnmultipleccpquery">
+		<![CDATA[
+                    SELECT RSLT.CHECK_RECORD,?QURANK?, RSLT."YEAR"  ?RSLTFREQUENCY? ,?DENSECOLUMN?
+                    from (
+                    SELECT DISTINCT TEMPGTN.CHECK_RECORD,?QU?, P."YEAR" ?FREQUENCY?,  ?SELECTEDCOLUMN?,
+                    DENSE_RANK() OVER (ORDER BY ?QU?) as RANK 
+                    from ACC_CLOSURE_DETAILS ACD
+                    JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID  AND ACD.ACC_CLOSURE_MASTER_SID=?ACC_CLOSURE_MASTER_SID?
+                    JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN ON TEMPGTN.ACC_CLOSURE_DETAILS_SID=ACD.ACC_CLOSURE_DETAILS_SID AND  TEMPGTN.USER_ID=?USER_ID? AND TEMPGTN.SESSION_ID='?SESSION_ID?'
+                    JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                    JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID 
+                    JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+                    JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID 
+                    JOIN "PERIOD" P ON P.PERIOD_SID=TEMPGTN.PERIOD_SID  ?PERIOD_DATE?
+                    WHERE  IM.ITEM_MASTER_SID LIKE '?ISID?' AND CN.CONTRACT_MASTER_SID LIKE '?CSID?' AND CM.COMPANY_MASTER_SID LIKE '?CMSID?' AND BM.BRAND_MASTER_SID LIKE '?BMSID?' AND IM.THERAPEUTIC_CLASS LIKE '?THID?' 
+                    group by TEMPGTN.CHECK_RECORD,?QU?, P."YEAR" ?FREQUENCY? 
+                    ) RSLT ?WHERE?
+                    ORDER BY ?QURANK? , RSLT."YEAR"  ?RSLTFREQUENCY?
+  		]]>
+    </sql>
+    <sql id="gtnmultipleccpqueryCount">
+		<![CDATA[
+                SELECT count  (*) from (SELECT DISTINCT TEMPGTN.CHECK_RECORD,?QU?
+                from ACC_CLOSURE_DETAILS ACD
+                    JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID  AND ACD.ACC_CLOSURE_MASTER_SID=?ACC_CLOSURE_MASTER_SID?
+                    JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN ON TEMPGTN.ACC_CLOSURE_DETAILS_SID=ACD.ACC_CLOSURE_DETAILS_SID AND  TEMPGTN.USER_ID=?USER_ID? AND TEMPGTN.SESSION_ID='?SESSION_ID?'
+                    JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                    JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+                    JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+                    JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+                    JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID 
+                    JOIN "PERIOD" P ON P.PERIOD_SID=TEMPGTN.PERIOD_SID ?PERIOD_DATE?
+                    WHERE  IM.ITEM_MASTER_SID LIKE '?ISID?' 
+                    AND CN.CONTRACT_MASTER_SID LIKE '?CSID?' 
+                    AND CM.COMPANY_MASTER_SID LIKE '?CMSID?' 
+                    AND BM.BRAND_MASTER_SID LIKE '?BMSID?'
+                    AND IM.THERAPEUTIC_CLASS LIKE '?THID?' 
+                    group by TEMPGTN.CHECK_RECORD,?QU? )rs;
+                
+                ]]>
+    </sql> 
+    <sql id="insertacctcloserdetails">
+        <![CDATA[
+        DECLARE @CCP_CT TABLE(CCP_DETAILS_SID INT)
+                    INSERT INTO @CCP_CT
+                           (CCP_DETAILS_SID)
+            Select DISTINCT CCD.CCP_DETAILS_SID from CCP_DETAILS CCD 
+            JOIN ST_ACC_CLOSURE_DETAILS ACD ON CCD.CONTRACT_MASTER_SID=ACD.CONTRACT_MASTER_SID AND CCD.COMPANY_MASTER_SID=ACD.COMPANY_MASTER_SID AND ACD.USER_ID='?' AND ACD.SESSION_ID='?' AND ACD.MODULE_NAME='?' AND ACD.CHECK_RECORD=1
+
+            DECLARE @CCP_IT TABLE(CCP_DETAILS_SID INT)
+                    INSERT INTO @CCP_IT
+                           (CCP_DETAILS_SID)
+            Select DISTINCT CCD.CCP_DETAILS_SID from CCP_DETAILS CCD 
+            JOIN ST_ACC_CLOSURE_DETAILS ACD_ITEM ON CCD.ITEM_MASTER_SID=ACD_ITEM.ITEM_MASTER_SID AND ACD_ITEM.USER_ID='?' AND ACD_ITEM.SESSION_ID='?' AND ACD_ITEM.MODULE_NAME='?' AND ACD_ITEM.CHECK_RECORD=1
+            INSERT INTO ACC_CLOSURE_DETAILS (ACC_CLOSURE_MASTER_SID,CCP_DETAILS_SID,RS_MODEL_SID)
+            Select ?, CCP.CCP_DETAILS_SID,RSC.RS_MODEL_SID from CCP_DETAILS CCP
+        JOIN @CCP_CT CCPCT ON CCP.CCP_DETAILS_SID=CCPCT.CCP_DETAILS_SID
+        JOIN @CCP_IT CCPIT ON CCPCT.CCP_DETAILS_SID=CCPIT.CCP_DETAILS_SID
+        JOIN CONTRACT_MASTER CT ON CCP.CONTRACT_MASTER_SID=CT.CONTRACT_MASTER_SID
+        JOIN RS_CONTRACT RSC ON RSC.CONTRACT_MASTER_SID = CT.CONTRACT_MASTER_SID  AND RSC.INBOUND_STATUS !='D'
+        JOIN UDCS UD ON UD.MASTER_SID = RSC.RS_CONTRACT_SID  AND UD.MASTER_TYPE = 'RS_CONTRACT' 
+        JOIN HELPER_TABLE HT ON UD.UDC2 = HT.HELPER_TABLE_SID AND UD.UDC2='?';
+        ]]>
+    </sql>
+    <sql id="viewNameCount">
+        <![CDATA[
+            Select count(*) from ACC_CLOSURE_VIEW_MASTER where VIEW_NAME like '?' AND VIEW_TYPE like '?';
+        ]]>
+    </sql>
+  
+    <sql id="viewSearch">
+		<![CDATA[
+                Select distinct ACVIEW.ACC_CLOSURE_VIEW_MASTER_SID,ACVIEW.VIEW_NAME,ACM.ACC_CLOSURE_MASTER_SID,ACM.REPORT_NAME,
+       ACM.DESCRIPTION AS MKTYPE,CM.COMPANY_NAME,ACM.GL_COMPANY_MASTER_SID,HT.DESCRIPTION AS DTYPE,ACM.CONTRACT_TYPE,
+RS_TYPE.DESCRIPTION RSTYPE,ACM.RS_TYPE,RPT.DESCRIPTION AS CVAT,ACM.REBATE_PROGRAM_TYPE,
+                ACM.COMPANY_GROUP_SID,CT.CONTRACT_NAME,ACM.CONTRACT_MASTER_SID,ACM.ITEM_GROUP_SID,ACM.FROM_DATE,ACM.TO_DATE,ACM.ITEM_MASTER_SID,ACM.PRODUCT_IDENTIFIER,
+                ACVIEW.CREATED_DATE,ACVIEW.MODIFIED_DATE,ACVIEW.CREATED_BY,ACVIEW.MODIFIED_BY,ACVIEW.VIEW_TYPE ,
+             ACM.RS_CATEGORY,  RS_CAT.DESCRIPTION AS RSCAT from ACC_CLOSURE_VIEW_MASTER ACVIEW 
+                LEFT JOIN ACC_CLOSURE_MASTER ACM ON ACVIEW.ACC_CLOSURE_MASTER_SID=ACM.ACC_CLOSURE_MASTER_SID
+                LEFT JOIN COMPANY_MASTER CM ON ACM.GL_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID
+                LEFT JOIN HELPER_TABLE HT ON ACM.CONTRACT_TYPE=HT.HELPER_TABLE_SID
+                LEFT JOIN UDCS RSTYPE ON ACM.RS_TYPE=RSTYPE.UDC2
+                LEFT JOIN HELPER_TABLE RS_TYPE ON RSTYPE.UDC2=RS_TYPE.HELPER_TABLE_SID
+                LEFT JOIN COMPANY_GROUP CG ON ACM.COMPANY_GROUP_SID=CG.COMPANY_GROUP_SID
+                LEFT JOIN CONTRACT_MASTER CT ON ACM.CONTRACT_MASTER_SID=CT.CONTRACT_MASTER_SID
+                LEFT JOIN ITEM_GROUP IG ON ACM.ITEM_GROUP_SID=IG.ITEM_GROUP_SID
+                LEFT JOIN ITEM_MASTER IM ON ACM.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+                LEFT JOIN HELPER_TABLE RPT ON ACM.REBATE_PROGRAM_TYPE=RPT.HELPER_TABLE_SID
+                LEFT JOIN HELPER_TABLE RS_CAT ON ACM.RS_CATEGORY=RS_CAT.HELPER_TABLE_SID
+                where ACVIEW.VIEW_NAME like '?' AND ACVIEW.VIEW_TYPE like '?' order by ACVIEW.ACC_CLOSURE_VIEW_MASTER_SID
+       ]]>
+    </sql>
+    <sql id="viewCount">
+		<![CDATA[
+                Select count (distinct ACVIEW.ACC_CLOSURE_VIEW_MASTER_SID)
+                from ACC_CLOSURE_VIEW_MASTER ACVIEW 
+                LEFT JOIN ACC_CLOSURE_MASTER ACM ON ACVIEW.ACC_CLOSURE_MASTER_SID=ACM.ACC_CLOSURE_MASTER_SID
+                LEFT JOIN COMPANY_MASTER CM ON ACM.GL_COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID
+                LEFT JOIN HELPER_TABLE HT ON ACM.CONTRACT_TYPE=HT.HELPER_TABLE_SID
+                LEFT JOIN UDCS RSTYPE ON ACM.RS_TYPE=RSTYPE.UDC2
+                LEFT JOIN HELPER_TABLE RS_TYPE ON RSTYPE.UDC2=RS_TYPE.HELPER_TABLE_SID
+                LEFT JOIN COMPANY_GROUP CG ON ACM.COMPANY_GROUP_SID=CG.COMPANY_GROUP_SID
+                LEFT JOIN CONTRACT_MASTER CT ON ACM.CONTRACT_MASTER_SID=CT.CONTRACT_MASTER_SID
+                LEFT JOIN ITEM_GROUP IG ON ACM.ITEM_GROUP_SID=IG.ITEM_GROUP_SID
+                LEFT JOIN ITEM_MASTER IM ON ACM.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+                LEFT JOIN HELPER_TABLE RPT ON ACM.REBATE_PROGRAM_TYPE=RPT.HELPER_TABLE_SID
+                LEFT JOIN HELPER_TABLE RS_CAT ON ACM.RS_CATEGORY=RS_CAT.HELPER_TABLE_SID
+                where ACVIEW.VIEW_NAME like '?' AND ACVIEW.VIEW_TYPE like '?' ; 
+       ]]>
+    </sql>
+    <sql id="saveToMainTable">
+		<![CDATA[
+                MERGE AC_GTN_BALANCE_DETAILS AS TARGET
+		USING ( 
+		SELECT ACC_CLOSURE_DETAILS_SID,	
+                        PERIOD_SID,	
+                        ACCRUALS,	
+                        ACCRUALS_BASE_RATE,	
+                        ACCRUALS_MANUAL_ADJUSTMENTS,
+                        ACCRUALS_RECONCILIATION,
+                        ACCRUALS_OTHER,	
+                        PROJ_DEDUCTION_AMT,	
+                        DEDUCTION_AMOUNT,	
+                        PROJ_DEDUCTION_RATE,	
+                        DEDUCTION_RATE,	
+                        PROJ_CONT_SALES_AMT,	
+                        CONT_SALES_AMT	,
+                        PROJ_CONT_SALES_UNITS,
+                        CONT_SALES_UNITS,	
+                        PA_ACCRUALS_PROJ_DED,	
+                        VAR_ACCRUALS_PROJ_DED,	
+                        PA_ACCRUALS_DED	,
+                        VAR_ACCRUALS_DED,	
+                        PA_DED_PROJ_DED,	
+                        VAR_DED_AMT_PROJ_DED_AMT,	
+                        VAR_DED_RATE_PROJ_DED_RATE,	
+                        ACH_CON_SALES_PROJ_CON_SALES,	
+                        VAR_CONT_SALES_PROJ_CONT_SALES,	
+                        PA_CONT_UNITS_PROJ_CONT_UNITS,	
+                        VAR_CONT_UNITS_PROJ_CONT_UNITS,
+                        DEMAND_AMOUNT,
+                        DEMAND_UNITS,
+                        GTS_AMOUNT,
+                        GTS_UNITS,
+                        INVENTORY_WITHDRAWALS_AMOUNT,
+                        INVENTORY_WITHDRAWALS_UNITS,
+                        PER_PROJ_DEMAND,
+                        PER_DEMAND,
+                        PER_PROJ_GTS,
+                        PER_GTS,
+                        PER_PROJ_INVENTORY_WITHDRAWAL,
+                        PER_INVENTORY_WITHDRAWAL	
+                         
+		FROM dbo.ST_AC_GTN_BALANCE_DETAILS
+		WHERE USER_ID=? AND SESSION_ID=?
+		) AS SOURCE 
+		ON (TARGET.ACC_CLOSURE_DETAILS_SID=SOURCE.ACC_CLOSURE_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID, 
+		TARGET.ACCRUALS=SOURCE.ACCRUALS, 
+		TARGET.ACCRUALS_BASE_RATE=SOURCE.ACCRUALS_BASE_RATE,
+                TARGET.ACCRUALS_MANUAL_ADJUSTMENTS=SOURCE.ACCRUALS_MANUAL_ADJUSTMENTS,    
+                TARGET.ACCRUALS_RECONCILIATION=	SOURCE.ACCRUALS_RECONCILIATION,
+                TARGET.ACCRUALS_OTHER=SOURCE.ACCRUALS_OTHER,	
+                TARGET.PROJ_DEDUCTION_AMT=SOURCE.PROJ_DEDUCTION_AMT,	
+                TARGET.DEDUCTION_AMOUNT=SOURCE.DEDUCTION_AMOUNT,	
+                TARGET.PROJ_DEDUCTION_RATE=SOURCE.PROJ_DEDUCTION_RATE,	
+                TARGET.DEDUCTION_RATE=SOURCE.DEDUCTION_RATE,	
+                TARGET.PROJ_CONT_SALES_AMT=SOURCE.PROJ_CONT_SALES_AMT,	
+                TARGET.CONT_SALES_AMT=SOURCE.CONT_SALES_AMT,
+                TARGET.PROJ_CONT_SALES_UNITS=SOURCE.PROJ_CONT_SALES_UNITS,
+                TARGET.CONT_SALES_UNITS=SOURCE.CONT_SALES_UNITS,	
+                TARGET.PA_ACCRUALS_PROJ_DED=SOURCE.PA_ACCRUALS_PROJ_DED,	
+                TARGET.VAR_ACCRUALS_PROJ_DED=SOURCE.VAR_ACCRUALS_PROJ_DED,	
+                TARGET.PA_ACCRUALS_DED=SOURCE.PA_ACCRUALS_DED,
+                TARGET.VAR_ACCRUALS_DED=SOURCE.VAR_ACCRUALS_DED,	
+                TARGET.PA_DED_PROJ_DED=SOURCE.PA_DED_PROJ_DED,	
+                TARGET.VAR_DED_AMT_PROJ_DED_AMT=SOURCE.VAR_DED_AMT_PROJ_DED_AMT,	
+                TARGET.VAR_DED_RATE_PROJ_DED_RATE=SOURCE.VAR_DED_RATE_PROJ_DED_RATE,	
+                TARGET.ACH_CON_SALES_PROJ_CON_SALES=SOURCE.ACH_CON_SALES_PROJ_CON_SALES,	
+                TARGET.VAR_CONT_SALES_PROJ_CONT_SALES=SOURCE.VAR_CONT_SALES_PROJ_CONT_SALES,	
+                TARGET.PA_CONT_UNITS_PROJ_CONT_UNITS=SOURCE.PA_CONT_UNITS_PROJ_CONT_UNITS,	
+                TARGET.VAR_CONT_UNITS_PROJ_CONT_UNITS=SOURCE.VAR_CONT_UNITS_PROJ_CONT_UNITS,
+                TARGET.DEMAND_AMOUNT=SOURCE.DEMAND_AMOUNT,
+                TARGET.DEMAND_UNITS=SOURCE.DEMAND_UNITS,
+                TARGET.GTS_AMOUNT=SOURCE.GTS_AMOUNT,
+                TARGET.GTS_UNITS=SOURCE.GTS_UNITS,
+                TARGET.INVENTORY_WITHDRAWALS_AMOUNT=SOURCE.INVENTORY_WITHDRAWALS_AMOUNT,
+                TARGET.INVENTORY_WITHDRAWALS_UNITS=SOURCE.INVENTORY_WITHDRAWALS_UNITS,
+                TARGET.PER_PROJ_DEMAND=SOURCE.PER_PROJ_DEMAND,
+                TARGET.PER_DEMAND=SOURCE.PER_DEMAND,
+                TARGET.PER_PROJ_GTS=SOURCE.PER_PROJ_GTS,
+                TARGET.PER_GTS=SOURCE.PER_GTS,
+                TARGET.PER_PROJ_INVENTORY_WITHDRAWAL=SOURCE.PER_PROJ_INVENTORY_WITHDRAWAL,
+                TARGET.PER_INVENTORY_WITHDRAWAL=SOURCE.PER_INVENTORY_WITHDRAWAL	
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT VALUES(SOURCE.ACC_CLOSURE_DETAILS_SID,
+		SOURCE.PERIOD_SID, 
+		SOURCE.ACCRUALS, 
+		SOURCE.ACCRUALS_BASE_RATE,
+                SOURCE.ACCRUALS_MANUAL_ADJUSTMENTS,    
+                SOURCE.ACCRUALS_RECONCILIATION,
+                SOURCE.ACCRUALS_OTHER,	
+                SOURCE.PROJ_DEDUCTION_AMT,	
+                SOURCE.DEDUCTION_AMOUNT,	
+                SOURCE.PROJ_DEDUCTION_RATE,	
+                SOURCE.DEDUCTION_RATE,	
+                SOURCE.PROJ_CONT_SALES_AMT,	
+                SOURCE.CONT_SALES_AMT,
+                SOURCE.PROJ_CONT_SALES_UNITS,
+                SOURCE.CONT_SALES_UNITS,	
+                SOURCE.PA_ACCRUALS_PROJ_DED,	
+                SOURCE.VAR_ACCRUALS_PROJ_DED,	
+                SOURCE.PA_ACCRUALS_DED	,
+                SOURCE.VAR_ACCRUALS_DED,	
+                SOURCE.PA_DED_PROJ_DED,	
+                SOURCE.VAR_DED_AMT_PROJ_DED_AMT,	
+                SOURCE.VAR_DED_RATE_PROJ_DED_RATE,	
+                SOURCE.ACH_CON_SALES_PROJ_CON_SALES,	
+                SOURCE.VAR_CONT_SALES_PROJ_CONT_SALES,	
+                SOURCE.PA_CONT_UNITS_PROJ_CONT_UNITS,	
+                SOURCE.VAR_CONT_UNITS_PROJ_CONT_UNITS,
+                SOURCE.DEMAND_AMOUNT,
+                SOURCE.DEMAND_UNITS,
+                SOURCE.GTS_AMOUNT,
+                SOURCE.GTS_UNITS,
+                SOURCE.INVENTORY_WITHDRAWALS_AMOUNT,
+                SOURCE.INVENTORY_WITHDRAWALS_UNITS,
+                SOURCE.PER_PROJ_DEMAND,
+                SOURCE.PER_DEMAND,
+                SOURCE.PER_PROJ_GTS,
+                SOURCE.PER_GTS,
+                SOURCE.PER_PROJ_INVENTORY_WITHDRAWAL,
+                SOURCE.PER_INVENTORY_WITHDRAWAL);;
+                
+       ]]>
+    </sql>
+    <sql id="deleteFromTemp">
+		<![CDATA[
+                        DELETE FROM dbo.ST_AC_GTN_BALANCE_DETAILS WHERE USER_ID=?USER_ID? AND SESSION_ID=?SESSION_ID?;
+                 ]]>
+    </sql>
+    <sql id="getacgtnbalanceselection">
+        <![CDATA[
+            Select CHOSEN_FREQUENCY,FROM_TIME_PERIOD,TO_TIME_PERIOD,CHOSEN_PERIOD,CHOSEN_VARIABLES from AC_GTN_BALANCE_SELECTION where ACC_CLOSURE_MASTER_SID=?ACC_CLOSURE_MASTER_SID?;
+        ]]>
+    </sql>
+    <sql id="reportNameCount">
+        <![CDATA[
+           Select count(*) from ACC_CLOSURE_MASTER where REPORT_NAME like '?REPORT_NAME?';
+        ]]>
+    </sql>
+    <sql id="dsIndexCount">
+        <![CDATA[
+           SELECT Count(*)
+FROM   (SELECT DISTINCT ACM.ACC_CLOSURE_MASTER_SID,
+                        ACM.REPORT_NAME,
+                        ACM.DESCRIPTION,
+                        CM.COMPANY_NAME,
+                        ACM.GL_COMPANY_MASTER_SID,
+                        HT.DESCRIPTION      AS MKTYPE,
+                        ACM.CONTRACT_TYPE,
+                        RS_TYPE.DESCRIPTION AS RSTYPE,
+                        ACM.RS_TYPE,
+                        RS_SUB_TYPE.DESCRIPTION  AS RSSUB,
+                        ACM.REBATE_PROGRAM_TYPE,
+                        ACM.COMPANY_GROUP_SID,
+                        CT.CONTRACT_NAME,
+                        ACM.CONTRACT_MASTER_SID,
+                        ACM.ITEM_GROUP_SID,
+                        ACM.FROM_DATE,
+                        ACM.TO_DATE,
+                        ACM.ITEM_MASTER_SID,
+                        ACM.PRODUCT_IDENTIFIER,
+                        ACM.CREATED_DATE,
+                        ACM.MODIFIED_DATE,
+                        ACM.CREATED_BY,
+                        ACM.MODIFIED_BY,
+                         RS_CAT.DESCRIPTION  AS RSCAT,
+                        ACM.RS_CATEGORY
+        FROM   ACC_CLOSURE_MASTER ACM
+               LEFT JOIN COMPANY_MASTER CM
+                      ON ACM.GL_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+               LEFT JOIN HELPER_TABLE HT
+                      ON ACM.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+               LEFT JOIN UDCS RSTYPE
+                      ON ACM.RS_TYPE = RSTYPE.UDC2
+               LEFT JOIN HELPER_TABLE RS_TYPE
+                      ON RSTYPE.UDC2 = RS_TYPE.HELPER_TABLE_SID
+               LEFT JOIN COMPANY_GROUP CG
+                      ON ACM.COMPANY_GROUP_SID = CG.COMPANY_GROUP_SID
+               LEFT JOIN CONTRACT_MASTER CT
+                      ON ACM.CONTRACT_MASTER_SID = CT.CONTRACT_MASTER_SID
+               LEFT JOIN ITEM_GROUP IG
+                      ON ACM.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+               LEFT JOIN ITEM_MASTER IM
+                      ON ACM.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               LEFT JOIN HELPER_TABLE RS_CAT
+                      ON ACM.RS_CATEGORY = RS_CAT.HELPER_TABLE_SID
+               LEFT JOIN HELPER_TABLE RS_SUB_TYPE
+                      ON ACM.REBATE_PROGRAM_TYPE = RS_SUB_TYPE.HELPER_TABLE_SID
+        WHERE  ACM.REPORT_NAME LIKE '?'
+               AND ACM.DESCRIPTION LIKE '?'
+               AND Isnull(ACM.CONTRACT_TYPE, '0') LIKE '?'
+               AND Isnull(CM.COMPANY_MASTER_SID, '0') LIKE '?'
+               AND Isnull(IG.ITEM_GROUP_NAME, '0') LIKE '?'
+               AND Isnull(RS_TYPE.HELPER_TABLE_SID, '0') LIKE '?'
+               AND Isnull(CG.COMPANY_GROUP_NAME, '0') LIKE '?'
+               AND Isnull(IM.ITEM_MASTER_SID, '0') LIKE '?'
+               AND Isnull(RS_CAT.HELPER_TABLE_SID, '0') LIKE '?'
+               AND Isnull(RS_SUB_TYPE.HELPER_TABLE_SID, '0') LIKE '?'
+               AND Isnull(CT.CONTRACT_MASTER_SID, '0') LIKE '?'
+               AND Isnull(IM.ITEM_NAME, '0') LIKE '?'
+               ?
+               ? ?
+               AND ACM.MODULE_TYPE LIKE 'GTN_BALANCE' AND ACM.SAVE_FLAG=1) A
+        ]]>
+    </sql>
+     <sql id="dsIndex">
+        <![CDATA[
+          SELECT DISTINCT ACM.ACC_CLOSURE_MASTER_SID,
+                        ACM.REPORT_NAME,
+                        ACM.DESCRIPTION,
+                        CM.COMPANY_NAME,
+                        ACM.GL_COMPANY_MASTER_SID,
+                        HT.DESCRIPTION      AS MKTYPE,
+                        ACM.CONTRACT_TYPE,
+                        RS_TYPE.DESCRIPTION AS RSTYPE,
+                        ACM.RS_TYPE,
+                         RS_SUB_TYPE.DESCRIPTION  AS RSSUB,
+                        ACM.REBATE_PROGRAM_TYPE,
+                        ACM.COMPANY_GROUP_SID,
+                        CT.CONTRACT_NAME,
+                        ACM.CONTRACT_MASTER_SID,
+                        ACM.ITEM_GROUP_SID,
+                        ACM.FROM_DATE,
+                        ACM.TO_DATE,
+                        ACM.ITEM_MASTER_SID,
+                        ACM.PRODUCT_IDENTIFIER,
+                        ACM.CREATED_DATE,
+                        ACM.MODIFIED_DATE,
+                        ACM.CREATED_BY,
+                        ACM.MODIFIED_BY,
+                         RS_CAT.DESCRIPTION  AS RSCAT,
+                        ACM.RS_CATEGORY
+        FROM   ACC_CLOSURE_MASTER ACM
+               LEFT JOIN COMPANY_MASTER CM
+                      ON ACM.GL_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+               LEFT JOIN HELPER_TABLE HT
+                      ON ACM.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+               LEFT JOIN UDCS RSTYPE
+                      ON ACM.RS_TYPE = RSTYPE.UDC2
+               LEFT JOIN HELPER_TABLE RS_TYPE
+                      ON RSTYPE.UDC2 = RS_TYPE.HELPER_TABLE_SID
+               LEFT JOIN COMPANY_GROUP CG
+                      ON ACM.COMPANY_GROUP_SID = CG.COMPANY_GROUP_SID
+               LEFT JOIN CONTRACT_MASTER CT
+                      ON ACM.CONTRACT_MASTER_SID = CT.CONTRACT_MASTER_SID
+               LEFT JOIN ITEM_GROUP IG
+                      ON ACM.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+               LEFT JOIN ITEM_MASTER IM
+                      ON ACM.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               LEFT JOIN HELPER_TABLE RS_CAT
+                      ON ACM.RS_CATEGORY = RS_CAT.HELPER_TABLE_SID
+               LEFT JOIN HELPER_TABLE RS_SUB_TYPE
+                      ON ACM.REBATE_PROGRAM_TYPE = RS_SUB_TYPE.HELPER_TABLE_SID
+        WHERE  ACM.REPORT_NAME LIKE '?'
+               AND ACM.DESCRIPTION LIKE '?'
+               AND Isnull(ACM.CONTRACT_TYPE, '0') LIKE '?'
+               AND Isnull(CM.COMPANY_MASTER_SID, '0') LIKE '?'
+               AND Isnull(IG.ITEM_GROUP_NAME, '0') LIKE '?'
+               AND Isnull(RS_TYPE.HELPER_TABLE_SID, '0') LIKE '?'
+               AND Isnull(CG.COMPANY_GROUP_NAME, '0') LIKE '?'
+               AND Isnull(IM.ITEM_MASTER_SID, '0') LIKE '?'
+               AND Isnull(RS_CAT.HELPER_TABLE_SID, '0') LIKE '?'
+                AND Isnull(RS_SUB_TYPE.HELPER_TABLE_SID, '0') LIKE '?'
+               AND Isnull(CT.CONTRACT_MASTER_SID, '0') LIKE '?'
+               AND Isnull(IM.ITEM_NAME, '0') LIKE '?'
+               ?
+               ? ?
+               AND ACM.MODULE_TYPE LIKE 'GTN_BALANCE' AND ACM.SAVE_FLAG=1
+               ORDER  BY ACM.ACC_CLOSURE_MASTER_SID  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]]>
+    </sql>
+    <sql id="liabilitysummaryquery">
+		<![CDATA[
+                        DECLARE @TEMP_JOIN AS TABLE
+                        (
+                           YEAR     VARCHAR(10),
+                           ACTUALS NUMERIC(22,6),
+                           ACCRUALS     NUMERIC(22,6),
+                           REMAINING_ESTIMATE        NUMERIC(22,6)
+                        )
+                      INSERT INTO @TEMP_JOIN
+                                  (YEAR,
+                                   ACTUALS,
+                                   ACCRUALS,
+                                   REMAINING_ESTIMATE
+                                   )
+                      SELECT YEAR
+                              ,SUM(ACTUALS) AS ACTUALS
+                              ,SUM(ACCRUALS) AS ACCRUALS
+                              ,SUM(REMAINING_ESTIMATE) AS REMAINING_ESTIMATE
+                      FROM (
+                              SELECT CASE 
+                                              WHEN P.YEAR BETWEEN YEAR(GETDATE()) - 10
+                                                              AND YEAR(GETDATE()) - 4
+                                                      THEN 'Catch All'
+                                              ELSE CONVERT(VARCHAR(4), P.YEAR)
+                                              END YEAR
+                                      ,ISNULL(A.ACTUALS, 0) AS ACTUALS
+                                      ,ISNULL(B.ACCRUALS, 0) AS ACCRUALS
+                                      ,ISNULL(B.ACCRUALS, 0) - ISNULL(A.ACTUALS, 0) AS REMAINING_ESTIMATE
+                              FROM (
+                                      (
+                                              SELECT YEAR
+                                              FROM PERIOD
+                                              WHERE YEAR <= YEAR(GETDATE())
+                                                      AND YEAR >= YEAR(GETDATE()) - 10
+                                              GROUP BY YEAR
+                                              ) P LEFT JOIN (
+                                              SELECT YEAR(AM.ACCRUAL_ACTUAL_START_DATE) AS YEAR
+                                                      ,SUM(AM.SALES_AMOUNT) ACTUALS
+                                              FROM ACTUALS_MASTER AM
+                                              WHERE YEAR(AM.ACCRUAL_ACTUAL_START_DATE) BETWEEN YEAR(GETDATE()) - 10
+                                                              AND YEAR(GETDATE())
+                                              GROUP BY YEAR(AM.ACCRUAL_ACTUAL_START_DATE)
+                                              ) A ON P.YEAR = A.YEAR
+                                      LEFT JOIN (
+                                              SELECT YEAR(ACCRUAL_PERIOD_START_DATE) YEAR
+                                                      ,SUM(AMOUNT) ACCRUALS
+                                              FROM ACCRUAL_MASTER
+                                              WHERE YEAR(ACCRUAL_PERIOD_START_DATE) BETWEEN YEAR(GETDATE()) - 10
+                                                              AND YEAR(GETDATE())
+                                              GROUP BY YEAR(ACCRUAL_PERIOD_START_DATE)
+                                              ) B ON A.YEAR = B.YEAR
+                                              AND B.YEAR = P.YEAR
+                                      )
+                              ) ACC
+                      GROUP BY ACC.YEAR
+                      ORDER BY case when  isnumeric(year)=1
+                      then 
+                      1
+                      else
+                      0
+                      end 
+
+                      Select year,actuals,accruals,remaining_estimate from @TEMP_JOIN
+                      UNION ALL 
+                      Select 'Total' as year,sum(actuals) as actuals, sum(accruals) as accruals, sum(remaining_estimate) as remaining_estimate from @TEMP_JOIN
+                 ]]>
+    </sql>
+    <sql id="asofdatequery">
+        <![CDATA[
+        SELECT V.CURRENT_CHECK_RECORD,V.CNAME1,V.CID1 ,V.CURRENT_YEAR,V.CURRENT_QUARTER
+                ?CA? FROM
+                (
+                select * from 
+                (
+                select RSLT.CHECK_RECORD AS CURRENT_CHECK_RECORD,
+                       ?QURANK?,
+                       RSLT."YEAR" AS CURRENT_YEAR,
+                       RSLT.QUARTER AS CURRENT_QUARTER,
+                       ?SCA?,
+                       'C' AS C_FLAG
+                 from 
+                 (SELECT DISTINCT TEMPGTN.CHECK_RECORD,
+                                        ?QU?,
+                                        P."YEAR",
+                                        P.QUARTER,
+                                        ?SELECTEDCOLUMN?,
+                                        DENSE_RANK()
+                                          OVER (
+                                            ORDER BY ?QU? ) AS RANK
+                        FROM   ACC_CLOSURE_DETAILS ACD
+                               JOIN CCP_DETAILS CCP
+                                 ON ACD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                                    AND ACD.ACC_CLOSURE_MASTER_SID = ?ACC_CLOSURE_MASTER_SID?
+                               JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN
+                                 ON TEMPGTN.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+                                    AND TEMPGTN.USER_ID = ?USER_ID?
+                                    AND TEMPGTN.SESSION_ID = '?SESSION_ID?'
+                               JOIN COMPANY_MASTER CM
+                                 ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                               JOIN CONTRACT_MASTER CN
+                                 ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                               JOIN ITEM_MASTER IM
+                                 ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               JOIN BRAND_MASTER BM
+                                 ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                               JOIN HELPER_TABLE HT
+                                 ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+                               JOIN "PERIOD" P
+                                 ON P.PERIOD_SID = TEMPGTN.PERIOD_SID
+                                     ?PERIOD_DATE?
+                        WHERE  IM.ITEM_MASTER_SID LIKE '%'
+                               AND CN.CONTRACT_MASTER_SID LIKE '%'
+                               AND CM.COMPANY_MASTER_SID LIKE '%'
+                               AND BM.BRAND_MASTER_SID LIKE '%'
+                               AND IM.THERAPEUTIC_CLASS LIKE '%'
+                        GROUP  BY TEMPGTN.CHECK_RECORD,
+                                  ?QU?,
+                                  P."YEAR",
+                                  P.QUARTER) RSLT
+                ?WHERE? )out1
+
+                left join
+                (
+                select 
+
+                RSLT1.CHECK_RECORD AS PRIOR_CHECK_RECORD,
+                       ?QURANK1?,
+                       RSLT1."YEAR" AS PRIOR_YEAR,
+                       RSLT1.QUARTER AS PRIOR_QUARTER,
+                       ?SCS?,
+                       'P' AS P_FLAG 
+                FROM  ( SELECT DISTINCT TEMPGTN.CHECK_RECORD,
+                                        ?QU?,
+                                        '0'                                                   "YEAR",
+                                        '0'                                                   QUARTER,
+                                        ?SELECTEDCOLUMN?,
+                                        DENSE_RANK()
+                                          OVER (
+                                            ORDER BY ?QU? ) AS RANK
+                        FROM   ACC_CLOSURE_DETAILS ACD
+                               JOIN CCP_DETAILS CCP
+                                 ON ACD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                                    AND ACD.ACC_CLOSURE_MASTER_SID = ?ACC_CLOSURE_MASTER_SID?
+                               JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN
+                                 ON TEMPGTN.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+                                    AND TEMPGTN.USER_ID = ?USER_ID?
+                                    AND TEMPGTN.SESSION_ID = '?SESSION_ID?'
+                               JOIN COMPANY_MASTER CM
+                                 ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                               JOIN CONTRACT_MASTER CN
+                                 ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                               JOIN ITEM_MASTER IM
+                                 ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               JOIN BRAND_MASTER BM
+                                 ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                               JOIN HELPER_TABLE HT
+                                 ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+                               JOIN "PERIOD" P
+                                 ON P.PERIOD_SID = TEMPGTN.PERIOD_SID
+                                    ?ASOF_DATE?
+                        WHERE  IM.ITEM_MASTER_SID LIKE '%'
+                               AND CN.CONTRACT_MASTER_SID LIKE '%'
+                               AND CM.COMPANY_MASTER_SID LIKE '%'
+                               AND BM.BRAND_MASTER_SID LIKE '%'
+                               AND IM.THERAPEUTIC_CLASS LIKE '%'
+                        GROUP  BY TEMPGTN.CHECK_RECORD,
+                                  ?QU?) RSLT1
+                ?WHERE1?)out2
+                           ON 
+                           OUT1.CID=OUT2.CID1
+                           AND 
+                           OUT1.CNAME=out2.CNAME1
+                )V
+                order by CNAME1,CID1 ;
+        
+        ]]>
+    </sql>
+    <sql id="ajdust_reconsile_ccp_query">
+        <![CDATA[
+        Select distinct ACD.CCP_DETAILS_SID from ACC_CLOSURE_DETAILS ACD 
+        JOIN CCP_DETAILS CCP
+        ON CCP.CCP_DETAILS_SID=ACD.CCP_DETAILS_SID
+        JOIN ST_ACC_CLOSURE_DETAILS ST_ACD
+        ON ST_ACD.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND ST_ACD.COMPANY_MASTER_SID in (?COMPANYMASTERSIDS?)
+        Where ACD.ACC_CLOSURE_MASTER_SID=?ACCCLOSUREMASTERSID?;
+        ]]>
+    </sql>
+    <sql id="tempUpdateRecord">
+        <![CDATA[
+            UPDATE ?TABLE_NAME?
+            SET ?SET_COLUMN_NAME?=?SET_VALUE?
+            WHERE ?COLUMN_NAME1?='?VALUE1?' AND ?COLUMN_NAME2?='?VALUE2?' AND ?COLUMN_NAME4? like '?VALUE4?' AND ?COLUMN_NAME3? like '?VALUE3?'
+            ]]>
+    </sql>
+    <sql id="actualVarianceCountQuery">
+		<![CDATA[
+                                SELECT count (*) from (SELECT DISTINCT IM.ITEM_NO,IM.ITEM_NAME,IM.ITEM_DESC,BM.BRAND_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,CM.COMPANY_NO,CM.COMPANY_NAME,CM.COMPANY_MASTER_SID 
+                from ACC_CLOSURE_DETAILS ACD JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID  AND ACD.ACC_CLOSURE_MASTER_SID= ?ACC_CLOSURE_MASTER_SID? 
+                JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN ON TEMPGTN.ACC_CLOSURE_DETAILS_SID=ACD.ACC_CLOSURE_DETAILS_SID AND  TEMPGTN.USER_ID='?USER_ID?' AND TEMPGTN.SESSION_ID='?SESSION_ID?' 
+                JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID 
+                JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID 
+                JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+                JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID 
+                WHERE  IM.ITEM_MASTER_SID LIKE '?ISID?' AND CN.CONTRACT_MASTER_SID LIKE '?CSID?' AND CM.COMPANY_MASTER_SID LIKE '?CMSID?' AND BM.BRAND_MASTER_SID LIKE '?BMSID?' AND IM.THERAPEUTIC_CLASS LIKE '?THID?')RSLT ;
+                ]]>
+    </sql>
+    <sql id="actualVarianceResultQuery">
+		<![CDATA[
+                SELECT DISTINCT IM.ITEM_NO,IM.ITEM_NAME,IM.ITEM_DESC,BM.BRAND_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,CM.COMPANY_NO,CM.COMPANY_NAME,CM.COMPANY_MASTER_SID 
+                from ACC_CLOSURE_DETAILS ACD JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID  AND ACD.ACC_CLOSURE_MASTER_SID= ?ACC_CLOSURE_MASTER_SID? 
+                JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN ON TEMPGTN.ACC_CLOSURE_DETAILS_SID=ACD.ACC_CLOSURE_DETAILS_SID AND  TEMPGTN.USER_ID='?USER_ID?' AND TEMPGTN.SESSION_ID='?SESSION_ID?' 
+                JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+                JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID 
+                JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID 
+                JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+                JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID 
+                WHERE  IM.ITEM_MASTER_SID LIKE '?ISID?' AND CN.CONTRACT_MASTER_SID LIKE '?CSID?' AND CM.COMPANY_MASTER_SID LIKE '?CMSID?' AND BM.BRAND_MASTER_SID LIKE '?BMSID?' AND IM.THERAPEUTIC_CLASS LIKE '?THID?' ;
+                ]]>
+    </sql>
+    <sql id="brandResultQuery">
+        <![CDATA[
+        SELECT DISTINCT CM.COMPANY_NAME,CM.COMPANY_MASTER_SID  from ACC_CLOSURE_DETAILS ACD 
+        JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID  AND ACD.ACC_CLOSURE_MASTER_SID=?ACC_CLOSURE_MASTER_SID? 
+        JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN ON TEMPGTN.ACC_CLOSURE_DETAILS_SID=ACD.ACC_CLOSURE_DETAILS_SID 
+        AND  TEMPGTN.USER_ID='?USER_ID?' AND TEMPGTN.SESSION_ID='?SESSION_ID?'  
+        JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+        JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+        JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID 
+        JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+        JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID 
+        WHERE  IM.ITEM_MASTER_SID LIKE '?ISID?' AND CN.CONTRACT_MASTER_SID LIKE '?CSID?' AND CM.COMPANY_MASTER_SID LIKE '?CMSID?' AND BM.BRAND_MASTER_SID LIKE '?BMSID?' AND IM.THERAPEUTIC_CLASS LIKE '?THID?'
+        group by CM.COMPANY_NAME,CM.COMPANY_MASTER_SID
+        ]]>
+    </sql>
+    <sql id="levelFilterValueQuery">
+        <![CDATA[
+        SELECT DISTINCT ?COLUMNS?  from ACC_CLOSURE_DETAILS ACD 
+        JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID  AND ACD.ACC_CLOSURE_MASTER_SID= ?ACC_CLOSURE_MASTER_SID? 
+        JOIN ST_AC_GTN_BALANCE_DETAILS TEMPGTN ON TEMPGTN.ACC_CLOSURE_DETAILS_SID=ACD.ACC_CLOSURE_DETAILS_SID 
+        AND  TEMPGTN.USER_ID='?USER_ID?' AND TEMPGTN.SESSION_ID='?SESSION_ID?'  
+        JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID 
+        JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID=CN.CONTRACT_MASTER_SID
+        JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID=IM.ITEM_MASTER_SID 
+        JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+        JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID 
+        WHERE  IM.ITEM_MASTER_SID LIKE '%' AND CN.CONTRACT_MASTER_SID LIKE '%' AND CM.COMPANY_MASTER_SID LIKE '%' AND BM.BRAND_MASTER_SID LIKE '%' AND IM.THERAPEUTIC_CLASS LIKE '%'
+        group by ?COLUMNS?
+        ]]>
+    </sql>
+    <sql id="saveProjectionSelectionBR">
+       <![CDATA[ 
+    INSERT INTO AC_GTN_BALANCE_SELECTION (ACC_CLOSURE_MASTER_SID,CHOSEN_FREQUENCY,FROM_TIME_PERIOD,TO_TIME_PERIOD,CHOSEN_PERIOD,CHOSEN_VARIABLES) 
+VALUES (@accMaster_Sid,'@Frequency','@From_Period','@To_Period','@Choosen_Period','@View,@Variable');
+    
+     ]]>
+    </sql>
+    
+</custom-sql>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	default-destroy-method="destroy" default-init-method="afterPropertiesSet"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- Custom Beans -->
+
+	<bean id="appDataSourceTarget" class="com.stpl.portal.spring.jndi.JndiObjectFactoryBean"
+		lazy-init="true">
+		<property name="jndiName">
+			<value>java:jboss/datasources/jdbc/appDataPool</value>
+		</property>
+	</bean>
+
+	<bean id="appDataSource"
+		class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"
+		lazy-init="true">
+		<property name="targetDataSource">
+			<ref bean="appDataSourceTarget" />
+		</property>
+	</bean>
+
+
+
+	<bean id="appHibernateSessionFactory" class="com.stpl.portal.kernel.spring.util.SpringFactoryUtil"
+		factory-method="newBean">
+		<constructor-arg
+			value="com.stpl.portal.spring.hibernate.PortletHibernateConfiguration" />
+		<constructor-arg>
+			<map>
+				<entry key="dataSource" value-ref="appDataSource" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="appSessionFactory" class="com.stpl.portal.kernel.spring.util.SpringFactoryUtil"
+		factory-method="newBean">
+		<constructor-arg
+			value="com.stpl.portal.dao.orm.hibernate.PortletSessionFactoryImpl" />
+		<constructor-arg>
+			<map>
+				<entry key="dataSource" value-ref="appDataSource" />
+				<entry key="sessionFactoryClassLoader" value-ref="portletClassLoader" />
+				<entry key="sessionFactoryImplementor" value-ref="appHibernateSessionFactory" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+
+	<bean id="appTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" lazy-init="true">
+		<property name="dataSource">
+			<ref bean="appDataSource" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="appHibernateSessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="transactionAdvice" class="com.stpl.portal.kernel.spring.util.SpringFactoryUtil"
+		factory-method="newBean">
+		<constructor-arg
+			value="com.stpl.portal.spring.transaction.TransactionInterceptorFactoryBean" />
+		<constructor-arg>
+			<map>
+				<entry key="platformTransactionManager" value-ref="appTransactionManager" />
+				<entry key="transactionAttributeSource" value-ref="transactionAttributeSource" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<!-- <bean id="basePersistence" abstract="true"> <property name="dataSource" 
+		ref="appDataSource" /> <property name="sessionFactory" ref="appSessionFactory" 
+		/> </bean> -->
+</beans>

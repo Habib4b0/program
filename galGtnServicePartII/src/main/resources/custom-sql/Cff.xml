@@ -1,0 +1,504 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="loadLatestCCP">
+      <![CDATA[
+            ;WITH CTE
+                  AS (SELECT Row_number()OVER(PARTITION BY CCP_DETAILS_SID ORDER BY WM.CREATED_DATE DESC) RN,
+                             WORKFLOW_MASTER_SID,
+                             WORKFLOW_ID,
+                             WM.PROJECTION_MASTER_SID,
+                             PM.PROJECTION_NAME,
+                             PM.FORECASTING_TYPE,
+                             CCP_DETAILS_SID,
+                             WORKFLOW_STATUS=HT.[DESCRIPTION],
+                             APPROVED_BY,
+                             WM.MODIFIED_DATE,
+                             WM.CREATED_BY,
+                             WM.CREATED_DATE
+                      FROM   PROJECTION_MASTER PM, WORKFLOW_MASTER WM
+                             INNER JOIN PROJECTION_DETAILS PD
+                                     ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                             INNER JOIN HELPER_TABLE HT
+                                     ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                      WHERE  HT.[DESCRIPTION] = 'Approved' and PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID)
+              SELECT DISTINCT WORKFLOW_MASTER_SID,
+                    WORKFLOW_ID,
+                    PROJECTION_MASTER_SID,
+                    PROJECTION_NAME,
+                    FORECASTING_TYPE,
+                    WORKFLOW_STATUS,
+                    APPROVED_BY,
+                    MODIFIED_DATE,
+                    CREATED_BY,
+                    CREATED_DATE
+              FROM  CTE
+              WHERE  RN = 1
+        ]]>        
+    </sql>
+    
+    <sql id="getCffDetails">
+        <![CDATA[
+                select DISTINCT WM.WORKFLOW_MASTER_SID,
+                    WM.WORKFLOW_ID,
+                    PM.PROJECTION_MASTER_SID,
+                    PM.PROJECTION_NAME,
+                    PM.FORECASTING_TYPE,
+                    WM.WORKFLOW_STATUS_ID,
+                    WM.APPROVED_BY,
+                    WM.MODIFIED_DATE,
+                    WM.CREATED_BY,
+                    WM.CREATED_DATE
+               from PROJECTION_MASTER PM, WORKFLOW_MASTER WM,CFF_DETAILS CD
+               where CD.PROJECTION_MASTER_SID=WM.PROJECTION_MASTER_SID AND CD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+        ]]> 
+    </sql>
+    
+    <sql id="saveCffResults">
+		<![CDATA[
+                
+        ;WITH CTE
+                  AS (SELECT Row_number()OVER(PARTITION BY CCP_DETAILS_SID ORDER BY WM.CREATED_DATE DESC) RN,
+                             WORKFLOW_MASTER_SID,
+                             WORKFLOW_ID,
+                             WM.PROJECTION_MASTER_SID,
+                             PM.PROJECTION_NAME,
+                             PM.FORECASTING_TYPE,
+                             CCP_DETAILS_SID,
+                             WORKFLOW_STATUS=HT.[DESCRIPTION],
+                             APPROVED_BY,
+                             WM.MODIFIED_DATE,
+                             WM.CREATED_BY,
+                             WM.CREATED_DATE
+                      FROM   PROJECTION_MASTER PM, WORKFLOW_MASTER WM
+                             INNER JOIN PROJECTION_DETAILS PD
+                                     ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                             INNER JOIN HELPER_TABLE HT
+                                     ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                      WHERE  HT.[DESCRIPTION] = 'Approved' and PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID)
+              SELECT CCP_DETAILS_SID,
+                    PROJECTION_MASTER_SID 
+              FROM  CTE
+              WHERE  RN = 1
+
+    ]]>
+    </sql>
+  <sql id="getCffSearchCount">
+       
+          <![CDATA[
+            ;WITH CFF
+   AS (SELECT cm.CFF_MASTER_SID,
+            cff_name,
+            cff_type,
+            rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY APPROVED_DATE DESC),
+            approval_status,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            cm.inbound_status,
+            CM.CREATED_DATE,
+            cm.CREATED_BY
+            FROM   cff_master cm
+                INNER JOIN CFF_APPROVAL_DETAILS cad
+                           ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                INNER JOIN helper_table ht
+                           ON cm.CFF_TYPE = ht.helper_table_sid
+                INNER JOIN HELPER_TABLE h
+                           ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS),
+                Pagination
+        AS (SELECT CFF_MASTER_SID,
+            cff_name,
+            cff_type,
+            approval_status,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            inbound_status,
+            CREATED_DATE,
+            CREATED_BY,
+            pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+            FROM   CFF
+            WHERE  rn = 1)
+    SELECT distinct count(CFF_MASTER_SID)
+    FROM   Pagination where inbound_status <> 'D' 
+AND (CFF_MASTER_SID like '?' or CFF_MASTER_SID IS NULL) AND  (CFF_NAME like '?' OR CFF_NAME IS NULL) AND (CFF_TYPE like '?' OR CFF_TYPE IS NULL) AND (APPROVAL_STATUS like '?' OR APPROVAL_STATUS IS NULL)
+ ? ? ? ?
+    ?
+        ]]>
+     
+    </sql>
+  
+    <sql id="getCffSearchResults">
+                     
+         <![CDATA[
+         ;WITH CFF
+ AS (SELECT cm.CFF_MASTER_SID,
+          cff_name,
+          cff_type,
+          rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY APPROVED_DATE DESC),
+          approval_status,
+          APPROVED_DATE,            
+           APPROVED_BY,
+          ACTIVE_FROM_DATE,
+          ACTIVE_TO_DATE,
+          cm.inbound_status,
+            CM.CREATED_DATE,
+            cm.CREATED_BY
+          FROM   cff_master cm
+              INNER JOIN CFF_APPROVAL_DETAILS cad
+                         ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+              INNER JOIN helper_table ht
+                         ON cm.CFF_TYPE = ht.helper_table_sid
+              INNER JOIN HELPER_TABLE h
+                         ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS
+                ),
+              Pagination
+      AS (SELECT CFF_MASTER_SID,
+          cff_name,
+          cff_type,
+          approval_status,
+          APPROVED_DATE,
+          APPROVED_BY,
+          ACTIVE_FROM_DATE,
+          ACTIVE_TO_DATE,
+          inbound_status,
+          CREATED_DATE,
+          CREATED_BY,
+          pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+          FROM   CFF
+          WHERE  rn = 1)
+   SELECT CFF_MASTER_SID,
+                 cff_name,
+                 cff_type,
+                 approval_status,
+                 APPROVED_DATE,
+                 APPROVED_BY,
+                 ACTIVE_FROM_DATE,
+                 ACTIVE_TO_DATE,
+                 inbound_status,
+                 CREATED_DATE,
+                 CREATED_BY
+       FROM   Pagination where inbound_status <> 'D' 
+AND (CFF_MASTER_SID like '?' or CFF_MASTER_SID IS NULL) AND  (CFF_NAME like '?' OR CFF_NAME IS NULL) AND (CFF_TYPE like '?' OR CFF_TYPE IS NULL) AND (APPROVAL_STATUS like '?' OR APPROVAL_STATUS IS NULL)
+  ? ? ? ?
+    ? ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+   
+        ]]>
+      
+    </sql>
+    <sql id="getPriorName">
+        <![CDATA[
+                SELECT CM.CFF_MASTER_SID,CM.CFF_TYPE,CM.CFF_NAME,htable.DESCRIPTION from CFF_MASTER CM 
+                LEFT JOIN CFF_DETAILS CD on CM.CFF_MASTER_SID=CD.CFF_MASTER_SID
+                LEFT JOIN CFF_APPROVAL_DETAILS CAD on CAD.CFF_MASTER_SID=CM.CFF_MASTER_SID
+                LEFT JOIN HELPER_TABLE HTABLE on HTABLE.HELPER_TABLE_SID=CAD.APPROVAL_STATUS
+                WHERE HTABLE.DESCRIPTION like 'Approved' AND            
+        ]]> 
+    </sql>
+    
+    <sql id="getLastApprovedCFF">
+            <![CDATA[ 
+                     ;WITH CFF
+                 AS (SELECT cm.CFF_MASTER_SID,
+                         cff_name,
+                         cff_type= ht.description,
+                         rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+                         approval_status= h.DESCRIPTION,
+                         APPROVED_DATE,
+                         APPROVED_BY,
+                         ACTIVE_FROM_DATE,
+                         ACTIVE_TO_DATE,
+            cm.inbound_status,
+            CM.CREATED_DATE,
+            cm.CREATED_BY
+                         FROM   cff_master cm
+                             INNER JOIN CFF_APPROVAL_DETAILS cad
+                                        ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                             INNER JOIN helper_table ht
+                                        ON cm.CFF_TYPE = ht.helper_table_sid
+                             INNER JOIN HELPER_TABLE h
+                                        ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS
+                             WHERE  h.[DESCRIPTION] = 'Approved'),
+                            Pagination 
+                     AS (SELECT CFF_MASTER_SID,
+                         cff_name,
+                         cff_type,
+                         approval_status,
+                         APPROVED_DATE,
+                         APPROVED_BY,
+                         ACTIVE_FROM_DATE,
+                         ACTIVE_TO_DATE,
+                         inbound_status,
+                         pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+                         FROM   CFF
+                         WHERE  rn = 1)
+                 SELECT CFF_MASTER_SID,
+                        APPROVED_DATE,
+                        inbound_status
+
+                 FROM   Pagination where inbound_status <> 'D' ORDER BY APPROVED_DATE DESC
+
+            ]]>
+    </sql>
+    <sql id="cffOutboundQuery">
+            <![CDATA[
+            
+IF OBJECT_ID('TEMPDB..#TEMP_CFF') IS NOT NULL
+            DROP TABLE #TEMP_CFF 
+                   ; WITH INPUT
+     AS (SELECT TOKEN AS CFF_MASTER_SID
+         FROM   [DBO].[Udf_splitstring] ('?', ',')),
+     INPUT_INFO
+     AS (SELECT C.CFF_MASTER_SID,
+                C.CFF_NAME,
+                H.DESCRIPTION AS CFF_TYPE,
+                P.PROJECTION_MASTER_SID,
+                P.PROJECTION_NAME,
+                CO.CONTRACT_NAME,
+                CM.COMPANY_NAME,
+                IM.ITEM_NAME,
+                PD.PROJECTION_DETAILS_SID,
+                P.FORECASTING_TYPE,
+                CD.ITEM_MASTER_SID
+         FROM   CFF_MASTER C
+                INNER JOIN CFF_DETAILS D
+                        ON C.CFF_MASTER_SID = D.CFF_MASTER_SID
+                INNER JOIN PROJECTION_MASTER P
+                        ON P.PROJECTION_MASTER_SID = D.PROJECTION_MASTER_SID
+                INNER JOIN CCP_DETAILS CD
+                        ON D.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+                INNER JOIN CONTRACT_MASTER CO
+                        ON CO.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+                INNER JOIN COMPANY_MASTER CM
+                        ON CM.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                INNER JOIN ITEM_MASTER IM
+                        ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                INNER JOIN PROJECTION_DETAILS PD
+                        ON D.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                           AND D.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = C.CFF_TYPE
+                          AND H.LIST_NAME = 'CFF_TYPE'
+         WHERE  EXISTS (SELECT 1
+                        FROM   INPUT I
+                        WHERE  C.CFF_MASTER_SID = I.CFF_MASTER_SID))
+SELECT CFF_MASTER_SID,
+       CFF_NAME,
+       CFF_TYPE,
+       PROJECTION_MASTER_SID,
+       PROJECTION_NAME,
+       CONTRACT_NAME,
+       COMPANY_NAME,
+       ITEM_NAME,
+       RS_ID,
+      [YEAR],
+       [MONTH],
+       SALES_DOLLARS,
+       SALES_UNITS,
+       REBATE_DOLLARS,
+       REBATE_RATE,
+       REBATE_PER_UNIT,
+       NET_SALES_DOLLARS,
+       NET_PROFIT_PER_UNIT = ( NET_SALES_DOLLARS / NULLIF(SALES_UNITS, 0) ),
+       ITEM_MASTER_SID,
+       PERIOD_SID
+INTO   #TEMP_CFF
+FROM   (SELECT CFF_MASTER_SID,
+               CFF_NAME,
+               CFF_TYPE,
+               PROJECTION_MASTER_SID,
+               PROJECTION_NAME,
+               CONTRACT_NAME,
+               COMPANY_NAME,
+               ITEM_NAME,
+               RS_ID,
+               [YEAR],
+               [MONTH],
+               Isnull(PROJECTION_SALES, 0)   AS SALES_DOLLARS,
+               Isnull(PROJECTION_UNITS, 0)   AS SALES_UNITS,
+               Isnull(PROJECTED_DISCOUNT, 0) AS REBATE_DOLLARS,
+               Isnull(PROJECTION_RATE, 0)    AS REBATE_RATE,
+               Isnull(PROJECTION_RPU, 0)     AS REBATE_PER_UNIT,
+               NET_SALES_DOLLARS=( Isnull(PROJECTION_SALES, 0) - Isnull(PROJECTED_DISCOUNT, 0) ),
+               ITEM_MASTER_SID,
+               P.PERIOD_SID
+        FROM   (SELECT I.CFF_MASTER_SID,
+                       I.CFF_NAME,
+                       I.CFF_TYPE,
+                       I.PROJECTION_MASTER_SID,
+                       I.PROJECTION_NAME,
+                       I.CONTRACT_NAME,
+                       I.COMPANY_NAME,
+                       I.ITEM_NAME,
+                       D.RS_ID,
+                       S.PERIOD_SID,
+                       PROJECTION_SALES,
+                       PROJECTION_UNITS,
+                       PROJECTED_DISCOUNT,
+                       PROJECTION_RATE,
+                       PROJECTION_RPU,
+                       I.ITEM_MASTER_SID
+                FROM   (SELECT NS.PROJECTION_DETAILS_SID,
+                               NS.PERIOD_SID,
+                               NS.PROJECTION_SALES,
+                               NS.PROJECTION_UNITS
+                        FROM   INPUT_INFO I
+                               INNER JOIN NM_SALES_PROJECTION NS
+                                       ON I.PROJECTION_DETAILS_SID = NS.PROJECTION_DETAILS_SID
+                        WHERE  I.FORECASTING_TYPE = 'NON MANDATED'
+                        UNION
+                        SELECT NS.PROJECTION_DETAILS_SID,
+                               NS.PERIOD_SID,
+                               NS.PROJECTION_SALES,
+                               NS.PROJECTION_UNITS
+                        FROM   INPUT_INFO I
+                               INNER JOIN M_SALES_PROJECTION NS
+                                       ON I.PROJECTION_DETAILS_SID = NS.PROJECTION_DETAILS_SID
+                        WHERE  I.FORECASTING_TYPE = 'MANDATED') S
+                       INNER JOIN (SELECT NS.PROJECTION_DETAILS_SID,
+                                          NS.PERIOD_SID,
+                                          RS.RS_ID,
+                                          NS.PROJECTION_SALES AS PROJECTED_DISCOUNT,
+                                          NS.PROJECTION_RATE,
+                                          NS.PROJECTION_RPU
+                                   FROM   INPUT_INFO I
+                                          INNER JOIN NM_DISCOUNT_PROJECTION NS
+                                                  ON I.PROJECTION_DETAILS_SID = NS.PROJECTION_DETAILS_SID
+                                          INNER JOIN RS_MODEL RS
+                                                  ON NS.RS_MODEL_SID = RS.RS_MODEL_SID
+                                   WHERE  I.FORECASTING_TYPE = 'NON MANDATED'
+                                   UNION
+                                   SELECT PROJECTION_DETAILS_SID,
+                                          PERIOD_SID,
+                                          RS_MODEL_SID,
+                                          ( Isnull(M_PROJECTION_SALES, 0)
+                                            + Isnull(S_PROJECTION_SALES, 0) ) AS PROJECTED_DISCOUNT,
+                                          ( Isnull(M_PROJECTION_RATE, 0)
+                                            + Isnull(S_PROJECTION_RATE, 0) )  AS PROJECTION_RATE,
+                                          ( Isnull(M_PROJECTION_RPU, 0)
+                                            + Isnull(S_PROJECTION_RPU, 0) )   AS PROJECTION_RPU
+                                   FROM   (SELECT NS.PROJECTION_DETAILS_SID,
+                                                  NS.PERIOD_SID,
+                                                  NULL                AS RS_MODEL_SID,
+                                                  NS.PROJECTION_SALES AS M_PROJECTION_SALES,
+                                                  NS.PROJECTION_RATE  AS M_PROJECTION_RATE,
+                                                  NS.PROJECTION_RPU   AS M_PROJECTION_RPU,
+                                                  SP.PROJECTION_SALES AS S_PROJECTION_SALES,
+                                                  SP.PROJECTION_RATE  AS S_PROJECTION_RATE,
+                                                  SP.PROJECTION_RPU   AS S_PROJECTION_RPU
+                                           FROM   INPUT_INFO I
+                                                  INNER JOIN M_DISCOUNT_PROJECTION NS
+                                                          ON I.PROJECTION_DETAILS_SID = NS.PROJECTION_DETAILS_SID
+                                                  INNER JOIN M_SUPPLEMENTAL_DISC_PROJ SP
+                                                          ON SP.PROJECTION_DETAILS_SID = NS.PROJECTION_DETAILS_SID
+                                                             AND SP.PERIOD_SID = NS.PERIOD_SID
+                                           WHERE  I.FORECASTING_TYPE = 'MANDATED'
+                                                  AND NS.SAVE_FLAG = 1)A) D
+                               ON S.PROJECTION_DETAILS_SID = D.PROJECTION_DETAILS_SID
+                                  AND S.PERIOD_SID = D.PERIOD_SID
+                       INNER JOIN INPUT_INFO I
+                               ON I.PROJECTION_DETAILS_SID = S.PROJECTION_DETAILS_SID)A
+               INNER JOIN PERIOD P
+                       ON A.PERIOD_SID = P.PERIOD_SID)B
+ORDER  BY CONTRACT_NAME,
+          COMPANY_NAME,
+          ITEM_NAME,
+          RS_ID,
+          [YEAR],
+          [MONTH]
+ 
+DECLARE @ITEMID           [DBO].[UDT_ITEM],
+        @START_PERIOD_SID INT,
+        @END_PERIOD_SID   INT
+ 
+INSERT INTO @ITEMID
+SELECT DISTINCT ITEM_MASTER_SID
+FROM   #TEMP_CFF
+ 
+SELECT @START_PERIOD_SID = START_PERIOD_SID,
+       @END_PERIOD_SID = END_PERIOD_SID
+FROM   (SELECT DISTINCT Min(PERIOD_SID)
+                          OVER (
+                            PARTITION BY CFF_MASTER_SID
+                            ORDER BY CFF_MASTER_SID) AS START_PERIOD_SID,
+                        Max(PERIOD_SID)
+                          OVER (
+                            PARTITION BY CFF_MASTER_SID
+                            ORDER BY CFF_MASTER_SID) AS END_PERIOD_SID
+        FROM   #TEMP_CFF)A
+ 
+SELECT CFF_MASTER_SID,
+       CFF_NAME,
+       CFF_TYPE,
+       PROJECTION_MASTER_SID,
+       PROJECTION_NAME,
+       CONTRACT_NAME,
+       COMPANY_NAME,
+       ITEM_NAME,
+       RS_ID,
+       [YEAR],
+       [MONTH],
+       SALES_DOLLARS,
+       SALES_UNITS,
+       REBATE_DOLLARS,
+       REBATE_RATE,
+       REBATE_PER_UNIT,
+       NET_SALES_DOLLARS,
+       NET_PROFIT_PER_UNIT,
+       COGS_PER_UNIT=ITEM_PRICE,
+       COGS_DOLLARS = ( ITEM_PRICE * SALES_UNITS )
+FROM   #TEMP_CFF T
+       INNER JOIN [dbo].[Udf_item_pricing](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'EACH') F
+               ON F.ITEM_MASTER_SID = T.ITEM_MASTER_SID
+                  AND F.PERIOD_SID = T.PERIOD_SID
+
+            ]]>
+    </sql>
+      <sql id="getCffOuboundCheckAllResults">
+        <![CDATA[
+       ;WITH CFF
+ AS (SELECT cm.CFF_MASTER_SID,
+          cff_name,
+          cff_type,
+          rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+          approval_status,
+          APPROVED_DATE,
+           US.lastName+' '+US.firstName as 
+           APPROVED_BY,
+          ACTIVE_FROM_DATE,
+          ACTIVE_TO_DATE,
+          cm.inbound_status,
+          CM.CREATED_DATE
+          FROM   cff_master cm
+              INNER JOIN CFF_APPROVAL_DETAILS cad
+                         ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+              INNER JOIN helper_table ht
+                         ON cm.CFF_TYPE = ht.helper_table_sid
+              INNER JOIN HELPER_TABLE h
+                         ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS
+               INNER JOIN BPIGTN_GAL_SYS_QA.dbo.User_ US
+                ON US.USERID=cad.APPROVED_BY
+                ),
+              Pagination
+      AS (SELECT CFF_MASTER_SID,
+          cff_name,
+          cff_type,
+          approval_status,
+          APPROVED_DATE,
+          APPROVED_BY,
+          ACTIVE_FROM_DATE,
+          ACTIVE_TO_DATE,
+          inbound_status,
+          CREATED_DATE,
+          pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+          FROM   CFF
+          WHERE  rn = 1)
+   SELECT CFF_MASTER_SID 
+       FROM   Pagination where inbound_status <> 'D' 
+AND (CFF_MASTER_SID like '?' or CFF_MASTER_SID IS NULL) AND  (CFF_NAME like '?' OR CFF_NAME IS NULL) AND (CFF_TYPE like '?' OR CFF_TYPE IS NULL) AND (APPROVAL_STATUS like '?' OR APPROVAL_STATUS IS NULL)
+  ? ? ? ?
+        ]]> 
+    </sql>
+ </custom-sql>

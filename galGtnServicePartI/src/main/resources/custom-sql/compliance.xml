@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+
+<custom-sql>
+	  <sql id="saveMaster">
+		<![CDATA[
+		DECLARE @identity INT
+INSERT INTO CDR_MODEL
+            (RULE_TYPE,
+             RULE_NO,
+             RULE_NAME,
+             RULE_CATEGORY,
+             CREATED_DATE,
+             CREATED_BY,
+             MODIFIED_DATE,
+             MODIFIED_BY)
+VALUES      ('?',
+             '?',
+             '?',
+             '?',
+             '?',
+             '?',
+             '?',
+             '?')
+
+SELECT @identity = Scope_identity()
+
+INSERT INTO CDR_DETAILS
+            (CDR_MODEL_SID,
+             LINE_TYPE,
+             ITEM_GROUP_MS_ASSOCIATION,
+             KEYWORD,
+             OPERATOR,
+             VALUE,
+             COMPARISON,
+             LOGICAL_OPERATOR,
+             CREATED_DATE,
+             CREATED_BY,
+             MODIFIED_DATE,
+             MODIFIED_BY)
+VALUES 
+		]]>
+    </sql>
+    <sql id="getRuleInfo-Edit">
+		<![CDATA[
+       SELECT CM.RULE_TYPE,
+       RT.DESCRIPTION AS TYP,
+       CM.RULE_NO,
+       CM.RULE_NAME,
+       CM.RULE_CATEGORY,
+       RC.DESCRIPTION AS CAT,
+       CD.LINE_TYPE,
+       CD.ITEM_GROUP_MS_ASSOCIATION,
+       CD.KEYWORD,
+       CD.OPERATOR,
+       CD.VALUE,
+       CD.COMPARISON,
+       CD.LOGICAL_OPERATOR,
+       CD.CDR_DETAILS_SID,
+       CM.INTERNAL_NOTES
+FROM   CDR_MODEL CM
+       JOIN CDR_DETAILS CD
+         ON CM.CDR_MODEL_SID = CD.CDR_MODEL_SID
+            AND CM.CDR_MODEL_SID = ?
+       JOIN HELPER_TABLE RT
+         ON RT.HELPER_TABLE_SID = CM.RULE_TYPE
+       JOIN HELPER_TABLE RC
+         ON RC.HELPER_TABLE_SID = CM.RULE_CATEGORY 
+		]]>
+    </sql>
+    <sql id="insertRuleDetails-Edit">
+		<![CDATA[
+       
+INSERT INTO CDR_DETAILS
+            (CDR_MODEL_SID,
+             LINE_TYPE,
+             ITEM_GROUP_MS_ASSOCIATION,
+             KEYWORD,
+             OPERATOR,
+             VALUE,
+             COMPARISON,
+             LOGICAL_OPERATOR,
+             CREATED_DATE,
+             CREATED_BY,
+             MODIFIED_DATE,
+             MODIFIED_BY)
+VALUES  
+		]]>
+    </sql>
+    <sql id="UpdateRuleModel-Edit">
+		<![CDATA[
+       
+INSERT INTO CDR_MODEL
+            (RULE_TYPE,
+             RULE_NO,
+             RULE_NAME,
+             RULE_CATEGORY,
+             CREATED_DATE,
+             CREATED_BY,
+             MODIFIED_DATE,
+             MODIFIED_BY)
+VALUES      ('?',
+             '?',
+             '?',
+             '?',
+             '?',
+             '?',
+             '?',
+             '?') 
+		]]>
+    </sql>
+    <sql id="deleteRuleDetails">
+		<![CDATA[
+       
+delete FROM CDR_DETAILS where CDR_DETAILS_SID in ( ? ) 
+		]]>
+    </sql>
+</custom-sql>
+
+

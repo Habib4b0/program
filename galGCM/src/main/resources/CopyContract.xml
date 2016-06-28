@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:p="urn:import:com.stpl.app.gcm.ui.errorhandling" id="mainPanelcopy">
+    <VerticalLayout id="copycontractVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <p:ErrorLabel id="errorMsg"/> 
+        <Panel id="copycontractPanel1" caption="Search Criteria">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="copycontractgridLayout1" immediate="true" columns="6" rows="3">
+                    <Label caption="Contract Holder: " contentMode="HTML" />
+<!--                     <b:CustomTextField id="contractHolder" immediate="true" />-->
+                     <b:CustomTextField id="contractHolder" styleName="searchicon" inputPrompt=""/> 
+                    <Label caption="Market Type: " contentMode="HTML" />
+                    <ComboBox id="marketType" immediate="true" width="205px"/>
+                    <Label caption="Company Family Plan: " contentMode="HTML" />
+                    <TextField id="companyFamilyPlan" immediate="true" width="205px"/>
+                    <Label caption="Contract No: " contentMode="HTML" />
+                    <TextField id="contractNo" immediate="true" />
+                    <Label caption="Start Date: " contentMode="HTML" />
+                    <PopupDateField id="startDate" immediate="true" />
+                    <Label caption="Item Family Plan: " contentMode="HTML" />
+                    <TextField id="itemFamilyPlan" immediate="true" />
+                    <Label caption="Contract Name: " contentMode="HTML" />
+                    <TextField id="contractName" immediate="true" />  
+                    <Label caption="End Date: " contentMode="HTML" />
+                    <PopupDateField id="endDate" immediate="true" />
+                    <Label caption="Price Schedule: " contentMode="HTML" />
+                    <TextField id="priceSchedule" immediate="true" />
+                </GridLayout>
+                <Panel id="alias" caption="Alias Details">
+                    <VerticalLayout  spacing = "true" margin = "true" >
+                        <GridLayout id="gridLayoutalias" spacing="true" 
+                                    immediate="true" columns="4" rows="2">
+                            <Label caption="Type: " contentMode="HTML" />
+                            <ComboBox id="aliasType" immediate="true" width="205px"/>
+                            <Label caption="Start Date: " contentMode="HTML" />
+                            <PopupDateField id="aliasStartDate" immediate="true" />
+                            <Label caption="Number: " contentMode="HTML" />
+                            <TextField id="aliasNumber"  immediate="true" />
+                            <Label caption="End Date: " contentMode="HTML" />
+                            <PopupDateField id="aliasEndDate" immediate="true" />
+						
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel> 
+               
+            </HorizontalLayout>
+            
+            
+        </Panel>
+        <HorizontalLayout id="buttonsearchLayout">
+            <Button id="Btnsearch" caption="SEARCH"  />
+        </HorizontalLayout>  
+        <Panel id="copycontractPanel2" caption="Results">
+           
+            <VerticalLayout id="copycontractTableLayout"  margin="false" immediate="true" spacing="false">
+               
+            </VerticalLayout>
+              
+            
+        </Panel>
+        <HorizontalLayout>
+            <Button id="btnreset" caption="RESET" alignment="BOTTOM_LEFT" />
+            <Button id="copyBtn" caption="COPY" alignment="BOTTOM_LEFT" /> 
+                    
+        </HorizontalLayout>   
+    </VerticalLayout>
+</Panel>

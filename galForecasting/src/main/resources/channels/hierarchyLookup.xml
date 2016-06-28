@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:table="urn:import:org.asi.ui.extfilteringtable" height="100%" width="100%">
+    <VerticalLayout margin="true" spacing="true">
+        <Panel caption="Search Criteria">
+            <HorizontalLayout spacing="true" margin="true">
+                <Label value="Hierarchy Type" contentMode="HTML" />
+                <OptionGroup  id="hierarchyType" multiSelect="false" enabled="true" immediate="true" styleName = "horizontal"/>
+                <Label  value="Hierarchy Name" contentMode="HTML" />
+                <TextField id="hierarchyName" inputPrompt="" />
+            </HorizontalLayout>
+
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET"  />
+        </HorizontalLayout>
+        <Panel caption="Results">
+            <!--<HorizontalLayout margin = "true">-->
+                <!--<table:ExtFilterTable id="resultsTable" styleName="table-header-normal" immediate="true"/>-->
+                <VerticalLayout id="resultsTableLayout"></VerticalLayout>
+            <!--</HorizontalLayout>-->
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="selectBtn" caption="SELECT"  />
+            <Button id="cancelBtn" caption="CANCEL"  />
+            <Button id="resultResetBtn" caption="RESET"  />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>
+

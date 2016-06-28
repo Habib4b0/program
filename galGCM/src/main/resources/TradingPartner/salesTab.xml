@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel id="mainPanel" caption = "Customer Details-Sales">
+    <VerticalLayout id ="verti" spacing="false"
+                    margin="true" immediate="true">
+         <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+            <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="4" rows="1">
+                <Label caption="Frequency: " contentMode="HTML" />
+                <ComboBox id = "frequency" width = "205px"/>
+                <Label caption="History: " contentMode="HTML" />
+                <ComboBox id = "history" width = "205px"/>
+            </GridLayout>
+        </HorizontalLayout>       
+        
+        <VerticalLayout id="tradingPartnerSalesTableLayout" spacing="true" margin="false" immediate="true">
+        </VerticalLayout>
+                
+        <HorizontalLayout  margin = "false" spacing = "true">
+            <Button id="excelBtn" primaryStyleName="link"/>
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

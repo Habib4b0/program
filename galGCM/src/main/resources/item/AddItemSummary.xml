@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<VerticalLayout>
+    <VerticalLayout>
+        <Panel id="selectionCriteria" caption="Selection Criteria">
+             <HorizontalLayout margin="true"
+                                          spacing="true" >
+                <Label Value="Item No: " contentMode="HTML" />
+                <TextField id="itemNo" inputPrompt=""/>
+
+                <Label Value="Item Name: " contentMode="HTML"  />
+                <TextField id="itemName" inputPrompt="" />
+
+                <Label Value="Item Desc: " contentMode="HTML" />
+                <TextField id="itemDesc" inputPrompt="" />
+
+                <Label Value="Therapeutic Class: " contentMode="HTML" />
+                <TextField id="therapeuticClass" inputPrompt="" />
+
+                <Label Value="Brand: " contentMode="HTML" />
+                <TextField id="brand" inputPrompt="" />
+
+            </HorizontalLayout>
+        </Panel> 
+    </VerticalLayout>     
+    <VerticalLayout>
+        <Panel id="Contract Processing Dashboard" caption="Contract Processing Dashboard">
+      
+            <!--         <Panel>-->
+        
+            <HorizontalLayout spacing="true"> 
+                <!--             <VerticalLayout spacing="true">-->
+           
+                <Panel id="Add Trading Partner Results" caption="Add Item Results" width="1200px" heigh="380px">
+                    <VerticalLayout spacing="true" >                   
+                        <VerticalLayout id="lay" spacing="true">                
+                        </VerticalLayout> 
+                        <HorizontalLayout spacing="true" margin="true">                   
+                            <Button id="addremove" caption="REMOVE"/> 
+                            <Button id = "excelBtn" styleName="link" />
+                        </HorizontalLayout>             
+                    </VerticalLayout>               
+                </Panel>
+                <Panel id="contractDashboardResults" caption="Contract Dashboard Results" width="700px" heigh="380px">
+                    <VerticalLayout id="contractDashboardLay" spacing="true"> 
+                    </VerticalLayout>
+                </Panel>
+            </HorizontalLayout>
+        </Panel>
+    </VerticalLayout>
+    <Panel id="Component Details" Caption="Component Details">
+        <!--        <Table></Table>-->
+        <VerticalLayout spacing="true">
+            <VerticalLayout id="componentDetailsLay" ></VerticalLayout>
+        </VerticalLayout>
+       
+    </Panel>
+    
+</VerticalLayout>

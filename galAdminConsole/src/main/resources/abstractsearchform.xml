@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling">
+    <VerticalLayout margin="true" spacing="true" >
+        <p:ErrorLabel id="errorMsg"/>
+        <Panel caption="Search Criteria">
+            <VerticalLayout  id="searchLayout" styleName = "bootstrap-search-criteria">
+                <HorizontalLayout spacing="true" styleName="responsiveTabGrid" >
+                    <CssLayout id="cssLayout" immediate="true" width="100%" height="100%">
+                        <Label id="label1"  contentMode="HTML" />
+                        <TextField id="text1" immediate="true" inputPrompt="" />
+                        <Label id="label2" contentMode="HTML" />
+                        <TextField id="text2" immediate="true" inputPrompt="" />
+                        <Label id="label3" contentMode="HTML" />
+                        <TextField id="text3" immediate="true" inputPrompt="" />                       
+                        <Label id="label4" contentMode="HTML" />
+                        <ComboBox id="combo1" immediate="true" nullSelectionAllowed="true" inputPrompt="-Select One-" />
+                        <Label id="label5" contentMode="HTML" />
+                        <ComboBox id="combo2" immediate="true" nullSelectionAllowed="true" inputPrompt="-Select One-" />                         
+                        <Label id="label6" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="option1" immediate="true" enable="true" styleName = "horizontal"/>                        
+                        <Label id="label7"  contentMode="HTML" />
+                        <TextField id="text4" immediate="true" inputPrompt="" />
+                        <Label id="label8" contentMode="HTML" />
+                        <TextField id="text5" immediate="true" inputPrompt="" />
+                        <Label id="label9" contentMode="HTML" />
+                        <TextField id="text6" immediate="true" inputPrompt="" />                        
+                        <Label id="label10" contentMode="HTML" />
+                        <PopupDateField id="date1" dateFormat="dd/MM/yyyy" />
+                        <Label id="label11" contentMode="HTML" />
+                        <PopupDateField id="date2" dateFormat="dd/MM/yyyy" />                        
+                        <Label id="label12" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="option2" immediate="true" enable="true" styleName = "horizontal"/>                    
+                        <Label id="label13" contentMode="HTML" />
+                        <PopupDateField id="date3" dateFormat="dd/MM/yyyy" />
+                        <Label id="label14" contentMode="HTML" />
+                        <PopupDateField id="date4" dateFormat="dd/MM/yyyy" />                        
+                        <Label id="label15" contentMode="HTML" />
+                        <ComboBox id="combo3" immediate="true" nullSelectionAllowed="true" inputPrompt="-Select One-" />                         
+                        <Label id="label16"  contentMode="HTML" />
+                        <TextField id="text7" immediate="true" inputPrompt="" />
+                        <Label id="label17" contentMode="HTML" />
+                        <TextField id="text8" immediate="true" inputPrompt="" />
+<!--                        <Button id="searchBtn" caption="SEARCH" immediate="true"/>
+                        <Button id="auditSearchBtn" caption="AUDIT SEARCH" immediate="true" />
+                        <Button id="saveBtn" caption="SAVE" immediate="true"/>
+                        <Button id="resetButton" caption="RESET" immediate="true"/> -->
+                        
+             <HorizontalLayout spacing="true" margin="false" styleName="responsiveTabGrid" >
+            <CssLayout immediate="true" width="100%" height="100%">
+                <Button id="searchBtn" caption="SEARCH" immediate="true"/>
+                <Button id="auditSearchBtn" caption="AUDIT SEARCH" immediate="true" />
+                <Button id="saveBtn" caption="SAVE" immediate="true"/>
+                <Button id="resetButton" caption="RESET" immediate="true"/>
+            </CssLayout>
+        </HorizontalLayout>                       
+                    </CssLayout>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+<!--        <HorizontalLayout spacing="true" margin="false" styleName="responsiveTabGrid" >
+            <CssLayout immediate="true" width="100%" height="100%">
+                <Button id="searchBtn" caption="SEARCH" immediate="true"/>
+                <Button id="auditSearchBtn" caption="AUDIT SEARCH" immediate="true" />
+                <Button id="saveBtn" caption="SAVE" immediate="true"/>
+                <Button id="resetButton" caption="RESET" immediate="true"/>
+            </CssLayout>
+        </HorizontalLayout>-->
+                    
+        <Panel caption="Results"  >
+            <VerticalLayout id="tableLayout">
+                <HorizontalLayout id="controlLayout"/>
+            </VerticalLayout>            
+        </Panel>
+        <HorizontalLayout id= "buttonLayout" spacing="true" margin="false" styleName="responsiveTabGrid" >
+         
+                <Button id="resetBtn" caption="RESET" immediate="true"/>
+                <Button id="addBtn" caption="ADD" immediate="true"/>
+                <Button id="editBtn" caption="EDIT" immediate="true" />
+                <Button id="viewBtn" caption="VIEW" immediate="true" />
+                <Button id="copyBtn" caption="COPY" immediate="true" />
+                <Button id="deleteBtn" caption="DELETE" immediate="true" />
+                <Button id="autoUpdateBtn" caption="AUTO UPDATE" immediate="true" />
+                <Button id="processTrackingBtn" caption="PROCESS TRACKING" immediate="true" />
+                <Button id="excel" immediate="true" primaryStyleName="link" />
+            
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

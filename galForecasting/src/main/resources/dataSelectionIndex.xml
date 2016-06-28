@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield">
+    <VerticalLayout spacing = "true" margin = "true" styleName="forecast-dataselection" >
+        <!--<VerticalLayout spacing = "true" margin = "true">-->
+        <Panel id="panel1" caption="Projection Options"  >
+
+            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
+                <VerticalLayout>
+                    <GridLayout spacing="false" margin="false" immediate="true" columns="2" rows="1">
+                        <Label caption="Mode: " contentMode="HTML"  width="50px" />
+                        <OptionGroup multiSelect="false" id="modeOption" immediate="true" enable="true" styleName = "horizontal">
+                        </OptionGroup>
+                    </GridLayout>
+                    <GridLayout spacing="false" margin="false" immediate="true" columns="4" rows="2">
+                        <Label caption="Private Views: " contentMode="HTML" width="100px" />
+                        <b:CustomTextField id="privateViewText" styleName="searchText" inputPrompt=""/>
+
+                        <Label caption="Projection Name: " contentMode="HTML" />
+                        <TextField id="projectionNameText"></TextField>
+
+
+                        <Label caption="Public Views: " contentMode="HTML" width="100px" styleName="labelresultalign"/>
+                        <b:CustomTextField id="publicViewText" styleName="searchText" inputPrompt=""/>
+
+                        <Label caption="Description: " contentMode="HTML" styleName="labelresultalign"/>
+                        <TextField id="descriptionText" ></TextField>
+
+                    </GridLayout>
+                </VerticalLayout>
+                <Panel id="timeperiod" caption="Time Period">
+                    <VerticalLayout  spacing = "true" margin = "true" >
+                        <GridLayout id="gridLayout" immediate="true" columns="4" rows="1">
+                            <Label caption="From: " contentMode="HTML" width="50px"/>
+                            <ComboBox id="fromDate" />
+                            <Label caption="To: " contentMode="HTML" width="40px" styleName="labelresultalign"/>
+                            <ComboBox id="toDate" />
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel>
+            </HorizontalLayout>
+        </Panel>
+
+
+        <Panel caption="Customer Selection"  spacing="true" styleName="ds-selection">
+            <VerticalLayout  spacing = "true" margin = "true" styleName = "width-auto" >
+                <HorizontalLayout immediate="true">
+                    <GridLayout  spacing="false" immediate="true" columns="8" rows="1">
+                        <Label caption="Hierarchy:" contentMode="HTML" width="80px" />
+                        <b:CustomTextField id="customerHierarchy" styleName="searchText" inputPrompt="" />
+                        <Label caption="Relationship:" contentMode="HTML" width="100px" ></Label>
+                        <ComboBox id="customerRelation" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                        <Label caption="Forecast Level:" contentMode="HTML" width="105px" />
+                        <ComboBox id="customerlevel" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                        <Label caption="Customer Group:" contentMode="HTML"   width="120px" />
+                        <b:CustomTextField id="customerGP" styleName="searchText"/>
+                    </GridLayout>
+                </HorizontalLayout>
+
+                <!--panel inserted--> 
+                <Panel>
+                    <VerticalLayout margin = "true" spacing = "true" >           
+                        <HorizontalLayout>
+                            <GridLayout spacing="false" immediate="true" columns="2" rows="1">
+                                <Label caption="Level:" contentMode="HTML" width="50px" ></Label>
+                                <ComboBox id="levelDDLB" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                            </GridLayout>
+                        </HorizontalLayout>
+                        <HorizontalLayout>
+                            <GridLayout  spacing="true" margin="false" immediate="true" columns="3" rows="1">
+                                <a:ExtFilterTable  width="400px" height="300px" id="availableCustomer" styleName="table-header-normal" immediate="true" selectable="true"/>
+                                <GridLayout  spacing="true" margin="false" immediate="true" columns="1" rows="3" p:componentAlignment="MIDDLE_CENTER">
+                                    <Button id="moveLeftBtn" caption="&gt;" width="50px"></Button>
+                                    <Button id="moveRightBtn" caption="&lt;" width="50px"></Button>
+                                    <Button id="allBtn" caption="ALL" width="50px"></Button>
+                                </GridLayout>
+                                <TreeTable id="selectedCustomer" width="400px" height="300px" styleName="table-header-normal"  pageLength="8" immediate="true" selectable="true" />
+                            </GridLayout>
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                <!-- panel inserted -->
+
+
+            </VerticalLayout>
+        </Panel>
+
+        <Panel id="panel3" caption="Product Selection"  styleName="ds-selection" >
+            <VerticalLayout spacing="true" margin="true"  styleName = "width-auto">
+                <!--<GridLayout id="grid3" spacing="true" columns="4" rows="2"immediate="true">-->
+                <HorizontalLayout>
+                    <GridLayout spacing="false" immediate="true" columns="2" rows="1">
+                        <Label caption="Company:" contentMode="HTML"  width="80px" />
+                        <ComboBox id="company" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                    </GridLayout>    
+                </HorizontalLayout>
+                <HorizontalLayout>
+                    <VerticalLayout>
+                        <GridLayout spacing="false" immediate="true" columns="8" rows="1">
+                            <Label caption="Hierarchy:" contentMode="HTML" width="80px" />
+                            <b:CustomTextField id="productHierarchy" styleName="searchText" inputPrompt="" />
+                            <Label caption="Relationship:" contentMode="HTML" width="100px"  ></Label>
+                            <ComboBox id="productRelation" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                            <Label caption="Forecast Level:" contentMode="HTML" width="105px" />
+                            <ComboBox id="productlevel" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                            <!--            <Label caption="" contentMode="HTML" styleName="adjust"/>	 -->
+                            <Label caption="Product Group:" contentMode="HTML"  width="110px" />
+                            <b:CustomTextField id="productGP" styleName="searchText" />
+                        </GridLayout>    
+                    </VerticalLayout>               
+                </HorizontalLayout>
+                                     
+                                       
+                <!--</GridLayout>-->
+
+                <!-- panel start -->
+                <!-- <Panel id="productPanel"> -->
+                <!--  <VericalLayout id="newVLayout" spacing="true"
+                margin="true">  -->
+                <Panel>
+                    <VerticalLayout margin = "true" spacing = "true" >
+                        <HorizontalLayout id="hLayout3" spacing="true" margin="false" >
+                            <GridLayout  spacing="false" margin="false" immediate="true" columns="2" rows="1">
+                                <Label caption="Level:" contentMode="HTML" width="50px" ></Label>
+                                <ComboBox id="productlevelDdlb" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                            </GridLayout>
+                        </HorizontalLayout>
+                        <HorizontalLayout >
+                            <VerticalLayout >
+                                <GridLayout  spacing="true" margin="false" immediate="true" columns="3" rows="1">
+                                    <a:ExtFilterTable id="availableProduct" width="400px" height="300px" styleName="table-header-normal" immediate="true" selectable="true" />
+                                    <GridLayout  spacing="true" margin="false" immediate="true" columns="1" rows="3" p:componentAlignment="MIDDLE_CENTER">
+                                        <Button id="moveLeftProduct" caption="&gt;" width="50px"></Button>
+                                        <Button id="moveRightProduct" caption="&lt;" width="50px"></Button>
+                                        <Button id="allProductBtn" caption="ALL" width="50px"></Button>
+                                    </GridLayout>
+                                    <TreeTable id="selectedProduct" width="400px" styleName="table-header-normal" height="300px" pageLength="8" immediate="true" selectable="true" />
+                                </GridLayout>
+                            </VerticalLayout>                       
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                                
+                <!--  </VericalLayout>   </Panel> -->
+				
+                <!--panel Ends -->
+            </VerticalLayout>
+
+        </Panel>
+
+        <HorizontalLayout id="buttonLay" spacing="true" margin="false">
+            <Button id="generateBtn" caption="GENERATE" />
+            <Button id="searchBtn"  caption="SEARCH" enabled="false "/>
+            <Button id="resetBtn" caption="RESET" />
+            <Button id="saveViewBtn" caption="SAVE VIEW" />
+            <Button id="deleteViewBtn" caption="DELETE VIEW " />
+        </HorizontalLayout>
+        <Panel id="resultsTablePanel" caption="Results" >
+            <a:ExtFilterTable styleName="table-header-normal filterable" id="resultTable" selectable="true" width="100%" immediate="true" height="400px" />
+        </Panel>
+        <HorizontalLayout id="finalBtn" spacing="true" margin="false">
+            <Button id="resultResetBtn" caption="RESET" />
+            <Button id="editBtn" caption="EDIT" />
+            <Button id="viewBtn" caption="VIEW" />
+            <Button id="deleteBtn" caption="DELETE" />
+        </HorizontalLayout>
+    </VerticalLayout>
+
+</Panel>
