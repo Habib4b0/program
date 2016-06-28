@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="lookup" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:el="urn:import:com.stpl.app.ui.errorhandling"
+       xmlns:c="urn:import:org.asi.ui.customcombobox"> 
+    <VerticalLayout margin="true" spacing="true">
+
+        <el:ErrorLabel id="errorMsg" />
+
+        
+		<Panel caption="Search Criteria" width="100%" spacing="true">			
+
+            <GridLayout id="searchLayout" margin="true" spacing="true" columns="4"
+                        rows="2">
+                <Label id="netSalesformulaTypeLabel" value="Net Sales Formula Type" contentMode="HTML" immediate="true" />
+                <c:CustomComboBox id="netSalesFormulaType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />		
+                
+                <Label id="netSalesFormulaIdLabel" value="Net Sales Formula ID" contentMode="HTML" immediate="true" />
+                <TextField id="netSalesFormulaId" enabled="true" immediate="true" />
+			
+                <Label id="netSalesFormulaNoLabel" value="Net Sales Formula No" contentMode="HTML" immediate="true" />
+                <TextField id="netSalesFormulaNo" enabled="true" immediate="true" />
+                
+                <Label id="netSalesFormulaNameLabel" value="Net Sales Formula Name" contentMode="HTML" immediate="true" />
+                <TextField id="netSalesFormulaName" enabled="true" immediate="true" />
+		</GridLayout>
+
+        </Panel>	
+
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="resetBtn" caption="RESET" immediate="true" width="80" />
+            <Button id="searchBtn" caption="SEARCH" immediate="true" width="80" />
+        </HorizontalLayout>
+	
+        <VerticalLayout id="tablelayout" spacing="true"/>        
+        <HorizontalLayout id="controlLayout"/>
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" />
+            <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
+            <Button id="excelExport" immediate="true" /> 
+        </HorizontalLayout>
+
+    </VerticalLayout>
+</Panel>

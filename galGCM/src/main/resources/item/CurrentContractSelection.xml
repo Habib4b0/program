@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel id="startingPanel" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" >
+    <VerticalLayout  id="mainLayout" margin="false"
+                     spacing="false"  >
+        <Panel id="searchCriteria"  xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" >
+               <HorizontalLayout>
+            <VerticalLayout>
+            <GridLayout margin="true" spacing="true" columns="8"
+                                    rows="4">
+                    <Label value="Contract Number:"/>
+                    <TextField id="contractNumber" />
+                    <Label value="Contract Name:"/>
+                    <TextField id="contractName" />
+                    <Label value="Contract Holder:" />
+                    <TextField id="contractHolder" />
+                    <Label value="Market Type:" />
+                    <ComboBox id="marketType" />
+                    <Label value="Company Family Plan No:"/>
+                    <b:CustomTextField id="companyFamilyPlanNo" />
+                    <Label value="Item Family Plan No:"/>
+                    <b:CustomTextField id="itemFamilyPlanNo" />
+                    <Label value="Price Schedule No:"/>
+                    <b:CustomTextField id="priceScheduleNo" />
+                    <Label value="All Items:" />
+                    <ComboBox id="allItems" />
+                    <Label value="Rebate Schedule Id:"/>
+                    <TextField id="rebateScheduleId" />
+                    <Label value="Rebate Schedule Name:"/>
+                    <TextField id="rebateScheduleName" />
+                    <Label value="Rebate Schedule  Type:" />
+                    <ComboBox id="rebateScheduleType" />
+                    <Label value="RAR Category:"/>
+                    <ComboBox id="rarCategory" />
+                    <Label value="Rebate Schedule No:"/>
+                    <TextField id="rebateScheduleNo" />
+                    <Label value="Rebate Schedule Category"/>
+                    <ComboBox id="rebateScheduleCategory" />
+                    <Label value="Rebate Program Type:"/>
+                    <ComboBox id="rebateProgramType" />
+                    <Label value="Rebate Schedule Alias:"/>
+                    <TextField id="rebateScheduleAlias" />       
+            </GridLayout>
+                <HorizontalLayout>
+                <Button id="reset" caption="RESET"/>
+                <Button id="search" caption="SEARCH"/>
+            </HorizontalLayout>
+            </VerticalLayout>
+            </HorizontalLayout>
+        </Panel>
+        <Panel id="availableContracts">
+            <VerticalLayout>
+                <!--                <Table id="currentContract" caption=""/>-->
+                <HorizontalLayout>
+                    <Button id="contractReset" caption="RESET"/>
+                    <Button id="submit" caption="SUBMIT"/>
+                           
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>              
+        <Panel id="componentInformation" caption="Component Information">
+   <HorizontalLayout id="componentInfoLayout">           
+<!--            <VerticalLayout>
+                 <GridLayout margin="true" spacing="true" columns="8"
+                                    rows="4">
+                    <Label value="Component Selection:"/>
+                    <ComboBox id="componentSelection" />
+                    <Label value="Rs Number:"/>
+                    <TextField id="rsNumber" />
+                    <Label value="Status:"/>
+                    <TextField id="status" />
+                    <Label value="Rebate Frequency:"/>
+                    <TextField id="rebateFrequency" />
+                    <Label value="Start Date:"/>
+                    <DateField id="startDate" />
+                    <Label value="Rs Id:"/>
+                    <TextField id="rsId" />
+                    <Label value="Rs Name:"/>
+                    <TextField id="rsName" />
+                    <Label value="RAR Type:"/>
+                    <TextField id="rarType" />
+                    <Label value="Basis:"/>
+                    <TextField id="basis" />
+                    <Label value="End Date:"/>
+                    <DateField id="endDate" />
+                    <Label value="Rs Type:"/>
+                    <TextField id="rsType" />
+                    <Label value="Rs Program Type:"/>
+                    <TextField id="rsProgramType" />
+                    <Label value="Rs Category:"/>
+                    <ComboBox id="rsCategory" />
+                    <Label value="Payment Frequency:"/>
+                    <ComboBox id="paymentFrequency" />
+                    <Label value="Rebate Frequency Level:"/>
+                    <ComboBox id="rebateFrequencyLevel" />
+                 </GridLayout>
+            </VerticalLayout>-->
+           </HorizontalLayout>
+        </Panel>                                                
+        <VerticalLayout>
+            <Table id="currentContract" caption=""/>
+            <HorizontalLayout>
+                <Button id="next" caption="NEXT"/>
+                <Button id="close" caption="CLOSE"/>
+                <Button id="export" caption=""/>             
+            </HorizontalLayout>
+        </VerticalLayout>
+    </VerticalLayout>
+</Panel>
+ 

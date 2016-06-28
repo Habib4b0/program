@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>global-parent</artifactId>
+        <groupId>com.stpl.app</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>com.stpl.app</groupId>
+    <artifactId>galGCM</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+    <name>galGCM</name>
+
+    <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.ifs</groupId>
+            <artifactId>galUtility</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>dom4j</artifactId>
+                    <groupId>dom4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>hibernate-validator</artifactId>
+                    <groupId>org.hibernate</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency> 
+
+        <!-- Project Dependencies -->
+        <dependency>
+            <groupId>com.stpl.app</groupId>
+            <artifactId>galGtnServicePartI</artifactId>
+            <version>${pom.version}</version>
+            <scope>provided</scope>
+        </dependency>
+       
+        <dependency>
+            <groupId>com.stpl.app.bpm</groupId>
+            <artifactId>stpl-jbpm</artifactId>
+            <version>6.2.0.Final</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>dom4j</artifactId>
+                    <groupId>dom4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>hibernate-jpa-2.0-api</artifactId>
+                    <groupId>org.hibernate.javax.persistence</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+<!--        <dependency>
+            <groupId>com.stpl.app.bpm</groupId>
+            <artifactId>forecast-bpmutils</artifactId>
+            <version>1.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.stpl.app.bpm</groupId>
+            <artifactId>guvnor-utils</artifactId>
+            <version>6.2.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.app</groupId>
+            <artifactId>galWorkflow</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency> 
+        <dependency>
+            <groupId>org.vaadin.alump.beforeunload.galderma</groupId>
+            <artifactId>beforeunload-addon</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <!-- Util-service -->
+        <dependency>
+            <groupId>com.stpl.app</groupId>
+            <artifactId>util-service</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>galderma-releases</id>
+            <url>https://repo.sysbiz.org/content/repositories/galderma-releases/</url>
+        </repository>
+    </distributionManagement>
+    <repositories>
+        
+        <repository>
+            <id>vaadin-addon-central</id>
+            <url>https://repo.sysbiz.org/content/repositories/vaadin-addon-central/</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Central</name>
+            <url>https://repo.sysbiz.org/content/repositories/central/</url>
+        </repository>
+        <repository>
+            <id>galderma-releases</id>
+            <url>https://repo.sysbiz.org/content/repositories/galderma-releases/</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.5.1</version>
+                    <executions>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <serverId>central</serverId>
+                        <nexusUrl>https://repo.sysbiz.org/content/repositories/central/</nexusUrl>
+                        <skipStaging>true</skipStaging>
+                    </configuration>
+                </plugin>
+               
+            </plugins>
+        </pluginManagement> 
+        <!--       <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                    </includes>
+            </resource>
+        </resources>-->
+    </build>
+
+</project>

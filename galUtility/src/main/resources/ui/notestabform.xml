@@ -1,0 +1,65 @@
+<VerticalLayout id="vlayout" spacing="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:org.asi.ui.extfilteringtable">
+    <Panel id="panelnotes">     
+    <HorizontalLayout id="root" margin="true" space="true" >
+            <Panel id="notes" caption="Notes" styleName="attachmentpanel" >
+                <VerticalLayout margin="true" >
+                    <VerticalLayout>
+                        <CssLayout id="cssNewNote" width="100%" height="100%">
+                            <VerticalLayout id="reasoncodeLayout">
+                                <Label value="Enter New Note" styleName="noteslabel" />
+                                <TextArea id="newNotes" styleName="addInfoText" />
+                                <VerticalLayout id="addBtnlayout" styleName="addInfoBtnSpace">
+                                    <Button id="addNote" caption="ADD NOTE" />
+                                </VerticalLayout>
+                            </VerticalLayout>
+
+                        </CssLayout>
+                    </VerticalLayout>
+
+                    <VerticalLayout>
+					<CssLayout id="cssHistoryNote" width="100%" height="100%">
+                            <VerticalLayout>
+                                <Label value="Notes History" styleName="noteshistory" />
+                                <TextArea id="notesHistory" styleName="addInfoText" />
+                                <HorizontalLayout id="imageLayout">
+							
+                                </HorizontalLayout>
+                            </VerticalLayout>
+                        </CssLayout>
+                    </VerticalLayout>
+                </VerticalLayout>
+
+
+            </Panel>
+            <Panel id="attachment" caption="Attachments" styleName="attachmentpanel" >
+                <VerticalLayout margin="true" >
+                    <HorizontalLayout immediate="true">
+                        <Label id="fileNameLb" value="File Name" contentMode="HTML" immediate="true" />
+                        <TextField id="fileNameField" enabled="true" immediate="true" />
+                    </HorizontalLayout>
+
+                    <HorizontalLayout immediate="true" width="100%">
+					<CssLayout id="cssLayout1" immediate="true" width="100%" height="100%">
+						
+                        </CssLayout>
+                    </HorizontalLayout>
+                        
+                    <HorizontalLayout immediate="true">
+					<CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
+                        <Label value="Attachments" contentMode="HTML" immediate="true" styleName="attachment" />
+						<VerticalLayout id="tableLayout" spacing="true" >
+							<ef:ExtFilterTable id="table" />
+                            <Button id="remove" caption="REMOVE" immediate="true" />
+                        </VerticalLayout>
+					</CssLayout>
+                    </HorizontalLayout>
+                </VerticalLayout>
+
+            </Panel>
+
+        </HorizontalLayout>
+    </Panel>
+</VerticalLayout>
+
+
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel>
+    <VerticalLayout margin="true" spacing="true" >
+        <Panel caption="Search Criteria">
+		<HorizontalLayout margin="true">
+            <GridLayout rows="2" columns="2"  styleName="responsiveTabGrid">
+            
+                    <Label id="lastNameLB" caption="Last Name" contentMode="HTML" />
+                    <TextField id="lastName" inputPrompt="" />
+                    <Label id="FirstNameLB" caption="First Name" contentMode="HTML" />
+                    <TextField id="firstName" inputPrompt="" />
+        
+            </GridLayout>
+			</HorizontalLayout>
+        </Panel>
+        
+    
+        <HorizontalLayout spacing="true" margin="false">
+            <Button id="searchBtn" caption="SEARCH" immediate="true" ></Button>
+            <Button id="resetBtn" caption="RESET" immediate="true" ></Button>
+        </HorizontalLayout>
+        
+        <Panel caption="Results" id="resultPanel">
+            <VerticalLayout id="tableLayout">
+            </VerticalLayout>            
+        </Panel>
+        
+        <HorizontalLayout spacing="true" margin="false">
+            <Button id="selectBtn" caption="SELECT" immediate="true"></Button>
+            <Button id="closeBtn" caption="CLOSE" immediate="true"></Button>
+            <Button id="resetTable" caption="RESET" immediate="true"></Button>
+        </HorizontalLayout>
+        
+    </VerticalLayout>
+</Panel>
+

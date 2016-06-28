@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<custom-sql>  
+    <sql file="custom-sql/accrual/accrualRateProjetion.xml" />
+    <sql file="custom-sql/compliance.xml" />
+    <sql file="custom-sql/companymaster.xml" />
+    <sql file="custom-sql/qualifier.xml" />
+    <sql file="custom-sql/rpmaster.xml" />
+    <sql file="custom-sql/itemmaster.xml" />
+    <sql file="custom-sql/IfpDetails.xml" />
+    <sql file="custom-sql/pricescheduledetails.xml" />
+    <sql file="custom-sql/rsmaster.xml" />
+    <sql file="custom-sql/CfpDetails.xml" />
+    <sql file="custom-sql/rebateSchedule.xml" />
+    <sql file="custom-sql/businessRoleModuleMaster.xml" />
+    <sql file="custom-sql/adminConsole.xml" />
+    <sql file="custom-sql/relationshipBuilder.xml" />
+    <sql file="custom-sql/cpdashboard.xml" />
+    <sql file="custom-sql/cpSaveQuery.xml" />
+    <sql file="custom-sql/cpTempCompanyQuery.xml" />
+    <sql file="custom-sql/cpTempItemQuery.xml" />
+    <sql file="custom-sql/forecastViewMaster.xml" />
+    <sql file="custom-sql/dataSelection.xml" />
+    <sql file="custom-sql/AssumptionSQL.xml" />
+    <sql file="custom-sql/CommonSQL.xml" />
+    <sql file="custom-sql/NonMandatedSave.xml" />
+    <sql file="custom-sql/PPASQL.xml" />
+    <sql file="custom-sql/PPAResultsSQL.xml" />
+    <sql file="custom-sql/phsResults.xml" />  
+    <sql file="custom-sql/naSave.xml" />    
+    <sql file="custom-sql/medicaidResults.xml" /> 
+    <sql file="custom-sql/fcpResults.xml" />
+    <sql file="custom-sql/WorkflowInbox.xml" />
+    <sql file="custom-sql/forecast/forecast-sales-query.xml" />
+    <sql file="custom-sql/forecast/salesallocation.xml" />
+    <sql file="custom-sql/forecast/discountQuery.xml" />
+    <sql file="custom-sql/GCM/companySearch.xml" />
+    <sql file="custom-sql/forecast/projection-variance-query.xml" />
+    <sql file="custom-sql/DeductionCalender.xml" />
+    <sql file="custom-sql/global-files/deduction-calendar-query.xml" />
+    <sql file="custom-sql/nsfQuery.xml" /> 
+    <sql file="custom-sql/forecast/forecast-common-query.xml" />
+    <sql file="custom-sql/forecast/alternate-history-query.xml" />
+    
+    
+    <sql file="custom-sql/GCM/tpQueries.xml"/>
+    <sql file="custom-sql/GCM/itemQuery.xml" />
+    <sql file="custom-sql/GCM/companySearch.xml" />
+    <sql file="custom-sql/GCM/forecastViewMaster.xml" />
+    <sql file="custom-sql/GCM/salesAndUnitsQuery.xml" />
+    <sql file="custom-sql/GCM/transfercontractquery.xml" />
+    <sql file="custom-sql/GCM/rebateAndAmountQuery.xml" />
+    <sql file="custom-sql/GCM/backendProjectionCreation.xml"/>
+    <sql file="custom-sql/GCM/salesAndUnitsQueryForItem.xml"/>
+    <sql file="custom-sql/GCM/rebateAndAmountQueryForItem.xml"/>
+    <sql file="custom-sql/GCM/CopyContractQuery.xml" />
+    <sql file="custom-sql/GCM/ifpQuery.xml" />
+    <sql file="custom-sql/GCM/discountQuery.xml"/>
+    <sql file="custom-sql/GCM/lookupQuery.xml"/>
+    <sql file="custom-sql/GCM/componentAbstract.xml"/>
+    <sql file="custom-sql/GCM/AbstractQuery.xml"/>
+    <sql file="custom-sql/GCM/itemSummary.xml"/>  
+    <sql file="custom-sql/bpmQueries.xml" />  
+    
+</custom-sql>

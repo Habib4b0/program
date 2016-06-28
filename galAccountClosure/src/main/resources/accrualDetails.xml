@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="accrualDetailsVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="accrualDetailsPanel1" caption="Search Criteria">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="accrualDetailsLayout" immediate="true" columns="8" rows="4">
+                    <Label caption="Business Unit: " contentMode="HTML" />
+                    <ComboBox id="businessUnit" immediate="true" width="205px"/>
+                    <Label caption="Contract No: " contentMode="HTML" />
+                    <TextField id="contractNo" immediate="true" />
+                    <Label caption="Accrual Type: " contentMode="HTML" />
+                    <ComboBox id="accrualType" immediate="true" width="205px"/>
+                    <Label caption="Posting Date: " contentMode="HTML" />
+                    <PopupDateField id="postingDate" dateFormat="dd/mm/yyyy" />
+                    <Label caption="Cost Center: " contentMode="HTML" />
+                    <ComboBox id="costCenter" immediate="true" width="205px"/>
+                    <Label caption="Brand: " contentMode="HTML" />
+                    <TextField id="brand" immediate="true" />
+                    <Label caption="Program Type: " contentMode="HTML" />
+                    <ComboBox id="programType" immediate="true" width="205px"/>
+                    <Label caption="GL Date: " contentMode="HTML" />
+                    <PopupDateField id="glDate" dateFormat="dd/mm/yyyy" />
+                    <Label caption="Customer No: " contentMode="HTML" />
+                    <TextField id="customerNo" immediate="true" />
+                    <Label caption="Item No: " contentMode="HTML" />
+                    <TextField id="itemNo" immediate="true" />
+                    <Label caption="Program No: " contentMode="HTML" />
+                    <TextField id="programNo" immediate="true" />
+                    <Label caption="GL Account: " contentMode="HTML" />
+                    <TextField id="glAccount" immediate="true" />
+                    <Label caption="Customer Name: " contentMode="HTML" />
+                    <TextField id="customerName" immediate="true" />
+                    <Label caption="Item Name: " contentMode="HTML" />
+                    <TextField id="itemName" immediate="true" />
+                    <Label caption="Accrual Period: " contentMode="HTML" />
+                    <PopupDateField id="accrualPeriod" dateFormat="dd/mm/yyyy" />
+                    <Label caption="Posting Indicator: " contentMode="HTML" />
+                    <ComboBox id="postingIndicator" immediate="true" width="205px"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout>
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET" />  
+        </HorizontalLayout>
+        <Panel id="accrualDetailsPanel2" caption="Results">
+            <VerticalLayout>
+                <VerticalLayout id="accrualDetailsTableLayout" spacing="true" margin="false" immediate="true">
+                </VerticalLayout>
+                <HorizontalLayout>
+                    <Button id="viewBtn" caption="VIEW" alignment="BOTTOM_LEFT" />
+                    <Button id="exportBtn" caption="EXPORT" alignment="BOTTOM_LEFT" />  
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

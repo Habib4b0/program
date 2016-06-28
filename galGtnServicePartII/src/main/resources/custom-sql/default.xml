@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<custom-sql>
+    <sql file="custom-sql/Cff.xml" /> 
+    <sql file="custom-sql/commonQuery.xml" />
+    <sql file="custom-sql/gtnBalanceReportQuery.xml" />
+    <sql file="custom-sql/baseRateQuery.xml" />
+    <sql file="custom-sql/glReserveMapping.xml" />
+    <sql file="custom-sql/fda-query.xml" />
+</custom-sql>

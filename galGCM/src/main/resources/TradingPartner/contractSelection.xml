@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
+        xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel" caption = "Selection Criteria">
+    <VerticalLayout id="contractSelectionVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="loadCompanyDetails">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="10" rows="1">
+                    <Label caption="Company No: " contentMode="HTML" />
+                    <TextField id="companyNo" immediate="true" enabled="false"/>
+                    <Label caption="Company Name: " contentMode="HTML" />
+                    <TextField id="companyName" immediate="true" enabled="false"/>
+                    <Label caption="Company Type: " contentMode="HTML" />
+                    <TextField id="companyType" immediate="true" width="205px" enabled="false"/>
+                    <Label caption="Company Category: " contentMode="HTML" />
+                    <TextField id="companyCategory" immediate="true" width="205px" enabled="false"/>
+                    <Label caption="Trade Class: " contentMode="HTML" />
+                    <TextField id="tradeClass" immediate="true" width="205px" enabled="false"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <Panel id="tradingPartnerSearch" caption = "Customer Search">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <VerticalLayout>
+                    <HorizontalLayout id="horizontalLayout2" spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true"  id="tpSearchGrid" immediate="true" columns="8" rows="3">
+                            <Label caption="Contract No: " contentMode="HTML" />
+                            <TextField id="contractNo" immediate="true" />
+                            <Label caption="Contract Name: " contentMode="HTML" />
+                            <TextField id="contractName" immediate="true" />
+                            <Label caption="Contract Holder: " contentMode="HTML" />
+                            <b:CustomTextField id="contractHolder" styleName="searchText" immediate="true" />
+                            <Label caption="Market Type: " contentMode="HTML" />
+                            <ComboBox id="marketType" immediate="true" width="205px"/>
+                            <Label caption="Rebate Schedule ID: " contentMode="HTML" />
+                            <TextField id="rebateScheduleId" immediate="true" />
+                            <Label caption="Rebate Schedule Name: " contentMode="HTML" />
+                            <TextField id="rebateScheduleName" immediate="true" />
+                            <Label caption="Rebate Schedule Type: " contentMode="HTML" />
+                            <ComboBox id="rebateScheduleType" immediate="true" width="205px"/>
+                            <Label caption="RAR Category: " contentMode="HTML" />
+                            <ComboBox id="rarCategory" immediate="true" width="205px"/>
+                            <Label caption="Rebate Schedule No: " contentMode="HTML" />
+                            <TextField id="rebateScheduleNo" immediate="true" />
+                            
+                            <Label caption="Rebate Program type: " contentMode="HTML" />
+                            <ComboBox id="rebateProgramType" immediate="true" width="205px"/>
+                            
+                            <Label caption="Rebate Schedule Category: " contentMode="HTML" />
+                            <ComboBox id="rebateScheduleCategory" immediate="true" width="205px"/>
+                          
+                            <Label caption="Rebate Schedule Alias: " contentMode="HTML" />
+                            <TextField id="rebateScheduleAlias" immediate="true" />
+                        </GridLayout>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing = "true" margin = "true" immediate="true">
+                        <GridLayout spacing="true" immediate="true" columns="3" rows="1">
+                            <Button id="searchBtn" caption="SEARCH" alignment="BOTTOM_LEFT" />
+                            <Button id="tpResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                        </GridLayout>
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </HorizontalLayout>
+        </Panel>
+        <Panel id="massUpdateSection" caption = "Mass Update">
+            <HorizontalLayout id="horizontalLayout3" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="massUpdateGrid" immediate="true" columns="12" rows="1">
+                    <OptionGroup multiSelect="false" id="massUpdateRadio" immediate="true" enable="true" styleName = "horizontal"/>
+                    <Label caption="Field: " contentMode="HTML" />
+                    <ComboBox id="fieldDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true" />
+                    <Label id="valueDdlbLabel" caption="Value: " contentMode="HTML" />
+                    <ComboBox id="valueDdlb" styleName="comboxsize" enable="true" nullSelectionAllowed = "true" />
+                    <TextField id="valueTxt" inputPrompt="" immediate="true" visible="false"/>
+                    <Label id="comStartDateLabel" caption="Start Date " contentMode="HTML" />
+                    <PopupDateField id="startPeriod" enabled="true" immediate="true" />
+                    <Label  id="comEndDateLabel" caption="End Period: " contentMode="HTML" />
+                    <PopupDateField id="endPeriod" enabled="true" immediate="true" />
+                    <Button id="populate" caption="POPULATE" />
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <Panel id="tradingPartnerPanel" caption = "Current - Customer Details">
+            <VerticalLayout>
+                <VerticalLayout id="currentTradingPartnerTableLayout" spacing="true" margin="false" immediate="true">
+                </VerticalLayout>
+                <HorizontalLayout  margin = "true">
+                    <Button id="excelBtn" primaryStyleName="link"/>
+                    <Button id="submitBtn" caption="SUBMIT" alignment="BOTTOM_LEFT" />
+                    <HorizontalLayout id="transferSalesProjectionLayout" spacing = "false" margin = "false" visible="false">
+                        <Label caption="Transfer Sales Projection: " contentMode="HTML"/>
+                        <OptionGroup multiSelect="false" id="transferSalesProjection" immediate="true" enable="true" styleName = "horizontal" />
+                    </HorizontalLayout>
+                    <Button id="resetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+        <Panel caption = "Component Information">
+            <VerticalLayout>
+                <Panel>
+                    <HorizontalLayout id="horizontalLayout4" spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true"  id="componentInformationGrid" immediate="true" columns="10" rows="2">
+                            <Label caption="Component Selection: " contentMode="HTML" />
+                            <ComboBox id="componentSelection" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true"/>
+                     
+                            <Label   id="rsIdLabel" caption="RS ID: " contentMode="HTML" />
+                            <TextField id="rsId" immediate="true" />
+                    
+                            <Label id="rsNumberLabel" caption="RS Number: " contentMode="HTML" />
+                            <TextField id="rsNumber" immediate="true" />
+                    
+                            <Label id="rsNameLabel" caption="RS Name: " contentMode="HTML" />
+                            <TextField id="rsName" immediate="true" />
+                   
+                    
+                            <Label id="statusLabel" caption="Status: " contentMode="HTML" />
+                            <TextField id="status" immediate="true" />
+                    
+                            <Label id="startDateLabel" caption="Start Date: " contentMode="HTML" />
+                            <TextField id="startDate" immediate="true" />
+                    
+                            <Label id="endDateLabel" caption="End Date: " contentMode="HTML" />
+                            <TextField id="endDate" immediate="true" />
+                            
+                            <Label  id="rarTypeLabel" caption="RAR Type: " contentMode="HTML" />
+                            <TextField id="rarType" immediate="true" />
+                    
+                            <Label id="rebateFrequencyLabel" caption="Rebate Frequency: " contentMode="HTML" />
+                            <TextField id="rebateFrequency" immediate="true" />
+                   
+                   
+                            <Label   id="basisLabel"  caption="Basis: " contentMode="HTML" />
+                            <TextField id="basis" immediate="true" />
+                    
+                 
+                    
+                        </GridLayout>
+                    </HorizontalLayout>
+                </Panel>
+                <VerticalLayout id="componentInformationTableLayout" spacing="true" margin="false" immediate="true">
+                </VerticalLayout>
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout id="buttonLayout">
+            <Button id="excelBtnInfo" primaryStyleName="link"/>
+            <Button id="previousBtn" caption="PREVIOUS" alignment="BOTTOM_LEFT" visible="false"/> 
+            <Button id="NextBtn" caption="NEXT" alignment="BOTTOM_LEFT" /> 
+            <Button id="closeBtn" caption="CLOSE" alignment="BOTTOM_LEFT" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

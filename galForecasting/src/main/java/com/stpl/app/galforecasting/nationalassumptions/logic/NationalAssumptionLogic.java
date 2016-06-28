@@ -1,0 +1,1390 @@
+package com.stpl.app.galforecasting.nationalassumptions.logic;
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import com.stpl.app.galforecasting.dao.CommonResultsDAO;
+import com.stpl.app.galforecasting.dao.NationalAssumptionsDAO;
+import com.stpl.app.galforecasting.dao.impl.CommonResultsDAOImpl;
+import com.stpl.app.galforecasting.dao.impl.NationalAssumptionsDAOImpl;
+import com.stpl.app.galforecasting.nationalassumptions.dto.BaselinePeriodDTO;
+import com.stpl.app.galforecasting.nationalassumptions.dto.NewNdcDTO;
+import com.stpl.app.galforecasting.nationalassumptions.dto.PriceTypeDTO;
+import com.stpl.app.galforecasting.nationalassumptions.dto.SessionDTO;
+import com.stpl.app.galforecasting.nationalassumptions.queryutils.DataSelectionQueryUtils;
+import com.stpl.app.galforecasting.nationalassumptions.queryutils.MedicaidQueryUtils;
+import com.stpl.app.galforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.galforecasting.nationalassumptions.util.CommonUtils.getQuator;
+import static com.stpl.app.galforecasting.nationalassumptions.util.Constants.CommonConstants.*;
+import static com.stpl.app.galforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import com.stpl.app.galforecasting.utils.Constant;
+import com.stpl.app.model.BrandMaster;
+import com.stpl.app.model.FederalNewNdc;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.model.ItemMaster;
+import com.stpl.app.model.MedicaidNewNdc;
+import com.stpl.app.model.NaProjDetails;
+import com.stpl.app.model.StFederalNewNdc;
+import com.stpl.app.model.StMedicaidNewNdc;
+import com.stpl.app.model.StNewNdc;
+import com.stpl.app.model.impl.StNewNdcImpl;
+import com.stpl.app.service.FederalNewNdcLocalServiceUtil;
+import com.stpl.app.service.MedicaidNewNdcLocalServiceUtil;
+import com.stpl.app.service.StFederalNewNdcLocalServiceUtil;
+import com.stpl.app.service.StMedicaidNewNdcLocalServiceUtil;
+import com.stpl.app.service.StNewNdcLocalServiceUtil;
+import com.stpl.ifs.util.HelperDTO;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.server.VaadinSession;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NationalAssumptionLogic.
+ *
+ * @author Nadhiya
+ */
+public class NationalAssumptionLogic {
+
+    /**
+     * The current year.
+     */
+    private int currentYear;
+    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    public static final String DESCRIPTION = "description";
+    /**
+     * The description.
+     */
+    public static final String HELPER_TABLE_SID = "helperTableSid";
+    /**
+     * The list name.
+     */
+    public static final String LIST_NAME = "listName";
+
+    private static final NationalAssumptionsDAO DAO = new NationalAssumptionsDAOImpl();
+    private static int count;
+    private static final Logger LOGGER = Logger.getLogger(NationalAssumptionLogic.class);
+    /**
+     * The Percent Four Decimal Places Format.
+     */
+    private final DecimalFormat PER_FOUR = new DecimalFormat("#0.0000%");
+    /**
+     * The Dollar Four Decimal Places Format.
+     */
+    private final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.0000");
+    private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
+
+    /**
+     * Gets the periods.
+     *
+     * @param startIndex the start index
+     * @param endIndex the end index
+     * @return the periods
+     */
+    public List<BaselinePeriodDTO> getBasePeriods(int startIndex, int endIndex) {
+        List<BaselinePeriodDTO> results = new ArrayList<BaselinePeriodDTO>();
+        List<BaselinePeriodDTO> totalresults = getBaselinePeriods();
+
+        for (; startIndex <= endIndex; startIndex++) {
+
+            results.add(totalresults.get(startIndex));
+
+        }
+        if (!totalresults.isEmpty()) {
+            totalresults = null;
+        }
+        return results;
+    }
+
+    public List<BaselinePeriodDTO> getRollingPeriods(int startIndex, int endIndex) {
+        List<BaselinePeriodDTO> results = new ArrayList<BaselinePeriodDTO>();
+        List<BaselinePeriodDTO> totalresults = getRollingPeriods();
+
+        for (; startIndex <= endIndex; startIndex++) {
+
+            results.add(totalresults.get(startIndex));
+
+        }
+        if (!totalresults.isEmpty()) {
+            totalresults = null;
+        }
+        return results;
+    }
+
+    /**
+     * Gets the all periods.
+     *
+     * @return the all periods
+     */
+    private List<BaselinePeriodDTO> getBaselinePeriods() {
+        List<BaselinePeriodDTO> periods = new ArrayList<BaselinePeriodDTO>();
+        SessionDTO startAndTodate = CommonUtils.sessionDto;
+        Date startDate = startAndTodate.getFromDate();
+        Date endDate = startAndTodate.getToDate();
+        int startYear = startDate.getYear() + 1900;
+        int endYear = endDate.getYear() + 1900;
+        Calendar now = CommonUtils.getCalendar();
+        int currentYr = now.get(Calendar.YEAR);
+        int histYear = currentYr - 3;
+        int currentPeriod = getQuator(now.get(Calendar.MONTH) + 1);
+        if (histYear >= startYear) {
+            int years = ((endYear - startYear) + 1);
+            boolean hist = true;
+            for (int i = 0; i < years; i++) {
+                int year = (startYear) + i;
+                for (int j = 1; j < 5; j++) {
+                    BaselinePeriodDTO period = new BaselinePeriodDTO();
+                    period.setPeriod(Constant.Q + j + " " + year);
+                    if (year == currentYr && j == currentPeriod) {
+                        hist = false;
+                    }
+                    if (hist) {
+                        period.setType(Constant.ACTUALS);
+                    } else {
+                        period.setType(Constant.FORECAST);
+                    }
+
+                    periods.add(period);
+                }
+            }
+        } else {
+            int years = ((endYear - histYear) + 1);
+            boolean hist = true;
+            for (int i = 0; i < years; i++) {
+                int year = (histYear) + i;
+                for (int j = 1; j < 5; j++) {
+                    BaselinePeriodDTO period = new BaselinePeriodDTO();
+                    period.setPeriod(Constant.Q + j + " " + year);
+                    if (year == currentYr && j == currentPeriod) {
+                        hist = false;
+                    }
+                    if (hist) {
+                        period.setType(Constant.ACTUALS);
+                    } else {
+                        period.setType(Constant.FORECAST);
+                    }
+                    periods.add(period);
+                }
+            }
+        }
+
+        return periods;
+    }
+
+    private List<BaselinePeriodDTO> getRollingPeriods() {
+        Calendar now = Calendar.getInstance();
+        currentYear = now.get(Calendar.YEAR);
+        List<BaselinePeriodDTO> periods = new ArrayList<BaselinePeriodDTO>();
+        for (int i = 0; i < 5; i++) {
+            int year = (currentYear - 3) + i;
+            for (int j = 1; j < 5; j++) {
+                BaselinePeriodDTO period = new BaselinePeriodDTO();
+                period.setPeriod(Constant.Q + j + " " + year);
+
+                if (i < 3) {
+                    period.setType(Constant.ACTUALS);
+                } else {
+                    period.setType(Constant.FORECAST);
+                }
+                periods.add(period);
+            }
+        }
+
+        return periods;
+    }
+
+    public BaselinePeriodDTO getBeanFromId(Object id) throws Exception {
+        BeanItem<?> targetItem = null;
+        if (id instanceof BeanItem<?>) {
+            targetItem = (BeanItem<?>) id;
+        } else if (id instanceof BaselinePeriodDTO) {
+            targetItem = new BeanItem<BaselinePeriodDTO>(
+                    (BaselinePeriodDTO) id);
+        }
+        return (BaselinePeriodDTO) targetItem.getBean();
+    }
+
+    public String removePriceType(PriceTypeDTO priceType) {
+        try {
+            Long userId = Long.valueOf((String) VaadinSession.getCurrent()
+                    .getAttribute(Constant.USER_ID));
+            Integer sessionId = (Integer) VaadinSession.getCurrent().getAttribute(SESSION_ID.getConstant());
+
+            int count = 0;
+            String customSql = null;
+            customSql = "SELECT count(*) FROM dbo.ST_NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
+                    + " AND PRICE_TYPE ='" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
+                    + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'" + " AND USER_ID = " + userId + " AND SESSION_ID =" + sessionId;
+            List countObj = (List) commonDAO.executeSelectQuery(customSql);
+            if (countObj != null && !countObj.isEmpty()) {
+                count = (int) countObj.get(0);
+            }
+
+            if (count > 0) {
+                customSql = "DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
+                        + " AND PRICE_TYPE ='" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
+                        + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'" + " AND USER_ID = " + userId + " AND SESSION_ID =" + sessionId;
+
+                commonDAO.executeBulkUpdateQuery(customSql);
+
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return Constant.SUCCESS;
+    }
+
+    public List<PriceTypeDTO> saveNationalAssumptions(List<PriceTypeDTO> list, boolean saveFlag) {
+        int projectionId = (Integer) VaadinSession.getCurrent()
+                .getAttribute(Constant.PROJECTION_ID);
+        if (saveFlag) {
+            Integer sessionId = (Integer) VaadinSession.getCurrent().getAttribute(SESSION_ID.getConstant());
+            Long userId = Long.valueOf((String) VaadinSession.getCurrent()
+                    .getAttribute(Constant.USER_ID));
+
+            StringBuilder queryBuilder = new StringBuilder();
+            try {
+                for (PriceTypeDTO priceType : list) {
+                    if (priceType.getNaProjMasterSid() == 0) {
+                        queryBuilder.append("INSERT INTO dbo.ST_NATIONAL_ASSUMPTIONS (NA_PROJ_MASTER_SID, PRICE_TYPE, BASELINE_METHODOLOGY, FORECAST_METHODOLOGY, BASELINE_PERIOD, ROLLING_PERIOD, START_PERIOD, END_PERIOD, GROWTH_RATE, FREQUENCY, USER_ID, SESSION_ID, PRICE_BASIS) \n"
+                                + "	VALUES  ");
+                        queryBuilder.append("('").append(projectionId).append("',");
+
+                        queryBuilder.append("'").append(priceType.getPriceType() != null ? priceType.getPriceType() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append("'").append(priceType.getBaselineMethodology() != null ? priceType.getBaselineMethodology() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append("'").append(priceType
+                                .getForecastMethodology() != null ? priceType.getForecastMethodology() : StringUtils.EMPTY).append("',");
+
+                        queryBuilder.append("'").append(priceType.getBasePeriod() != null ? priceType.getBasePeriod() : StringUtils.EMPTY).append("',");
+
+                        queryBuilder.append("'").append(priceType.getRollingPeriod() != null ? priceType.getRollingPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append("'").append(priceType.getStartPeriod() != null ? priceType.getStartPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append("'").append(priceType.getEndPeriod() != null ? priceType.getEndPeriod() : StringUtils.EMPTY).append("',");
+
+                        if (GROWTH.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
+                            String growthString = priceType.getGrowthRate();
+                            growthString = StringUtils.isNotBlank(growthString) ? growthString.trim().replace(Constant.PERCENT, StringUtils.EMPTY) : Constant.DASH;
+
+                            queryBuilder.append("'").append(Double.valueOf(growthString)).append("',");
+                            queryBuilder.append("'").append(priceType.getFrequency() != null ? priceType.getFrequency() : StringUtils.EMPTY).append("',");
+                        } else {
+                            queryBuilder.append("'").append(0).append("',");
+                            queryBuilder.append("'").append(StringUtils.EMPTY).append("',");
+                        }
+                        queryBuilder.append("'").append((userId).intValue()).append("',");
+                        queryBuilder.append("'").append(sessionId).append("',");
+
+                        if (WAC_FLEX.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
+                            String priceBasis = priceType.getPriceBasis();
+
+                            if (priceBasis.equals("Average Quarter WAC")) {
+                                priceBasis = "AVGQWAC";
+                            } else if (priceBasis.equals("Beginning Quarter WAC")) {
+                                priceBasis = "BQWAC";
+                            } else if (priceBasis.equals("Ending Quarter WAC")) {
+                                priceBasis = "EQWAC";
+                            } else if (priceBasis.equals("Mid-Quarter WAC")) {
+                                priceBasis = "MQWAC";
+                            }
+                            queryBuilder.append("'").append(priceBasis).append("'");
+                        } else {
+                            queryBuilder.append("'").append(StringUtils.EMPTY).append("'");
+                        }
+                        queryBuilder.append(") ; \n");
+
+                    }
+                }
+                if (StringUtils.isNotBlank(queryBuilder.toString())) {
+                    commonDAO.executeUpdateQuery(queryBuilder.toString());
+                }
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+            }
+            return getSavedPriceTypes(projectionId);
+        } else {
+            return getSavedPriceTypes(projectionId);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PriceTypeDTO> getSavedPriceTypes(int projectionId) {
+        List<PriceTypeDTO> priceTypesDTOList = new ArrayList<PriceTypeDTO>();
+        try {
+            DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
+            List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(projectionId);
+            priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
+            if (!priceTypes.isEmpty()) {
+                priceTypes = null;
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+        return priceTypesDTOList;
+    }
+
+    public List<PriceTypeDTO> getCustomizedPriceTypeResults(
+            List<Object[]> priceTypes) {
+        List<PriceTypeDTO> priceTypesResults = new ArrayList<PriceTypeDTO>();
+        PriceTypeDTO priceTypeResult = null;
+        for (Object priceType : priceTypes) {
+            priceTypeResult = new PriceTypeDTO();
+            final Object[] obj = (Object[]) priceType;
+            priceTypeResult.setNaProjMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+            priceTypeResult.setPriceType(String.valueOf(obj[1]));
+            priceTypeResult.setBaselineMethodology(String.valueOf(obj[2]));
+            priceTypeResult.setForecastMethodology(String.valueOf(obj[3]));
+            if (GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
+                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[4])));
+                priceTypeResult.setFrequency(String.valueOf(obj[9]));
+            }
+            priceTypeResult.setStartPeriod(String.valueOf(obj[5]));
+            priceTypeResult.setEndPeriod(String.valueOf(obj[6]));
+            priceTypeResult.setBasePeriod(String.valueOf(obj[7]));
+            priceTypeResult.setRollingPeriod(String.valueOf(obj[8]));
+            if (WAC_FLEX.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
+                String priceBasis = String.valueOf(obj[10] != null ? obj[10] : StringUtils.EMPTY);
+                if (priceBasis.equals("AVGQWAC")) {
+                    priceBasis = "Average Quarter WAC";
+                } else if (priceBasis.equals("BQWAC")) {
+                    priceBasis = "Beginning Quarter WAC";
+                } else if (priceBasis.equals("EQWAC")) {
+                    priceBasis = "Ending Quarter WAC";
+                } else if (priceBasis.equals("MQWAC")) {
+                    priceBasis = "Mid-Quarter WAC";
+                }
+                priceTypeResult.setPriceBasis(priceBasis);
+            }
+            priceTypesResults.add(priceTypeResult);
+        }
+        return priceTypesResults;
+    }
+
+    public StNewNdc getItemNo(String itemNo) throws Exception {
+
+        StNewNdc newNDC = new StNewNdcImpl();
+        try {
+            DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
+                    .forClass(StNewNdc.class);
+            naDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.ITEM_MASTER_SID, itemNo));
+            @SuppressWarnings("unchecked")
+            List<StNewNdc> resultList = StNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
+            if (resultList != null && resultList.size() > 0) {
+                newNDC = resultList.get(0);
+                resultList = null;
+            }
+
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+        return newNDC;
+    }
+
+    public List<Object[]> NewNDCSetupCook(int projectionId) throws Exception {
+        Connection connection = null;
+        DataSource datasource;
+        CallableStatement statement = null;
+        ResultSet resultSet = null;
+        List<Object[]> objectList = new ArrayList<Object[]>();
+        try {
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            if (datasource != null) {
+                connection = datasource.getConnection();
+            } else {
+                LOGGER.info("Failed to lookup datasource.");
+            }
+            if (connection != null) {
+                statement = connection.prepareCall("{call " + "PRC_NEW_NDC_POPUP" + "(?)}");
+                statement.setInt(1, projectionId);
+                resultSet = statement.executeQuery();
+                objectList = convertResultSetToList(resultSet);
+                LOGGER.info("After Converting objectList size" + objectList.size());
+            }
+
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+            System.gc();
+        }
+        return objectList;
+    }
+
+    private List<Object[]> convertResultSetToList(ResultSet rs) throws Exception {
+        List<Object[]> objList = new ArrayList<Object[]>();
+
+        try {
+            while (rs.next()) {
+                ResultSetMetaData metadata = rs.getMetaData();
+                int numberOfColumns = metadata.getColumnCount();
+                Object[] obj = new Object[numberOfColumns];
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    obj[i - 1] = rs.getObject(i);
+                }
+                objList.add(obj);
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return objList;
+    }
+
+    public static Object[] getBrandDynamicQuery(HelperDTO theraupticsid) throws SystemException, PortalException {
+
+        int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        projDetailsQuery.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionId));
+
+        List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
+        Object[] itemMasterSid = new Object[naProjDetailsList.size() + 1];
+
+        for (int i = 0; i < naProjDetailsList.size(); i++) {
+            itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
+        }
+        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
+        if (theraupticsid != null && theraupticsid.getId() != 0) {
+            dynamicQuery.add(RestrictionsFactoryUtil.eq("therapeuticClass", theraupticsid.getId()));
+        }
+
+        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.BRAND_MASTER_SID));
+        List<ItemMaster> list = DAO.getItemMaster(dynamicQuery);
+
+        Object[] brandSid = new Object[list.size() + 1];
+        for (int i = 0; i < list.size(); i++) {
+            brandSid[i] = list.get(i).getBrandMasterSid();
+        }
+        if (!list.isEmpty()) {
+            list = null;
+        }
+        if (brandSid.length == 0) {
+            brandSid[0] = 0;
+        }
+
+        return brandSid;
+    }
+
+    /**
+     * getting count for Brand
+     *
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static int getLazyBrandCount(String filterText, final HelperDTO theraupticSid) throws PortalException, SystemException {
+
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<Object[]> qualifierList;
+
+        Object[] brandSid = getBrandDynamicQuery(theraupticSid);
+
+        final DynamicQuery brandQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+
+        if (brandSid.length != 0) {
+            brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
+        }
+
+        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
+        brandQuery.setProjection(ProjectionFactoryUtil.countDistinct(BRAND_NAME.getConstant()));
+        qualifierList = DAO.getBrandList(brandQuery);
+        count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
+        if (!qualifierList.isEmpty()) {
+            qualifierList = null;
+        }
+
+        return count;
+    }
+
+    /**
+     * getting results for Brand
+     *
+     * @param start
+     * @param end
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static List<HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final HelperDTO theraupticSid, final HelperDTO preBrandVal) throws PortalException, SystemException {
+
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<Object[]> qualifierList;
+        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        int startValue = start;
+        int endValue = end;
+        if (start == 0) {
+            startValue = start;
+            endValue = end - 1;
+        } else {
+            startValue = start - 1;
+            endValue = end - 1;
+        }
+
+        Object[] brandSid = getBrandDynamicQuery(theraupticSid);
+
+        DynamicQuery brandQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        brandQuery.setLimit(startValue, endValue);
+        final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+        projectionList.add(ProjectionFactoryUtil.property(Constant.BRAND_MASTER_SID));
+        projectionList.add(ProjectionFactoryUtil.property(BRAND_NAME.getConstant()));
+        brandQuery.setProjection(projectionList);
+        brandQuery.addOrder(OrderFactoryUtil.asc(BRAND_NAME.getConstant()));
+        brandQuery.add(RestrictionsFactoryUtil.ilike(BRAND_NAME.getConstant(), filterText));
+
+        if (brandSid.length != 0) {
+            brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
+        }
+
+        qualifierList = DAO.getBrandList(brandQuery);
+        if (brandQuery != null) {
+            brandQuery = null;
+        }
+        HelperDTO dto;
+        if (start == 0) {
+            dto = new HelperDTO(SELECT_ONE.getConstant());
+            dto.setDescription(SELECT_ONE.getConstant());
+            list.add(dto);
+        }
+        for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
+            final Object[] value = iterator.next();
+            dto = new HelperDTO(StringUtils.EMPTY);
+            dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+            dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
+            list.add(dto);
+        }
+        if (preBrandVal != null && list.contains(preBrandVal)) {
+            list.remove(preBrandVal);
+        }
+        if (preBrandVal != null && start == 0) {
+            dto = new HelperDTO();
+            dto.setId(preBrandVal.getId());
+            dto.setDescription(preBrandVal.getDescription());
+            list.add(1, dto);
+        }
+        return list;
+    }
+
+    public static DynamicQuery getTheraupeuticDynamicQuery(String filterText) throws SystemException, PortalException {
+
+        int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        projDetailsQuery.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionId));
+        List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
+        Object[] itemMasterSid = new Object[naProjDetailsList.size() + 1];
+
+        for (int i = 0; i < naProjDetailsList.size(); i++) {
+            itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
+        }
+        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
+        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("therapeuticClass"));
+        List<ItemMaster> list = DAO.getItemMaster(dynamicQuery);
+
+        Object[] therapeuticId = new Object[list.size() + 1];
+        for (int i = 0; i < list.size(); i++) {
+            therapeuticId[i] = list.get(i).getTherapeuticClass();
+        }
+        if (!list.isEmpty()) {
+            list = null;
+        }
+        if (therapeuticId.length == 0) {
+            therapeuticId[0] = 0;
+        }
+
+        return getHelperTableByListTypeAndDescription(therapeuticId, filterText);
+    }
+
+    public static int getLazyTherapeuticClassCount(String filterText) throws PortalException, SystemException {
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+
+        DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
+        tcDynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct(DESCRIPTION));
+        List<HelperTable> list = DAO.getHelperTable(tcDynamicQuery);
+        tcDynamicQuery = null;
+        return Integer.parseInt(String.valueOf(list.get(0)));
+    }
+
+    public static List<HelperDTO> getLazyTherapeuticClassResults(final int start, final int end, String filterText, HelperDTO manufactureId) throws PortalException, SystemException {
+
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<HelperTable> list;
+        final List<HelperDTO> helperDtoList = new ArrayList<HelperDTO>();
+
+        int startValue = start;
+        int endValue = end;
+        if (start == 0) {
+            endValue = end - 1;
+        } else {
+            startValue = start - 1;
+            endValue = end - 1;
+        }
+
+        final DynamicQuery tcDynamicQuery = getTheraupeuticDynamicQuery(filterText);
+        tcDynamicQuery.setLimit(startValue, endValue);
+        tcDynamicQuery.addOrder(OrderFactoryUtil.asc(HELPER_TABLE_SID));
+        list = DAO.getHelperTable(tcDynamicQuery);
+        HelperDTO helperTable;
+        if (start == 0) {
+            helperTable = new HelperDTO(SELECT_ONE.getConstant());
+            helperDtoList.add(helperTable);
+
+        }
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getHelperTableSid() != 0) {
+                    helperTable = new HelperDTO(list.get(i).getHelperTableSid(), list.get(i).getDescription());
+                    helperDtoList.add(helperTable);
+                }
+            }
+        }
+        if (!list.isEmpty()) {
+            list = null;
+        }
+
+        return helperDtoList;
+    }
+
+    public static DynamicQuery getHelperTableByListTypeAndDescription(final Object[] id, final String description) throws SystemException, PortalException {
+        final DynamicQuery htDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        htDynamicQuery.add(RestrictionsFactoryUtil.in(HELPER_TABLE_SID, id));
+        if (description.contains(Constant.PERCENT)) {
+            htDynamicQuery.add(RestrictionsFactoryUtil.ilike(DESCRIPTION, description));
+        } else {
+            htDynamicQuery.add(RestrictionsFactoryUtil.eq(DESCRIPTION, description));
+        }
+        return htDynamicQuery;
+    }
+
+    /**
+     * getting count for Brand
+     *
+     * @param filterText
+     * @param brandMasterSid
+     * @param itemFlag
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static int getLazyNdcCount(String filterText, final HelperDTO brandMasterSid, boolean itemFlag) throws PortalException, SystemException {
+
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<ItemMaster> qualifierList;
+        DynamicQuery ndcQuery = getNdcDynamicQuery(brandMasterSid, itemFlag);
+        if (itemFlag) {
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.setProjection(ProjectionFactoryUtil.count(Constant.ITEM_NO));
+        } else {
+            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
+            ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
+        }
+
+        qualifierList = DAO.getItemMaster(ndcQuery);
+        if (ndcQuery != null) {
+            ndcQuery = null;
+        }
+        count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
+
+        return count;
+    }
+
+    /**
+     * getting results for Brand
+     *
+     * @param start
+     * @param end
+     * @param filterText
+     * @param brandMasterSid
+     * @param itemFlag
+     * @param medicaidNdc9
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static List<HelperDTO> getLazyNdcResults(final int start, final int end, String filterText, final HelperDTO brandMasterSid, boolean itemFlag, final HelperDTO medicaidNdc9) throws PortalException, SystemException {
+        int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<Object[]> qualifierList;
+        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        int startValue = start;
+        int endValue = end;
+        if (start == 0) {
+            startValue = start;
+            endValue = end - 1;
+        } else {
+            startValue = start - 1;
+            endValue = end - 1;
+        }
+        if (itemFlag) {
+            final DynamicQuery ndcQuery = getNdcDynamicQuery(brandMasterSid, itemFlag);
+            ndcQuery.setLimit(startValue, endValue);
+            final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+
+            projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
+            projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_NO));
+            projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
+            ndcQuery.setProjection(projectionList);
+            ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+
+            qualifierList = DAO.getItemList(ndcQuery);
+            boolean wsflag = true;
+            HelperDTO dto;
+            if (start == 0) {
+                dto = new HelperDTO(SELECT_ONE.getConstant());
+                dto.setDescription(SELECT_ONE.getConstant());
+                list.add(dto);
+            }
+            for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
+                final Object[] value = iterator.next();
+                dto = new HelperDTO(StringUtils.EMPTY);
+                dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+                String ndcDescription = value[2] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[2];
+                String ndc = StringUtils.EMPTY;
+                if (StringUtils.isNotBlank(ndcDescription)) {
+                    ndc += ndcDescription + ", ";
+                }
+                ndc += StringUtils.EMPTY + value[1] != null ? value[1] : StringUtils.EMPTY;
+                dto.setDescription(ndc);
+                if (ndc.equals(medicaidNdc9.getDescription())) { // To check and select in Worksheet NDC ddlb
+                    wsflag = false;
+                }
+                list.add(dto);
+            }
+            if (!qualifierList.isEmpty()) {
+                qualifierList = null;
+            }
+            if (wsflag && start == 0 && Constant.PERCENT.equals(filterText)) { // To check and select in Worksheet NDC ddlb
+                list.add(medicaidNdc9);
+            }
+
+            if (!wsflag && start != 0 && Constant.PERCENT.equals(filterText)) { // To check and remove if already selected
+                list.remove(medicaidNdc9);
+            }
+        } else {
+            MedicaidQueryUtils queryUtils = new MedicaidQueryUtils();
+            HelperDTO dto;
+            List<Object[]> ndc9List = queryUtils.loadMedicaidDdlb(naProjMasterSid, brandMasterSid.getId(), 0, filterText, startValue, endValue);
+            if (start == 0) {
+                dto = new HelperDTO(SELECT_ONE.getConstant());
+                dto.setDescription(SELECT_ONE.getConstant());
+                list.add(dto);
+            }
+            boolean mediflag = true;
+            for (final Iterator<Object[]> iterator = ndc9List.iterator(); iterator.hasNext();) {
+                final Object[] value = iterator.next();
+                dto = new HelperDTO(StringUtils.EMPTY);
+                String itemDesc = value[1] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[1];
+                String ndc9 = StringUtils.EMPTY;
+                if (StringUtils.isNotBlank(itemDesc)) {
+                    ndc9 += itemDesc + ", ";
+                }
+                ndc9 += value[0];
+                dto.setDescription(ndc9);
+
+                if (ndc9.equals(medicaidNdc9.getDescription())) { // To check and select in Medicaid Worksheet NDC ddlb
+                    mediflag = false;
+                }
+                list.add(dto);
+            }
+            //  To check and select in Medicaid Worksheet NDC ddlb 
+            if (mediflag && start == 0 && Constant.PERCENT.equals(filterText)) {
+                list.add(medicaidNdc9);
+            }
+
+            if (!mediflag && start != 0 && Constant.PERCENT.equals(filterText)) { // To check and remove if already selected
+                list.remove(medicaidNdc9);
+            }
+
+        }
+        return list;
+    }
+
+    public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws SystemException, PortalException {
+        int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+
+        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        projDetailsQuery.add(RestrictionsFactoryUtil.eq("naProjMasterSid", naProjMasterSid));
+
+        List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
+        Object[] itemMasterSid = new Object[naProjDetailsList.size() + 1];
+
+        for (int i = 0; i < naProjDetailsList.size(); i++) {
+            itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
+        }
+        if (!naProjDetailsList.isEmpty()) {
+            naProjDetailsList = null;
+        }
+        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
+        if (brandMasterSid != null && brandMasterSid.getId() != 0) {
+            dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.BRAND_MASTER_SID, brandMasterSid.getId()));
+        }
+        if (itemFlag) {
+            dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.ITEM_NO));
+        } else {
+            dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("ndc9"));
+        }
+
+        return dynamicQuery;
+    }
+
+    public String nationalAssumptionsCook(int projectionId, int userId, int sessionId) throws Exception {
+        LOGGER.info("Procedure nationalAssumptionsCook starts");
+        Connection connection = null;
+        DataSource datasource;
+        CallableStatement statement = null;
+        try {
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            if (datasource != null) {
+                connection = datasource.getConnection();
+            }
+            if (connection != null) {
+                statement = connection.prepareCall("{call " + "PRC_NATIONAL_ASSUMPTIONS" + "(?,?,?)}");
+                statement.setInt(1, projectionId);
+                statement.setInt(2, userId);
+                statement.setInt(3, sessionId);
+                statement.execute();
+            }
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        LOGGER.info("Procedure nationalAssumptionsCook ends");
+        return SUCCESS.getConstant();
+    }
+
+    public List<NewNdcDTO> getNdcTable() throws SystemException, PortalException {
+
+        int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+        List<NewNdcDTO> priceTypesDTOList = new ArrayList<NewNdcDTO>();
+        DataSelectionQueryUtils queryUtils = new DataSelectionQueryUtils();
+        List<Object[]> list = queryUtils.getNdcList(projectionId);
+        if (list != null && !list.isEmpty()) {
+            priceTypesDTOList = getCustomizedNdcResults(list);
+            list = null;
+        }
+        return priceTypesDTOList;
+    }
+
+    public List<NewNdcDTO> getCustomizedNdcResults(
+            List<Object[]> priceTypes) {
+        List<NewNdcDTO> priceTypesResults = new ArrayList<NewNdcDTO>();
+        NewNdcDTO ndcDto = null;
+        for (Object priceType : priceTypes) {
+            ndcDto = new NewNdcDTO();
+            final Object[] obj = (Object[]) priceType;
+            ndcDto.setNdc9(String.valueOf(obj[0]));
+            ndcDto.setWac(CUR_FOUR.format(obj[1]));
+            ndcDto.setBaseYearAMP(CUR_FOUR.format(obj[2]));
+            ndcDto.setBaseYearCPI(CUR_FOUR.format(obj[3]));
+            ndcDto.setForecastAMP(CUR_FOUR.format(obj[4]));
+            ndcDto.setForecastBestPrice(CUR_FOUR.format(obj[5]));
+            priceTypesResults.add(ndcDto);
+        }
+        return priceTypesResults;
+    }
+
+    /**
+     * getting count for Ndc Filter
+     *
+     * @param filterText
+     * @param brandMasterSid
+     * @param itemFlag
+     * @param therapeuticSid
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static int getLazyNdcFilterCount(String filterText, HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws PortalException, SystemException {
+
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<ItemMaster> qualifierList;
+        final DynamicQuery ndcQuery = getNdcFilterDynamicQuery(brandMasterSid, itemFlag, therapeuticSid);
+        if (itemFlag) {
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+            ndcQuery.setProjection(ProjectionFactoryUtil.count(Constant.ITEM_NO));
+        } else {
+            ndcQuery.add(RestrictionsFactoryUtil.ilike("ndc9", filterText));
+            ndcQuery.setProjection(ProjectionFactoryUtil.countDistinct("ndc9"));
+        }
+
+        qualifierList = DAO.getItemMaster(ndcQuery);
+        count = Integer.parseInt(String.valueOf(qualifierList.get(0)));
+        if (!qualifierList.isEmpty()) {
+            qualifierList = null;
+        }
+        return count;
+    }
+
+    /**
+     * getting results for Ndc Filter
+     *
+     * @param start
+     * @param end
+     * @param filterText
+     * @param brandMasterSid
+     * @param itemFlag
+     * @param therapeuticSid
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static List<HelperDTO> getLazyNdcFilterResults(final int start, final int end, String filterText, boolean itemFlag, HelperDTO brandMasterSid, HelperDTO therapeuticSid, final boolean isFilter) throws PortalException, SystemException {
+        int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+        filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
+        List<Object[]> qualifierList;
+        final List<HelperDTO> list = new ArrayList<HelperDTO>();
+        int startValue = start;
+        int endValue = end;
+        if (start == 0) {
+            startValue = start;
+            endValue = end - 1;
+        } else {
+            startValue = start - 1;
+            endValue = end - 1;
+        }
+        if (itemFlag) {
+            final DynamicQuery ndcQuery = getNdcFilterDynamicQuery(brandMasterSid, itemFlag, therapeuticSid);
+            ndcQuery.setLimit(startValue, endValue);
+            final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+
+            projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
+            projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_NO));
+            projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
+            ndcQuery.setProjection(projectionList);
+
+            ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
+            ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
+
+            qualifierList = DAO.getItemList(ndcQuery);
+
+            HelperDTO dto;
+            if (start == 0) {
+                dto = new HelperDTO(isFilter ? SHOW_ALL.getConstant() : SELECT_ONE.getConstant());
+                dto.setDescription(isFilter ? SHOW_ALL.getConstant() : SELECT_ONE.getConstant());
+                list.add(dto);
+            }
+            for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
+                final Object[] value = iterator.next();
+                dto = new HelperDTO(StringUtils.EMPTY);
+                dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+                String ndcDescription = value[2] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[2];
+                String ndc = StringUtils.EMPTY;
+                if (StringUtils.isNotBlank(ndcDescription)) {
+                    ndc += ndcDescription + ", ";
+                }
+                ndc += StringUtils.EMPTY + value[1] != null ? value[1] : StringUtils.EMPTY;
+                dto.setDescription(ndc);
+                list.add(dto);
+            }
+            if (!qualifierList.isEmpty()) {
+                qualifierList = null;
+            }
+        } else {
+            MedicaidQueryUtils queryUtils = new MedicaidQueryUtils();
+            HelperDTO dto;
+            List<Object[]> ndc9List = queryUtils.loadMedicaidDdlb(naProjMasterSid, brandMasterSid.getId(), therapeuticSid.getId(), filterText, startValue, endValue);
+            if (start == 0) {
+                dto = new HelperDTO(isFilter ? SHOW_ALL.getConstant() : SELECT_ONE.getConstant());
+                dto.setDescription(isFilter ? SHOW_ALL.getConstant() : SELECT_ONE.getConstant());
+                list.add(dto);
+            }
+
+            for (final Iterator<Object[]> iterator = ndc9List.iterator(); iterator.hasNext();) {
+                final Object[] value = iterator.next();
+                dto = new HelperDTO(StringUtils.EMPTY);
+                String itemDesc = value[1] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[1];
+                String ndc9 = StringUtils.EMPTY;
+                if (StringUtils.isNotBlank(itemDesc)) {
+                    ndc9 += itemDesc + ", ";
+                }
+                ndc9 += value[0];
+                dto.setDescription(ndc9);
+                list.add(dto);
+
+            }
+            if (!ndc9List.isEmpty()) {
+                ndc9List = null;
+            }
+        }
+
+        return list;
+    }
+
+    public static DynamicQuery getNdcFilterDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws SystemException, PortalException {
+        int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+
+        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        projDetailsQuery.add(RestrictionsFactoryUtil.eq("naProjMasterSid", naProjMasterSid));
+
+        List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
+        Object[] itemMasterSid = new Object[naProjDetailsList.size() + 1];
+
+        for (int i = 0; i < naProjDetailsList.size(); i++) {
+            itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
+        }
+        if (!naProjDetailsList.isEmpty()) {
+            naProjDetailsList = null;
+        }
+        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
+        if (brandMasterSid != null && brandMasterSid.getId() != 0) {
+            dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.BRAND_MASTER_SID, brandMasterSid.getId()));
+        }
+        if (therapeuticSid != null && therapeuticSid.getId() != 0) {
+            dynamicQuery.add(RestrictionsFactoryUtil.eq("therapeuticClass", therapeuticSid.getId()));
+        }
+        if (itemFlag) {
+            dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.ITEM_NO));
+        } else {
+            dynamicQuery.add(RestrictionsFactoryUtil.isNotNull("ndc9"));
+        }
+
+        return dynamicQuery;
+    }
+
+    public String deletePriceTypeMain(PriceTypeDTO priceType) {
+        try {
+            LOGGER.info("inside deletePriceTypeMain");
+            int count = 0;
+            String customSql = null;
+            customSql = "SELECT count(*) FROM dbo.NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
+                    + " AND PRICE_TYPE ='" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
+                    + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'";
+            List countObj = (List) commonDAO.executeSelectQuery(customSql);
+            if (countObj != null && !countObj.isEmpty()) {
+                count = (int) countObj.get(0);
+            }
+
+            if (count > 0) {
+                customSql = "DELETE FROM dbo.NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
+                        + " AND PRICE_TYPE ='" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
+                        + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'";
+
+                commonDAO.executeBulkUpdateQuery(customSql);
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return Constant.SUCCESS;
+    }
+
+    public String getFormattedGrowth(String value) {
+        if (value.contains(Constant.NULL)) {
+            value = StringUtils.EMPTY;
+        } else {
+            Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
+            newValue = newValue / 100;
+            value = PER_FOUR.format(newValue);
+        }
+        return value;
+    }
+
+    public List<NewNdcDTO> getFederalTable() throws SystemException, PortalException {
+
+        int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+        List<NewNdcDTO> priceTypesDTOList = new ArrayList<NewNdcDTO>();
+        DataSelectionQueryUtils queryUtils = new DataSelectionQueryUtils();
+        List<Object[]> list = queryUtils.getFederalList(projectionId);
+        if (list != null && !list.isEmpty()) {
+            priceTypesDTOList = getCustomizedFederalResults(list);
+            list = null;
+        }
+        return priceTypesDTOList;
+    }
+
+    public List<NewNdcDTO> getCustomizedFederalResults(
+            List<Object[]> priceTypes) {
+        List<NewNdcDTO> priceTypesResults = new ArrayList<NewNdcDTO>();
+        NewNdcDTO ndcDto = null;
+        for (Object priceType : priceTypes) {
+            ndcDto = new NewNdcDTO();
+            final Object[] obj = (Object[]) priceType;
+            ndcDto.setItemMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+            ndcDto.setItemNo(String.valueOf(obj[1]));
+            ndcDto.setWac(CUR_FOUR.format(obj[2]));
+            ndcDto.setNonFamp(CUR_FOUR.format(obj[3]));
+            ndcDto.setFssOGA(CUR_FOUR.format(obj[4]));
+
+            priceTypesResults.add(ndcDto);
+        }
+        return priceTypesResults;
+    }
+
+    public void medicaidDeleteLogic(String ndc9) {
+
+        try {
+            Long userId = Long.valueOf((String) VaadinSession.getCurrent()
+                    .getAttribute(Constant.USER_ID));
+            Integer sessionId = (Integer) VaadinSession.getCurrent().getAttribute(SESSION_ID.getConstant());
+            String customSql = "DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'"
+                    + " AND USER_ID =" + userId + " AND SESSION_ID =" + sessionId;
+
+            commonDAO.executeBulkUpdateQuery(customSql);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    public List<StMedicaidNewNdc> listCount(String ndc9, int sessionId) throws SystemException {
+        DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
+                .forClass(StMedicaidNewNdc.class);
+        List<StMedicaidNewNdc> list = new ArrayList<StMedicaidNewNdc>();
+
+        naDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.ndc9", ndc9));
+        naDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.sessionId", sessionId));
+        list = StMedicaidNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
+        return list;
+    }
+
+    public void federalDeleteLogic(int itemMasterSid) {
+
+        try {
+            Long userId = Long.valueOf((String) VaadinSession.getCurrent()
+                    .getAttribute(Constant.USER_ID));
+            Integer sessionId = (Integer) VaadinSession.getCurrent().getAttribute(SESSION_ID.getConstant());
+
+            String customSql = "DELETE FROM dbo.ST_FEDERAL_NEW_NDC WHERE ITEM_MASTER_SID = " + itemMasterSid
+                    + " AND USER_ID =" + userId + " AND SESSION_ID =" + sessionId;
+
+            commonDAO.executeBulkUpdateQuery(customSql);
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    public List<StFederalNewNdc> federalListCount(int itemMasterSid, int sessionId) throws SystemException {
+        DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
+                .forClass(StFederalNewNdc.class);
+        List<StFederalNewNdc> list = new ArrayList<StFederalNewNdc>();
+
+        naDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.itemMasterSid", itemMasterSid));
+        naDynamicQuery.add(RestrictionsFactoryUtil.eq("primaryKey.sessionId", sessionId));
+        list = StFederalNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
+        return list;
+    }
+
+    public void federalMainDelete(int itemMasterSid) {
+        try {
+            LOGGER.info("federalMainDelete Starts");
+            DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
+                    .forClass(FederalNewNdc.class);
+            List<FederalNewNdc> list;
+            naDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.ITEM_MASTER_SID, itemMasterSid));
+            list = FederalNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
+            if (!list.isEmpty()) {
+                FederalNewNdcLocalServiceUtil
+                        .deleteFederalNewNdc(itemMasterSid);
+                list = null;
+            }
+            LOGGER.info("federalMainDelete ends");
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    public void medicaidMainDelete(String ndc9) {
+        try {
+            LOGGER.info("medicaidMainDelete Starts");
+            DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
+                    .forClass(MedicaidNewNdc.class);
+            List<MedicaidNewNdc> list;
+            naDynamicQuery.add(RestrictionsFactoryUtil.eq("ndc9", ndc9));
+            list = MedicaidNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
+            if (!list.isEmpty()) {
+                MedicaidNewNdcLocalServiceUtil
+                        .deleteMedicaidNewNdc(ndc9);
+                list = null;
+                LOGGER.info("medicaidMainDelete ends");
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+    public List getFederalNdcDesc(int itemId) throws PortalException, SystemException, Exception {
+
+        List federalList;
+        Map<String, Object> input = new HashMap<String, Object>();
+
+        input.put("?IMID", itemId);
+        String customSql = CustomSQLUtil.get("getFederalNdcDesc");
+
+        for (String key : input.keySet()) {
+            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        }
+        if (!input.isEmpty()) {
+            input.clear();
+        }
+
+        federalList = (List) commonDAO.executeSelectQuery(customSql);
+
+        return federalList;
+    }
+
+    public int getNewNdcCount(int projectionId) throws PortalException, SystemException, Exception {
+        List federalList;
+        Map<String, Object> input = new HashMap<String, Object>();
+
+        input.put("?PID", projectionId);
+        String customSql = CustomSQLUtil.get("getNewNdcCount");
+
+        for (String key : input.keySet()) {
+            customSql = customSql.replace(key, String.valueOf(input.get(key)));
+        }
+        if (!input.isEmpty()) {
+            input.clear();
+
+        }
+        federalList = (List) commonDAO.executeSelectQuery(customSql);
+
+        return federalList.size();
+    }
+
+    public String newNdcCook(int projectionId, int userId, int sessionId) throws Exception {
+        LOGGER.info("Procedure newNdcCook starts");
+        Connection connection = null;
+        DataSource datasource;
+        CallableStatement statement = null;
+        try {
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            if (datasource != null) {
+                connection = datasource.getConnection();
+            }
+            if (connection != null) {
+                statement = connection.prepareCall("{call " + "PRC_NEW_NDC" + "(?,?,?)}");
+                statement.setInt(1, projectionId);
+                statement.setInt(2, userId);
+                statement.setInt(3, sessionId);
+                statement.execute();
+            }
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        LOGGER.info("Procedure newNdcCook ends");
+        return SUCCESS.getConstant();
+    }
+
+    public void saveFedralNdcPopUp(long userId, int sessionId, List<StFederalNewNdc> list, NewNdcDTO newNdcDTO) throws PortalException, SystemException {
+        String customSql = null;
+        String replaceDollarWac = newNdcDTO.getWac();
+        replaceDollarWac = replaceDollarWac.replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarWac = replaceDollarWac.trim();
+
+        String replaceDollarNonFamp = newNdcDTO.getNonFamp();
+        replaceDollarNonFamp = replaceDollarNonFamp.replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarNonFamp = replaceDollarWac.trim();
+
+        String replaceDollarfss = newNdcDTO.getFssOGA();
+        replaceDollarfss = replaceDollarfss.replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarfss = replaceDollarfss.trim();
+
+        if (list.isEmpty()) {
+            customSql = "INSERT INTO dbo.ST_FEDERAL_NEW_NDC (ITEM_MASTER_SID, WAC_PRICE, NON_FAMP, FSS,USER_ID,SESSION_ID) VALUES ("
+                    + newNdcDTO.getItemMasterSid() + ","
+                    + replaceDollarWac + ","
+                    + replaceDollarNonFamp + ","
+                    + replaceDollarfss + "," + userId + "," + sessionId + ")";
+
+        } else {
+            customSql = "UPDATE dbo.ST_FEDERAL_NEW_NDC SET WAC_PRICE =" + newNdcDTO.getWac() + ", NON_FAMP =" + newNdcDTO.getNonFamp() + ",FSS =" + newNdcDTO.getFssOGA()
+                    + " WHERE ITEM_MASTER_SID = " + newNdcDTO.getItemMasterSid();
+
+        }
+        commonDAO.executeBulkUpdateQuery(customSql);
+    }
+
+    public void saveMedicaidNdcPopUp(long userId, int sessionId, List<StMedicaidNewNdc> list, NewNdcDTO newNdcDTO) throws PortalException, SystemException {
+        String customSql = null;
+        String replaceDollarAmp = newNdcDTO.getBaseYearAMP();
+        replaceDollarAmp = replaceDollarAmp.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarAmp = replaceDollarAmp.trim();
+
+        String replaceDollarWac = newNdcDTO.getWac();
+        replaceDollarWac = replaceDollarWac.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarWac = replaceDollarWac.trim();
+
+        String replaceDollarBasecpi = newNdcDTO.getBaseYearCPI();
+        replaceDollarBasecpi = replaceDollarBasecpi.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarBasecpi = replaceDollarBasecpi.trim();
+
+        String replaceDollarForecastAmp = newNdcDTO.getForecastAMP();
+        replaceDollarForecastAmp = replaceDollarForecastAmp.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarForecastAmp = replaceDollarForecastAmp.trim();
+
+        String replaceDollarBestPrice = newNdcDTO.getForecastBestPrice();
+        replaceDollarBestPrice = replaceDollarBestPrice.replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+        replaceDollarBestPrice = replaceDollarBestPrice.trim();
+
+        if (list.isEmpty()) {
+            customSql = "INSERT INTO dbo.ST_MEDICAID_NEW_NDC (NDC9, WAC_PRICE, BASE_YEAR_AMP, BASE_YEAR_CPI, FORECAST_AMP, FORECAST_BESTPRICE,USER_ID,SESSION_ID) VALUES ('"
+                    + newNdcDTO.getNdc9() + "'" + ","
+                    + replaceDollarWac + ","
+                    + replaceDollarAmp + ","
+                    + replaceDollarBasecpi + ","
+                    + replaceDollarForecastAmp + ","
+                    + replaceDollarBestPrice + ","
+                    + userId + ","
+                    + sessionId + ")";
+
+        } else {
+            customSql = "UPDATE dbo.ST_MEDICAID_NEW_NDC SET NDC9 ='" + newNdcDTO.getNdc9() + "'" + ", WAC_PRICE =" + replaceDollarWac + ",BASE_YEAR_AMP =" + replaceDollarAmp
+                    + ", BASE_YEAR_CPI =" + replaceDollarBasecpi + ",FORECAST_AMP =" + replaceDollarForecastAmp + ",FORECAST_BESTPRICE =" + replaceDollarBestPrice
+                    + " WHERE NDC9 = '" + newNdcDTO.getNdc9() + "'";
+
+        }
+
+        commonDAO.executeBulkUpdateQuery(customSql);
+    }
+}

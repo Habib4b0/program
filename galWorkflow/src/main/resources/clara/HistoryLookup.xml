@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel>
+    <VerticalLayout id="verticalLayout" xmlns:ef="urn:import:org.asi.ui.extfilteringtable">
+        <HorizontalLayout margin="true" spacing="true" width="100%"> 
+            <Panel caption="Summary" styleName="responsiveTabGrid" margin="true" width="100%">
+                <HorizontalLayout id="hLayout" styleName="responsiveTabGrid" margin="true">
+				
+                    <Label value="Business Process"  contentMode="HTML" />
+                    <TextField id="businessProcess" inputPrompt="" />
+                
+                    <Label value="Workflow ID" contentMode="HTML" />
+                    <TextField id="workflowid" inputPrompt="" />
+                
+                    <Label value="Workflow Name"  contentMode="HTML" />
+                    <TextField id="workflowName" immediate="true"/>
+                
+                </HorizontalLayout>  
+            </Panel>     
+        </HorizontalLayout>
+        
+        <HorizontalLayout margin="true" spacing="true" width="50%">
+            <Panel caption="History Details" id="tablepanel">
+                <VerticalLayout margin="true" immediate="true" id = "resultslayout">
+                    <HorizontalLayout id="controlLayout"/>
+                </VerticalLayout>
+            </Panel>
+            <Panel caption="Attachment Details" id="tablepanel1">
+                <VerticalLayout margin="true" immediate="true" id = "resultslayout1">
+                     <ef:ExtFilterTable id="table" />
+                </VerticalLayout>
+            </Panel>
+            
+        </HorizontalLayout>     
+         
+        <HorizontalLayout margin="true" >
+            <Button id="excelExport" immediate="true"/>
+            <Button id="closebtn" caption="CLOSE" immediate="true"/>
+    
+        </HorizontalLayout>
+   
+    </VerticalLayout>
+</Panel>
+
+
+
+

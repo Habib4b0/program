@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns="urn:import:com.vaadin.ui"   xmlns:p="urn:vaadin:parent">
+    <VerticalLayout   spacing="true" margin="true" immediate="true" styleName="bootstrap-forecast">
+        <Panel>
+            <VerticalLayout spacing="true" margin="true" immediate="true">
+                <HorizontalLayout  spacing="false" margin="false" immediate="true">
+                    <Label value="Tree View Name:" contentMode="HTML" /> 
+                    <TextField id="viewName" inputPrompt="" immediate="true" />
+                </HorizontalLayout>
+                <GridLayout  spacing="false" rows="1" columns="2" immediate="true">
+                    <VerticalLayout spacing="false" margin="false" immediate="true">
+                        <HorizontalLayout  spacing="false" margin="false" immediate="true">
+                            <Table id="customerTable"  caption="Customer Hierarchy" width="210px" height="230px"  immediate="true" styleName="table-header-normal" selectable="true" />
+           
+                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                                <Label value="" hieght="120px" contentMode="HTML" immediate="true" />
+                                <Button id="addCustomer" caption="&gt;"></Button>
+                                <Button id="removeCustomer" caption="&lt;"></Button>
+                            </VerticalLayout>
+                        </HorizontalLayout>
+           
+          
+                        <HorizontalLayout  spacing="false" margin="false" immediate="true">
+                            <Table id="productTable"  caption="Product Hierarchy" width="210px" height="191px"  immediate="true" styleName="table-header-normal" selectable="true" />
+                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                                <Label caption="" hieght="120px" contentMode="HTML" immediate="true" />
+                                <Button id="addProduct" caption="&gt;"></Button>
+                                <Button id="removeProduct" caption="&lt;"></Button>
+                            </VerticalLayout>
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                    <HorizontalLayout  spacing="false" margin="false" immediate="true">
+                        <TreeTable id="treeTable" caption=" Tree Structure" styleName="table-header-normal" height="446px"  width="370px" immediate="true" selectable="true" />        
+                    </HorizontalLayout>
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true" immediate="true">
+            <Button id="save" caption="SAVE"></Button>
+            <Button id="select" caption="SELECT"></Button>
+            <Button id="close" caption="CLOSE"></Button>
+            
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

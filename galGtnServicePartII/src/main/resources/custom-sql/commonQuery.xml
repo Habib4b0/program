@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<custom-sql>
+    <sql id="companyForm">
+		<![CDATA[
+                    SELECT   Distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME
+                        FROM   COMPANY_MASTER CM 
+                        JOIN GL_COST_CENTER_MASTER GCC ON CM.COMPANY_ID = GCC.COMPANY_CODE 
+                        JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID
+                         where CM.COMPANY_NAME LIKE '%' AND HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' AND GCC.INBOUND_STATUS <> 'D'  
+                        ORDER BY CM.COMPANY_NAME; 
+
+		]]>
+    </sql>
+    <sql id="companyCount">
+		<![CDATA[
+                SELECT    count ( Distinct CM.COMPANY_MASTER_SID)
+                        FROM   COMPANY_MASTER CM 
+                        JOIN GL_COST_CENTER_MASTER GCC ON CM.COMPANY_ID = GCC.COMPANY_CODE 
+                        JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID
+                        where CM.COMPANY_NAME LIKE '?' AND HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' AND GCC.INBOUND_STATUS <> 'D'
+		]]>
+    </sql>
+    <sql id="marketTypeForm">
+		<![CDATA[
+                    select DISTINCT HT.HELPER_TABLE_SID, HT.DESCRIPTION from HELPER_TABLE HT
+                        WHERE HT.LIST_NAME = 'CONTRACT_TYPE' AND HT.HELPER_TABLE_SID LIKE '%'
+                        ORDER BY HT.DESCRIPTION ;  
+
+		]]>
+    </sql>
+    <sql id="marketTypeCount">
+		<![CDATA[
+                    select COUNT (DISTINCT HT.HELPER_TABLE_SID) from HELPER_TABLE HT
+                        WHERE HT.LIST_NAME = 'CONTRACT_TYPE' AND HT.HELPER_TABLE_SID LIKE '?';
+		]]>
+    </sql>
+     <sql id="acctTypeForm">
+		<![CDATA[
+                    select DISTINCT HT.HELPER_TABLE_SID,HT.DESCRIPTION from UDCS UD 
+                        JOIN RS_CONTRACT RSC ON UD.MASTER_SID = RSC.RS_CONTRACT_SID  AND UD.MASTER_TYPE = 'RS_CONTRACT' 
+                        JOIN CONTRACT_MASTER CN ON RSC.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID AND CN.CONTRACT_TYPE LIKE '?' 
+                        JOIN HELPER_TABLE HT ON UD.UDC2 = HT.HELPER_TABLE_SID
+                      
+		]]>
+                  <!--ORDER BY HT.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;-->    
+    </sql>
+    <sql id="acctTypeCount">
+		<![CDATA[
+                    select COUNT (DISTINCT HT.HELPER_TABLE_SID) from UDCS UD 
+                    JOIN RS_CONTRACT RSC ON UD.MASTER_SID = RSC.RS_CONTRACT_SID AND UD.MASTER_TYPE = 'RS_CONTRACT' 
+                    JOIN CONTRACT_MASTER CN ON RSC.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID AND CN.CONTRACT_TYPE LIKE '?' 
+                    JOIN HELPER_TABLE HT ON UD.UDC2 = HT.HELPER_TABLE_SID;
+		]]>
+    </sql>
+    <sql id="acctSubTypeForm">
+		<![CDATA[
+                    select DISTINCT HT.HELPER_TABLE_SID,HT.DESCRIPTION from UDCS UD 
+                        JOIN RS_CONTRACT RSC ON UD.MASTER_SID = RSC.RS_CONTRACT_SID  
+                        JOIN HELPER_TABLE HT ON RSC.REBATE_PROGRAM_TYPE = HT.HELPER_TABLE_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND UD.UDC2 = '?'
+                       
+
+		]]>
+                 <!--ORDER BY HT.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;-->    
+    </sql>
+    <sql id="acctSubTypeCount">
+		<![CDATA[
+                    select COUNT (DISTINCT HT.HELPER_TABLE_SID) from  UDCS UD 
+                    JOIN RS_CONTRACT RSC ON UD.MASTER_SID = RSC.RS_CONTRACT_SID  
+                    JOIN HELPER_TABLE HT ON RSC.REBATE_PROGRAM_TYPE = HT.HELPER_TABLE_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND UD.UDC2 = '?';
+		]]>
+    </sql>
+    <sql id="contractForm">
+		<![CDATA[
+                    select DISTINCT CN.CONTRACT_MASTER_SID,CN.CONTRACT_ID from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID 
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND UD.UDC2 = '?'
+		]]>
+                 <!--ORDER BY CN.CONTRACT_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;-->      
+    </sql>
+    <sql id="contractCount">
+		<![CDATA[
+                    select COUNT (DISTINCT CN.CONTRACT_MASTER_SID) from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID 
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND UD.UDC2 = '?';
+		]]>
+    </sql>
+    <sql id="productForm">
+		<![CDATA[
+                    select DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_ID from RS_CONTRACT RSC 
+                        JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID
+                        JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND UD.UDC2 = '?'
+		]]>
+                 <!--ORDER BY IM.ITEM_ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;--> 
+    </sql>
+    <sql id="productCount">
+		<![CDATA[
+                    select COUNT (DISTINCT IM.ITEM_MASTER_SID) from RS_CONTRACT RSC 
+                        JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID
+                        JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID
+                        WHERE UD.MASTER_TYPE = 'RS_CONTRACT' AND UD.UDC2 = '?';
+		]]>
+    </sql>
+    <sql id="getTreeCustomerCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT CM.COMPANY_ID) FROM CONTRACT_MASTER CN 
+                    JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                    JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                    WHERE CN.CONTRACT_MASTER_SID = ?;
+		]]>
+    </sql>
+    <sql id="getTreeContractCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT CN.CONTRACT_ID) FROM CONTRACT_MASTER CN 
+                    JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                    WHERE CN.CONTRACT_MASTER_SID = ?;
+		]]>
+    </sql>
+     <sql id="getTreeTheraCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT IM.THERAPEUTIC_CLASS) FROM ITEM_MASTER IM 
+                    JOIN CCP_DETAILS CCP ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    WHERE IM.ITEM_MASTER_SID = ?;
+		]]>
+    </sql>
+    <sql id="getTreeBrandCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT IM.BRAND_MASTER_SID) FROM ITEM_MASTER IM 
+                    JOIN CCP_DETAILS CCP ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    WHERE IM.ITEM_MASTER_SID = ?;
+		]]>
+    </sql>
+    <sql id="getTreeItemCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT IM.ITEM_MASTER_SID) FROM ITEM_MASTER IM 
+                    JOIN CCP_DETAILS CCP ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    WHERE IM.ITEM_MASTER_SID = ?;
+		]]>
+    </sql>
+    <sql id="productGroupSearch">
+		<![CDATA[
+                        select distinct IG.item_Group_Sid, IG.item_Group_No, IG.item_Group_Name AS name, IG.version_No,
+                        IG.ITEM_GROUP_DESCRIPTION AS DES,CM.COMPANY_NAME AS COM
+                                        FROM Item_Group IG
+                                        JOIN Item_Group_Details IGD ON IGD.item_Group_Sid = IG.item_Group_Sid
+                                        JOIN COMPANY_MASTER CM	ON CM.COMPANY_MASTER_SID = IG.COMPANY_MASTER_SID
+                                        WHERE IG.item_Group_No like '?' AND IG.item_Group_Name like '?'
+                                        ?  ?
+                 ]]>
+    </sql>
+     <sql id="customerGroupSearch">
+		<![CDATA[
+                        select distinct CG.company_Group_Sid, CG.company_Group_No, CG.company_Group_Name, CG.version_No,CG.COMPANY_GROUP_DESCRIPTION AS DES
+                                           FROM Company_Group CG
+                                            JOIN Company_Group_Details CGD ON CG.company_Group_Sid = CGD.company_Group_Sid 
+                                            WHERE  CG.company_Group_No like '?' AND CG.company_Group_Name like '?'
+                                            ? ?
+                 ]]>
+    </sql>
+    <sql id="productGroupSearchCount">
+		<![CDATA[
+                        select count (distinct IG.item_Group_Sid)
+                                        FROM Item_Group IG
+                                        JOIN Item_Group_Details IGD ON IGD.item_Group_Sid = IG.item_Group_Sid
+                                        JOIN COMPANY_MASTER CM	ON CM.COMPANY_MASTER_SID = IG.COMPANY_MASTER_SID                                       
+                                        WHERE IG.item_Group_No like '?' AND IG.item_Group_Name like '?' 
+                                        ?
+                 ]]>
+    </sql>
+     <sql id="customerGroupSearchCount">
+		<![CDATA[
+                        select count (distinct CG.company_Group_Sid)
+                                           FROM Company_Group CG
+                                            JOIN Company_Group_Details CGD ON CG.company_Group_Sid = CGD.company_Group_Sid 
+                                            WHERE  CG.company_Group_No like '?' AND CG.company_Group_Name like '?'
+                                             ?
+                 ]]>
+    </sql>
+    <sql id="getFixedDollarTreeCustomerCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT CM.COMPANY_ID) FROM CONTRACT_MASTER CN 
+                    JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                    JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                    JOIN ST_ACC_CLOSURE_DETAILS ST ON CN.CONTRACT_MASTER_SID = ST.CONTRACT_MASTER_SID AND CCP.CCP_DETAILS_SID = ST.CCP_DETAILS_SID
+                    WHERE ST.USER_ID = ? AND ST.SESSION_ID = ? AND ST.CHECK_RECORD = '1';
+		]]>
+    </sql>
+    <sql id="getFixedDollarTreeContractCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT CN.CONTRACT_ID) FROM CONTRACT_MASTER CN 
+                    JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                    WHERE CN.CONTRACT_MASTER_SID = ?;
+		]]>
+    </sql>
+     <sql id="getFixedDollarTreeTheraCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT IM.THERAPEUTIC_CLASS) FROM ITEM_MASTER IM 
+                    JOIN CCP_DETAILS CCP ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    WHERE IM.ITEM_MASTER_SID = ?;
+		]]>
+    </sql>
+    <sql id="getfixedDollarTreeBrandCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT IM.BRAND_MASTER_SID) FROM ITEM_MASTER IM 
+                    JOIN CCP_DETAILS CCP ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    WHERE IM.ITEM_MASTER_SID = ?;
+		]]>
+    </sql>
+    <sql id="getFixedDollarTreeItemCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT IM.ITEM_MASTER_SID) FROM ITEM_MASTER IM 
+                    JOIN CCP_DETAILS CCP ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                    WHERE IM.ITEM_MASTER_SID = ?;
+		]]>
+    </sql>
+     <sql id="getTreeFdCustomerCount">
+		<![CDATA[
+                
+                    SELECT COUNT (DISTINCT CM.COMPANY_MASTER_SID) FROM CONTRACT_MASTER CN
+                    JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                    JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                    WHERE CN.CONTRACT_MASTER_SID = ? AND CCP.ITEM_MASTER_SID = ?
+		]]>
+    </sql>
+    <sql id="ac.clearTemp">
+		<![CDATA[
+		DELETE FROM dbo.ST_ACC_CLOSURE_DETAILS WHERE LAST_MODIFIED_DATE<'?LD';
+		DELETE FROM dbo.ST_AC_BASE_RATE_SUMMARY WHERE LAST_MODIFIED_DATE<'?LD';
+                DELETE FROM dbo.ST_AC_GTN_BALANCE_DETAILS WHERE LAST_MODIFIED_DATE<'?LD';		
+		]]>
+    </sql>
+    <sql id="gtncompanyForm">
+		<![CDATA[
+                    SELECT   Distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME
+                        FROM   COMPANY_MASTER CM 
+                        JOIN GL_COST_CENTER_MASTER GCC ON CM.COMPANY_ID = GCC.COMPANY_CODE 
+                        JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID
+                        where CM.COMPANY_NAME LIKE '%' AND HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' AND GCC.INBOUND_STATUS <> 'D' ORDER BY CM.COMPANY_NAME 
+		]]>
+    </sql>
+    <sql id="gtnmarketTypeForm">
+		<![CDATA[
+                    select DISTINCT HT.HELPER_TABLE_SID, HT.DESCRIPTION from HELPER_TABLE HT
+                        WHERE HT.LIST_NAME = 'CONTRACT_TYPE' AND HT.HELPER_TABLE_SID LIKE '%' ORDER BY HT.DESCRIPTION
+
+		]]>
+    </sql>
+    <sql id="existingCAlendar">
+        <![CDATA[
+        SELECT SLA_CALENDAR_MASTER_SID,CALENDAR_NAME FROM dbo.SLA_CALENDAR_MASTER SCM
+        WHERE SCM.CALENDAR_NAME LIKE '?' AND SCM.INBOUND_STATUS LIKE 'A'
+        ]]>
+    </sql>
+</custom-sql>

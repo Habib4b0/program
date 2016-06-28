@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<VerticalLayout margin="true" spacing="true" 
+                xmlns:a="urn:import:org.asi.ui.extfilteringtable"  
+                xmlns:p="urn:import:com.stpl.app.ui.errorhandling">
+        <Panel id="panel" caption="Trade Class Information" styleName="responsiveTabGrid">
+        <VerticalLayout margin="true">
+        
+            <HorizontalLayout id="hLayout" styleName="responsiveTabGrid">
+                <CssLayout id="cssLayout" width="100%" height="100%">
+                    <p:ErrorLabel id="errorMsg"/>
+          
+                    <Label id="labelTradeClass1" contentMode="HTML" />
+                    <ComboBox id="tradeClass1" inputPrompt="" />
+                    
+                    <Label id="labelTradeClassSDate" contentMode="HTML" />
+                    <PopupDateField id="tradeClassSDate" immediate="true"/>
+                    
+                    <Label id="labelTradeClassEDate" value="Trade Class End Date" contentMode="HTML" />
+                    <PopupDateField id="tradeClassEndDate" immediate="true"/>
+               
+                </CssLayout>
+            </HorizontalLayout>
+            
+            <HorizontalLayout spacing="true" >
+                <Button id="attachButton" caption="ATTACH" immediate="true"/>
+            </HorizontalLayout> 
+        
+        </VerticalLayout>
+    </Panel>
+    
+       
+    <Panel caption="Results"  >
+        <a:ExtFilterTable id="resultTable" selectable="true" immediate="true" />
+    </Panel>
+
+    <HorizontalLayout>
+        <Button id="removeButton" caption="REMOVE" immediate="true"/>
+        <Button id="excelExport" />
+    </HorizontalLayout>
+
+</VerticalLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.ifs.ui.errorhandling">
+<VerticalLayout>
+    <p:ErrorLabel id="errorMsg"/>
+    <HorizontalLayout spacing="true" margin="true" styleName="responsiveTabGrid" >
+            <GridLayout immediate="true" columns="4" rows="1">
+                        <Label id="relationshipNameLB" value="Relationship Name" styleName="mandatory" contentMode="HTML"  />
+                        <TextField id="relationshipName" contentMode="HTML" />
+                        <Label value="Relationship Description" styleName="mandatory" contentMode="HTML" />
+                        <TextField id="relationshipDesc" contentMode="HTML" />
+        </GridLayout>
+    </HorizontalLayout>
+    <HorizontalLayout margin="true" spacing="true">
+        <Button id="save" caption="CREATE COPY" />
+        <Button id="cancel" caption="CANCEL" />        
+    </HorizontalLayout>
+</VerticalLayout>
+</Panel>

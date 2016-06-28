@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="startingPanel" xmlns:a="urn:import:org.asi.ui.extfilteringtable" spacing="true">
+      <VerticalLayout margin="true" spacing="true" styleName="bootstrap-forecast" xmlns:errorMsg="urn:import:com.stpl.ifs.ui.errorhandling"  >
+      <errorMsg:ErrorLabel id="errorLB" />
+        <Panel caption="NDC Search" width="100%" spacing="true">			
+
+            <GridLayout margin="true" spacing="true" columns="4"
+                        rows="2">
+
+                <Label value="Contract:" contentMode="HTML" />
+                <ComboBox id="contractDdlb" nullSelectionAllowed="false"
+                          immediate="true" width="206px" height="26px" />
+                <Label value="NDC #:" contentMode="HTML" />
+                <TextField id="ndc" inputPrompt="" width="198px" height="26px" />
+                <Label value="Brand Name:" contentMode="HTML" width="96px"/>
+                <TextField id="brandName" inputPrompt="" width="198px" height="26px" />
+                <Label value="NDC Desc:" contentMode="HTML" width="81px"/>
+                <TextField id="ndcDesc" inputPrompt="" width="198px" height="26px"/>
+									
+            </GridLayout>
+
+        </Panel>
+
+        <HorizontalLayout margin="false"
+                          spacing="true">
+            <Button caption="SEARCH" id="searchBtn" />
+            <Button caption="RESET" id="resetBtn" />
+        </HorizontalLayout>
+        <Panel caption="Results" width="100%" spacing="true">
+            <HorizontalLayout margin="true"
+                              spacing="true" width="100%">
+                <a:ExtFilterTable styleName="table-header-normal"
+                                  id="resultsTable"  width="100%" immediate="true" height="200px"  />
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout margin="false"
+                          spacing="true">
+            <Button id="addBtn" caption="ADD" immediate="true" />
+
+        </HorizontalLayout>
+
+        <Panel caption="Parity Products" width="100%" spacing="true">
+            <HorizontalLayout  margin="true"
+                               spacing="true" width="100%">
+                <a:ExtFilterTable styleName="table-header-normal"
+                                  id="parityTable"  width="100%" immediate="true" height="200px"  />
+            </HorizontalLayout>
+        </Panel>
+
+        <HorizontalLayout margin="false"
+                          spacing="true">
+            <Button caption="SUBMIT" id="submitBtn" />
+            <Button caption="RESET" id="productResetBtn" />
+            <Button caption="CLOSE" id="closeBtn" />
+            <Button caption="REMOVE" id="removeBtn" />
+
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

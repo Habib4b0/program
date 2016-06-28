@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel>
+    <VerticalLayout styleName = "width-auto">
+        <HorizontalLayout id="mainHorizontal" spacing="true">
+            <Panel id="ruleInformation" caption="Rule Information" height="100%">
+                <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                    <GridLayout spacing="true"  id="ruleInfoGrid" immediate="true" columns="2" rows="4">
+                        <Label id="ruleTypeLb" value="Rule Type: " styleName= "mandatory" contentMode="HTML" />
+                        <ComboBox id="ruleType" immediate="true" width="205px"/> 
+                        <Label id="ruleNoLb" value="Rule No: " styleName= "mandatory"  contentMode="HTML" />
+                        <TextField id="ruleNo" inputPrompt="" immediate="true"/>   
+                        <Label id="ruleNameLb" value="Rule Name: " styleName= "mandatory"  contentMode="HTML" />
+                        <TextField id="ruleName" inputPrompt="" immediate="true"/>   
+                        <Label id="ruleCategoryLb" value="Rule Category: " contentMode="HTML" />
+                        <ComboBox id="ruleCategory" immediate="true" width="205px"/>
+                    </GridLayout>
+                </HorizontalLayout>
+            </Panel>
+            <Panel id="ruleDetails"  caption="Rule Details">
+                <VerticalLayout styleName="width-auto" margin="true" width="100%">
+                    <GridLayout spacing="true" id="ruleDetailsGrid" immediate="true" columns="7" rows="2">
+                        <Label value="Line Type: " contentMode="HTML" />
+                        <Label value="Item/Group/MS Association: " contentMode="HTML" enabled="false" />
+                        <Label value="Keyword: " contentMode="HTML" />
+                        <Label value="Operator: " contentMode="HTML" />
+                        <Label value="Value: " contentMode="HTML" />
+                        <Label value="Comparison: " contentMode="HTML" />
+                        <Label value="Operator: " contentMode="HTML" />
+                        <ComboBox id="lineTypeDdlb" immediate="true" styleName= "comboboxFifty"/>
+                        <ComboBox id="itemGroupDdlb" immediate="true" width="205px"/>
+                        <ComboBox id="keywordDdlb" immediate="true" styleName= "comboboxFifty"/>
+                        <ComboBox id="operatorDdlb" immediate="true" styleName= "comboboxFifty"/> 
+                        <TextField id="valueText" inputPrompt="" immediate="true"/>  
+                        <ComboBox id="comparisonDdlb" immediate="true" styleName= "comboboxFifty"/> 
+                        <ComboBox id="logicalOperatorDdlb" immediate="true" styleName= "comboboxFifty"/>
+                    </GridLayout>
+                    <VerticalLayout id="detailsTableLayout" width="1163px" immediate="true"/>
+                    <HorizontalLayout spacing="true" margin="true">
+                        <Button id="addBtn" caption="ADD"  />
+                        <Button id="removeBtn" caption="REMOVE"  />
+                        <Button id="resetBtn" caption="RESET"  />
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </Panel>
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

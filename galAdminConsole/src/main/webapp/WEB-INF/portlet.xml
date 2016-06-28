@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+    <portlet>
+        <description>Item Group portlet</description>
+        <portlet-name>ItemGroup</portlet-name>
+        <display-name>Item Group Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.itemgroup.ui.ItemGroupMasterUI</value>
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Item Group Master</title>
+            <short-title>Item Group Master</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+        
+    <portlet>
+        <description>Customer Group portlet</description>
+        <portlet-name>CustomerGroup</portlet-name>
+        <display-name>Customer Group Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.customergroup.ui.CustomerGroupMasterUI</value>
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Customer Group Master</title>
+            <short-title>Customer Group Master</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+        <portlet>
+            <description>Relationship Builder portlet</description>
+            <portlet-name>RelationshipBuilder</portlet-name>
+            <display-name>Relationship Builder</display-name>
+
+            <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+            <init-param>
+                <name>UI</name>
+                <value>com.stpl.app.adminconsole.relationshipbuilder.ui.RelationshipBuilderUI</value>
+            </init-param>
+
+            <supports>
+                <mime-type>text/html</mime-type>
+                <portlet-mode>view</portlet-mode>
+                <portlet-mode>edit</portlet-mode>
+                <portlet-mode>help</portlet-mode>
+            </supports>
+
+
+            <portlet-info>
+                <title>Relationship Builder</title>
+                <short-title>Relationship Builder</short-title>
+            </portlet-info>
+        </portlet>        
+        <portlet>
+            <description>Hierarchy Builder portlet</description>
+            <portlet-name>HierarchyBuilder</portlet-name>
+            <display-name>Hierarchy Definition</display-name>
+
+            <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+            <init-param>
+                <name>UI</name>
+                <value>com.stpl.app.adminconsole.hierarchybuilder.ui.HierarchyBuilderUI</value>
+            </init-param>
+
+            <supports>
+                <mime-type>text/html</mime-type>
+                <portlet-mode>view</portlet-mode>
+                <portlet-mode>edit</portlet-mode>
+                <portlet-mode>help</portlet-mode>
+            </supports>
+
+
+            <portlet-info>
+                <title>Hierarchy Definition</title>
+                <short-title>Hierarchy Definition</short-title>
+            </portlet-info>
+        </portlet>             
+	
+    <portlet>
+        <description>File Management Portlet</description>
+        <portlet-name>FileManagement</portlet-name>
+        <display-name>File Management</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.adminconsole.filemanagement.ui.FileManagementUI</value>
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>File Management</title>
+            <short-title>File Management</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <portlet>
+        <description>Archive portlet</description>
+        <portlet-name>Archive</portlet-name>
+        <display-name>Archive Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.archive.ui.ArchiveUI</value>			
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Archive portlet</title>
+            <short-title>Archive portlet</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>Discount portlet</description>
+        <portlet-name>Discount</portlet-name>
+        <display-name>Discount Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.discount.ui.DiscountUI</value>			
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Discount portlet</title>
+            <short-title>Discount portlet</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Forecast portlet</description>
+        <portlet-name>Forecast</portlet-name>
+        <display-name>Forecast Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.forecast.ui.ForecastUI</value>
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Forecast Master</title>
+            <short-title>Forecast Master</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Projection Name Configuration portlet</description>
+        <portlet-name>ProjectionNameConfiguration</portlet-name>
+        <display-name>Projection Name Configuration portlet</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.projnameconfig.ui.ProjNamingConfigUI</value>
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Projection Name Configuration portlet</title>
+            <short-title>Projection Name Configuration portlet</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Process Scheduler portlet</description>
+        <portlet-name>ProcessScheduler</portlet-name>
+        <display-name>Process Scheduler</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.processscheduler.ui.ProcessSchedulerUI</value>
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Process Scheduler</title>
+            <short-title>Process Scheduler</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    
+    <!--<Process Monitoring>-->
+    <portlet>
+        <description>Process Monitoring</description>
+        <portlet-name>Process Monitoring</portlet-name>
+        <display-name>Process Monitoring</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.adminconsole.processmonitor.ui.ProcessMonitorUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Process Monitoring</title>
+            <short-title>Process Monitoring</short-title>
+            <keywords>Process Monitoring</keywords>
+        </portlet-info>
+    </portlet>
+    
+    <portlet>
+        <description>Calendar Configuration Portlet</description>
+        <portlet-name>CalendarConfiguration</portlet-name>
+        <display-name>CalendarConfiguration</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.adminconsole.calendar.ui.CalendarUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>CalendarConfiguration</title>
+            <short-title>CalendarConfiguration</short-title>
+            <keywords>CalendarConfiguration</keywords>
+        </portlet-info>
+    </portlet>
+    
+    <portlet>
+        <description>Email Configuration</description>
+        <portlet-name>EmailConfiguration</portlet-name>
+        <display-name>EmailConfiguration</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.adminconsole.mailconfiguration.ui.MailConfigurationUI</value>
+		</init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Email Configuration</title>
+            <short-title>EmailConfiguration</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    
+</portlet-app>

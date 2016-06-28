@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder auto-namespace-tables="false"
+	package-path="com.stpl.app.parttwo">
+	<author></author>
+	<namespace>galGtnPartII</namespace>
+	<entity cache-enabled="false" data-source="appDataSource" local-service="true" name="SlaCalendarDetails" remote-service="false" session-factory="appSessionFactory" table="SLA_CALENDAR_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="SLA_CALENDAR_MASTER_SID" name="slaCalendarMasterSid" primary="false" type="int"/>
+        <column db-name="HOLIDAY_YEAR" name="holidayYear" primary="false" type="String"/>
+        <column db-name="SLA_CALENDAR_DETAILS_SID" id-type="identity" name="slaCalendarDetailsSid" primary="true" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="HOLIDAY_DAY" name="holidayDay" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="HOLIDAY_COMBINED" name="holidayCombined" primary="false" type="Date"/>
+        <column db-name="HOLIDAY_MONTH" name="holidayMonth" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AccClosureMaster" remote-service="false" session-factory="appSessionFactory" table="Acc_Closure_Master" tx-manager="appTransactionManager">
+        <column db-name="SAVE_FLAG" name="saveFlag" primary="false" type="boolean"/>
+        <column db-name="ACCOUNT_NO" name="accountNo" primary="false" type="String"/>
+        <column db-name="TO_DATE" name="toDate" primary="false" type="Date"/>
+        <column db-name="ITEM_MASTER_SID" name="itemMasterSid" primary="false" type="int"/>
+        <column db-name="DESCRIPTION" name="description" primary="false" type="String"/>
+        <column db-name="REPORT_NAME" name="reportName" primary="false" type="String"/>
+        <column db-name="RS_TYPE" name="rsType" primary="false" type="int"/>
+        <column db-name="PRODUCT_IDENTIFIER" name="productIdentifier" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="WORKFLOW_STATUS" name="workflowStatus" primary="false" type="int"/>
+        <column db-name="MODULE_TYPE" name="moduleType" primary="false" type="String"/>
+        <column db-name="FROM_DATE" name="fromDate" primary="false" type="Date"/>
+        <column db-name="CONTRACT_TYPE" name="contractType" primary="false" type="int"/>
+        <column db-name="GL_COMPANY_MASTER_SID" name="glCompanyMasterSid" primary="false" type="int"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="CONTRACT_MASTER_SID" name="contractMasterSid" primary="false" type="int"/>
+        <column db-name="ACCRUAL_PERIOD" name="accrualPeriod" primary="false" type="String"/>
+        <column db-name="COMPANY_GROUP_SID" name="companyGroupSid" primary="false" type="String" convert-null="false"/>
+        <column db-name="ACC_CLOSURE_MASTER_SID" id-type="identity" name="accClosureMasterSid" primary="true" type="int"/>
+        <column db-name="RS_CATEGORY" name="rsCategory" primary="false" type="int"/>
+        <column db-name="ADJUSTMENT_TYPE" name="adjustmentType" primary="false" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="ITEM_GROUP_SID" name="itemGroupSid" primary="false" type="String" convert-null="false"/>
+        <column db-name="REBATE_PROGRAM_TYPE" name="rebateProgramType" primary="false" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AccClosureViewMaster" remote-service="false" session-factory="appSessionFactory" table="Acc_Closure_View_Master" tx-manager="appTransactionManager">
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="VIEW_TYPE" name="viewType" primary="false" type="String"/>
+        <column db-name="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" primary="false" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="ACC_CLOSURE_VIEW_MASTER_SID" id-type="identity" name="accClosureViewMasterSid" primary="true" type="int"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="VIEW_NAME" name="viewName" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AcBaseRateBaselineDetails" remote-service="false" session-factory="appSessionFactory" table="Ac_Base_Rate_Baseline_Details" tx-manager="appTransactionManager">
+        <column db-name="PERIOD_VALUE" name="periodValue" primary="false" type="double"/>
+        <column db-name="PERIOD_SID" name="periodSid" primary="false" type="int"/>
+        <column db-name="PAYMENTS_PERIOD" name="paymentsPeriod" primary="false" type="boolean"/>
+        <column db-name="AC_BR_METHODOLOGY_DETAILS_SID" name="acBrMethodologyDetailsSid" primary="true" type="int"/>
+        <column db-name="SALES_PERIOD" name="salesPeriod" primary="false" type="boolean"/>
+    </entity>
+     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AcBrMethodologyDetails" remote-service="false" session-factory="appSessionFactory" table="AC_BR_METHODOLOGY_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="SALES_GROWTH_RATE" name="salesGrowthRate" primary="false" type="double"/>
+        <column db-name="METHODOLOGY_START_DATE" name="methodologyStartDate" primary="false" type="Date"/>
+        <column db-name="FREQUENCY" name="frequency" primary="false" type="String"/>
+        <column db-name="CALCULATION_FLAG" name="calculationFlag" primary="false" type="boolean"/>
+        <column db-name="PROVISION_GROWTH_RATE" name="provisionGrowthRate" primary="false" type="double"/>
+        <column db-name="SALES_BASIS" name="salesBasis" primary="false" type="int"/>
+        <column db-name="AC_BR_METHODOLOGY_DETAILS_SID" id-type="identity" name="acBrMethodologyDetailsSid" primary="true" type="int"/>
+        <column db-name="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" primary="false" type="int"/>
+        <column db-name="METHODOLOGY_END_DATE" name="methodologyEndDate" primary="false" type="Date"/>
+        <column db-name="METHODOLOGY_VALUE" name="methodologyValue" primary="false" type="double"/>
+        <column db-name="DAMPING_FACTOR" name="dampingFactor" primary="false" type="double"/>
+        <column db-name="METHODOLOGY_NAME" name="methodologyName" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="StAccClosureDetails" remote-service="false" session-factory="appSessionFactory" table="ST_ACC_CLOSURE_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="LAST_MODIFIED_DATE" name="lastModifiedDate" primary="false" type="Date"/>
+        <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
+        <column db-name="CONTRACT_NAME" name="contractName" primary="false" type="String"/>
+        <column db-name="USER_ID" name="userId" primary="false" type="int"/>
+        <column db-name="ITEM_MASTER_SID" name="itemMasterSid" primary="false" type="int"/>
+        <column db-name="MODULE_NAME" name="moduleName" primary="false" type="String"/>
+        <column db-name="COMPANY_NAME" name="companyName" primary="false" type="String"/>
+        <column db-name="BRAND_NAME" name="brandName" primary="false" type="String"/>
+        <column db-name="COMPANY_COST_CENTER" name="companyCostCenter" primary="false" type="String"/>
+        <column db-name="COMPANY_NO" name="companyNo" primary="false" type="String"/>
+        <column db-name="CONTRACT_MASTER_SID" name="contractMasterSid" primary="false" type="int"/>
+        <column db-name="SESSION_ID" name="sessionId" primary="false" type="int"/>
+        <column db-name="CCP_DETAILS_SID" name="ccpDetailsSid" primary="false" type="int"/>
+        <column db-name="ITEM_NAME" name="itemName" primary="false" type="String"/>
+        <column db-name="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" primary="true" type="int"/>
+        <column db-name="RS_MODEL_SID" name="rsModelSid" primary="false" type="int"/>
+        <column db-name="CONTRACT_NO" name="contractNo" primary="false" type="String"/>
+        <column db-name="COMPANY_MASTER_SID" name="companyMasterSid" primary="false" type="int"/>
+        <column db-name="NDC8" name="ndc8" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AccClosureDetails" remote-service="false" session-factory="appSessionFactory" table="ACC_CLOSURE_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="ACC_CLOSURE_DETAILS_SID" id-type="identity" name="accClosureDetailsSid" primary="true" type="int"/>
+        <column db-name="CCP_DETAILS_SID" name="ccpDetailsSid" primary="false" type="int"/>
+        <column db-name="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" primary="false" type="int"/>
+        <column db-name="RS_MODEL_SID" name="rsModelSid" primary="false" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AcFdAdjustmentSelection" remote-service="false" session-factory="appSessionFactory" table="AC_FD_ADJUSTMENT_SELECTION" tx-manager="appTransactionManager">
+        <column db-name="METHODOLOGY_START_DATE" name="methodologyStartDate" primary="false" type="String"/>
+        <column db-name="ALLOCATION_METHOD" name="allocationMethod" primary="false" type="int"/>
+        <column db-name="START_DATE" name="startDate" primary="false" type="Date"/>
+        <column db-name="TOTAL_FIXED_DOLLAR_ADJ" name="totalFixedDollarAdj" primary="false" type="double"/>
+        <column db-name="CALCULATION_FLAG" name="calculationFlag" primary="false" type="boolean"/>
+        <column db-name="RATE_CORRECTION" name="rateCorrection" primary="false" type="double"/>
+        <column db-name="BUSINESS_DAYS" name="businessDays" primary="false" type="int"/>
+        <column db-name="GL_IMPACT_DATE" name="glImpactDate" primary="false" type="Date"/>
+        <column db-name="SALES_BASIS" name="salesBasis" primary="false" type="int"/>
+        <column db-name="RELEASE_TYPE" name="releaseType" primary="false" type="boolean"/>
+        <column db-name="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" primary="true" type="int"/>
+        <column db-name="RELEASE_AMOUNT" name="releaseAmount" primary="false" type="double"/>
+        <column db-name="SUGGESTED_ADJ" name="suggestedAdj" primary="false" type="double"/>
+        <column db-name="METHODOLOGY_END_DATE" name="methodologyEndDate" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="SlaCalendarMaster" remote-service="false" session-factory="appSessionFactory" table="SLA_CALENDAR_MASTER" tx-manager="appTransactionManager">
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="SLA_CALENDAR_MASTER_SID" id-type="identity" name="slaCalendarMasterSid" primary="true" type="int"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="DEFAULT_HOLIDAYS" name="defaultHolidays" primary="false" type="boolean"/>
+        <column db-name="CALENDAR_NAME" name="calendarName" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+    </entity>
+    
+        <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AhTempDetails" remote-service="false" session-factory="appSessionFactory" table="AH_TEMP_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
+        <column db-name="CONTRACT_HOLDER" name="contractHolder" primary="false" type="String"/>
+        <column db-name="USER_ID" name="userId" primary="false" type="String"/>
+        <column db-name="ITEM_MASTER_SID" name="itemMasterSid" primary="false" type="int"/>
+        <column db-name="BUSINESS_UNIT_NO" name="businessUnitNo" primary="false" type="String"/>
+        <column db-name="COMPANY_NAME" name="companyName" primary="false" type="String"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="BRAND_NAME" name="brandName" primary="false" type="String"/>
+        <column db-name="COMPONENT_NAME" name="componentName" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="SCREEN_NAME" name="screenName" primary="false" type="String"/>
+        <column db-name="BUSINESS_UNIT_NAME" name="businessUnitName" primary="false" type="String"/>
+        <column db-name="COMPANY_NO" name="companyNo" primary="false" type="String"/>
+        <column db-name="ITEM_IDENTIFIER_TYPE" name="itemIdentifierType" primary="false" type="String"/>
+        <column db-name="COMPONENT_NO" name="componentNo" primary="false" type="String"/>
+        <column db-name="SESSION_ID" name="sessionId" primary="false" type="String"/>
+        <column db-name="ITEM_NAME" name="itemName" primary="false" type="String"/>
+        <column db-name="ITEM_IDENTIFIER" name="itemIdentifier" primary="false" type="String"/>
+        <column db-name="COMPANY_SID" name="companySid" primary="false" type="int"/>
+        <column db-name="ITEM_NO" name="itemNo" primary="false" type="String"/>
+        <column db-name="COMPONENT_TYPE" name="componentType" primary="false" type="String"/>
+        <column db-name="THERAPUTIC_CLASS" name="theraputicClass" primary="false" type="String"/>
+        <column db-name="COMPONENT_MASTER_SID" name="componentMasterSid" primary="true" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffMaster" remote-service="false" session-factory="appSessionFactory" table="CFF_MASTER" tx-manager="appTransactionManager">
+        <column db-name="ACTIVE_FROM_DATE" name="activeFromDate" primary="false" type="Date"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="CFF_TYPE" name="cffType" primary="false" type="int"/>
+        <column db-name="CFF_OFFICIAL" name="cffOfficial" primary="false" type="boolean"/>
+        <column db-name="CFF_MASTER_SID" id-type="identity" name="cffMasterSid" primary="true" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="ACTIVE_TO_DATE" name="activeToDate" primary="false" type="Date"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="CFF_NAME" name="cffName" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffDetails" remote-service="false" session-factory="appSessionFactory" table="CFF_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="CCP_DETAILS_SID" name="ccpDetailsSid" primary="false" type="int"/>
+        <column db-name="PROJECTION_MASTER_SID" name="projectionMasterSid" primary="false" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="CFF_DETAILS_SID" id-type="identity" name="cffDetailsSid" primary="true" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffDocDetails" remote-service="false" session-factory="appSessionFactory" table="CFF_DOC_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="FILE_NAME" name="fileName" primary="false" type="String"/>
+        <column db-name="UPLOAD_DATE" name="uploadDate" primary="false" type="Date"/>
+        <column db-name="FILE_TYPE" name="fileType" primary="false" type="String"/>
+        <column db-name="UPLOAD_BY" name="uploadBy" primary="false" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="CFF_DOC_DETAILS_SID" id-type="identity" name="cffDocDetailsSid" primary="true" type="int"/>
+        <column db-name="FILE_SIZE" name="fileSize" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffApprovalDetails" remote-service="false" session-factory="appSessionFactory" table="CFF_APPROVAL_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="APPROVAL_SEQUENCE" name="approvalSequence" primary="false" type="int"/>
+        <column db-name="APPROVED_DATE" name="approvedDate" primary="false" type="Date"/>
+        <column db-name="APPROVED_BY" name="approvedBy" primary="false" type="int"/>
+        <column db-name="APPROVAL_STATUS" name="approvalStatus" primary="false" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="CFF_APPROVAL_DETAILS_SID" id-type="identity" name="cffApprovalDetailsSid" primary="true" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffAdditionalInfo" remote-service="false" session-factory="appSessionFactory" table="CFF_ADDITIONAL_INFO" tx-manager="appTransactionManager">
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="CFF_ADDITIONAL_INFO_SID" id-type="identity" name="cffAdditionalInfoSid" primary="true" type="int"/>
+        <column db-name="NOTES" name="notes" primary="false" type="String"/>
+    </entity>
+
+      <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffMaster" remote-service="false" session-factory="appSessionFactory" table="CFF_MASTER" tx-manager="appTransactionManager">
+        <column db-name="PRODUCT_HIERARCHY_LEVEL" name="productHierarchyLevel" primary="false" type="int"/>
+        <column db-name="ACTIVE_FROM_DATE" name="activeFromDate" primary="false" type="Date"/>
+        <column db-name="CFF_TYPE" name="cffType" primary="false" type="int"/>
+        <column db-name="CFF_OFFICIAL" name="cffOfficial" primary="false" type="boolean"/>
+        <column db-name="CFF_MASTER_SID" id-type="identity" name="cffMasterSid" primary="true" type="int"/>
+        <column db-name="PRODUCT_HIER_VERSION_NO" name="productHierVersionNo" primary="false" type="int"/>
+        <column db-name="ACTIVE_TO_DATE" name="activeToDate" primary="false" type="Date"/>
+        <column db-name="CUSTOMER_HIER_VERSION_NO" name="customerHierVersionNo" primary="false" type="int"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="CUSTOMER_HIERARCHY_LEVEL" name="customerHierarchyLevel" primary="false" type="int"/>
+        <column db-name="PRODUCT_HIERARCHY_SID" name="productHierarchySid" primary="false" type="int"/>
+        <column db-name="CFF_NAME" name="cffName" primary="false" type="String"/>
+        <column db-name="CUSTOMER_HIERARCHY_INNER_LEVEL" name="customerHierarchyInnerLevel" primary="false" type="int"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="CUSTOMER_HIERARCHY_SID" name="customerHierarchySid" primary="false" type="int"/>
+        <column db-name="COMPANY_GROUP_SID" name="companyGroupSid" primary="false" type="int"/>
+        <column db-name="PROD_RELATIONSHIP_BUILDER_SID" name="prodRelationshipBuilderSid" primary="false" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="PRODUCT_HIERARCHY_INNER_LEVEL" name="productHierarchyInnerLevel" primary="false" type="int"/>
+        <column db-name="ITEM_GROUP_SID" name="itemGroupSid" primary="false" type="int"/>
+        <column db-name="CUST_RELATIONSHIP_BUILDER_SID" name="custRelationshipBuilderSid" primary="false" type="int"/>
+        <column db-name="COMPANY_MASTER_SID" name="companyMasterSid" primary="false" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffDetails" remote-service="false" session-factory="appSessionFactory" table="CFF_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="CCP_DETAILS_SID" name="ccpDetailsSid" primary="false" type="int"/>
+        <column db-name="PROJECTION_MASTER_SID" name="projectionMasterSid" primary="false" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="CFF_DETAILS_SID" id-type="identity" name="cffDetailsSid" primary="true" type="int"/>
+    </entity>
+    
+       <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffCustHierarchy" remote-service="false" session-factory="appSessionFactory" table="CFF_CUST_HIERARCHY" tx-manager="appTransactionManager">
+        <column db-name="CFF_CUST_HIERARCHY_SID" id-type="identity" name="cffCustHierarchySid" primary="true" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="RELATIONSHIP_LEVEL_SID" name="relationshipLevelSid" primary="false" type="int"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffProdHierarchy" remote-service="false" session-factory="appSessionFactory" table="CFF_PROD_HIERARCHY" tx-manager="appTransactionManager">
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="RELATIONSHIP_LEVEL_SID" name="relationshipLevelSid" primary="false" type="int"/>
+        <column db-name="CFF_PROD_HIERARCHY_SID" id-type="identity" name="cffProdHierarchySid" primary="true" type="int"/>
+       </entity>
+   
+     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CustomerGtsForecast" remote-service="false" session-factory="appSessionFactory" table="CUSTOMER_GTS_FORECAST" tx-manager="appTransactionManager">
+        <column db-name="PRICE" name="price" primary="false" type="String"/>
+        <column db-name="ITEM_MASTER_SID" name="itemMasterSid" primary="false" type="int"/>
+        <column db-name="FORECAST_YEAR" name="forecastYear" primary="false" type="String"/>
+        <column db-name="DEDUCTION_AMOUNT" name="deductionAmount" primary="false" type="String"/>
+        <column db-name="DEDUCTION_ID" name="deductionId" primary="false" type="String"/>
+        <column db-name="FORECAST_DATE" name="forecastDate" primary="false" type="Date"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="BRAND_MASTER_SID" name="brandMasterSid" primary="false" type="int"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" primary="false" type="String"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="SALES_AMOUNT" name="salesAmount" primary="false" type="String"/>
+        <column db-name="DEDUCTION_TYPE" name="deductionType" primary="false" type="String"/>
+        <column db-name="COMPANY_MASTER_SID" name="companyMasterSid" primary="false" type="int"/>
+        <column db-name="UNITS" name="units" primary="false" type="String"/>
+        <column db-name="DEDUCTION_RATE" name="deductionRate" primary="false" type="String"/>
+        <column db-name="CUSTOMER_GTS_FORECAST_SID" id-type="identity" name="customerGtsForecastSid" primary="true" type="int"/>
+        <column db-name="COUNTRY" name="country" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="FORECAST_VALUE_TYPE" name="forecastValueType" primary="false" type="String"/>
+        <column db-name="DEDUCTION_CATEGORY" name="deductionCategory" primary="false" type="String"/>
+        <column db-name="ADJUSTMENT_CODE" name="adjustmentCode" primary="false" type="String"/>
+        <column db-name="DEDUCTION_PROGRAM_TYPE" name="deductionProgramType" primary="false" type="String"/>
+        <column db-name="RECORD_LOCK_STATUS" name="recordLockStatus" primary="false" type="boolean"/>
+        <column db-name="SALES_INCLUSION" name="salesInclusion" primary="false" type="String"/>
+        <column db-name="FORECAST_VER" name="forecastVer" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="PRICE_TYPE" name="priceType" primary="false" type="String"/>
+        <column db-name="FORECAST_MONTH" name="forecastMonth" primary="false" type="String"/>
+        <column db-name="DEDUCTION_INCLUSION" name="deductionInclusion" primary="false" type="String"/>
+        <column db-name="SEGMENT" name="segment" primary="false" type="String"/>
+        <column db-name="BRAND" name="brand" primary="false" type="String"/>
+        <column db-name="FORECAST_NAME" name="forecastName" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="IvldCustomerGtsForecast" remote-service="false" session-factory="appSessionFactory" table="IVLD_CUSTOMER_GTS_FORECAST" tx-manager="appTransactionManager">
+        <column db-name="PRICE" name="price" primary="false" type="String"/>
+        <column db-name="FORECAST_YEAR" name="forecastYear" primary="false" type="String"/>
+        <column db-name="DEDUCTION_AMOUNT" name="deductionAmount" primary="false" type="String"/>
+        <column db-name="IVLD_CUSTOMER_GTS_FORECAST_SID" name="ivldCustomerGtsForecastSid" primary="true" type="int"/>
+        <column db-name="DEDUCTION_ID" name="deductionId" primary="false" type="String"/>
+        <column db-name="FORECAST_DATE" name="forecastDate" primary="false" type="Date"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" primary="false" type="String"/>
+        <column db-name="ERROR_CODE" name="errorCode" primary="false" type="String"/>
+        <column db-name="INTF_INSERTED_DATE" name="intfInsertedDate" primary="false" type="Date"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="SALES_AMOUNT" name="salesAmount" primary="false" type="String"/>
+        <column db-name="REPROCESSED_FLAG" name="reprocessedFlag" primary="false" type="String"/>
+        <column db-name="UDC6" name="udc6" primary="false" type="String"/>
+        <column db-name="UDC5" name="udc5" primary="false" type="String"/>
+        <column db-name="DEDUCTION_TYPE" name="deductionType" primary="false" type="String"/>
+        <column db-name="UDC4" name="udc4" primary="false" type="String"/>
+        <column db-name="UDC1" name="udc1" primary="false" type="String"/>
+        <column db-name="UNITS" name="units" primary="false" type="String"/>
+        <column db-name="DEDUCTION_RATE" name="deductionRate" primary="false" type="String"/>
+        <column db-name="UDC2" name="udc2" primary="false" type="String"/>
+        <column db-name="UDC3" name="udc3" primary="false" type="String"/>
+        <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
+        <column db-name="COUNTRY" name="country" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="FORECAST_VALUE_TYPE" name="forecastValueType" primary="false" type="String"/>
+        <column db-name="DEDUCTION_CATEGORY" name="deductionCategory" primary="false" type="String"/>
+        <column db-name="ADJUSTMENT_CODE" name="adjustmentCode" primary="false" type="String"/>
+        <column db-name="DEDUCTION_PROGRAM_TYPE" name="deductionProgramType" primary="false" type="String"/>
+        <column db-name="CUSTOMER_GTS_FORECAST_INTF_ID" name="customerGtsForecastIntfId" primary="false" type="int"/>
+        <column db-name="SALES_INCLUSION" name="salesInclusion" primary="false" type="String"/>
+        <column db-name="FORECAST_VER" name="forecastVer" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="PRICE_TYPE" name="priceType" primary="false" type="String"/>
+        <column db-name="FORECAST_MONTH" name="forecastMonth" primary="false" type="String"/>
+        <column db-name="DEDUCTION_INCLUSION" name="deductionInclusion" primary="false" type="String"/>
+        <column db-name="ERROR_FIELD" name="errorField" primary="false" type="String"/>
+        <column db-name="SEGMENT" name="segment" primary="false" type="String"/>
+        <column db-name="BRAND" name="brand" primary="false" type="String"/>
+        <column db-name="FORECAST_NAME" name="forecastName" primary="false" type="String"/>
+    </entity>
+     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="VwCustomerGtsForecast" remote-service="false" session-factory="appSessionFactory" table="VW_CUSTOMER_GTS_FORECAST" tx-manager="appTransactionManager">
+        <column db-name="PRICE" name="price" primary="false" type="double"/>
+        <column db-name="FORECAST_YEAR" name="forecastYear" primary="false" type="String"/>
+        <column db-name="DEDUCTION_AMOUNT" name="deductionAmount" primary="false" type="double"/>
+        <column db-name="DEDUCTION_ID" name="deductionId" primary="false" type="String"/>
+        <column db-name="FORECAST_DATE" name="forecastDate" primary="false" type="Date"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" primary="false" type="String"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="SALES_AMOUNT" name="salesAmount" primary="false" type="double"/>
+        <column db-name="UDC6" name="udc6" primary="false" type="String"/>
+        <column db-name="UDC5" name="udc5" primary="false" type="String"/>
+        <column db-name="DEDUCTION_TYPE" name="deductionType" primary="false" type="String"/>
+        <column db-name="UDC4" name="udc4" primary="false" type="String"/>
+        <column db-name="UNITS" name="units" primary="false" type="double"/>
+        <column db-name="DEDUCTION_RATE" name="deductionRate" primary="false" type="double"/>
+        <column db-name="UDC1" name="udc1" primary="false" type="String"/>
+        <column db-name="CUSTOMER_GTS_FORECAST_SID" name="customerGtsForecastSid" primary="true" type="int"/>
+        <column db-name="UDC2" name="udc2" primary="false" type="String"/>
+        <column db-name="UDC3" name="udc3" primary="false" type="String"/>
+        <column db-name="COUNTRY" name="country" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="FORECAST_VALUE_TYPE" name="forecastValueType" primary="false" type="String"/>
+        <column db-name="DEDUCTION_CATEGORY" name="deductionCategory" primary="false" type="String"/>
+        <column db-name="ADJUSTMENT_CODE" name="adjustmentCode" primary="false" type="String"/>
+        <column db-name="DEDUCTION_PROGRAM_TYPE" name="deductionProgramType" primary="false" type="String"/>
+        <column db-name="CUSTOMER_GTS_FORECAST_INTF_ID" name="customerGtsForecastIntfId" primary="false" type="int"/>
+        <column db-name="SALES_INCLUSION" name="salesInclusion" primary="false" type="String"/>
+        <column db-name="FORECAST_VER" name="forecastVer" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="PRICE_TYPE" name="priceType" primary="false" type="String"/>
+        <column db-name="FORECAST_MONTH" name="forecastMonth" primary="false" type="String"/>
+        <column db-name="DEDUCTION_INCLUSION" name="deductionInclusion" primary="false" type="String"/>
+        <column db-name="SEGMENT" name="segment" primary="false" type="String"/>
+        <column db-name="BRAND" name="brand" primary="false" type="String"/>
+        <column db-name="FORECAST_NAME" name="forecastName" primary="false" type="String"/>
+    </entity>
+        <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="AdjustedDemandForecast" remote-service="false" session-factory="appSessionFactory" table="ADJUSTED_DEMAND_FORECAST" tx-manager="appTransactionManager">
+        <column db-name="ITEM_MASTER_SID" name="itemMasterSid" primary="false" type="int"/>
+        <column db-name="ADJUSTED_DEMAND_FORECAST_SID" id-type="identity" name="adjustedDemandForecastSid" primary="true" type="int"/>
+        <column db-name="GROSS_UNITS" name="grossUnits" primary="false" type="double"/>
+        <column db-name="TOTAL_DEMAND_UNITS" name="totalDemandUnits" primary="false" type="double"/>
+        <column db-name="YEAR" name="year" primary="false" type="String"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="BRAND_MASTER_SID" name="brandMasterSid" primary="false" type="int"/>
+        <column db-name="ORGANIZATION_KEY" name="organizationKey" primary="false" type="String"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="MARKET_SHARE_RATIO" name="marketShareRatio" primary="false" type="String"/>
+        <column db-name="ITEM_IDENTIFIER" name="itemIdentifier" primary="false" type="String"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="MARKET_SHARE_UNITS" name="marketShareUnits" primary="false" type="double"/>
+        <column db-name="MONTH" name="month" primary="false" type="String"/>
+        <column db-name="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" primary="false" type="double"/>
+        <column db-name="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" primary="false" type="String"/>
+        <column db-name="COUNTRY" name="country" primary="false" type="String"/>
+        <column db-name="FORECAST_TYPE" name="forecastType" primary="false" type="String"/>
+        <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
+        <column db-name="UNCAPTURED_UNITS" name="uncapturedUnits" primary="false" type="double"/>
+        <column db-name="GROSS_PRICE" name="grossPrice" primary="false" type="double"/>
+        <column db-name="RECORD_LOCK_STATUS" name="recordLockStatus" primary="false" type="boolean"/>
+        <column db-name="GROSS_AMOUNT" name="grossAmount" primary="false" type="double"/>
+        <column db-name="ITEM_IDENTIFIER_CODE_QUALIFIER" name="itemIdentifierCodeQualifier" primary="false" type="String"/>
+        <column db-name="FORECAST_VER" name="forecastVer" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="NET_SALES_PRICE" name="netSalesPrice" primary="false" type="double"/>
+        <column db-name="NET_SALES_AMOUNT" name="netSalesAmount" primary="false" type="double"/>
+        <column db-name="SEGMENT" name="segment" primary="false" type="String"/>
+        <column db-name="TOTAL_DEMAND_AMOUNT" name="totalDemandAmount" primary="false" type="double"/>
+        <column db-name="FORECAST_NAME" name="forecastName" primary="false" type="String"/>
+        <column db-name="MARKET_SIZE_UNITS" name="marketSizeUnits" primary="false" type="double"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffCustomViewMaster" remote-service="false" session-factory="appSessionFactory" table="CFF_CUSTOM_VIEW_MASTER" tx-manager="appTransactionManager">
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="int"/>
+        <column db-name="CFF_CUSTOM_VIEW_MASTER_SID" id-type="identity" name="cffCustomViewMasterSid" primary="true" type="int"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="VIEW_NAME" name="viewName" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffCustomViewDetails" remote-service="false" session-factory="appSessionFactory" table="CFF_CUSTOM_VIEW_DETAILS" tx-manager="appTransactionManager">
+        <column db-name="HIERARCHY_ID" name="hierarchyId" primary="false" type="int"/>
+        <column db-name="HIERARCHY_INDICATOR" name="hierarchyIndicator" primary="false" type="String"/>
+        <column db-name="CFF_CUSTOM_VIEW_DETAILS_SID" id-type="identity" name="cffCustomViewDetailsSid" primary="true" type="int"/>
+        <column db-name="LEVEL_NO" name="levelNo" primary="false" type="int"/>
+        <column db-name="CFF_CUSTOM_VIEW_MASTER_SID" name="cffCustomViewMasterSid" primary="false" type="int"/>
+    </entity>
+        <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CffViewMaster" remote-service="false" session-factory="appSessionFactory" table="CFF_VIEW_MASTER" tx-manager="appTransactionManager">
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="VIEW_TYPE" name="viewType" primary="false" type="String"/>
+        <column db-name="CFF_VIEW_MASTER_SID" id-type="identity" name="cffViewMasterSid" primary="true" type="int"/>
+        <column db-name="CFF_MASTER_SID" name="cffMasterSid" primary="false" type="int"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="VIEW_NAME" name="viewName" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="VwIvldAdjDemandForeActual" remote-service="false" session-factory="appSessionFactory" table="VW_IVLD_ADJ_DEMAND_FORE_ACTUAL" tx-manager="appTransactionManager">
+        <column db-name="FORECAST_VERSION" name="forecastVersion" primary="false" type="String"/>
+        <column db-name="GROSS_UNITS" name="grossUnits" primary="false" type="String"/>
+        <column db-name="BUSINESS_UNIT_NO" name="businessUnitNo" primary="false" type="String"/>
+        <column db-name="YEAR" name="year" primary="false" type="String"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="BRAND_NAME" name="brandName" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="ORGANIZATION_KEY" name="organizationKey" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="MARKET_SHARE_RATIO" name="marketShareRatio" primary="false" type="String"/>
+        <column db-name="BUSINESS_UNIT_NAME" name="businessUnitName" primary="false" type="String"/>
+        <column db-name="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" primary="false" type="String"/>
+        <column db-name="ITEM_IDENTIFIER" name="itemIdentifier" primary="false" type="String"/>
+        <column db-name="ERROR_CODE" name="errorCode" primary="false" type="String"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="MARKET_SHARE_UNITS" name="marketShareUnits" primary="false" type="String"/>
+        <column db-name="MONTH" name="month" primary="false" type="String"/>
+        <column db-name="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" primary="false" type="String"/>
+        <column db-name="REPROCESSED_FLAG" name="reprocessedFlag" primary="false" type="String"/>
+        <column db-name="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" primary="false" type="String"/>
+        <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
+        <column db-name="ADJUSTED_DEMAND_FORECAST_INTF_ID" name="adjustedDemandForecastIntfId" primary="false" type="String"/>
+        <column db-name="COUNTRY" name="country" primary="false" type="String"/>
+        <column db-name="FORECAST_TYPE" name="forecastType" primary="false" type="String"/>
+        <column db-name="TOTAL_ADJUSTED_DEMAND_UNITS" name="totalAdjustedDemandUnits" primary="false" type="String"/>
+        <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
+        <column db-name="IS_FORECAST" name="isForecast" primary="false" type="String"/>
+        <column db-name="TOTAL_ADJUSTED_DEMAND_AMOUNT" name="totalAdjustedDemandAmount" primary="false" type="String"/>
+        <column db-name="UNCAPTURED_UNITS" name="uncapturedUnits" primary="false" type="String"/>
+        <column db-name="GROSS_PRICE" name="grossPrice" primary="false" type="String"/>
+        <column db-name="GROSS_AMOUNT" name="grossAmount" primary="false" type="String"/>
+        <column db-name="ITEM_IDENTIFIER_CODE_QUALIFIER" name="itemIdentifierCodeQualifier" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="ITEM_NAME" name="itemName" primary="false" type="String"/>
+        <column db-name="ERROR_FIELD" name="errorField" primary="false" type="String"/>
+        <column db-name="NET_SALES_PRICE" name="netSalesPrice" primary="false" type="String"/>
+        <column db-name="NET_SALES_AMOUNT" name="netSalesAmount" primary="false" type="String"/>
+        <column db-name="SEGMENT" name="segment" primary="false" type="String"/>
+        <column db-name="FORECAST_NAME" name="forecastName" primary="false" type="String"/>
+        <column db-name="IVLD_ADJUSTED_DEMAND_FORECAST_SID" name="ivldAdjustedDemandForecastSid" primary="true" type="int"/>
+        <column db-name="MARKET_SIZE_UNITS" name="marketSizeUnits" primary="false" type="String"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" 
+            name="VwAdjustDemandForecastAct" remote-service="false" 
+            session-factory="appSessionFactory" table="VW_ADJUST_DEMAND_FORECAST_ACT"
+            tx-manager="appTransactionManager">
+        <column db-name="FORECAST_VERSION" name="forecastVersion" primary="false" type="String"/>
+        <column db-name="GROSS_UNITS" name="grossUnits" primary="false" type="double"/>
+        <column db-name="BUSINESS_UNIT_NO" name="businessUnitNo" primary="false" type="String"/>
+        <column db-name="YEAR" name="year" primary="false" type="String"/>
+        <column db-name="BRAND_NAME" name="brandName" primary="false" type="String"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="ORGANIZATION_KEY" name="organizationKey" primary="false" type="String"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="MARKET_SHARE_RATIO" name="marketShareRatio" primary="false" type="int"/>
+        <column db-name="BUSINESS_UNIT_NAME" name="businessUnitName" primary="false" type="String"/>
+        <column db-name="MARKET_SHARE_UNITS" name="marketShareUnits" primary="false" type="double"/>
+        <column db-name="MONTH" name="month" primary="false" type="String"/>
+        <column db-name="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" primary="false" type="double"/>
+        <column db-name="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" primary="false" type="String"/>
+        <column db-name="COUNTRY" name="country" primary="false" type="String"/>
+        <column db-name="FORECAST_TYPE" name="forecastType" primary="false" type="String"/>
+        <column db-name="TOTAL_ADJUSTED_DEMAND_UNITS" name="totalAdjustedDemandUnits" primary="false" type="double"/>
+        <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
+        <column db-name="IS_FORECAST" name="isForecast" primary="false" type="String"/>
+        <column db-name="TOTAL_ADJUSTED_DEMAND_AMOUNT" name="totalAdjustedDemandAmount" primary="false" type="double"/>
+        <column db-name="UNCAPTURED_UNITS" name="uncapturedUnits" primary="false" type="double"/>
+        <column db-name="GROSS_PRICE" name="grossPrice" primary="false" type="double"/>
+        <column db-name="GROSS_AMOUNT" name="grossAmount" primary="false" type="double"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="ADJUSTED_DEMAND_FORECAST_ID" name="adjustedDemandForecastId" primary="true" type="int"/>
+        <column db-name="ITEM_NAME" name="itemName" primary="false" type="String"/>
+        <column db-name="NET_SALES_PRICE" name="netSalesPrice" primary="false" type="double"/>
+        <column db-name="NET_SALES_AMOUNT" name="netSalesAmount" primary="false" type="double"/>
+        <column db-name="SEGMENT" name="segment" primary="false" type="String"/>
+        <column db-name="FORECAST_NAME" name="forecastName" primary="false" type="String"/>
+        <column db-name="MARKET_SIZE_UNITS" name="marketSizeUnits" primary="false" type="double"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="CustomerGtsActual" remote-service="false" session-factory="appSessionFactory" table="CUSTOMER_GTS_ACTUAL" tx-manager="appTransactionManager">
+        <column db-name="PARENT_ACCOUNT_ID" name="parentAccountId" primary="false" type="String"/>
+        <column db-name="CONTRACT_ID" name="contractId" primary="false" type="String"/>
+        <column db-name="ACCOUNT_ID" name="accountId" primary="false" type="String"/>
+        <column db-name="CUSTOMER_GTS_ACTUAL_SID" id-type="identity" name="customerGtsActualSid" primary="true" type="int"/>
+        <column db-name="ORDER_RECEIVED_DATE" name="orderReceivedDate" primary="false" type="Date"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="AMOUNT" name="amount" primary="false" type="double"/>
+        <column db-name="ORDER_NUMBER" name="orderNumber" primary="false" type="String"/>
+        <column db-name="ORGANIZATION_KEY" name="organizationKey" primary="false" type="String"/>
+        <column db-name="INVOICE_DATE" name="invoiceDate" primary="false" type="Date"/>
+        <column db-name="CUSTOMER_GTS_ACTUAL_INTF_ID" name="customerGtsActualIntfId" primary="false" type="int"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="SALES_ID" name="salesId" primary="false" type="String"/>
+        <column db-name="ITEM_UOM" name="itemUom" primary="false" type="String"/>
+        <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="INVOICE_NUMBER" name="invoiceNumber" primary="false" type="String"/>
+        <column db-name="LOT_NO" name="lotNo" primary="false" type="String"/>
+        <column db-name="INVOICE_LINE_NUMBER" name="invoiceLineNumber" primary="false" type="String"/>
+        <column db-name="QUANTITY" name="quantity" primary="false" type="double"/>
+    </entity>
+    <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="IvldCustomerGtsActual" remote-service="false" session-factory="appSessionFactory" table="IVLD_CUSTOMER_GTS_ACTUAL" tx-manager="appTransactionManager">
+        <column db-name="PARENT_ACCOUNT_ID" name="parentAccountId" primary="false" type="String"/>
+        <column db-name="IVLD_CUSTOMER_GTS_ACTUAL_SID" id-type="identity" name="ivldCustomerGtsActualSid" primary="true" type="int"/>
+        <column db-name="ACCOUNT_ID" name="accountId" primary="false" type="String"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="ORDER_RECEIVED_DATE" name="orderReceivedDate" primary="false" type="Date"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="ORDER_NUMBER" name="orderNumber" primary="false" type="String"/>
+        <column db-name="ORGANIZATION_KEY" name="organizationKey" primary="false" type="String"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="String"/>
+        <column db-name="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" primary="false" type="String"/>
+        <column db-name="ERROR_CODE" name="errorCode" primary="false" type="String"/>
+        <column db-name="ITEM_UOM" name="itemUom" primary="false" type="String"/>
+        <column db-name="INVOICE_NUMBER" name="invoiceNumber" primary="false" type="String"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="INTF_INSERTED_DATE" name="intfInsertedDate" primary="false" type="Date"/>
+        <column db-name="LOT_NO" name="lotNo" primary="false" type="String"/>
+        <column db-name="REPROCESSED_FLAG" name="reprocessedFlag" primary="false" type="String"/>
+        <column db-name="QUANTITY" name="quantity" primary="false" type="String"/>
+        <column db-name="INVOICE_LINE_NUMBER" name="invoiceLineNumber" primary="false" type="String"/>
+        <column db-name="CONTRACT_ID" name="contractId" primary="false" type="String"/>
+        <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
+        <column db-name="AMOUNT" name="amount" primary="false" type="String"/>
+        <column db-name="INVOICE_DATE" name="invoiceDate" primary="false" type="Date"/>
+        <column db-name="CUSTOMER_GTS_ACTUAL_INTF_ID" name="customerGtsActualIntfId" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="SALES_ID" name="salesId" primary="false" type="String"/>
+        <column db-name="ERROR_FIELD" name="errorField" primary="false" type="String"/>
+    </entity> 
+     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="IvldAccrualInbound" remote-service="false" session-factory="appSessionFactory" table="IVLD_ACCRUAL_INBOUND" tx-manager="appTransactionManager">
+        <column db-name="RECORD_CREATED_DATE" name="recordCreatedDate" primary="false" type="String"/>
+        <column db-name="ACCOUNT_ID" name="accountId" primary="false" type="String"/>
+        <column db-name="POSTING_INDICATOR" name="postingIndicator" primary="false" type="String"/>
+        <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
+        <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
+        <column db-name="ACCRUAL_PERIOD_END_DATE" name="accrualPeriodEndDate" primary="false" type="String"/>
+        <column db-name="ITEM_IDENT_CODE_QUALIFIER" name="itemIdentCodeQualifier" primary="false" type="String"/>
+        <column db-name="GL_COMPANY_MASTER_SID" name="glCompanyMasterSid" primary="false" type="String"/>
+        <column db-name="SALES_MASTER_ID" name="salesMasterId" primary="false" type="String"/>
+        <column db-name="CREATED_DATE" name="createdDate" primary="false" type="Date"/>
+        <column db-name="CREATED_BY" name="createdBy" primary="false" type="String"/>
+        <column db-name="SOURCE" name="source" primary="false" type="String"/>
+        <column db-name="ACCRUAL_PERIOD_START_DATE" name="accrualPeriodStartDate" primary="false" type="String"/>
+        <column db-name="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" primary="false" type="String"/>
+        <column db-name="SUB_LEDGER_TYPE" name="subLedgerType" primary="false" type="String"/>
+        <column db-name="PROGRAM_NO" name="programNo" primary="false" type="String"/>
+        <column db-name="DOCUMENT_TYPE" name="documentType" primary="false" type="String"/>
+        <column db-name="ACCRUAL_INTFID" name="accrualIntfid" primary="false" type="String"/>
+        <column db-name="GL_COMPANY_NAME" name="glCompanyName" primary="false" type="String"/>
+        <column db-name="ERROR_CODE" name="errorCode" primary="false" type="String"/>
+        <column db-name="INTF_INSERTED_DATE" name="intfInsertedDate" primary="false" type="Date"/>
+        <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
+        <column db-name="CATEGORY_ID" name="categoryId" primary="false" type="String"/>
+        <column db-name="ITEM_NO" name="itemNo" primary="false" type="String"/>
+        <column db-name="REPROCESSED_FLAG" name="reprocessedFlag" primary="false" type="String"/>
+        <column db-name="COMP_IDENT_CODE_QUALIFIER" name="compIdentCodeQualifier" primary="false" type="String"/>
+        <column db-name="ACCT_IDENT_CODE_QUALIFIER" name="acctIdentCodeQualifier" primary="false" type="String"/>
+        <column db-name="CONTRACT_ID" name="contractId" primary="false" type="String"/>
+        <column db-name="ACCOUNT_NO" name="accountNo" primary="false" type="String"/>
+        <column db-name="ACCRUAL_ID" name="accrualId" primary="false" type="String"/>
+        <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="ACCOUNT_NAME" name="accountName" primary="false" type="String"/>
+        <column db-name="ACCRUAL_TYPE" name="accrualType" primary="false" type="String"/>
+        <column db-name="POSTING_DATE" name="postingDate" primary="false" type="String"/>
+        <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
+        <column db-name="PROVISION_ID" name="provisionId" primary="false" type="String"/>
+        <column db-name="AMOUNT" name="amount" primary="false" type="String"/>
+        <column db-name="GL_DATE" name="glDate" primary="false" type="String"/>
+        <column db-name="SUB_LEDGER" name="subLedger" primary="false" type="String"/>
+        <column db-name="COMPANY_COST_CENTER" name="companyCostCenter" primary="false" type="String"/>
+        <column db-name="GL_ACCOUNT" name="glAccount" primary="false" type="String"/>
+        <column db-name="COMPANY_NO" name="companyNo" primary="false" type="String"/>
+        <column db-name="BATCH_ID" name="batchId" primary="false" type="String"/>
+        <column db-name="PROGRAM_TYPE" name="programType" primary="false" type="String"/>
+        <column db-name="ITEM_NAME" name="itemName" primary="false" type="String"/>
+        <column db-name="ERROR_FIELD" name="errorField" primary="false" type="String"/>
+        <column db-name="IVLD_ACCRUAL_INBOUND_SID" id-type="identity" name="ivldAccrualInboundSid" primary="true" type="int"/>
+        <column db-name="CONTRACT_NO" name="contractNo" primary="false" type="String"/>
+        <column db-name="BRAND_NAME" name="brandName" primary="false" type="String"/>
+        <column db-name="CONTRACT_NAME" name="contractName" primary="false" type="String"/>
+    </entity>
+    <exceptions />
+
+</service-builder>

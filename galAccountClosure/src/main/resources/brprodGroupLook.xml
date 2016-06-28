@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable"  xmlns:p="urn:vaadin:parent">
+    <VerticalLayout margin="true" spacing="true" >
+        <Panel id="ProductGroupPanel" caption="Search Criteria">
+            <GridLayout id="gLayout" rows="2" columns="2" margin="true" spacing="true">
+                <Label caption="Product Group Name:" contentMode="HTML" />
+                <TextField id="productGroupName" inputPrompt=""  />
+                <Label caption="Product Group#:" contentMode="HTML" />
+                <TextField id="productGroup" inputPrompt=""  />
+            </GridLayout>
+        </Panel>
+        <HorizontalLayout margin="false" spacing="true">
+             <Button id="searchBtnCGL" caption="SEARCH"  />
+            <Button id="resetBtnCGL" caption="RESET"  />
+        </HorizontalLayout>
+        <Panel caption="Results" >
+            <VerticalLayout id="resultsLayout">
+                <a:ExtFilterTable id="resultsTableCGL" width="100%" height="50%" styleName="table-header-normal" immediate="true" />
+            </VerticalLayout>
+            
+        </Panel>
+        <HorizontalLayout margin="false" spacing="true">
+            <Button id="selectBtnCGL" caption="SELECT"  />
+            <Button id="cancelBtnCGL" caption="CANCEL"  />
+            <Button id="resultResetBtnCGL" caption="RESET"  />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

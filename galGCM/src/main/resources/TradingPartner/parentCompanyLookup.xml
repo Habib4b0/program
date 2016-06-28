@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<Panel xmlns:b="urn:import:org.asi.ui.extfilteringtable">
+    <VerticalLayout margin = "true">
+                <HorizontalLayout margin = "true">
+                    <GridLayout spacing = "true" immediate = "true" columns = "6" rows = "2">
+                        <Label caption="Company ID: " contentMode="HTML" />
+                        <TextField id="companyId" immediate="true" />
+                        <Label caption="Company No: " contentMode="HTML" />
+                        <TextField id="companyNo" immediate="true" />
+                        <Label caption="Company Name: " contentMode="HTML" />
+                        <TextField id="companyName" immediate="true" />
+                        <Label caption="Company Status: " contentMode="HTML" />
+                        <ComboBox id="companyStatus" immediate="true" width = "205px"/>
+                        <Label caption="Company Type: " contentMode="HTML" />
+                        <ComboBox id="companyType" immediate="true" width = "205px"/>
+                    </GridLayout>
+                </HorizontalLayout>
+        <HorizontalLayout margin = "true">
+            <GridLayout spacing = "true" immediate = "true" columns = "2" rows = "1">
+                <Button id = "searchBtn" caption = "SEARCH"/>
+                <Button id = "resetBtn" caption = "RESET"/>
+            </GridLayout>
+        </HorizontalLayout>
+        <VerticalLayout id="companySearchTableLayout" spacing="true" margin="false" immediate="true">
+                </VerticalLayout>
+        <VerticalLayout spacing = "true">
+            <Button id = "selectBtn" caption = "SELECT"/>
+        </VerticalLayout>
+    </VerticalLayout>
+</Panel>

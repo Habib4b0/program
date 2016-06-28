@@ -1,0 +1,41 @@
+<Panel id="lookup" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:el="urn:import:com.stpl.app.ui.errorhandling"
+	xmlns:c="urn:import:org.asi.ui.customcombobox"> 
+<VerticalLayout margin="true" spacing="true" >
+
+	<el:ErrorLabel id="errorMsg" />
+
+	<HorizontalLayout id="hlayout" spacing="false" margin="false" immediate="true" styleName="responsiveTabGrid">
+		<CssLayout id="cssLayout" spacing="true" immediate="true" width="100%" height="100%">
+			<Label id="scheduleIdLb"  contentMode="HTML" immediate="true" />
+			<TextField id="scheduleId" enabled="true" immediate="true" />
+			<Label id="scheduleNoLb"  contentMode="HTML" immediate="true" />
+			<TextField id="scheduleNo" enabled="true" immediate="true" />
+			<Label id="scheduleNameLb"  contentMode="HTML" immediate="true" />
+			<TextField id="scheduleName" enabled="true" immediate="true" />
+                        <Label id="scheduleTypeLb"  contentMode="HTML" immediate="true" />
+			<c:CustomComboBox id="scheduleType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+			<Label id="scheduleStatusLb"  contentMode="HTML" immediate="true" />
+			<c:CustomComboBox id="scheduleStatus" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+			<Label id="itemIdLb"  contentMode="HTML" immediate="true" />
+			<TextField id="itemId" enabled="true" immediate="true" />
+			<Label id="itemNoLb"  contentMode="HTML" immediate="true" />
+			<TextField id="itemNo" enabled="true" immediate="true" />
+			<Label id="itemNameLb"  contentMode="HTML" immediate="true" />
+			<TextField id="itemName" enabled="true" immediate="true" />
+		</CssLayout>
+	</HorizontalLayout>
+
+	<HorizontalLayout immediate="true" spacing="true">
+		<Button id="searchBtn" caption="SEARCH" immediate="true" width="80" />
+		<Button id="resetBtn" caption="RESET" immediate="true" width="80" />
+	</HorizontalLayout>
+
+	<VerticalLayout id="tablelayout" spacing="true"/>        
+        <HorizontalLayout id="controlLayout"/>
+         <HorizontalLayout immediate="true" spacing="true">
+            <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
+            <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" />
+        </HorizontalLayout>
+
+</VerticalLayout>
+</Panel>

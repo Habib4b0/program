@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns="urn:import:com.vaadin.ui"   xmlns:p="urn:vaadin:parent">
+
+    <VerticalLayout styleName = "width-auto" spacing="true" margin="true" caption="Contract"
+                 immediate="true">
+        <HorizontalLayout  spacing="true" immediate="true">
+            <!-- Brand -->
+			
+            <Panel caption="Brand">
+                <VerticalLayout spacing="true" margin="true" caption="Contract"
+                                        immediate="true">
+                    <Panel caption= "Search Criteria" height="110px" width="400px">
+                        <HorizontalLayout spacing="false" margin="true" immediate="true">
+                            <Label caption="Brand Name" contentMode="HTML" /> 
+                            <TextField id="brandName" inputPrompt="" immediate="true" />
+                        </HorizontalLayout>
+                    </Panel>
+			
+                    <HorizontalLayout spacing="false" immediate="true">
+                        <Button id="searchBrand" caption="SEARCH"></Button>
+                        <Button id="resetBrand" caption="RESET"></Button>
+                    </HorizontalLayout>
+			
+                    <Panel caption="Results">
+                        <ExtTable id="brandResultsTable" width="400px" height="300px"  immediate="true"/>		
+                    </Panel>
+                </VerticalLayout>
+            </Panel>
+        </HorizontalLayout>
+        <HorizontalLayout spacing="true" immediate="true">
+            <Button id="importBtn" caption="IMPORT"></Button>
+            <Button id="closeBtn" caption="CLOSE"></Button>
+        </HorizontalLayout> 
+    </VerticalLayout>
+</Panel>

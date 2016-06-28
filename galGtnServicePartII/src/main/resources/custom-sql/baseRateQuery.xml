@@ -1,0 +1,1322 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="bravailableCustomers">
+		<![CDATA[
+                        SELECT ?QU?,
+                        AVG(ISNULL(BRS.CURRENT_RATE,0)) AS CURRENT_RATE,ISNULL(ACM.WORKFLOW_STATUS,0) AS STATUS
+                        from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID AND
+                        CN.CONTRACT_TYPE = ?CT? AND RSC.REBATE_PROGRAM_TYPE = ?RPT? 
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID AND 
+                        UD.MASTER_TYPE = 'RS_CONTRACT' AND  UD.UDC2 = ?UDC?
+                        JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID
+                        JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                        JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID
+                        JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND
+                        CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                        ?CG?
+                        ?IG?
+                        LEFT JOIN ACC_CLOSURE_DETAILS ACD ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID
+                        LEFT JOIN AC_BASE_RATE_SUMMARY BRS ON ACD.ACC_CLOSURE_DETAILS_SID = BRS.ACC_CLOSURE_DETAILS_SID
+                        LEFT JOIN ACC_CLOSURE_MASTER ACM ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+                        JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                        JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+                        WHERE  IM.ITEM_MASTER_SID LIKE '?ISID?'
+                        AND CN.CONTRACT_MASTER_SID LIKE '?CSID?'
+                        ?CGSID?
+                        ?PGSID?
+                        GROUP BY ?QU?,ISNULL(ACM.WORKFLOW_STATUS,0)
+                        ORDER BY ?QU?
+  		]]>
+    </sql>
+    <sql id="bravailableCustomersCount">
+		<![CDATA[
+                SELECT count  (*) from (
+                        SELECT ?QU?,
+                        AVG(ISNULL(BRS.CURRENT_RATE,0)) AS CURRENT_RATE,ISNULL(ACM.WORKFLOW_STATUS,0) AS STATUS
+                        from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID AND
+                        CN.CONTRACT_TYPE = ?CT? AND RSC.REBATE_PROGRAM_TYPE = ?RPT? 
+                        JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID AND 
+                        UD.MASTER_TYPE = 'RS_CONTRACT' AND  UD.UDC2 = ?UDC?
+                        JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID
+                        JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                        JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID
+                        JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND
+                        CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                        ?CG?
+                        ?IG?
+                        LEFT JOIN ACC_CLOSURE_DETAILS ACD ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID
+                        LEFT JOIN AC_BASE_RATE_SUMMARY BRS ON ACD.ACC_CLOSURE_DETAILS_SID = BRS.ACC_CLOSURE_DETAILS_SID
+                        LEFT JOIN ACC_CLOSURE_MASTER ACM ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+                        JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                        JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+                        WHERE IM.ITEM_MASTER_SID LIKE '?ISID?'
+                        AND CN.CONTRACT_MASTER_SID LIKE '?CSID?'
+                        ?CGSID?
+                        ?PGSID?
+                        GROUP BY ?QU?,ISNULL(ACM.WORKFLOW_STATUS,0)
+                    ) rslt;
+                ]]>
+    </sql>
+    <sql id="insertccp">
+		<![CDATA[
+                    SELECT DISTINCT CM.COMPANY_MASTER_SID,CN.CONTRACT_MASTER_SID,IM.ITEM_MASTER_SID, CCP.CCP_DETAILS_SID,RSC.RS_MODEL_SID
+                        from CONTRACT_MASTER CN 
+                       JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID AND 
+                        CN.CONTRACT_TYPE = ?CT? AND 
+                       RSC.REBATE_PROGRAM_TYPE = ?RPT? JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID AND 
+                       UD.MASTER_TYPE = 'RS_CONTRACT' AND  UD.UDC2 = 938 JOIN CCP_DETAILS CCP ON 
+                       CCP.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = 
+                       CM.COMPANY_MASTER_SID JOIN RS_CONTRACT_DETAILS RSD ON RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID 
+                       JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                         JOIN ST_ACC_CLOSURE_DETAILS ACD ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID AND ACD.USER_ID = '?UID?'
+                        AND ACD.SESSION_ID = '?SID?' AND ACD.CHECK_RECORD = '1'
+                        WHERE IM.ITEM_MASTER_SID LIKE '?ISID?' 
+                       AND CN.CONTRACT_MASTER_SID LIKE '?CSID?'
+                        GROUP BY CM.COMPANY_MASTER_SID,CN.CONTRACT_MASTER_SID,IM.ITEM_MASTER_SID,
+                        CCP.CCP_DETAILS_SID,RSC.RS_MODEL_SID;                
+  		]]>
+    </sql>
+    <sql id="inserttempccp">
+		<![CDATA[
+                    SELECT DISTINCT CM.COMPANY_MASTER_SID,CN.CONTRACT_MASTER_SID,IM.ITEM_MASTER_SID,
+                        CCP.CCP_DETAILS_SID,AVG(ISNULL(BRS.CURRENT_RATE,0)) AS CURRENT_RATE
+                        ,ISNULL(ACM.WORKFLOW_STATUS,0) AS STATUS
+                         from CONTRACT_MASTER CN 
+                        JOIN RS_CONTRACT RSC ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID AND
+                         CN.CONTRACT_TYPE = ?CT? AND
+                         RSC.REBATE_PROGRAM_TYPE = ?RPT? JOIN UDCS UD ON RSC.RS_CONTRACT_SID = UD.MASTER_SID AND 
+                        UD.MASTER_TYPE = 'RS_CONTRACT' AND  UD.UDC2 = ?UDC? JOIN CCP_DETAILS CCP ON
+                         CCP.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID JOIN COMPANY_MASTER CM ON 
+                        CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID JOIN RS_CONTRACT_DETAILS RSD ON 
+                        RSC.RS_CONTRACT_SID = RSD.RS_CONTRACT_SID JOIN ITEM_MASTER IM ON RSD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                         AND CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID LEFT JOIN ACC_CLOSURE_DETAILS ACD 
+                        ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID LEFT JOIN AC_BASE_RATE_SUMMARY BRS
+                         ON ACD.ACC_CLOSURE_DETAILS_SID = BRS.ACC_CLOSURE_DETAILS_SID LEFT JOIN ACC_CLOSURE_MASTER ACM
+                         ON ACD.ACC_CLOSURE_MASTER_SID= ACM.ACC_CLOSURE_MASTER_SID 
+                        WHERE IM.ITEM_MASTER_SID LIKE '?ISID?'
+                        AND CN.CONTRACT_MASTER_SID LIKE '?CSID?'
+                        GROUP BY CM.COMPANY_MASTER_SID,CN.CONTRACT_MASTER_SID,IM.ITEM_MASTER_SID,
+                        CCP.CCP_DETAILS_SID,ISNULL(ACM.WORKFLOW_STATUS,0);
+  		]]>
+    </sql>
+    <sql id="brselectedCustomers">
+		<![CDATA[
+                        SELECT DISTINCT ?QU?,
+                        AVG(ISNULL(BRS.CURRENT_RATE,0)) AS CURRENT_RATE,ISNULL(ACM.WORKFLOW_STATUS,0) AS STATUS
+                         FROM ST_ACC_CLOSURE_DETAILS STD
+                        JOIN COMPANY_MASTER CM ON STD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND STD.CHECK_RECORD='1'
+                        AND STD.USER_ID = ?UID? AND STD.SESSION_ID = ?SID? 
+                        JOIN ITEM_MASTER IM ON STD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                        JOIN CONTRACT_MASTER CN ON STD.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                        JOIN CCP_DETAILS CCP ON STD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                        LEFT JOIN ACC_CLOSURE_DETAILS ACD ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID
+                        LEFT JOIN AC_BASE_RATE_SUMMARY BRS ON ACD.ACC_CLOSURE_DETAILS_SID = BRS.ACC_CLOSURE_DETAILS_SID
+                        LEFT JOIN ACC_CLOSURE_MASTER ACM ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+                        JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                        JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+                        GROUP BY ?QU?,ISNULL(ACM.WORKFLOW_STATUS,0)
+                        ORDER BY ?QU?
+  		]]>
+    </sql>
+    <sql id="brselectedCustomersCount">
+		<![CDATA[
+                SELECT count  (*) from (
+                        SELECT DISTINCT ?QU?,
+                        AVG(ISNULL(BRS.CURRENT_RATE,0)) AS CURRENT_RATE,ISNULL(ACM.WORKFLOW_STATUS,0) AS STATUS
+                         FROM ST_ACC_CLOSURE_DETAILS STD
+                        JOIN COMPANY_MASTER CM ON STD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND STD.CHECK_RECORD='1'
+                        AND STD.USER_ID = ?UID? AND STD.SESSION_ID = ?SID?                         
+                        JOIN ITEM_MASTER IM ON STD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                        JOIN CONTRACT_MASTER CN ON STD.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                        JOIN CCP_DETAILS CCP ON STD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                        LEFT JOIN ACC_CLOSURE_DETAILS ACD ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID
+                        LEFT JOIN AC_BASE_RATE_SUMMARY BRS ON ACD.ACC_CLOSURE_DETAILS_SID = BRS.ACC_CLOSURE_DETAILS_SID
+                        LEFT JOIN ACC_CLOSURE_MASTER ACM ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+                        JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                        JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS = HT.HELPER_TABLE_SID
+                        GROUP BY ?QU?,ISNULL(ACM.WORKFLOW_STATUS,0)
+                    ) rslt;
+                ]]>
+    </sql>
+    <sql id="brHistPrj">
+		<![CDATA[                         
+                        SELECT I."YEAR"
+                            ?FRE?,
+                            Sum(BRD.ACTUAL_GTS)                                            AS ACTUAL_GTS,
+                            Sum(BRD.PROJECTED_GTS)                                         AS PROJECTED_GTS,
+                            Sum(BRD.ACTUAL_PAYMENT)                                        AS ACTUAL_PAYMENT,
+                            ( Sum(BRD.ACTUAL_PAYMENT) / Sum(BRD.ACTUAL_GTS) ) * 100        AS ACTUAL_RATE,
+                            Sum(BRD.PROJECTED_PAYMENTS)                                    AS PROJECTED_PAYMENTS,
+                            ( Sum(BRD.PROJECTED_PAYMENTS) / Sum(BRD.PROJECTED_GTS) ) * 100 AS PROJECTED_RATE,
+                            Sum(BRD.ACCRUALS)                                              AS ACCRUALS,
+                            Sum(BRD.AUTO_ACCRUALS)                                         AS AUTO_ACCRUALS,
+                            Sum(BRD.MANUAL_ADJUSTMENTS)                                    AS MANUAL_ADJUSTMENTS,
+                            Sum(BRD.PAYMENT_TRUE_UP)                                       AS PAYMENT_TRUE_UP,
+                            Sum(BRD.ACCRUAL_OTHERS)                                        AS OTHERS,
+                            ( Sum(BRD.ACCRUALS) / Sum(BRD.ACTUAL_GTS) ) * 100              AS ACCRUAL_RATE
+                     FROM   ACC_CLOSURE_DETAILS ACD
+                            JOIN dbo.AC_BASE_RATE_DETAILS BRD
+                              ON BRD.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+                            JOIN "PERIOD" I
+                              ON BRD.PERIOD_SID = I.PERIOD_SID
+                     WHERE  ACD.ACC_CLOSURE_MASTER_SID = ?ACMID?
+                            ?SD?
+                     GROUP BY I."YEAR" ?FRE? ORDER BY I."YEAR" ?FRE?;
+  		]]>
+    </sql>
+    
+    <sql id="brSum">
+		<![CDATA[
+                        SELECT ?SEL?,BRS.CHECK_RECORD ?ITM?
+                        
+                        FROM ST_AC_BASE_RATE_SUMMARY BRS JOIN
+                                    ACC_CLOSURE_DETAILS ACD ON BRS
+                            .ACC_CLOSURE_DETAILS_SID  = ACD.ACC_CLOSURE_DETAILS_SID  
+                            JOIN ACC_CLOSURE_MASTER ACM ON ACM.ACC_CLOSURE_MASTER_SID  = ACD.ACC_CLOSURE_MASTER_SID 
+                            JOIN AC_BR_METHODOLOGY_DETAILS ACBM ON ACM.ACC_CLOSURE_MASTER_SID  = ACBM.ACC_CLOSURE_MASTER_SID 
+                            AND ACBM.CALCULATION_FLAG = '1'
+                            JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID 
+                            JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID  = CM.COMPANY_MASTER_SID
+                            LEFT JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID  = IM.ITEM_MASTER_SID
+                            LEFT JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID  = CN.CONTRACT_MASTER_SID 
+                            LEFT JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS  = HT.HELPER_TABLE_SID
+                            LEFT JOIN HELPER_TABLE HTRC ON BRS.REASON_CODE  = HTRC.HELPER_TABLE_SID
+                            LEFT JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID  = BM.BRAND_MASTER_SID
+                            WHERE ACM
+                            .ACC_CLOSURE_MASTER_SID  = '?AID?' AND
+                        BRS.USER_ID = '?UID?' AND BRS.SESSION_ID = '?SID?'?MID? AND BRS.INBOUND_STATUS <> 'D'
+                        GROUP BY ?SEL?,BRS.CHECK_RECORD ?ITMGR?
+                        ;
+  		]]>
+    </sql>
+    <sql id="brSumCount">
+		<![CDATA[
+                SELECT count  (*) from (
+                        SELECT ?SEL?,BRS.CHECK_RECORD ?ITM?
+                        FROM ST_AC_BASE_RATE_SUMMARY BRS JOIN
+                                    ACC_CLOSURE_DETAILS ACD ON BRS
+                            .ACC_CLOSURE_DETAILS_SID  = ACD.ACC_CLOSURE_DETAILS_SID
+                            JOIN ACC_CLOSURE_MASTER ACM ON ACM.ACC_CLOSURE_MASTER_SID  = ACD.ACC_CLOSURE_MASTER_SID 
+                            JOIN AC_BR_METHODOLOGY_DETAILS ACBM ON ACM.ACC_CLOSURE_MASTER_SID  = ACBM.ACC_CLOSURE_MASTER_SID 
+                            AND ACBM.CALCULATION_FLAG = '1'
+                            JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID 
+                            JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID  = CM.COMPANY_MASTER_SID
+                            LEFT JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID  = IM.ITEM_MASTER_SID
+                            LEFT JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID  = CN.CONTRACT_MASTER_SID 
+                            LEFT JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS  = HT.HELPER_TABLE_SID
+                            LEFT JOIN HELPER_TABLE HTRC ON BRS.REASON_CODE  = HTRC.HELPER_TABLE_SID
+                            LEFT JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID  = BM.BRAND_MASTER_SID
+                            WHERE ACM
+                            .ACC_CLOSURE_MASTER_SID  = '?AID?' AND
+                        BRS.USER_ID = '?UID?' AND BRS.SESSION_ID = '?SID?'?MID? AND BRS.INBOUND_STATUS <> 'D'
+                        GROUP BY ?SEL? ,BRS.CHECK_RECORD ?ITMGR?
+                    ) rslt;
+                ]]>
+    </sql>
+    <sql id="br.insertSummary">
+		<![CDATA[
+                DECLARE @USER_ID    INT = '?UID?',
+                        @SESSION_ID INT = '?SID?'
+
+                    INSERT INTO ST_AC_BASE_RATE_SUMMARY
+                                (ACC_CLOSURE_DETAILS_SID,
+                                 METHODOLOGY_NAME,
+                                 CURRENT_RATE,
+                                 SUGGESTED_RATE,
+                                 ACCRUAL_RATE,
+                                 METHODOLOGY_START_DATE,
+                                 METHODOLOGY_END_DATE,
+                                 USER_ID,
+                                 SESSION_ID)
+                    SELECT distinct acd.ACC_CLOSURE_DETAILS_SID,
+                           ac_meth.METHODOLOGY_NAME,
+                           OPT1.CURRENT_RATE,
+                           OPT2.SUGGESTED_RATE,
+                           ac_meth.METHODOLOGY_VALUE AS Accrual_Rate,
+                           ac_meth.METHODOLOGY_START_DATE,
+                           ac_meth.METHODOLOGY_END_DATE,
+                           @USER_ID,
+                           @SESSION_ID
+                    FROM   ACC_CLOSURE_MASTER acm
+                           JOIN ACC_CLOSURE_DETAILS acd
+                             ON acm.ACC_CLOSURE_MASTER_SID = acd.ACC_CLOSURE_MASTER_SID
+                           CROSS JOIN AC_BR_METHODOLOGY_DETAILS ac_meth
+                           OUTER apply (SELECT TOP 1 COALESCE(METH.METHODOLOGY_VALUE, 0) AS CURRENT_RATE
+                                        FROM   ACC_CLOSURE_MASTER AM
+                                               JOIN ACC_CLOSURE_DETAILS AD
+                                                 ON AM.ACC_CLOSURE_MASTER_SID = AD.ACC_CLOSURE_MASTER_SID
+                                               CROSS JOIN AC_BR_METHODOLOGY_DETAILS METH
+                                        WHERE  ACD.CCP_DETAILS_SID = AD.CCP_DETAILS_SID 
+                                               AND ACD.RS_MODEL_SID = AD.RS_MODEL_SID 
+                                               AND METH.METHODOLOGY_NAME = ac_meth.METHODOLOGY_NAME 
+                                               AND ac_meth.CALCULATION_FLAG = '1'
+                                               AND AM.ACC_CLOSURE_MASTER_SID = (SELECT HELPER_TABLE_SID
+                                                                                FROM   HELPER_TABLE
+                                                                                WHERE  LIST_NAME = 'WorkFlowStatus'
+                                                                                       AND [DESCRIPTION] = 'APPROVED')
+                                        ORDER  BY AM.MODIFIED_DATE DESC)opt1
+                           OUTER APPLY(SELECT Avg(BRD.PROJECTED_RATE) AS SUGGESTED_RATE
+                                       FROM   AC_BASE_RATE_DETAILS BRD
+                                              JOIN PERIOD P
+                                                ON BRD.PERIOD_SID = P.PERIOD_SID
+                                       WHERE  BRD.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+                                              AND P.YEAR >= Year(ac_meth.METHODOLOGY_START_DATE)
+                                              AND P.MONTH >= Month(ac_meth.METHODOLOGY_START_DATE)
+                                              AND P.YEAR <= Year(ISNULL(ac_meth.METHODOLOGY_END_DATE, Getdate()))
+                                              AND P.MONTH <= Month(ISNULL(ac_meth.METHODOLOGY_END_DATE, Getdate()))
+                                       GROUP  BY BRD.ACC_CLOSURE_DETAILS_SID,
+                                                 P.YEAR,
+                                                 CASE
+                                                   WHEN ac_meth.FREQUENCY = 'MONTHLY' THEN P.MONTH
+                                                   WHEN ac_meth.FREQUENCY = 'QUARTERLY' THEN P.QUARTER
+                                                   WHEN ac_meth.FREQUENCY = 'SEMI_ANNUAL' THEN P.SEMI_ANNUAL
+                                                   ELSE ''
+                                                 END)OPT2
+                    WHERE  acm.ACC_CLOSURE_MASTER_SID = '?QU?'
+                    and ac_meth.ACC_CLOSURE_MASTER_SID = '?QU?';
+
+                ]]>
+    </sql>
+    <sql id="brTrans">
+		<![CDATA[
+                        SELECT CM
+                            .COMPANY_NO , CM
+                            .COMPANY_NAME , CN
+                            .CONTRACT_NO , CN
+                            .CONTRACT_NAME , HT
+                            .DESCRIPTION ,
+                                    BM
+                            .BRAND_ID , BM
+                            .BRAND_NAME , IM
+                            .ITEM_NAME , ACBM
+                            .METHODOLOGY_START_DATE ,
+                                    ACBM
+                            .METHODOLOGY_END_DATE , AVG(BRS .ACCRUAL_RATE) AS ACCRUAL_RATE,
+                            AVG(BRS .SUGGESTED_RATE) AS SUGGESTED_RATE, BRS.REASON_CODE, BRS.NOTES
+                                    FROM ST_AC_BASE_RATE_SUMMARY BRS JOIN
+                                    ACC_CLOSURE_DETAILS ACD ON BRS
+                            .ACC_CLOSURE_DETAILS_SID  = ACD.ACC_CLOSURE_DETAILS_SID  JOIN ACC_CLOSURE_MASTER ACM ON ACM.ACC_CLOSURE_MASTER_SID  = ACD.ACC_CLOSURE_MASTER_SID JOIN AC_BR_METHODOLOGY_DETAILS ACBM ON ACM.ACC_CLOSURE_MASTER_SID  = ACBM.ACC_CLOSURE_MASTER_SID JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID  = CM.COMPANY_MASTER_SID
+                            JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID  = IM.ITEM_MASTER_SID
+                            JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID  = CN.CONTRACT_MASTER_SID 
+                            JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS  = HT.HELPER_TABLE_SID
+                            JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID  = BM.BRAND_MASTER_SID
+                            WHERE ACM
+                            .ACC_CLOSURE_MASTER_SID  = '?AID?' AND
+                        BRS.USER_ID = '?UID?' AND BRS.SESSION_ID = '?SID?'
+                        ?FIL? AND BRS.INBOUND_STATUS <> 'D'
+                        GROUP BY CM .COMPANY_NO , CM .COMPANY_NAME , CN .CONTRACT_NO , CN .CONTRACT_NAME , HT .DESCRIPTION , BM .BRAND_ID , BM .BRAND_NAME , 
+                        IM .ITEM_NAME , ACBM .METHODOLOGY_START_DATE , ACBM .METHODOLOGY_END_DATE , BRS.REASON_CODE,
+                        BRS.NOTES;
+  		]]>
+    </sql>
+    
+    
+    
+    
+    <sql id="brTransCount">
+		<![CDATA[
+                SELECT count  (*) from (
+                        SELECT CM
+                            .COMPANY_NO , CM
+                            .COMPANY_NAME , CN
+                            .CONTRACT_NO , CN
+                            .CONTRACT_NAME , HT
+                            .DESCRIPTION ,
+                                    BM
+                            .BRAND_ID , BM
+                            .BRAND_NAME , IM
+                            .ITEM_NAME , ACBM
+                            .METHODOLOGY_START_DATE ,
+                                    ACBM
+                            .METHODOLOGY_END_DATE , AVG(BRS .ACCRUAL_RATE) AS ACCRUAL_RATE,
+                            AVG(BRS .SUGGESTED_RATE) AS SUGGESTED_RATE,
+                             BRS.REASON_CODE, 
+                            BRS.NOTES
+                                    FROM ST_AC_BASE_RATE_SUMMARY BRS JOIN
+                                    ACC_CLOSURE_DETAILS ACD ON BRS
+                            .ACC_CLOSURE_DETAILS_SID  = ACD.ACC_CLOSURE_DETAILS_SID  JOIN ACC_CLOSURE_MASTER ACM ON ACM.ACC_CLOSURE_MASTER_SID  = ACD.ACC_CLOSURE_MASTER_SID 
+                            JOIN AC_BR_METHODOLOGY_DETAILS ACBM ON ACM.ACC_CLOSURE_MASTER_SID  = ACBM.ACC_CLOSURE_MASTER_SID 
+                            JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID  = CCP.CCP_DETAILS_SID 
+                            JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID  = CM.COMPANY_MASTER_SID
+                            JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID  = IM.ITEM_MASTER_SID
+                            JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID  = CN.CONTRACT_MASTER_SID 
+                            JOIN HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS  = HT.HELPER_TABLE_SID
+                            JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID  = BM.BRAND_MASTER_SID
+                            WHERE ACM
+                            .ACC_CLOSURE_MASTER_SID  = '?AID?' AND
+                        BRS.USER_ID = '?UID?' AND BRS.SESSION_ID = '?SID?'
+                        ?FIL? AND BRS.INBOUND_STATUS <> 'D'
+                        GROUP BY CM .COMPANY_NO , CM .COMPANY_NAME , CN .CONTRACT_NO , CN .CONTRACT_NAME , HT .DESCRIPTION , BM .BRAND_ID , BM .BRAND_NAME , 
+                        IM .ITEM_NAME , ACBM .METHODOLOGY_START_DATE , ACBM .METHODOLOGY_END_DATE , BRS.REASON_CODE,
+                        BRS.NOTES
+                    ) rslt;
+                ]]>
+    </sql>
+    
+    <sql id="br.summarypopulate">
+		<![CDATA[
+                UPDATE ST_AC_BASE_RATE_SUMMARY SET  REASON_CODE = '?VAL?'
+                    WHERE USER_ID = '?UID?' and SESSION_ID = '?SID?'
+                    and CHECK_RECORD = '1' AND INBOUND_STATUS <> 'D';
+                ]]>
+    </sql>
+    
+    <sql id="br.summarydelete">
+		<![CDATA[
+                UPDATE a
+                    SET    a.inbound_status = 'D'
+                    FROM   ST_AC_BASE_RATE_SUMMARY a
+                           JOIN ACC_CLOSURE_DETAILS b
+                             ON a.ACC_CLOSURE_DETAILS_SID = b.ACC_CLOSURE_DETAILS_SID
+                           JOIN CCP_DETAILS ccp
+                             ON b.ccp_details_sid = ccp.ccp_details_sid
+                           JOIN item_master im
+                             ON ccp.ITEM_MASTER_SID = im.ITEM_MASTER_SID                      
+                            WHERE  a.ACC_CLOSURE_DETAILS_SID IN (SELECT ACC_CLOSURE_DETAILS_SID FROM ACC_CLOSURE_DETAILS
+                                 WHERE ACC_CLOSURE_MASTER_SID = '?QU?')
+                               and a.USER_ID = '?UID?'
+                               and a.SESSION_ID = '?SID?'
+                               AND a.METHODOLOGY_NAME = ?MET?
+                                and a.CHECK_RECORD = '1';
+                ]]>
+                
+                
+    </sql>
+    <sql id="ac.saveToMainTable">
+		<![CDATA[
+	    MERGE AC_BASE_RATE_SUMMARY AS TARGET
+		USING ( 
+		SELECT ACC_CLOSURE_DETAILS_SID,
+		METHODOLOGY_NAME,
+		METHODOLOGY_START_DATE,
+		METHODOLOGY_END_DATE,
+		CURRENT_RATE,
+		SUGGESTED_RATE,
+                ACCRUAL_RATE,
+                REASON_CODE,
+                NOTES,
+                INBOUND_STATUS
+		FROM dbo.ST_AC_BASE_RATE_SUMMARY
+		WHERE USER_ID='?UID?' AND SESSION_ID='?SID?'
+		) AS SOURCE 
+		ON (TARGET.ACC_CLOSURE_DETAILS_SID=SOURCE.ACC_CLOSURE_DETAILS_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.METHODOLOGY_NAME=SOURCE.METHODOLOGY_NAME, 
+		TARGET.METHODOLOGY_START_DATE=SOURCE.METHODOLOGY_START_DATE, 
+		TARGET.METHODOLOGY_END_DATE=SOURCE.METHODOLOGY_END_DATE, 
+		TARGET.CURRENT_RATE=SOURCE.CURRENT_RATE, 
+		TARGET.SUGGESTED_RATE=SOURCE.SUGGESTED_RATE,
+                TARGET.ACCRUAL_RATE=SOURCE.ACCRUAL_RATE,
+                TARGET.REASON_CODE=SOURCE.REASON_CODE,
+                TARGET.NOTES=SOURCE.NOTES,
+                TARGET.INBOUND_STATUS=SOURCE.INBOUND_STATUS
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT VALUES(SOURCE.ACC_CLOSURE_DETAILS_SID,
+		SOURCE.METHODOLOGY_NAME,
+		SOURCE.METHODOLOGY_START_DATE,
+		SOURCE.METHODOLOGY_END_DATE,
+		SOURCE.CURRENT_RATE,
+		SOURCE.SUGGESTED_RATE,
+                SOURCE.ACCRUAL_RATE,
+		SOURCE.REASON_CODE,
+		SOURCE.NOTES,
+                SOURCE.INBOUND_STATUS);
+		]]>
+    </sql>
+    
+    <sql id="Checking populate">
+		<![CDATA[
+	   SELECT Count(DISTINCT ACBR.AC_BR_METHODOLOGY_DETAILS_SID)
+FROM   ST_AC_BASE_RATE_SUMMARY STS
+       JOIN ACC_CLOSURE_DETAILS ACD
+         ON STS.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+       JOIN ACC_CLOSURE_MASTER ACM
+         ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+       JOIN AC_BR_METHODOLOGY_DETAILS ACBR
+         ON ACM.ACC_CLOSURE_MASTER_SID = ACBR.ACC_CLOSURE_MASTER_SID
+            AND STS.USER_ID = '?'
+            AND STS.SESSION_ID = ?
+            AND STS.CHECK_RECORD = '1' 
+
+		]]>
+    </sql>
+    <sql id="Mass populate">
+		<![CDATA[
+	UPDATE STS
+SET    ? = '?'
+FROM   ST_AC_BASE_RATE_SUMMARY STS
+       JOIN ACC_CLOSURE_DETAILS ACD
+         ON STS.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+       JOIN ACC_CLOSURE_MASTER ACM
+         ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+       JOIN AC_BR_METHODOLOGY_DETAILS ACBR
+         ON ACM.ACC_CLOSURE_MASTER_SID = ACBR.ACC_CLOSURE_MASTER_SID
+           AND STS.CHECK_RECORD = '1'
+            AND STS.USER_ID = '?'
+            AND STS.SESSION_ID = ? 
+
+		]]>
+    </sql>
+    
+    <sql id="Save Accruals">
+		<![CDATA[
+	
+DECLARE @ACC_CLOSURE_MASTER_SID INT =?;
+
+DECLARE @ACCURAL_PERIOD VARCHAR(20)=(SELECT ACCRUAL_PERIOD
+  FROM   ACC_CLOSURE_MASTER
+  WHERE  ACC_CLOSURE_MASTER_SID = @ACC_CLOSURE_MASTER_SID)
+DECLARE @STRING VARCHAR(2)
+DECLARE @VALUE VARCHAR(2)
+DECLARE @START_DATE DATETIME,@END_DATE DATETIME 
+
+SET @STRING=(SELECT LEFT(@ACCURAL_PERIOD, 1))
+
+SELECT @STRING = CASE
+                   WHEN ISNUMERIC(@STRING) = 1 THEN 'A'
+                   WHEN @STRING = 'Q' THEN 'Q'
+                   WHEN @STRING = 'S' THEN
+                     CASE
+                       WHEN ISNUMERIC(Substring(@ACCURAL_PERIOD, 2, 1)) = 1 THEN 'S'
+                       ELSE 'M'
+                     END
+                   ELSE 'M'
+                 END
+
+SELECT @VALUE = CASE
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'JAN' THEN 1
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'FEB' THEN 2
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'MAR' THEN 3
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'APR' THEN 4
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'MAY' THEN 5
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'JUN' THEN 6
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'JUL' THEN 7
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'AUG' THEN 8
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'SEP' THEN 9
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'OCT' THEN 10
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'NOV' THEN 11
+                  WHEN LEFT (@ACCURAL_PERIOD, 3) = 'DEC' THEN 12
+                END
+
+IF ( @STRING = 'M' )
+  BEGIN
+      SELECT @ACCURAL_PERIOD = Stuff(@ACCURAL_PERIOD, 1, 3, 'M' + CONVERT(VARCHAR(2), @VALUE))
+  END
+ELSE IF ( @STRING = 'A' )
+  BEGIN
+      SELECT @ACCURAL_PERIOD = 'A0-' + @ACCURAL_PERIOD
+  END
+
+SELECT @END_DATE=MAX(PERIOD_DATE),@START_DATE=MIN(PERIOD_DATE)
+FROM   PERIOD
+WHERE  @STRING + CONVERT(VARCHAR(2), CASE WHEN @STRING='Q' THEN QUARTER WHEN @STRING='S' THEN SEMI_ANNUAL WHEN @STRING ='M' THEN MONTH WHEN @STRING='A' THEN 0 END ) + ' - ' + CONVERT(VARCHAR(4), YEAR) = @ACCURAL_PERIOD 
+
+;WITH GL_BAL
+     AS (SELECT      LEDGER_TYPE=LEFT(ACCOUNT_NO, Charindex('.', ACCOUNT_NO) - 1),
+                     COMPANY_COST_CENTER=CONVERT(VARCHAR(20), Substring(ACCOUNT_NO, P1.POS + 1, P2.POS - P1.POS - 1)),
+                     [OBJECT]=Substring(ACCOUNT_NO, P2.POS + 1, P3.POS - P2.POS - 1),
+                     SUBSIDARY=Substring(ACCOUNT_NO, P3.POS + 1, P4.POS - P3.POS - 1),
+                     SUBLEDGER=RIGHT(ACCOUNT_NO, Charindex('.', Reverse(ACCOUNT_NO)) - 1),
+                     [MONTH] = CONVERT(VARCHAR(3), PERIOD),
+                     [YEAR]='20' + CONVERT(VARCHAR(4), [YEAR]),
+                     BALANCE,
+                     UPLOAD_DATE,
+                     ACCOUNT_NO,
+                     RN=ROW_NUMBER()
+                          OVER(
+                            PARTITION BY ACCOUNT_NO, PERIOD, [YEAR]
+                            ORDER BY UPLOAD_DATE DESC)
+         FROM        GL_BALANCE_MASTER
+         CROSS APPLY (VALUES (Charindex('.', ACCOUNT_NO))) AS P1(POS)
+         CROSS APPLY (VALUES (Charindex('.', ACCOUNT_NO, P1.POS + 1))) AS P2(POS)
+         CROSS APPLY (VALUES (Charindex('.', ACCOUNT_NO, P2.POS + 1))) AS P3(POS)
+         CROSS APPLY (VALUES (Charindex('.', ACCOUNT_NO, P3.POS + 1))) AS P4(POS))
+INSERT INTO ACCRUAL_DETAILS
+            (ACCRUAL_ID,
+             SALES_MASTER_ID,
+             GL_ACCOUNT,
+             GL_COMPANY_MASTER_SID,
+             COMPANY_COST_CENTER,
+             ACCOUNT_ID,
+             ACCOUNT_NO,
+             ACCOUNT_NAME,
+             ACCT_IDENTIFIER_CODE_QUALIFIER,
+             COMPANY_MASTER_SID,
+             COMPANY_ID,
+             COMPANY_IDENTIFIER_CODE_QUALIFIER,
+             COMPANY_NO,
+             CONTRACT_MASTER_SID,
+             CONTRACT_ID,
+             CONTRACT_NO,
+             CONTRACT_NAME,
+             BRAND_MASTER_SID,
+             BRAND_ID,
+             ITEM_MASTER_SID,
+             ITEM_ID,
+             ITEM_IDENTIFIER_CODE_QUALIFIER,
+             ITEM_NO,
+             ACCRUAL_TYPE,
+             CATEGORY_ID,
+             RS_MODEL_SID,
+             PROVISION_ID,
+             DEDUCTION_TYPE,
+             DEDUCTION_SUB_TYPE,
+             ACCRUAL_PERIOD_START_DATE,
+             ACCRUAL_PERIOD_END_DATE,
+             AMOUNT,
+             SUB_LEDGER,
+             SUB_LEDGER_TYPE,
+             DOCUMENT_TYPE,
+             POSTING_INDICATOR,
+             POSTING_DATE,
+             POSTING_STATUS,
+             GL_DATE,
+             RECORD_CREATED_DATE,
+             INBOUND_STATUS,
+             RECORD_LOCK_STATUS,
+             BATCH_ID,
+             SOURCE,
+             CREATED_BY,
+             CREATED_DATE,
+             MODIFIED_BY,
+             MODIFIED_DATE)
+SELECT    ACD.ACC_CLOSURE_DETAILS_SID   AS ACCRUAL_ID,
+          SM.SALES_ID,
+          GL_BAL.ACCOUNT_NO             AS GL_ACCOUNT,
+          ACM.GL_COMPANY_MASTER_SID,
+          GL_BAL.COMPANY_COST_CENTER,
+          COM.COMPANY_ID                AS ACCOUNT_ID,
+          COM.COMPANY_NO                AS ACCOUNT_NO,
+          COM.COMPANY_NAME              AS ACCOUNT_NAME,
+          CI.COMPANY_QUALIFIER_VALUE    AS ACCT_IDENTIFIER_CODE_QUALIFIER,
+          CCP.COMPANY_MASTER_SID,
+          GL_COM.COMPANY_ID,
+          CI_GL.COMPANY_QUALIFIER_VALUE AS COMPANY_IDENTIFIER_CODE_QUALIFIER,
+          GL_COM.COMPANY_NO,
+          ACM.CONTRACT_MASTER_SID,
+          CON.CONTRACT_ID,
+          CON.CONTRACT_NO,
+          CON.[CONTRACT_NAME],
+          BM.BRAND_MASTER_SID,
+          BM.BRAND_ID,
+          ACM.ITEM_MASTER_SID,
+          IM.ITEM_ID,
+          II.ITEM_QUALIFIER_VALUE       AS ITEM_IDENTIFIER_CODE_QUALIFIER,
+          IM.ITEM_NO,
+          ACCRUAL_TYPE=CASE
+                         WHEN MODULE_TYPE = 'BaseRate' THEN 'Base'
+                         WHEN MODULE_TYPE = 'FIXED_DOLLAR' THEN
+                           CASE
+                             WHEN H2.DESCRIPTION = 'Auto Reconcile' THEN 'Recon'
+                             ELSE 'Fixed Dollar'
+                           END
+                       END,
+          H.DESCRIPTION                 AS CATEGORY_ID,
+          ACD.RS_MODEL_SID,
+          RS.RS_ID                      AS PROVISION_ID,
+          H.DESCRIPTION                 AS DEDUSTION_TYPE,
+          H1.DESCRIPTION                AS DEDUCTION_SUB_TYPE,
+          ACCRUAL_PERIOD_START_DATE=CASE
+                                      WHEN MODULE_TYPE = 'BaseRate' THEN BR.METHODOLOGY_START_DATE
+                                      WHEN MODULE_TYPE = 'FIXED_DOLLAR' THEN @START_DATE
+                                    END,
+          ACCRUAL_PERIOD_END_DATE=CASE
+                                    WHEN MODULE_TYPE = 'BaseRate' THEN BR.METHODOLOGY_END_DATE
+                                    WHEN MODULE_TYPE = 'FIXED_DOLLAR' THEN @END_DATE
+                                  END,
+          AMOUNT=CASE
+                   WHEN MODULE_TYPE = 'BaseRate' THEN BR.METHODOLOGY_VALUE * ISNULL(SM.AMOUNT, 1)
+                   WHEN MODULE_TYPE = 'FIXED_DOLLAR' THEN FD.TOTAL_ADJUSTMENT_DOLLAR
+                 END,
+          GL_BAL.SUBLEDGER,
+          GL_BAL.LEDGER_TYPE            AS SUB_LEDGER_TYPE,
+          'GTN'                         AS DOCUMENT_TYPE,
+          NULL                          AS POSTING_INDICATOR,
+          Getdate()                     AS POSTING_DATE,
+          NULL                          AS POSTING_STATUS,
+          GL_BAL.UPLOAD_DATE            AS GL_DATE,
+          Getdate()                     AS RECORD_CREATED_DATE,
+          'A'                           AS INBOUND_STATUS,
+          1                             AS RECORD_LOCK_STATUS,
+          '20151019'                    AS BATCH_ID,
+          'BPI'                         AS SOURCE,
+          1                             AS CREATED_BY,
+          Getdate()                     CREATED_DATE,
+          1                             AS MODIFIED_BY,
+          Getdate()                     MODIFIED_DATE
+FROM      ACC_CLOSURE_MASTER ACM
+JOIN      ACC_CLOSURE_DETAILS ACD ON ACM.ACC_CLOSURE_MASTER_SID = ACD.ACC_CLOSURE_MASTER_SID
+LEFT JOIN AC_BR_METHODOLOGY_DETAILS BR ON ACD.ACC_CLOSURE_MASTER_SID = BR.ACC_CLOSURE_MASTER_SID
+LEFT JOIN AC_FD_ADJUSTMENT_SELECTION FDS ON FDS.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+LEFT JOIN AC_FIXED_DOLLAR_DETAILS FD ON FD.ACC_CLOSURE_DETAILS_SID = ACD.ACC_CLOSURE_DETAILS_SID
+JOIN      CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+JOIN      COMPANY_MASTER COM ON COM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+JOIN      (SELECT A.COMPANY_MASTER_SID,
+                  A.COMPANY_IDENTIFIER_VALUE,
+                  A.COMPANY_QUALIFIER_SID,
+                  B.COMPANY_QUALIFIER_VALUE
+           FROM   (SELECT COMPANY_MASTER_SID,
+                          COMPANY_IDENTIFIER_VALUE,
+                          COMPANY_QUALIFIER_SID
+                   FROM   (SELECT COMPANY_MASTER_SID,
+                                  COMPANY_IDENTIFIER_VALUE,
+                                  COMPANY_QUALIFIER_SID,
+                                  ROW_NUMBER()
+                                    OVER(
+                                      PARTITION BY COMPANY_MASTER_SID
+                                      ORDER BY COMPANY_MASTER_SID) AS RN
+                           FROM   [dbo].COMPANY_IDENTIFIER)A
+                   WHERE  RN = 1) A
+           JOIN   COMPANY_QUALIFIER B ON A.COMPANY_QUALIFIER_SID = B.COMPANY_QUALIFIER_SID) CI ON CI.COMPANY_MASTER_SID = COM.COMPANY_MASTER_SID
+JOIN      CONTRACT_MASTER CON ON CON.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+JOIN      ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+JOIN      (SELECT A.ITEM_MASTER_SID,
+                  A.ITEM_IDENTIFIER_VALUE,
+                  A.ITEM_QUALIFIER_SID,
+                  B.ITEM_QUALIFIER_VALUE
+           FROM   (SELECT ITEM_MASTER_SID,
+                          ITEM_IDENTIFIER_VALUE,
+                          ITEM_QUALIFIER_SID
+                   FROM   (SELECT ITEM_MASTER_SID,
+                                  ITEM_IDENTIFIER_VALUE,
+                                  ITEM_QUALIFIER_SID,
+                                  ROW_NUMBER()
+                                    OVER(
+                                      PARTITION BY ITEM_MASTER_SID
+                                      ORDER BY ITEM_MASTER_SID) AS RN
+                           FROM   [dbo].ITEM_IDENTIFIER)A
+                   WHERE  RN = 1) A
+           JOIN   ITEM_QUALIFIER B ON A.ITEM_QUALIFIER_SID = B.ITEM_QUALIFIER_SID) II ON II.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+JOIN      BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+JOIN      RS_MODEL RS ON RS.RS_MODEL_SID = ACD.RS_MODEL_SID
+LEFT JOIN HELPER_TABLE H ON H.HELPER_TABLE_SID = ACM.RS_TYPE
+LEFT JOIN HELPER_TABLE H1 ON H1.HELPER_TABLE_SID = ACM.REBATE_PROGRAM_TYPE
+LEFT JOIN HELPER_TABLE H2 ON H2.HELPER_TABLE_SID = FDS.ALLOCATION_METHOD
+LEFT JOIN SALES_MASTER SM ON SM.CONTRACT_ID = CON.CONTRACT_ID
+                         AND SM.COMPANY_ID = COM.COMPANY_ID
+                         AND SM.ITEM_ID = IM.ITEM_ID
+                         AND Cast (SM.PROVISION_ID AS VARCHAR(50)) = RS.RS_ID
+                         AND SM.INVOICE_DATE BETWEEN BR.METHODOLOGY_START_DATE AND BR.METHODOLOGY_END_DATE
+LEFT JOIN COMPANY_MASTER GL_COM ON GL_COM.COMPANY_MASTER_SID = ACM.GL_COMPANY_MASTER_SID
+LEFT JOIN (SELECT A.COMPANY_MASTER_SID,
+                  A.COMPANY_IDENTIFIER_VALUE,
+                  A.COMPANY_QUALIFIER_SID,
+                  B.COMPANY_QUALIFIER_VALUE
+           FROM   (SELECT COMPANY_MASTER_SID,
+                          COMPANY_IDENTIFIER_VALUE,
+                          COMPANY_QUALIFIER_SID
+                   FROM   (SELECT COMPANY_MASTER_SID,
+                                  COMPANY_IDENTIFIER_VALUE,
+                                  COMPANY_QUALIFIER_SID,
+                                  ROW_NUMBER()
+                                    OVER(
+                                      PARTITION BY COMPANY_MASTER_SID
+                                      ORDER BY COMPANY_MASTER_SID) AS RN
+                           FROM   [dbo].COMPANY_IDENTIFIER)A
+                   WHERE  RN = 1) A
+           JOIN   COMPANY_QUALIFIER B ON A.COMPANY_QUALIFIER_SID = B.COMPANY_QUALIFIER_SID) CI_GL ON CI_GL.COMPANY_MASTER_SID = COM.COMPANY_MASTER_SID
+LEFT JOIN GL_COST_CENTER_MASTER GL_COST ON GL_COST.COMPANY_CODE = GL_COM.COMPANY_ID
+                                       AND GL_COST.NDC8 = IM.NDC8
+LEFT JOIN (SELECT COMPANY_COST_CENTER,
+                  SUBLEDGER,
+                  LEDGER_TYPE,
+                  UPLOAD_DATE,
+                  ACCOUNT_NO
+           FROM   (SELECT COMPANY_COST_CENTER,
+                          SUBLEDGER,
+                          LEDGER_TYPE,
+                          UPLOAD_DATE,
+                          ACCOUNT_NO,
+                          ROW_NUMBER()
+                            OVER (
+                              PARTITION BY COMPANY_COST_CENTER, SUBLEDGER
+                              ORDER BY COMPANY_COST_CENTER ) AS RN
+                   FROM   GL_BAL)A
+           WHERE  RN = 1)GL_BAL ON GL_BAL.COMPANY_COST_CENTER = GL_COST.COMPANY_COST_CENTER
+                               AND Cast(GL_BAL.SUBLEDGER AS VARCHAR(50)) = GL_COST.NDC8
+WHERE     ACM.ACC_CLOSURE_MASTER_SID = @ACC_CLOSURE_MASTER_SID 
+ 
+
+		]]>
+    </sql>
+    
+    <sql id="ac.loadEditValues">
+        <![CDATA[  
+            SELECT CM.COMPANY_MASTER_SID as COMPSID,
+                HT.HELPER_TABLE_SID AS CONTTYPE,
+                HTRT.HELPER_TABLE_SID AS RSTYPE,
+                HTRC.HELPER_TABLE_SID AS PROGRAM,
+                CN.CONTRACT_MASTER_SID AS CONTRACT,IM.ITEM_MASTER_SID AS ITEM,
+                ACM.PRODUCT_IDENTIFIER 
+                FROM ACC_CLOSURE_MASTER ACM
+                JOIN ACC_CLOSURE_DETAILS ACD ON ACM.ACC_CLOSURE_MASTER_SID = ACD.ACC_CLOSURE_MASTER_SID
+                JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID
+                JOIN COMPANY_MASTER CM ON ACM.GL_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                JOIN HELPER_TABLE HT ON ACM.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+                JOIN HELPER_TABLE HTRT ON ACM.RS_TYPE = HTRT.HELPER_TABLE_SID
+                JOIN HELPER_TABLE HTRC ON ACM.REBATE_PROGRAM_TYPE = HTRC.HELPER_TABLE_SID
+                JOIN CONTRACT_MASTER CN ON CCP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID
+                JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND
+                ACM.MODULE_TYPE = 'BaseRate' AND ACM.ACC_CLOSURE_MASTER_SID = '?AID?'
+        ]]>
+    </sql>   
+    <sql id="ac.brselected">
+		<![CDATA[
+                        
+            DECLARE @group_by VARCHAR(50) = '?QU?'
+                             SELECT ?SELQUE?,Avg(A.CURRENT_RATE) AS RATE,A.PENDING_RATE FROM(SELECT CASE WHEN @group_by = 'Contract'
+                            OR @group_by = 'company'
+                            OR
+                 @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN CONTRACT_ID ELSE '' END AS CONTRACT_ID
+                            , 
+                CASE WHEN @group_by  = 'Contract'
+                            OR @group_by = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR 
+                @group_by = 'item'
+                            THEN CONTRACT_MASTER_SID ELSE '' END AS CONTRACT_MASTER_SID
+                            , CASE WHEN @group_by  = 'company'
+                            OR 
+                @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_ID ELSE '' END AS COMPANY_ID
+                            ,
+                 CASE WHEN @group_by  = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_MASTER_SID ELSE '' END AS COMPANY_MASTER_SID
+                            , CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEATIC_CLASS_DESC ELSE '' END AS THERAPEATIC_CLASS_DESC
+                            ,
+                 CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEUTIC_CLASS ELSE '' END AS
+                 THERAPEUTIC_CLASS
+                            , CASE WHEN @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_ID ELSE '' END AS BRAND_ID
+                            , CASE WHEN 
+                @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_MASTER_SID ELSE '' END AS BRAND_MASTER_SID
+                            , CASE WHEN @group_by  = 'Item'
+                            THEN ITEM_ID ELSE '' END AS ITEM_ID
+                            , CASE WHEN @group_by  = 'Item'
+                            THEN ITEM_MASTER_SID ELSE '' END AS ITEM_MASTER_SID
+                            , 
+                Avg(CURRENT_RATE) as CURRENT_RATE, Max(WORKFLOW_STATUS
+                            ) AS PENDING_RATE FROM(SELECT DISTINCT cm.CONTRACT_ID, cm.CONTRACT_MASTER_SID,
+                 comp.COMPANY_ID, comp.COMPANY_MASTER_SID, im.ITEM_ID, im.ITEM_MASTER_SID, BM.BRAND_ID, 
+                im.BRAND_MASTER_SID
+                            , TH.DESCRIPTION AS
+                 THERAPEATIC_CLASS_DESC, IM.THERAPEUTIC_CLASS, op.CURRENT_RATE
+                            , CASE WHEN op.WORKFLOW_STATUS = 'Approved' THEN 'N' ELSE 'Y' END AS 
+                    WORKFLOW_STATUS FROM   ccp_details ccp JOIN contract_master cm ON ccp.contract_master_sid = 
+                    cm.CONTRACT_MASTER_SID JOIN COMPANY_MASTER comp ON ccp.COMPANY_MASTER_SID = comp.COMPANY_MASTER_SID 
+                    JOIN ITEM_MASTER im ON ccp.ITEM_MASTER_SID = im.ITEM_MASTER_SID JOIN BRAND_MASTER BM ON
+                     IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID JOIN RS_CONTRACT rs_c ON 
+                cm.CONTRACT_MASTER_SID = rs_c.CONTRACT_MASTER_SID JOIN UDCS UD ON rs_c.RS_CONTRACT_SID = UD.MASTER_SID AND UD
+                            .MASTER_TYPE = 'RS_CONTRACT'
+                            JOIN HELPER_TABLE TH ON IM.THERAPEUTIC_CLASS = TH.HELPER_TABLE_SID
+                JOIN ST_ACC_CLOSURE_DETAILS ST ON ccp.CCP_DETAILS_SID = ST.CCP_DETAILS_SID  OUTER apply
+                            (SELECT TOP 1
+                 ac_br.METHODOLOGY_VALUE AS current_rate
+                            , ht.DESCRIPTION AS WORKFLOW_STATUS FROM   ACC_CLOSURE_MASTER ac_m JOIN 
+                acc_closure_details acd ON ac_m.ACC_CLOSURE_MASTER_SID = acd.ACC_CLOSURE_MASTER_SID JOIN 
+                AC_BR_METHODOLOGY_DETAILS ac_br ON
+                 acd.ACC_CLOSURE_MASTER_SID = ac_br.ACC_CLOSURE_MASTER_SID JOIN helper_table ht ON 
+                ht.HELPER_TABLE_SID = ac_m.WORKFLOW_STATUS
+                WHERE acd
+                            .CCP_DETAILS_SID = ccp.CCP_DETAILS_SID AND acd
+                            .RS_MODEL_SID = rs_c.RS_MODEL_SID ORDER BY ac_m.CREATED_DATE DESC
+                            ) op
+                            WHERE  cm.contract_type = ?CT?
+                               AND rs_c.REBATE_PROGRAM_TYPE = ?RPT?
+                               AND IM.ITEM_MASTER_SID LIKE '?ISID?'
+                               AND Cm.CONTRACT_MASTER_SID LIKE '?CSID?'
+                               AND UD.UDC2 = ?UDC?
+                             AND comp.COMPANY_MASTER_SID LIKE '?CMSID?'
+                            AND ST.CHECK_RECORD = 1 AND
+                            ST.USER_ID = '?UID?' AND
+                             ST.SESSION_ID = '?SID?' AND
+                            ST.MODULE_NAME = 'BaseRateAvail' )
+                             sub GROUP  BY CASE WHEN @group_by = 'Contract'
+                            OR @group_by = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN CONTRACT_ID ELSE '' END
+                            , CASE WHEN 
+                @group_by  = 'Contract'
+                            OR @group_by = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN CONTRACT_MASTER_SID ELSE '' END
+                            , CASE WHEN @group_by  = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_ID ELSE '' END
+                            , CASE WHEN @group_by  = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_MASTER_SID ELSE '' END
+                            , CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEATIC_CLASS_DESC ELSE '' END
+                            , CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEUTIC_CLASS ELSE '' END
+                            , CASE WHEN @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_ID ELSE '' END
+                            , CASE WHEN @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_MASTER_SID ELSE '' END
+                            , CASE WHEN 
+                @group_by  = 'Item'
+                            THEN ITEM_ID ELSE '' END
+                            , CASE WHEN @group_by  = 'Item'
+                            THEN ITEM_MASTER_SID ELSE ''  END )A 
+            GROUP BY ?SELQUE?,A.PENDING_RATE ORDER BY ?OBY? 
+           
+                ]]>
+    </sql>
+    <sql id="ac.availCustomers">
+        		<![CDATA[
+                        
+                        DECLARE @group_by VARCHAR(50) = '?QU?'
+                        SELECT ?SELQUE?,Avg(A.CURRENT_RATE) AS RATE,A.PENDING_RATE FROM(SELECT CASE
+                         WHEN @group_by = 'Contract'
+               OR @group_by = 'company'
+               OR @group_by = 'Therapeatic_class'
+               OR @group_by = 'Brand'
+               OR @group_by = 'item' THEN CONTRACT_ID
+         ELSE ''
+       END AS CONTRACT_ID,
+       CASE
+         WHEN @group_by = 'Contract'
+               OR @group_by = 'company'
+               OR @group_by = 'Therapeatic_class'
+               OR @group_by = 'Brand'
+               OR @group_by = 'item' THEN CONTRACT_MASTER_SID
+         ELSE ''
+       END AS CONTRACT_MASTER_SID,
+       CASE
+         WHEN @group_by = 'company'
+               OR @group_by = 'Therapeatic_class'
+               OR @group_by = 'Brand'
+               OR @group_by = 'item' THEN COMPANY_ID
+         ELSE ''
+       END AS COMPANY_ID,
+       CASE
+         WHEN @group_by = 'company'
+               OR @group_by = 'Therapeatic_class'
+               OR @group_by = 'Brand'
+               OR @group_by = 'item' THEN COMPANY_MASTER_SID
+         ELSE ''
+       END AS COMPANY_MASTER_SID,
+       CASE
+         WHEN @group_by = 'Therapeatic_class'
+               OR @group_by = 'Brand'
+               OR @group_by = 'item' THEN THERAPEATIC_CLASS_DESC
+         ELSE ''
+       END AS THERAPEATIC_CLASS_DESC,
+       CASE
+         WHEN @group_by = 'Therapeatic_class'
+               OR @group_by = 'Brand'
+               OR @group_by = 'item' THEN THERAPEUTIC_CLASS
+         ELSE ''
+       END AS THERAPEUTIC_CLASS,
+       CASE
+         WHEN @group_by = 'Brand'
+               OR @group_by = 'item' THEN BRAND_ID
+         ELSE ''
+       END AS BRAND_ID,
+       CASE
+         WHEN @group_by = 'Brand'
+               OR @group_by = 'item' THEN BRAND_MASTER_SID
+         ELSE ''
+       END AS BRAND_MASTER_SID,
+       CASE
+         WHEN @group_by = 'Item' THEN ITEM_ID
+         ELSE ''
+       END AS ITEM_ID,
+       CASE
+         WHEN @group_by = 'Item' THEN ITEM_MASTER_SID
+         ELSE ''
+       END AS ITEM_MASTER_SID,
+       Avg(CURRENT_RATE) as CURRENT_RATE,
+       Max(WORKFLOW_STATUS) AS PENDING_RATE
+FROM   (SELECT DISTINCT cm.CONTRACT_ID,
+                        cm.CONTRACT_MASTER_SID,
+                        comp.COMPANY_ID,
+                        comp.COMPANY_MASTER_SID,
+                        im.ITEM_ID,
+                        im.ITEM_MASTER_SID,
+                        BM.BRAND_ID,
+                        im.BRAND_MASTER_SID,
+                        TH.DESCRIPTION AS THERAPEATIC_CLASS_DESC,
+                        IM.THERAPEUTIC_CLASS,
+                        op.CURRENT_RATE,
+                        CASE
+                          WHEN op.WORKFLOW_STATUS = 'Approved' THEN 'N'
+                          ELSE 'Y'
+                        END            AS WORKFLOW_STATUS
+        FROM   ccp_details ccp
+               JOIN contract_master cm
+                 ON ccp.contract_master_sid = cm.CONTRACT_MASTER_SID
+               JOIN COMPANY_MASTER comp
+                 ON ccp.COMPANY_MASTER_SID = comp.COMPANY_MASTER_SID
+               JOIN ITEM_MASTER im
+                 ON ccp.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+               JOIN BRAND_MASTER BM
+                 ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+               JOIN RS_CONTRACT rs_c
+                 ON cm.CONTRACT_MASTER_SID = rs_c.CONTRACT_MASTER_SID
+               JOIN UDCS UD
+                 ON rs_c.RS_CONTRACT_SID = UD.MASTER_SID
+                    AND UD.MASTER_TYPE = 'RS_CONTRACT'
+               JOIN HELPER_TABLE TH
+                 ON IM.THERAPEUTIC_CLASS = TH.HELPER_TABLE_SID
+                 ?CG?
+                 ?IG?
+               OUTER apply(SELECT TOP 1 ac_br.METHODOLOGY_VALUE AS current_rate,
+                                        ht.DESCRIPTION          AS WORKFLOW_STATUS
+                           FROM   ACC_CLOSURE_MASTER ac_m
+                                  JOIN acc_closure_details acd
+                                    ON ac_m.ACC_CLOSURE_MASTER_SID = acd.ACC_CLOSURE_MASTER_SID
+                                  JOIN AC_BR_METHODOLOGY_DETAILS ac_br
+                                    ON acd.ACC_CLOSURE_MASTER_SID = ac_br.ACC_CLOSURE_MASTER_SID
+                                  JOIN helper_table ht
+                                    ON ht.HELPER_TABLE_SID = ac_m.WORKFLOW_STATUS
+                           WHERE  acd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+                                  AND acd.RS_MODEL_SID = rs_c.RS_MODEL_SID
+                           ORDER  BY ac_m.CREATED_DATE DESC) op
+       WHERE  cm.contract_type = ?CT?
+                               AND rs_c.REBATE_PROGRAM_TYPE = ?RPT?
+                               AND IM.ITEM_MASTER_SID LIKE '?ISID?'
+                               AND Cm.CONTRACT_MASTER_SID LIKE '?CSID?'
+                               AND UD.UDC2 = ?UDC?
+                             AND comp.COMPANY_MASTER_SID LIKE '?CMSID?'
+                             ?CGSID?
+                             ?PGSID?
+                                ) sub
+GROUP  BY CASE
+            WHEN @group_by = 'Contract'
+                  OR @group_by = 'company'
+                  OR @group_by = 'Therapeatic_class'
+                  OR @group_by = 'Brand'
+                  OR @group_by = 'item' THEN CONTRACT_ID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Contract'
+                  OR @group_by = 'company'
+                  OR @group_by = 'Therapeatic_class'
+                  OR @group_by = 'Brand'
+                  OR @group_by = 'item' THEN CONTRACT_MASTER_SID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'company'
+                  OR @group_by = 'Therapeatic_class'
+                  OR @group_by = 'Brand'
+                  OR @group_by = 'item' THEN COMPANY_ID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'company'
+                  OR @group_by = 'Therapeatic_class'
+                  OR @group_by = 'Brand'
+                  OR @group_by = 'item' THEN COMPANY_MASTER_SID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Therapeatic_class'
+                  OR @group_by = 'Brand'
+                  OR @group_by = 'item' THEN THERAPEATIC_CLASS_DESC
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Therapeatic_class'
+                  OR @group_by = 'Brand'
+                  OR @group_by = 'item' THEN THERAPEUTIC_CLASS
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Brand'
+                  OR @group_by = 'item' THEN BRAND_ID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Brand'
+                  OR @group_by = 'item' THEN BRAND_MASTER_SID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Item' THEN ITEM_ID
+            ELSE ''
+          END,
+          CASE
+            WHEN @group_by = 'Item' THEN ITEM_MASTER_SID
+            ELSE ''
+          END )A 
+            GROUP BY ?SELQUE?,A.PENDING_RATE ORDER BY ?OBY? 
+          
+        
+                ]]>
+    </sql>
+    <sql id="ac.insertAvailCheck">
+		<![CDATA[ 
+                DECLARE @USER_ID    INT = '?UID?',
+                @SESSION_ID INT = '?SID?',
+                @MODULE_NAME VARCHAR(50) = '?MOD?',
+                @LAST_MODIFIED_DATE datetime = Getdate(),
+                @CHECK_RECORD INT = '?VAL?'
+                
+                MERGE ST_ACC_CLOSURE_DETAILS A
+                USING (SELECT DISTINCT cm.CONTRACT_MASTER_SID,
+                       comp.COMPANY_MASTER_SID,
+                       im.ITEM_MASTER_SID,
+                       ccp.CCP_DETAILS_SID,
+                       @USER_ID            AS USER_ID,
+                       @SESSION_ID         AS SESSION_ID,
+                       @MODULE_NAME        AS MODULE_NAME,
+                       @LAST_MODIFIED_DATE AS LAST_MODIFIED_DATE,
+                       @CHECK_RECORD       AS CHECK_RECORD
+       FROM   ccp_details ccp
+              JOIN contract_master cm
+                ON ccp.contract_master_sid = cm.CONTRACT_MASTER_SID
+              JOIN COMPANY_MASTER comp
+                ON ccp.COMPANY_MASTER_SID = comp.COMPANY_MASTER_SID
+              JOIN ITEM_MASTER im
+                ON ccp.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+              JOIN BRAND_MASTER BM
+                ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+              JOIN RS_CONTRACT rs_c
+                ON cm.CONTRACT_MASTER_SID = rs_c.CONTRACT_MASTER_SID
+              JOIN UDCS UD
+                ON rs_c.RS_CONTRACT_SID = UD.MASTER_SID
+                   AND UD.MASTER_TYPE = 'RS_CONTRACT'
+              JOIN HELPER_TABLE TH
+                ON IM.THERAPEUTIC_CLASS = TH.HELPER_TABLE_SID
+              OUTER apply(SELECT TOP 1 ac_br.METHODOLOGY_VALUE AS current_rate,
+                                       ht.DESCRIPTION          AS WORKFLOW_STATUS
+                          FROM   ACC_CLOSURE_MASTER ac_m
+                                 JOIN acc_closure_details acd
+                                   ON ac_m.ACC_CLOSURE_MASTER_SID = acd.ACC_CLOSURE_MASTER_SID
+                                 JOIN AC_BR_METHODOLOGY_DETAILS ac_br
+                                   ON acd.ACC_CLOSURE_MASTER_SID = ac_br.ACC_CLOSURE_MASTER_SID
+                                 JOIN helper_table ht
+                                   ON ht.HELPER_TABLE_SID = ac_m.WORKFLOW_STATUS
+                          WHERE  acd.CCP_DETAILS_SID = ccp.CCP_DETAILS_SID
+                                 AND acd.RS_MODEL_SID = rs_c.RS_MODEL_SID
+                          ORDER  BY ac_m.CREATED_DATE DESC) op
+       WHERE  cm.contract_type = ?CT?
+                                  AND rs_c.REBATE_PROGRAM_TYPE = ?RPT?
+                                  AND UD.UDC2 = ?UDC?
+                                  AND comp.COMPANY_MASTER_SID LIKE '?CMSID?'
+                                  AND im.INBOUND_STATUS <> 'D'
+                                  AND comp.INBOUND_STATUS <> 'D'
+                                  AND cm.INBOUND_STATUS <> 'D')B
+                            ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                               AND a.user_id = b.user_id
+                               AND a.session_id = b.session_id
+                            WHEN MATCHED THEN
+                              UPDATE SET A.MODULE_NAME = B.MODULE_NAME,
+                                         A.CHECK_RECORD = B.CHECK_RECORD
+                            WHEN NOT MATCHED THEN
+                              INSERT(CONTRACT_MASTER_SID,
+                                     COMPANY_MASTER_SID,
+                                     ITEM_MASTER_SID,
+                                     CCP_DETAILS_SID,
+                                     USER_ID,
+                                     SESSION_ID,
+                                     MODULE_NAME,
+                                     LAST_MODIFIED_DATE,
+                                     CHECK_RECORD)
+                              VALUES ( B.CONTRACT_MASTER_SID,
+                                       B.COMPANY_MASTER_SID,
+                                       B.ITEM_MASTER_SID,
+                                       B.CCP_DETAILS_SID,
+                                       B.USER_ID,
+                                       B.SESSION_ID,
+                                       B.MODULE_NAME,
+                                       B.LAST_MODIFIED_DATE,
+                                       B.CHECK_RECORD); 
+                            
+            ]]>
+    </sql>
+    
+     <sql id="ac.wfSelComp">
+		<![CDATA[ 
+    DECLARE @group_by VARCHAR(50) = '?QU?'
+                             SELECT ?SELQUE?,Avg(A.CURRENT_RATE) AS RATE,A.PENDING_RATE FROM(SELECT CASE WHEN @group_by = 'Contract'
+                            OR @group_by = 'company'
+                            OR
+                 @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN CONTRACT_ID ELSE '' END AS CONTRACT_ID
+                            , 
+                CASE WHEN @group_by  = 'Contract'
+                            OR @group_by = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR 
+                @group_by = 'item'
+                            THEN CONTRACT_MASTER_SID ELSE '' END AS CONTRACT_MASTER_SID
+                            , CASE WHEN @group_by  = 'company'
+                            OR 
+                @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_ID ELSE '' END AS COMPANY_ID
+                            ,
+                 CASE WHEN @group_by  = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_MASTER_SID ELSE '' END AS COMPANY_MASTER_SID
+                            , CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEATIC_CLASS_DESC ELSE '' END AS THERAPEATIC_CLASS_DESC
+                            ,
+                 CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEUTIC_CLASS ELSE '' END AS
+                 THERAPEUTIC_CLASS
+                            , CASE WHEN @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_ID ELSE '' END AS BRAND_ID
+                            , CASE WHEN 
+                @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_MASTER_SID ELSE '' END AS BRAND_MASTER_SID
+                            , CASE WHEN @group_by  = 'Item'
+                            THEN ITEM_ID ELSE '' END AS ITEM_ID
+                            , CASE WHEN @group_by  = 'Item'
+                            THEN ITEM_MASTER_SID ELSE '' END AS ITEM_MASTER_SID
+                            , 
+                Avg(CURRENT_RATE) as CURRENT_RATE, Max(WORKFLOW_STATUS
+                            ) AS PENDING_RATE FROM
+(SELECT DISTINCT cm.CONTRACT_ID, cm.CONTRACT_MASTER_SID, comp.COMPANY_ID, comp.COMPANY_MASTER_SID,
+            im.ITEM_ID, im.ITEM_MASTER_SID, BM.BRAND_ID, im.BRAND_MASTER_SID , TH.DESCRIPTION AS THERAPEATIC_CLASS_DESC,
+            IM.THERAPEUTIC_CLASS, op.CURRENT_RATE , CASE WHEN op.WORKFLOW_STATUS = 'Approved'THEN 'N' ELSE 'Y' END AS 
+           WORKFLOW_STATUS FROM
+           ACC_CLOSURE_DETAILS ACD
+           JOIN ACC_CLOSURE_MASTER ACM ON ACD.ACC_CLOSURE_MASTER_SID = ACM.ACC_CLOSURE_MASTER_SID
+           AND ACM.ACC_CLOSURE_MASTER_SID = '?AMID?'
+           JOIN CCP_DETAILS CCP ON ACD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+            JOIN contract_master cm ON ccp.contract_master_sid = cm.CONTRACT_MASTER_SID
+            JOIN COMPANY_MASTER comp ON ccp.COMPANY_MASTER_SID = comp.COMPANY_MASTER_SID 
+           JOIN ITEM_MASTER im ON ccp.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+            JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID 
+           JOIN RS_CONTRACT rs_c ON cm.CONTRACT_MASTER_SID = rs_c.CONTRACT_MASTER_SID
+            JOIN UDCS UD ON rs_c.RS_CONTRACT_SID = UD.MASTER_SID AND UD .MASTER_TYPE = 'RS_CONTRACT'
+                       JOIN HELPER_TABLE TH ON IM.THERAPEUTIC_CLASS = TH.HELPER_TABLE_SID
+            JOIN ACC_CLOSURE_DETAILS ST ON ccp.CCP_DETAILS_SID = ST.CCP_DETAILS_SID 
+           OUTER apply (SELECT TOP 1 ac_br.METHODOLOGY_VALUE AS current_rate , ht.DESCRIPTION AS WORKFLOW_STATUS FROM 
+             ACC_CLOSURE_MASTER ac_m 
+           JOIN acc_closure_details acd ON ac_m.ACC_CLOSURE_MASTER_SID = acd.ACC_CLOSURE_MASTER_SID
+            JOIN AC_BR_METHODOLOGY_DETAILS ac_br ON acd.ACC_CLOSURE_MASTER_SID = ac_br.ACC_CLOSURE_MASTER_SID
+            JOIN helper_table ht ON ht.HELPER_TABLE_SID = ac_m.WORKFLOW_STATUS 
+           WHERE acd .CCP_DETAILS_SID = ccp.CCP_DETAILS_SID AND acd .RS_MODEL_SID = rs_c.RS_MODEL_SID 
+           ORDER BY ac_m.CREATED_DATE DESC ) op 
+           WHERE  cm.contract_type = ?CT?
+                               AND rs_c.REBATE_PROGRAM_TYPE = ?RPT?
+                               AND IM.ITEM_MASTER_SID LIKE '?ISID?'
+                               AND cm.CONTRACT_MASTER_SID LIKE '?CSID?'
+                               AND UD.UDC2 = ?UDC?
+                             AND comp.COMPANY_MASTER_SID LIKE '?CMSID?')
+             sub GROUP  BY CASE WHEN @group_by = 'Contract'
+                            OR @group_by = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN CONTRACT_ID ELSE '' END
+                            , CASE WHEN 
+                @group_by  = 'Contract'
+                            OR @group_by = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN CONTRACT_MASTER_SID ELSE '' END
+                            , CASE WHEN @group_by  = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_ID ELSE '' END
+                            , CASE WHEN @group_by  = 'company'
+                            OR @group_by = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN COMPANY_MASTER_SID ELSE '' END
+                            , CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEATIC_CLASS_DESC ELSE '' END
+                            , CASE WHEN @group_by  = 'Therapeatic_class'
+                            OR
+                 @group_by = 'Brand'
+                            OR @group_by = 'item'
+                            THEN THERAPEUTIC_CLASS ELSE '' END
+                            , CASE WHEN @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_ID ELSE '' END
+                            , CASE WHEN @group_by  = 'Brand'
+                            OR @group_by = 'item'
+                            THEN BRAND_MASTER_SID ELSE '' END
+                            , CASE WHEN 
+                @group_by  = 'Item'
+                            THEN ITEM_ID ELSE '' END
+                            , CASE WHEN @group_by  = 'Item'
+                            THEN ITEM_MASTER_SID ELSE ''  END )A 
+            GROUP BY ?SELQUE?,A.PENDING_RATE ORDER BY ?OBY? 
+                                                
+    ]]>
+    </sql>
+    <sql id="ac.resetBR">
+            <![CDATA[
+            UPDATE ST_ACC_CLOSURE_DETAILS SET  CHECK_RECORD = '0'
+            WHERE USER_ID = '?UID?' and SESSION_ID = '?SID?';
+        
+        ]]>
+    </sql>
+    <sql id="getProjectionRecords">
+            <![CDATA[
+            SELECT max(brbd.PERIOD_VALUE) FROM AC_BASE_RATE_BASELINE_DETAILS brbd 
+            join AC_BR_METHODOLOGY_DETAILS brmd on brmd.AC_BR_METHODOLOGY_DETAILS_SID = brbd.AC_BR_METHODOLOGY_DETAILS_SID 
+            and brmd.ACC_CLOSURE_MASTER_SID = [$PROJECTIONID];
+]]>
+    </sql>
+</custom-sql>

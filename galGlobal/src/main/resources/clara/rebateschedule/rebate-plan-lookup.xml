@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="lookup" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:el="urn:import:com.stpl.app.ui.errorhandling"
+       xmlns:c="urn:import:org.asi.ui.customcombobox"> 
+    <VerticalLayout margin="true" spacing="true">
+
+        <el:ErrorLabel id="errorMsg" />
+
+        <HorizontalLayout id="hlayout" spacing="false" margin="false" immediate="true" styleName="responsiveTabGrid">
+            <CssLayout id="cssLayout" immediate="true" width="100%" height="100%">
+		
+                <Label id="rebatePlanIDLabel" value="Rebate Plan ID" contentMode="HTML" immediate="true" />
+                <TextField id="rebatePlanID" enabled="true" immediate="true" />
+			
+                <Label id="rebatePlanNoLabel" value="Rebate Plan No" contentMode="HTML" immediate="true" />
+                <TextField id="rebatePlanNo" enabled="true" immediate="true" />
+			
+                <Label id="rebatePlanNameLabel" value="Rebate Plan Name" contentMode="HTML" immediate="true" />
+                <TextField id="rebatePlanName" enabled="true" immediate="true" />
+			
+                <Label id="rebatePlanStatusLabel" value="Rebate Plan Status" contentMode="HTML" immediate="true" />
+                <c:CustomComboBox id="rebatePlanStatus" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+			
+                <Label id="rebatePlanTypeLabel" value="Rebate Plan Type" contentMode="HTML" immediate="true" />
+                <c:CustomComboBox id="rebatePlanType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />		
+				
+            </CssLayout>
+        </HorizontalLayout>
+
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="searchBtn" caption="SEARCH" immediate="true" width="80" />
+            <Button id="resetBtn" caption="RESET" immediate="true" width="80" />
+        </HorizontalLayout>
+	
+        <VerticalLayout id="tablelayout" spacing="true"/>        
+        <HorizontalLayout id="controlLayout"/>
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="selectBtn" caption="SELECT" immediate="true" width="80" />
+            <Button id="closeBtn" caption="CLOSE" immediate="true" width="80" /> 
+            <Button id="excelExport" immediate="true" width="80" />
+        </HorizontalLayout>
+
+    </VerticalLayout>
+</Panel>

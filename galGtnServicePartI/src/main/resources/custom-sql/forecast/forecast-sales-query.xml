@@ -1,0 +1,1465 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="mandated-sales-query">
+        
+        <![CDATA[
+            SELECT MAINQ.ACCOUNT_GROWTH,
+               MAINQ.product_growth,
+               MAINQ.projection_sales,
+               MAINQ.projection_units,
+               MAINQ.actualsales,
+               MAINQ.actualunits,
+               MAINQ.level_no,
+               MAINQ.rlv,
+               MAINQ.YEARS,
+               MAINQ.PERIODS,
+               MAINQ.calculation_periods,
+               MAINQ.methodology,
+               MAINQ.relationship_level_sid,
+               MAINQ.hierarchy_no,
+               MAINQ.rcount,
+               MAINQ.level_name,
+               MAINQ.actualproj,
+               MAINQ.historysales,
+               MAINQ.historyunits,
+               MAINQ.checkrec,
+               MAINQ.uncheck_count,
+               MAINQ.ccpcount,
+               MAINQ.hierarchy_indicator
+               
+FROM   (SELECT Q.account_growth,
+               Q.product_growth,
+               Q.projection_sales,
+               Q.projection_units,
+               Q.actualsales,
+               Q.actualunits,
+               Q.level_no,
+               Q.rlv,
+               Q.YEARS,
+               Q.PERIODS,
+               Q.calculation_periods,
+               Q.methodology,
+               Q.relationship_level_sid,
+               Q.hierarchy_no,
+               Q.rcount,
+               Q.level_name,
+               Q.actualproj,
+               Q.historysales,
+               Q.historyunits,
+               Q.checkrec,
+               Q.uncheck_count,
+               Q.ccpcount,
+               Q.hierarchy_indicator,
+              
+               Dense_rank()
+                 OVER (
+                   ORDER BY Q.rlv ASC) AS TEMP_INDEX
+        FROM   (SELECT
+                0.0 AS ACCOUNT_GROWTH,
+                0.0 AS PRODUCT_GROWTH,
+                NULL AS PROJECTION_SALES,
+                NULL AS PROJECTION_UNITS,
+                SUM(MAS.ACTUAL_SALES) AS actualSales,
+                SUM(MAS.ACTUAL_UNITS) AS actualUnits,
+                MAX(RLD.LEVEL_NO) AS level_no,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+                p."YEAR" as YEARS,
+                @FREQUENCY@ AS PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.CALCULATION_PERIODS) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.CALCULATION_PERIODS)
+                END AS CALCULATION_PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.METHODOLOGY) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.METHODOLOGY)
+                END AS METHODOLOGY,
+                RLD.RELATIONSHIP_LEVEL_SID,
+                CCP.HIERARCHY_NO,
+                COUNT(*) AS RCOUNT,
+                HLD.LEVEL_NAME,
+                1 AS actualProj,
+                SUM(MAS.ACTUAL_PROJECTION_SALES) AS historySales,
+                SUM(MAS.ACTUAL_PROJECTION_UNITS) AS historyUnits,
+                MIN(CASE(CHECK_RECORD) 
+                    WHEN 1
+                        THEN 1
+                        ELSE 0
+                    END) AS checkrec,
+                SUM(CASE(MSPM.CHECK_RECORD) WHEN 1
+                        THEN 0
+                        ELSE 1
+                    END) / @FREQDIVISION AS UNCHECK_COUNT,
+                COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+                '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR
+            FROM
+                PROJECTION_DETAILS PD
+            JOIN @CCP CCP
+                ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+            JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                ON CCP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+            JOIN ST_M_SALES_PROJECTION_MASTER MSPM
+                ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+            JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+            JOIN ST_M_ACTUAL_SALES MAS
+                ON MSPM.PROJECTION_DETAILS_SID = MAS.PROJECTION_DETAILS_SID 
+            JOIN PERIOD p
+                ON p.period_sid = MAS.PERIOD_SID
+            WHERE
+            PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND MSPM.USER_ID = @USER_ID
+            AND MSPM.SESSION_ID = @SESSION_ID
+            AND MAS.USER_ID = @USER_ID
+            AND MAS.SESSION_ID = @SESSION_ID
+            GROUP BY
+            RLD.RELATIONSHIP_LEVEL_VALUES,
+            @FREQUENCY_GROUP@,
+            RLD.RELATIONSHIP_LEVEL_SID,
+            RLD.LEVEL_NO,
+            p."YEAR",
+            RLD.RELATIONSHIP_LEVEL_SID,
+            CCP.HIERARCHY_NO,
+            HLD.LEVEL_NAME
+ 
+            UNION
+
+            SELECT
+               AVG(MSP.ACCOUNT_GROWTH),
+               AVG(MSP.PRODUCT_GROWTH),
+               SUM(MSP.PROJECTION_SALES),
+               SUM(MSP.PROJECTION_UNITS),
+               NULL AS ACTUAL_SALES,
+               NULL AS ACTUAL_UNITS,
+               MAX(RLD.LEVEL_NO) AS level_no,
+               RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+               p."YEAR" AS YEARS,
+               @FREQUENCY@ AS PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.CALCULATION_PERIODS
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.CALCULATION_PERIODS)
+               END AS CALCULATION_PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.METHODOLOGY
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.METHODOLOGY)
+               END AS METHODOLOGY,
+               RLD.RELATIONSHIP_LEVEL_SID,
+               CCP.HIERARCHY_NO,
+               COUNT(*) AS RCOUNT,
+               HLD.LEVEL_NAME,
+               0 AS actualProj,
+               NULL AS historySales,
+               NULL AS historyUnits,
+               MIN(
+                   CASE
+                       (CHECK_RECORD) WHEN 1
+                       THEN 1
+                       ELSE 0
+                   END
+               ) AS checkrec,
+               SUM(
+                   CASE
+                       (MSPM.CHECK_RECORD) WHEN 1
+                       THEN 0
+                       ELSE 1
+                   END
+               ) / @FREQDIVISION AS UNCHECK_COUNT,
+               COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+               '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR
+           FROM
+               PROJECTION_DETAILS PD
+           JOIN @CCP CCP
+               ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD 
+                   ON CCP.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID    
+           JOIN ST_M_SALES_PROJECTION_MASTER MSPM
+               ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+           JOIN HIERARCHY_LEVEL_DEFINITION HLD
+               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+           JOIN ST_M_SALES_PROJECTION MSP
+               ON MSPM.PROJECTION_DETAILS_SID = MSP.PROJECTION_DETAILS_SID 
+           JOIN PERIOD p
+               ON p.period_sid = MSP.PERIOD_SID
+           WHERE
+           PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           AND MSPM.USER_ID = @USER_ID
+           AND MSPM.SESSION_ID = @SESSION_ID
+           AND MSP.USER_ID = @USER_ID
+           AND MSP.SESSION_ID = @SESSION_ID
+           GROUP BY
+           RLD.RELATIONSHIP_LEVEL_VALUES,
+           @FREQUENCY_GROUP@,
+           RLD.LEVEL_NO,
+           p."YEAR",
+           RLD.RELATIONSHIP_LEVEL_SID,
+           CCP.HIERARCHY_NO,
+           HLD.LEVEL_NAME
+           ) Q) MAINQ
+WHERE  MAINQ.TEMP_INDEX > @START
+       AND MAINQ.TEMP_INDEX <= ( @START+@END )
+ORDER  BY MAINQ.RLV,
+          MAINQ.YEARS,
+          MAINQ.PERIODS;
+        ]]>
+        
+    </sql>
+    
+    <sql id="rows-per-level-item">
+        
+        <![CDATA[
+            DECLARE @STRING CHAR(1)='@FREQUENCY'
+
+            SELECT Count(*)
+            FROM   (SELECT DISTINCT PERIODS=CASE
+                                              WHEN @STRING = 'A' THEN PERIODS_ANNUAL
+                                              WHEN @STRING = 'S' THEN PERIODS_SEMI
+                                              WHEN @STRING = 'M' THEN PERIODS_MONTH
+                                              WHEN @STRING = 'Q' THEN PERIODS_QUARTER
+                                            END
+                    FROM   (SELECT 'Q' + CONVERT(VARCHAR(2), P.QUARTER) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_QUARTER,
+                                   'S' + CONVERT(VARCHAR(2), P.SEMI_ANNUAL) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_SEMI,
+                                   CONVERT(VARCHAR(4), P.YEAR)     AS PERIODS_ANNUAL,
+                                   'M' + CONVERT(VARCHAR(2), P.MONTH) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_MONTH
+                            FROM   "PERIOD" P
+                            JOIN   @ACTUAL_TABLE AC ON AC.PERIOD_SID = P.PERIOD_SID
+                            WHERE  AC.SESSION_ID = '@SESSION_ID'
+                                   AND AC.USER_ID = '@USER_ID')A
+                    @UNION
+                    SELECT DISTINCT PERIODS=CASE
+                                              WHEN @STRING = 'A' THEN PERIODS_ANNUAL
+                                              WHEN @STRING = 'S' THEN PERIODS_SEMI
+                                              WHEN @STRING = 'M' THEN PERIODS_MONTH
+                                              WHEN @STRING = 'Q' THEN PERIODS_QUARTER
+                                            END
+                    FROM   (SELECT 'Q' + CONVERT(VARCHAR(2), P.QUARTER) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_QUARTER,
+                                   'S' + CONVERT(VARCHAR(2), P.SEMI_ANNUAL) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_SEMI,
+                                   CONVERT(VARCHAR(4), P.YEAR)     AS PERIODS_ANNUAL,
+                                   'M' + CONVERT(VARCHAR(2), P.MONTH) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_MONTH
+                            FROM   "PERIOD" P
+                            JOIN   @PROJECTION_TABLE AC ON AC.PERIOD_SID = P.PERIOD_SID
+                            WHERE  AC.SESSION_ID = '@SESSION_ID'
+                                   AND AC.USER_ID = '@USER_ID')A)A ;
+        ]]>
+        
+    </sql>
+
+    <sql id="checkClearAll">
+        <![CDATA[ 
+                UPDATE 
+                    SPM  
+                SET 
+                    CHECK_RECORD = @CHECK_RECORD
+                FROM 
+                    ST_M_SALES_PROJECTION_MASTER SPM
+                INNER JOIN 
+                    PROJECTION_DETAILS PD
+                    ON PD.PROJECTION_DETAILS_SID = SPM.PROJECTION_DETAILS_SID
+                WHERE PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                    AND SPM.USER_ID = @USER_ID
+                    AND SPM.SESSION_ID = @SESSION_ID;
+        ]]>
+    </sql>
+    
+    <sql id="saveCalculationSelection">
+        <![CDATA[ 
+                UPDATE 
+                    SPM    
+                SET 
+                    METHODOLOGY='@METHODOLOGY' ,   
+                    CALCULATION_PERIODS='@CALCULATION_PERIODS',
+                    CALCULATION_BASED='@CALCULATION_BASED',
+                    FORECAST_START_PERIOD_SID=@startperiod ,
+                    FORECAST_END_PERIOD_SID=@endperiod ,
+                    ALLOCATION_BASIS='@allocationbasis'
+                FROM    
+                    @MASTER_TABLE SPM
+                INNER JOIN 
+                    PROJECTION_DETAILS PD 
+                    ON PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                    AND PD.PROJECTION_DETAILS_SID = SPM.PROJECTION_DETAILS_SID
+                WHERE 
+                    USER_ID = @USER_ID
+                    AND SESSION_ID = @SESSION_ID
+                    AND CHECK_RECORD = 1;
+        ]]>
+    </sql>
+    
+    <sql id="massUpdate">
+        <![CDATA[ 
+                UPDATE 
+                    @TABLE_NAME
+                SET 
+                    @COLUMN_NAME = @VALUE
+                FROM 
+                    @PROJECTION_TABLE SP
+                JOIN 
+                    @MASTER_TABLE SPM 
+                    ON SPM.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID
+                JOIN 
+                    PERIOD P 
+                    ON P.PERIOD_SID = SP.PERIOD_SID
+                WHERE 
+                    SP.USER_ID = @USER_ID
+                    AND SP.SESSION_ID = @SESSION_ID
+                    AND SPM.USER_ID = @USER_ID
+                    AND SPM.SESSION_ID = @SESSION_ID
+                    AND SPM.CHECK_RECORD = 1
+                    AND P.PERIOD_SID IN (SELECT PERIOD_SID FROM "PERIOD" where "YEAR" >= @START_YEAR and "YEAR" <= @END_YEAR
+                    AND P.PERIOD_SID NOT IN(SELECT PERIOD_SID FROM "PERIOD" where "YEAR" = @START_YEAR @START_FREQUENCY)
+                    AND P.PERIOD_SID NOT IN(SELECT PERIOD_SID FROM "PERIOD" where "YEAR" = @END_YEAR  @END_FREQUENCY));    
+        ]]>
+    </sql>
+    
+    
+    <sql id="saveAdjustmentSelection">
+        <![CDATA[ 
+                UPDATE 
+                    SP
+                SET 
+                    ADJUSTMENT_TYPE = '@ADJUSTMENT_TYPE',
+                    ADJUSTMENT_VALUES = '@ADJUSTMENT_VALUES',
+                    ADJUSTMENT_BASIS = '@ADJUSTMENT_BASIS',
+                    ADJUSTMENT_VARIABLE = '@ADJUSTMENT_VARIABLE',
+                    ADJUSTMENT_METHODOLOGY = '@ADJUSTMENT_METHODOLOGY'
+                FROM 
+                    @PROJECTION_TABLE SP
+                JOIN 
+                    @MASTER_TABLE SPM 
+                    ON SPM.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID
+                JOIN 
+                    PERIOD P 
+                    ON P.PERIOD_SID = SP.PERIOD_SID
+                WHERE 
+                    SP.USER_ID = @USER_ID
+                    AND SP.SESSION_ID = @SESSION_ID
+                    AND SPM.USER_ID = @USER_ID
+                    AND SPM.SESSION_ID = @SESSION_ID
+                    AND SPM.CHECK_RECORD = 1;
+                    ]]>
+    </sql>
+
+    <sql id="non-mandated-sales-query">
+        
+        <![CDATA[
+            SELECT MAINQ.account_growth,
+               MAINQ.product_growth,
+               MAINQ.projection_sales,
+               MAINQ.projection_units,
+               MAINQ.actualsales,
+               MAINQ.actualunits,
+               MAINQ.level_no,
+               MAINQ.rlv,
+               MAINQ.YEARS,
+               MAINQ.PERIODS,
+               MAINQ.calculation_periods,
+               MAINQ.methodology,
+               MAINQ.relationship_level_sid,
+               MAINQ.hierarchy_no,
+               MAINQ.rcount,
+               MAINQ.level_name,
+               MAINQ.actualproj,
+               MAINQ.historysales,
+               MAINQ.historyunits,
+               MAINQ.checkrec,
+               MAINQ.uncheck_count,
+               MAINQ.ccpcount,
+               MAINQ.hierarchy_indicator,
+               MAINQ.user_group
+FROM   (SELECT Q.account_growth,
+               Q.product_growth,
+               Q.projection_sales,
+               Q.projection_units,
+               Q.actualsales,
+               Q.actualunits,
+               Q.level_no,
+               Q.rlv,
+               Q.YEARS,
+               Q.PERIODS,
+               Q.calculation_periods,
+               Q.methodology,
+               Q.relationship_level_sid,
+               Q.hierarchy_no,
+               Q.rcount,
+               Q.level_name,
+               Q.actualproj,
+               Q.historysales,
+               Q.historyunits,
+               Q.checkrec,
+               Q.uncheck_count,
+               Q.ccpcount,
+               Q.hierarchy_indicator,
+               Q.user_group,
+               Dense_rank()
+                 OVER (
+                   ORDER BY Q.rlv ASC) AS TEMP_INDEX
+        FROM   (SELECT
+                0.0 AS ACCOUNT_GROWTH,
+                0.0 AS PRODUCT_GROWTH,
+                NULL AS PROJECTION_SALES,
+                NULL AS PROJECTION_UNITS,
+                SUM(MAS.ACTUAL_SALES) AS actualSales,
+                SUM(MAS.ACTUAL_UNITS) AS actualUnits,
+                MAX(RLD.LEVEL_NO) AS level_no,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+                p."YEAR" as YEARS,
+                @FREQUENCY@ as PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.CALCULATION_PERIODS) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.CALCULATION_PERIODS)
+                END AS CALCULATION_PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.METHODOLOGY) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.METHODOLOGY)
+                END AS METHODOLOGY,
+                RLD.RELATIONSHIP_LEVEL_SID,
+                CCP.HIERARCHY_NO,
+                COUNT(*) AS RCOUNT,
+                HLD.LEVEL_NAME,
+                1 AS actualProj,
+                SUM(MAS.HISTORY_PROJECTION_SALES) AS historySales,
+                SUM(MAS.HISTORY_PROJECTION_UNITS) AS historyUnits,
+                MIN(CASE(CHECK_RECORD) 
+                    WHEN 1
+                        THEN 1
+                        ELSE 0
+                    END) AS checkrec,
+                SUM(CASE(MSPM.CHECK_RECORD) WHEN 1
+                        THEN 0
+                        ELSE 1
+                    END) / @FREQDIVISION AS UNCHECK_COUNT,
+                COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+                '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
+                MIN(MSPM.USER_GROUP) AS USER_GROUP
+            FROM
+                PROJECTION_DETAILS PD
+            JOIN @CCP CCP
+                ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+            JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                ON CCP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+            LEFT JOIN ST_NM_SALES_PROJECTION_MASTER MSPM
+                ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+                AND (MSPM.USER_GROUP LIKE '@USER_GROUP' OR MSPM.USER_GROUP IS NULL)
+            JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+           LEFT JOIN ST_NM_ACTUAL_SALES MAS
+                ON MSPM.PROJECTION_DETAILS_SID = MAS.PROJECTION_DETAILS_SID 
+                 AND MAS.USER_ID = MSPM.USER_ID
+                 AND MAS.SESSION_ID = MSPM.SESSION_ID
+                  AND MSPM.USER_ID = @USER_ID
+            AND MSPM.SESSION_ID = @SESSION_ID
+            AND MAS.USER_ID = @USER_ID
+            AND MAS.SESSION_ID = @SESSION_ID 
+            JOIN PERIOD p
+                ON p.period_sid = MAS.PERIOD_SID
+            WHERE
+            PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            GROUP BY
+            RLD.RELATIONSHIP_LEVEL_VALUES,
+            @FREQUENCY_GROUP@,
+            RLD.RELATIONSHIP_LEVEL_SID,
+            RLD.LEVEL_NO,
+            p."YEAR",
+            RLD.RELATIONSHIP_LEVEL_SID,
+            CCP.HIERARCHY_NO,
+            HLD.LEVEL_NAME
+ 
+            UNION
+
+            SELECT
+               AVG(MSP.ACCOUNT_GROWTH),
+               AVG(MSP.PRODUCT_GROWTH),
+               SUM(MSP.PROJECTION_SALES),
+               SUM(MSP.PROJECTION_UNITS),
+               NULL AS ACTUAL_SALES,
+               NULL AS ACTUAL_UNITS,
+               MAX(RLD.LEVEL_NO) AS level_no,
+               RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+               p."YEAR" as YEARS,
+               @FREQUENCY@ as PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.CALCULATION_PERIODS
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.CALCULATION_PERIODS)
+               END AS CALCULATION_PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.METHODOLOGY
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.METHODOLOGY)
+               END AS METHODOLOGY,
+               RLD.RELATIONSHIP_LEVEL_SID,
+               CCP.HIERARCHY_NO,
+               COUNT(*) AS RCOUNT,
+               HLD.LEVEL_NAME,
+               0 AS actualProj,
+               NULL AS historySales,
+               NULL AS historyUnits,
+               MIN(
+                   CASE
+                       (CHECK_RECORD) WHEN 1
+                       THEN 1
+                       ELSE 0
+                   END
+               ) AS checkrec,
+               SUM(
+                   CASE
+                       (MSPM.CHECK_RECORD) WHEN 1
+                       THEN 0
+                       ELSE 1
+                   END
+               ) / @FREQDIVISION AS UNCHECK_COUNT,
+               COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+               '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
+               MIN(MSPM.USER_GROUP) AS USER_GROUP
+           FROM
+               PROJECTION_DETAILS PD
+           JOIN @CCP CCP
+               ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD 
+                   ON CCP.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID    
+          LEFT JOIN ST_NM_SALES_PROJECTION_MASTER MSPM
+               ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+               AND (MSPM.USER_GROUP LIKE '@USER_GROUP' OR MSPM.USER_GROUP IS NULL)
+           JOIN HIERARCHY_LEVEL_DEFINITION HLD
+               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+          LEFT JOIN ST_NM_SALES_PROJECTION MSP
+               ON MSPM.PROJECTION_DETAILS_SID = MSP.PROJECTION_DETAILS_SID 
+               AND MSPM.USER_ID = MSP.USER_ID
+                 AND MSPM.SESSION_ID = MSP.SESSION_ID
+           AND MSPM.USER_ID = @USER_ID
+           AND MSPM.SESSION_ID = @SESSION_ID
+           AND MSP.USER_ID = @USER_ID
+           AND MSP.SESSION_ID = @SESSION_ID
+           JOIN PERIOD p
+               ON p.period_sid = MSP.PERIOD_SID
+           WHERE
+           PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           
+           
+           GROUP BY
+           RLD.RELATIONSHIP_LEVEL_VALUES,
+           @FREQUENCY_GROUP@,
+           RLD.LEVEL_NO,
+           p."YEAR",
+           RLD.RELATIONSHIP_LEVEL_SID,
+           CCP.HIERARCHY_NO,
+           HLD.LEVEL_NAME
+           ) Q) MAINQ
+WHERE  MAINQ.TEMP_INDEX > @START
+       AND MAINQ.TEMP_INDEX <= ( @START+@END )
+ORDER  BY MAINQ.RLV,
+          MAINQ.YEARS,
+          MAINQ.PERIODS; 
+        ]]>
+        
+    </sql>
+    
+   <sql id="nm.saveToMainTable">
+		<![CDATA[
+	    MERGE NM_SALES_PROJECTION_MASTER AS TARGET
+		USING ( 
+		SELECT PROJECTION_DETAILS_SID,
+		METHODOLOGY,
+		USER_GROUP,
+		CALCULATION_PERIODS,
+		CALCULATION_BASED,
+		CHECK_RECORD,
+                FORECAST_START_PERIOD_SID,
+                FORECAST_END_PERIOD_SID,
+                ALLOCATION_BASIS 
+		FROM dbo.ST_NM_SALES_PROJECTION_MASTER
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.METHODOLOGY=SOURCE.METHODOLOGY, 
+		TARGET.USER_GROUP=SOURCE.USER_GROUP, 
+		TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS, 
+		TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED, 
+		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD,
+                TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID, 
+		TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID, 
+		TARGET.ALLOCATION_BASIS=SOURCE.ALLOCATION_BASIS
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT (PROJECTION_DETAILS_SID,
+		METHODOLOGY,
+		USER_GROUP,
+		CALCULATION_PERIODS,
+		CALCULATION_BASED,
+		CHECK_RECORD,
+                FORECAST_START_PERIOD_SID,
+		FORECAST_END_PERIOD_SID,
+		ALLOCATION_BASIS)
+                VALUES(SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.METHODOLOGY,
+		SOURCE.USER_GROUP,
+		SOURCE.CALCULATION_PERIODS,
+		SOURCE.CALCULATION_BASED,
+		SOURCE.CHECK_RECORD,
+                SOURCE.FORECAST_START_PERIOD_SID,
+		SOURCE.FORECAST_END_PERIOD_SID,
+		SOURCE.ALLOCATION_BASIS);
+		
+		MERGE NM_SALES_PROJECTION AS TARGET
+		USING ( 
+		SELECT PROJECTION_DETAILS_SID,
+		ACCOUNT_GROWTH,
+		PRODUCT_GROWTH,
+		PROJECTION_SALES,
+		PROJECTION_UNITS,
+		PERIOD_SID,
+		ADJUSTMENT_TYPE,
+		ADJUSTMENT_BASIS,
+		ADJUSTMENT_VARIABLE,
+		ADJUSTMENT_METHODOLOGY,
+		ADJUSTMENT_VALUES
+		FROM dbo.ST_NM_SALES_PROJECTION
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.ACCOUNT_GROWTH=SOURCE.ACCOUNT_GROWTH,
+		TARGET.PRODUCT_GROWTH=SOURCE.PRODUCT_GROWTH,
+		TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
+		TARGET.PROJECTION_UNITS=SOURCE.PROJECTION_UNITS,
+		TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+		TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE,
+		TARGET.ADJUSTMENT_BASIS=SOURCE.ADJUSTMENT_BASIS,
+		TARGET.ADJUSTMENT_VARIABLE=SOURCE.ADJUSTMENT_VARIABLE,
+		TARGET.ADJUSTMENT_METHODOLOGY=SOURCE.ADJUSTMENT_METHODOLOGY,
+		TARGET.ADJUSTMENT_VALUES=SOURCE.ADJUSTMENT_VALUES
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT (PROJECTION_DETAILS_SID,
+		ACCOUNT_GROWTH,
+		PRODUCT_GROWTH,
+		PROJECTION_SALES,
+		PROJECTION_UNITS,
+		PERIOD_SID,
+		ADJUSTMENT_TYPE,
+		ADJUSTMENT_BASIS,
+		ADJUSTMENT_VARIABLE,
+		ADJUSTMENT_METHODOLOGY,
+		ADJUSTMENT_VALUES)
+                VALUES(SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.ACCOUNT_GROWTH,
+		SOURCE.PRODUCT_GROWTH,
+		SOURCE.PROJECTION_SALES,
+		SOURCE.PROJECTION_UNITS,
+		SOURCE.PERIOD_SID,
+		SOURCE.ADJUSTMENT_TYPE,
+		SOURCE.ADJUSTMENT_BASIS,
+		SOURCE.ADJUSTMENT_VARIABLE,
+		SOURCE.ADJUSTMENT_METHODOLOGY,
+		SOURCE.ADJUSTMENT_VALUES);
+		
+		MERGE NM_ACTUAL_SALES AS TARGET
+		USING ( 
+		SELECT PROJECTION_DETAILS_SID,
+		PERIOD_SID,
+		ACTUAL_SALES,
+		ACTUAL_UNITS,
+		HISTORY_PROJECTION_SALES,
+		HISTORY_PROJECTION_UNITS
+		FROM dbo.ST_NM_ACTUAL_SALES
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
+		TARGET.ACTUAL_UNITS=SOURCE.ACTUAL_UNITS,
+		TARGET.HISTORY_PROJECTION_SALES=SOURCE.HISTORY_PROJECTION_SALES,
+		TARGET.HISTORY_PROJECTION_UNITS=SOURCE.HISTORY_PROJECTION_UNITS
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT (PROJECTION_DETAILS_SID,
+		PERIOD_SID,
+		ACTUAL_SALES,
+		ACTUAL_UNITS,
+		HISTORY_PROJECTION_SALES,
+		HISTORY_PROJECTION_UNITS)
+                VALUES(SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.PERIOD_SID,
+		SOURCE.ACTUAL_SALES,
+		SOURCE.ACTUAL_UNITS,
+		SOURCE.HISTORY_PROJECTION_SALES,
+		SOURCE.HISTORY_PROJECTION_UNITS);
+		
+                MERGE NM_PPA_PROJECTION_MASTER AS TARGET
+                USING (
+                SELECT PROJECTION_DETAILS_SID
+		,ACTUAL_PRICE_CAP
+		,PRICE_BASIS
+		,USER_GROUP
+		,PRICE_PROTECTION_START_DATE
+		,PRICE_PROTECTION_END_DATE
+		,CHECK_RECORD
+		,PRICE_PROTECTION_STATUS
+                ,RS_MODEL_SID
+                ,REBATE_FREQUENCY
+                FROM dbo.ST_NM_PPA_PROJECTION_MASTER
+                WHERE USER_ID = ?UID
+		AND SESSION_ID = ?SID
+                ) AS SOURCE
+                ON (TARGET.PROJECTION_DETAILS_SID = SOURCE.PROJECTION_DETAILS_SID
+                 AND TARGET.RS_MODEL_SID=SOURCE.RS_MODEL_SID )
+                WHEN MATCHED
+                THEN
+		UPDATE
+		SET TARGET.ACTUAL_PRICE_CAP = SOURCE.ACTUAL_PRICE_CAP
+			,TARGET.PRICE_BASIS = SOURCE.PRICE_BASIS
+			,TARGET.USER_GROUP = SOURCE.USER_GROUP
+			,TARGET.PRICE_PROTECTION_START_DATE = SOURCE.PRICE_PROTECTION_START_DATE
+			,TARGET.PRICE_PROTECTION_END_DATE = SOURCE.PRICE_PROTECTION_END_DATE
+			,TARGET.CHECK_RECORD = SOURCE.CHECK_RECORD
+			,TARGET.PRICE_PROTECTION_STATUS = SOURCE.PRICE_PROTECTION_STATUS
+                        ,TARGET.REBATE_FREQUENCY = SOURCE.REBATE_FREQUENCY
+                WHEN NOT MATCHED BY TARGET
+                THEN
+		INSERT(PROJECTION_DETAILS_SID
+			,ACTUAL_PRICE_CAP
+			,PRICE_BASIS
+			,USER_GROUP
+			,PRICE_PROTECTION_START_DATE
+			,PRICE_PROTECTION_END_DATE
+			,CHECK_RECORD
+			,PRICE_PROTECTION_STATUS
+                        ,RS_MODEL_SID
+                        ,REBATE_FREQUENCY)
+		VALUES (
+			SOURCE.PROJECTION_DETAILS_SID
+			,source.ACTUAL_PRICE_CAP
+			,source.PRICE_BASIS
+			,source.USER_GROUP
+			,source.PRICE_PROTECTION_START_DATE
+			,source.PRICE_PROTECTION_END_DATE
+			,source.CHECK_RECORD
+			,source.PRICE_PROTECTION_STATUS
+                        ,source.RS_MODEL_SID
+                        ,source.REBATE_FREQUENCY
+			);
+		
+		MERGE NM_PPA_PROJECTION AS TARGET
+                USING (
+                SELECT PROJECTION_DETAILS_SID
+		,PRICE_CAP
+		,RESET
+		,PERIOD_SID
+		,RESET_PRICE_CAP
+		,PROJECTION_MAP
+		,PROJECTION_RATE
+		,PROJECTION_SALES
+		,PROJECTION_DISCOUNT_DOLLAR
+		,PROJECTION_DISCOUNT_UNITS
+		,ITEM_PRICING_QUALIFIER_SID
+		,NEP
+		,NEP_FORMULA
+		,BASE_PRICE_TYPE
+		,BASE_PRICE_MANUAL
+		,BASE_PRICE_DATE
+		,BASE_PRICE_PRICE_TYPE
+		,NET_BASE_PRICE
+		,NET_BASE_PRICE_FORMULA
+		,SUBSEQUENT_PERIOD_PRICE_TYPE
+		,NET_SUBSEQUENT_PERIOD_PRICE
+		,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+		,PRICE_TOLERANCE_INTERVAL
+		,PRICE_TOLERANCE_FREQUENCY
+		,PRICE_TOLERANCE_TYPE
+		,PRICE_TOLERANCE
+		,MAX_INCREMENTAL_CHANGE
+		,RESET_ELIGIBLE
+		,RESET_TYPE
+		,RESET_DATE
+		,RESET_INTERVAL
+		,RESET_FREQUENCY
+		,RESET_PRICE_TYPE
+		,NET_RESET_PRICE_TYPE
+		,NET_RESET_PRICE_FORMULA
+		,NET_PRICE_TYPE
+		,NET_PRICE_TYPE_FORMULA
+		,ATTACHED_DATE
+		,Price
+		,PriceChange
+		,TotalDeductions
+		,NetPrice
+		,NetMap
+		,PriceProtectionAmountPerUnit
+		,PriceProtectionPercentage
+		,TotalPriceProtectionDeduction
+                ,DEDUCTION_PER_UNIT
+                ,RS_MODEL_SID
+                FROM dbo.ST_NM_PPA_PROJECTION
+                WHERE USER_ID = ?UID
+		AND SESSION_ID = ?SID
+                ) AS SOURCE
+                ON (
+			TARGET.PROJECTION_DETAILS_SID = SOURCE.PROJECTION_DETAILS_SID
+			AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID 
+                        AND TARGET.RS_MODEL_SID = SOURCE.RS_MODEL_SID
+			)
+                WHEN MATCHED
+                THEN
+		UPDATE
+		SET TARGET.PRICE_CAP = SOURCE.PRICE_CAP
+			,TARGET.RESET = SOURCE.RESET
+			,TARGET.RESET_PRICE_CAP = SOURCE.RESET_PRICE_CAP
+			,TARGET.PROJECTION_MAP = SOURCE.PROJECTION_MAP
+			,TARGET.PROJECTION_RATE = SOURCE.PROJECTION_RATE
+			,TARGET.PROJECTION_SALES = SOURCE.PROJECTION_SALES
+			,TARGET.PROJECTION_DISCOUNT_DOLLAR = SOURCE.PROJECTION_DISCOUNT_DOLLAR
+			,TARGET.PROJECTION_DISCOUNT_UNITS = SOURCE.PROJECTION_DISCOUNT_UNITS
+			,TARGET.ITEM_PRICING_QUALIFIER_SID = SOURCE.ITEM_PRICING_QUALIFIER_SID
+			,TARGET.NEP = SOURCE.NEP
+			,TARGET.NEP_FORMULA = SOURCE.NEP_FORMULA
+			,TARGET.BASE_PRICE_TYPE = SOURCE.BASE_PRICE_TYPE
+			,TARGET.BASE_PRICE_MANUAL = SOURCE.BASE_PRICE_MANUAL
+			,TARGET.BASE_PRICE_DATE = SOURCE.BASE_PRICE_DATE
+			,TARGET.BASE_PRICE_PRICE_TYPE = SOURCE.BASE_PRICE_PRICE_TYPE
+			,TARGET.NET_BASE_PRICE = SOURCE.NET_BASE_PRICE
+			,TARGET.NET_BASE_PRICE_FORMULA = SOURCE.NET_BASE_PRICE_FORMULA
+			,TARGET.SUBSEQUENT_PERIOD_PRICE_TYPE = SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE
+			,TARGET.NET_SUBSEQUENT_PERIOD_PRICE = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE
+			,TARGET.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,TARGET.PRICE_TOLERANCE_INTERVAL = SOURCE.PRICE_TOLERANCE_INTERVAL
+			,TARGET.PRICE_TOLERANCE_FREQUENCY = SOURCE.PRICE_TOLERANCE_FREQUENCY
+			,TARGET.PRICE_TOLERANCE_TYPE = SOURCE.PRICE_TOLERANCE_TYPE
+			,TARGET.PRICE_TOLERANCE = SOURCE.PRICE_TOLERANCE
+			,TARGET.MAX_INCREMENTAL_CHANGE = SOURCE.MAX_INCREMENTAL_CHANGE
+			,TARGET.RESET_ELIGIBLE = SOURCE.RESET_ELIGIBLE
+			,TARGET.RESET_TYPE = SOURCE.RESET_TYPE
+			,TARGET.RESET_DATE = SOURCE.RESET_DATE
+			,TARGET.RESET_INTERVAL = SOURCE.RESET_INTERVAL
+			,TARGET.RESET_FREQUENCY = SOURCE.RESET_FREQUENCY
+			,TARGET.RESET_PRICE_TYPE = SOURCE.RESET_PRICE_TYPE
+			,TARGET.NET_RESET_PRICE_TYPE = SOURCE.NET_RESET_PRICE_TYPE
+			,TARGET.NET_RESET_PRICE_FORMULA = SOURCE.NET_RESET_PRICE_FORMULA
+			,TARGET.NET_PRICE_TYPE = SOURCE.NET_PRICE_TYPE
+			,TARGET.NET_PRICE_TYPE_FORMULA = SOURCE.NET_PRICE_TYPE_FORMULA
+			,TARGET.ATTACHED_DATE = SOURCE.ATTACHED_DATE
+			,TARGET.Price = SOURCE.Price
+			,TARGET.PriceChange = SOURCE.PriceChange
+			,TARGET.TotalDeductions = SOURCE.TotalDeductions
+			,TARGET.NetPrice = SOURCE.NetPrice
+			,TARGET.NetMap = SOURCE.NetMap
+			,TARGET.PriceProtectionAmountPerUnit = SOURCE.PriceProtectionAmountPerUnit
+			,TARGET.PriceProtectionPercentage = SOURCE.PriceProtectionPercentage
+			,TARGET.TotalPriceProtectionDeduction = SOURCE.TotalPriceProtectionDeduction
+                        ,TARGET.DEDUCTION_PER_UNIT = SOURCE.DEDUCTION_PER_UNIT
+                        WHEN NOT MATCHED BY TARGET
+                        THEN
+                        INSERT (PROJECTION_DETAILS_SID
+			,PRICE_CAP
+			,RESET
+			,PERIOD_SID
+			,RESET_PRICE_CAP
+			,PROJECTION_MAP
+			,PROJECTION_RATE
+			,PROJECTION_SALES
+			,PROJECTION_DISCOUNT_DOLLAR
+			,PROJECTION_DISCOUNT_UNITS
+			,ITEM_PRICING_QUALIFIER_SID
+			,NEP
+			,NEP_FORMULA
+			,BASE_PRICE_TYPE
+			,BASE_PRICE_MANUAL
+			,BASE_PRICE_DATE
+			,BASE_PRICE_PRICE_TYPE
+			,NET_BASE_PRICE
+			,NET_BASE_PRICE_FORMULA
+			,SUBSEQUENT_PERIOD_PRICE_TYPE
+			,NET_SUBSEQUENT_PERIOD_PRICE
+			,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,PRICE_TOLERANCE_INTERVAL
+			,PRICE_TOLERANCE_FREQUENCY
+			,PRICE_TOLERANCE_TYPE
+			,PRICE_TOLERANCE
+			,MAX_INCREMENTAL_CHANGE
+			,RESET_ELIGIBLE
+			,RESET_TYPE
+			,RESET_DATE
+			,RESET_INTERVAL
+			,RESET_FREQUENCY
+			,RESET_PRICE_TYPE
+			,NET_RESET_PRICE_TYPE
+			,NET_RESET_PRICE_FORMULA
+			,NET_PRICE_TYPE
+			,NET_PRICE_TYPE_FORMULA
+			,ATTACHED_DATE
+			,Price
+			,PriceChange
+			,TotalDeductions
+			,NetPrice
+			,NetMap
+			,PriceProtectionAmountPerUnit
+			,PriceProtectionPercentage
+			,TotalPriceProtectionDeduction
+                        ,DEDUCTION_PER_UNIT
+                        ,RS_MODEL_SID
+                        )
+                        VALUES (
+			SOURCE.PROJECTION_DETAILS_SID
+			,SOURCE.PRICE_CAP
+			,SOURCE.RESET
+			,SOURCE.PERIOD_SID
+			,SOURCE.RESET_PRICE_CAP
+			,SOURCE.PROJECTION_MAP
+			,SOURCE.PROJECTION_RATE
+			,SOURCE.PROJECTION_SALES
+			,SOURCE.PROJECTION_DISCOUNT_DOLLAR
+			,SOURCE.PROJECTION_DISCOUNT_UNITS
+			,SOURCE.ITEM_PRICING_QUALIFIER_SID
+			,SOURCE.NEP
+			,SOURCE.NEP_FORMULA
+			,SOURCE.BASE_PRICE_TYPE
+			,SOURCE.BASE_PRICE_MANUAL
+			,SOURCE.BASE_PRICE_DATE
+			,SOURCE.BASE_PRICE_PRICE_TYPE
+			,SOURCE.NET_BASE_PRICE
+			,SOURCE.NET_BASE_PRICE_FORMULA
+			,SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE
+			,SOURCE.NET_SUBSEQUENT_PERIOD_PRICE
+			,SOURCE.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,SOURCE.PRICE_TOLERANCE_INTERVAL
+			,SOURCE.PRICE_TOLERANCE_FREQUENCY
+			,SOURCE.PRICE_TOLERANCE_TYPE
+			,SOURCE.PRICE_TOLERANCE
+			,SOURCE.MAX_INCREMENTAL_CHANGE
+			,SOURCE.RESET_ELIGIBLE
+			,SOURCE.RESET_TYPE
+			,SOURCE.RESET_DATE
+			,SOURCE.RESET_INTERVAL
+			,SOURCE.RESET_FREQUENCY
+			,SOURCE.RESET_PRICE_TYPE
+			,SOURCE.NET_RESET_PRICE_TYPE
+			,SOURCE.NET_RESET_PRICE_FORMULA
+			,SOURCE.NET_PRICE_TYPE
+			,SOURCE.NET_PRICE_TYPE_FORMULA
+			,SOURCE.ATTACHED_DATE
+			,SOURCE.Price
+			,SOURCE.PriceChange
+			,SOURCE.TotalDeductions
+			,SOURCE.NetPrice
+			,SOURCE.NetMap
+			,SOURCE.PriceProtectionAmountPerUnit
+			,SOURCE.PriceProtectionPercentage
+			,SOURCE.TotalPriceProtectionDeduction
+                        ,SOURCE.DEDUCTION_PER_UNIT
+                        ,SOURCE.RS_MODEL_SID
+			);
+		
+		MERGE NM_ACTUAL_PPA AS TARGET
+                USING (
+                SELECT PROJECTION_DETAILS_SID
+		,PERIOD_SID
+		,ACTUAL_RATE
+		,ACTUAL_SALES
+		,ACTUAL_DISCOUNT_DOLLAR
+		,ACTUAL_DISCOUNT_UNITS
+		,ACTUAL_PROJECTION_SALES
+		,ACTUAL_PROJECTION_RATE
+		,ACTUAL_PROJ_DISCOUNT_DOLLAR
+		,ACTUAL_PROJ_DISCOUNT_UNITS
+		,ITEM_PRICING_QUALIFIER_SID
+		,NEP
+		,NEP_FORMULA
+		,BASE_PRICE_TYPE
+		,BASE_PRICE_MANUAL
+		,BASE_PRICE_DATE
+		,BASE_PRICE_PRICE_TYPE
+		,NET_BASE_PRICE
+		,NET_BASE_PRICE_FORMULA
+		,SUBSEQUENT_PERIOD_PRICE_TYPE
+		,NET_SUBSEQUENT_PERIOD_PRICE
+		,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+		,PRICE_TOLERANCE_INTERVAL
+		,PRICE_TOLERANCE_FREQUENCY
+		,PRICE_TOLERANCE_TYPE
+		,PRICE_TOLERANCE
+		,MAX_INCREMENTAL_CHANGE
+		,RESET_ELIGIBLE
+		,RESET_TYPE
+		,RESET_DATE
+		,RESET_INTERVAL
+		,RESET_FREQUENCY
+		,RESET_PRICE_TYPE
+		,NET_RESET_PRICE_TYPE
+		,NET_RESET_PRICE_FORMULA
+		,NET_PRICE_TYPE
+		,NET_PRICE_TYPE_FORMULA
+		,ATTACHED_DATE
+		,Price
+		,PriceChange
+		,TotalDeductions
+		,NetPrice
+		,NetMap
+		,PriceProtectionAmountPerUnit
+		,PriceProtectionPercentage
+		,TotalPriceProtectionDeduction
+                ,DEDUCTION_PER_UNIT
+                ,RS_MODEL_SID
+                FROM dbo.ST_NM_ACTUAL_PPA
+                WHERE USER_ID = ?UID
+		AND SESSION_ID = ?SID
+                ) AS SOURCE
+                ON (
+			TARGET.PROJECTION_DETAILS_SID = SOURCE.PROJECTION_DETAILS_SID
+			AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID
+                        AND TARGET.RS_MODEL_SID = SOURCE.RS_MODEL_SID
+			)
+                WHEN MATCHED
+                THEN
+		UPDATE
+		SET TARGET.ACTUAL_RATE = SOURCE.ACTUAL_RATE
+			,TARGET.ACTUAL_SALES = SOURCE.ACTUAL_SALES
+			,TARGET.ACTUAL_DISCOUNT_DOLLAR = SOURCE.ACTUAL_DISCOUNT_DOLLAR
+			,TARGET.ACTUAL_DISCOUNT_UNITS = SOURCE.ACTUAL_DISCOUNT_UNITS
+			,TARGET.ACTUAL_PROJECTION_SALES = SOURCE.ACTUAL_PROJECTION_SALES
+			,TARGET.ACTUAL_PROJECTION_RATE = SOURCE.ACTUAL_PROJECTION_RATE
+			,TARGET.ACTUAL_PROJ_DISCOUNT_DOLLAR = SOURCE.ACTUAL_PROJ_DISCOUNT_DOLLAR
+			,TARGET.ACTUAL_PROJ_DISCOUNT_UNITS = SOURCE.ACTUAL_PROJ_DISCOUNT_UNITS
+			,TARGET.ITEM_PRICING_QUALIFIER_SID = SOURCE.ITEM_PRICING_QUALIFIER_SID
+			,TARGET.NEP = SOURCE.NEP
+			,TARGET.NEP_FORMULA = SOURCE.NEP_FORMULA
+			,TARGET.BASE_PRICE_TYPE = SOURCE.BASE_PRICE_TYPE
+			,TARGET.BASE_PRICE_MANUAL = SOURCE.BASE_PRICE_MANUAL
+			,TARGET.BASE_PRICE_DATE = SOURCE.BASE_PRICE_DATE
+			,TARGET.BASE_PRICE_PRICE_TYPE = SOURCE.BASE_PRICE_PRICE_TYPE
+			,TARGET.NET_BASE_PRICE = SOURCE.NET_BASE_PRICE
+			,TARGET.NET_BASE_PRICE_FORMULA = SOURCE.NET_BASE_PRICE_FORMULA
+			,TARGET.SUBSEQUENT_PERIOD_PRICE_TYPE = SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE
+			,TARGET.NET_SUBSEQUENT_PERIOD_PRICE = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE
+			,TARGET.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,TARGET.PRICE_TOLERANCE_INTERVAL = SOURCE.PRICE_TOLERANCE_INTERVAL
+			,TARGET.PRICE_TOLERANCE_FREQUENCY = SOURCE.PRICE_TOLERANCE_FREQUENCY
+			,TARGET.PRICE_TOLERANCE_TYPE = SOURCE.PRICE_TOLERANCE_TYPE
+			,TARGET.PRICE_TOLERANCE = SOURCE.PRICE_TOLERANCE
+			,TARGET.MAX_INCREMENTAL_CHANGE = SOURCE.MAX_INCREMENTAL_CHANGE
+			,TARGET.RESET_ELIGIBLE = SOURCE.RESET_ELIGIBLE
+			,TARGET.RESET_TYPE = SOURCE.RESET_TYPE
+			,TARGET.RESET_DATE = SOURCE.RESET_DATE
+			,TARGET.RESET_INTERVAL = SOURCE.RESET_INTERVAL
+			,TARGET.RESET_FREQUENCY = SOURCE.RESET_FREQUENCY
+			,TARGET.RESET_PRICE_TYPE = SOURCE.RESET_PRICE_TYPE
+			,TARGET.NET_RESET_PRICE_TYPE = SOURCE.NET_RESET_PRICE_TYPE
+			,TARGET.NET_RESET_PRICE_FORMULA = SOURCE.NET_RESET_PRICE_FORMULA
+			,TARGET.NET_PRICE_TYPE = SOURCE.NET_PRICE_TYPE
+			,TARGET.NET_PRICE_TYPE_FORMULA = SOURCE.NET_PRICE_TYPE_FORMULA
+			,TARGET.ATTACHED_DATE = SOURCE.ATTACHED_DATE
+			,TARGET.Price = SOURCE.Price
+			,TARGET.PriceChange = SOURCE.PriceChange
+			,TARGET.TotalDeductions = SOURCE.TotalDeductions
+			,TARGET.NetPrice = SOURCE.NetPrice
+			,TARGET.NetMap = SOURCE.NetMap
+			,TARGET.PriceProtectionAmountPerUnit = SOURCE.PriceProtectionAmountPerUnit
+			,TARGET.PriceProtectionPercentage = SOURCE.PriceProtectionPercentage
+			,TARGET.TotalPriceProtectionDeduction = SOURCE.TotalPriceProtectionDeduction
+                        ,TARGET.DEDUCTION_PER_UNIT = SOURCE.DEDUCTION_PER_UNIT
+                        ,TARGET.RS_MODEL_SID = SOURCE.RS_MODEL_SID
+                        WHEN NOT MATCHED BY TARGET
+                        THEN
+                        INSERT (
+                        PROJECTION_DETAILS_SID
+			,PERIOD_SID
+			,ACTUAL_RATE
+			,ACTUAL_SALES
+			,ACTUAL_DISCOUNT_DOLLAR
+			,ACTUAL_DISCOUNT_UNITS
+			,ACTUAL_PROJECTION_SALES
+			,ACTUAL_PROJECTION_RATE
+			,ACTUAL_PROJ_DISCOUNT_DOLLAR
+			,ACTUAL_PROJ_DISCOUNT_UNITS
+			,ITEM_PRICING_QUALIFIER_SID
+			,NEP
+			,NEP_FORMULA
+			,BASE_PRICE_TYPE
+			,BASE_PRICE_MANUAL
+			,BASE_PRICE_DATE
+			,BASE_PRICE_PRICE_TYPE
+			,NET_BASE_PRICE
+			,NET_BASE_PRICE_FORMULA
+			,SUBSEQUENT_PERIOD_PRICE_TYPE
+			,NET_SUBSEQUENT_PERIOD_PRICE
+			,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,PRICE_TOLERANCE_INTERVAL
+			,PRICE_TOLERANCE_FREQUENCY
+			,PRICE_TOLERANCE_TYPE
+			,PRICE_TOLERANCE
+			,MAX_INCREMENTAL_CHANGE
+			,RESET_ELIGIBLE
+			,RESET_TYPE
+			,RESET_DATE
+			,RESET_INTERVAL
+			,RESET_FREQUENCY
+			,RESET_PRICE_TYPE
+			,NET_RESET_PRICE_TYPE
+			,NET_RESET_PRICE_FORMULA
+			,NET_PRICE_TYPE
+			,NET_PRICE_TYPE_FORMULA
+			,ATTACHED_DATE
+			,Price
+			,PriceChange
+			,TotalDeductions
+			,NetPrice
+			,NetMap
+			,PriceProtectionAmountPerUnit
+			,PriceProtectionPercentage
+			,TotalPriceProtectionDeduction
+                        ,DEDUCTION_PER_UNIT
+                        ,RS_MODEL_SID
+                        )
+                        VALUES (
+			SOURCE.PROJECTION_DETAILS_SID
+			,SOURCE.PERIOD_SID
+			,SOURCE.ACTUAL_RATE
+			,SOURCE.ACTUAL_SALES
+			,SOURCE.ACTUAL_DISCOUNT_DOLLAR
+			,SOURCE.ACTUAL_DISCOUNT_UNITS
+			,SOURCE.ACTUAL_PROJECTION_SALES
+			,SOURCE.ACTUAL_PROJECTION_RATE
+			,SOURCE.ACTUAL_PROJ_DISCOUNT_DOLLAR
+			,SOURCE.ACTUAL_PROJ_DISCOUNT_UNITS
+			,SOURCE.ITEM_PRICING_QUALIFIER_SID
+			,SOURCE.NEP
+			,SOURCE.NEP_FORMULA
+			,SOURCE.BASE_PRICE_TYPE
+			,SOURCE.BASE_PRICE_MANUAL
+			,SOURCE.BASE_PRICE_DATE
+			,SOURCE.BASE_PRICE_PRICE_TYPE
+			,SOURCE.NET_BASE_PRICE
+			,SOURCE.NET_BASE_PRICE_FORMULA
+			,SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE
+			,SOURCE.NET_SUBSEQUENT_PERIOD_PRICE
+			,SOURCE.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,SOURCE.PRICE_TOLERANCE_INTERVAL
+			,SOURCE.PRICE_TOLERANCE_FREQUENCY
+			,SOURCE.PRICE_TOLERANCE_TYPE
+			,SOURCE.PRICE_TOLERANCE
+			,SOURCE.MAX_INCREMENTAL_CHANGE
+			,SOURCE.RESET_ELIGIBLE
+			,SOURCE.RESET_TYPE
+			,SOURCE.RESET_DATE
+			,SOURCE.RESET_INTERVAL
+			,SOURCE.RESET_FREQUENCY
+			,SOURCE.RESET_PRICE_TYPE
+			,SOURCE.NET_RESET_PRICE_TYPE
+			,SOURCE.NET_RESET_PRICE_FORMULA
+			,SOURCE.NET_PRICE_TYPE
+			,SOURCE.NET_PRICE_TYPE_FORMULA
+			,SOURCE.ATTACHED_DATE
+			,SOURCE.Price
+			,SOURCE.PriceChange
+			,SOURCE.TotalDeductions
+			,SOURCE.NetPrice
+			,SOURCE.NetMap
+			,SOURCE.PriceProtectionAmountPerUnit
+			,SOURCE.PriceProtectionPercentage
+			,SOURCE.TotalPriceProtectionDeduction
+                        ,SOURCE.DEDUCTION_PER_UNIT
+                        ,SOURCE.RS_MODEL_SID
+			);
+		
+		MERGE NM_DISCOUNT_PROJ_MASTER AS TARGET
+		USING ( 
+		SELECT PROJECTION_DETAILS_SID,
+		RS_MODEL_SID,
+		METHODOLOGY,
+		PRICE_GROUP_TYPE,
+		NET_FLAG,
+		USER_GROUP,
+		CHECK_RECORD,
+		BASELINE_PERIODS,
+		SELECTED_PERIODS,
+                CALCULATION_PERIODS,
+                CALCULATION_BASED,
+                FORECAST_START_PERIOD_SID,
+                FORECAST_END_PERIOD_SID
+		FROM ST_NM_DISCOUNT_PROJ_MASTER
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.RS_MODEL_SID=SOURCE.RS_MODEL_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID,
+		TARGET.RS_MODEL_SID=SOURCE.RS_MODEL_SID,
+		TARGET.METHODOLOGY=SOURCE.METHODOLOGY,
+		TARGET.PRICE_GROUP_TYPE=SOURCE.PRICE_GROUP_TYPE,
+		TARGET.NET_FLAG=SOURCE.NET_FLAG,
+		TARGET.USER_GROUP=SOURCE.USER_GROUP,
+		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD,
+		TARGET.BASELINE_PERIODS=SOURCE.BASELINE_PERIODS,
+		TARGET.SELECTED_PERIODS=SOURCE.SELECTED_PERIODS,
+                TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS,
+		TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED,
+		TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID,
+		TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT(PROJECTION_DETAILS_SID,
+		RS_MODEL_SID,
+		METHODOLOGY,
+		PRICE_GROUP_TYPE,
+		NET_FLAG,
+		USER_GROUP,
+		CHECK_RECORD,
+		BASELINE_PERIODS,
+		SELECTED_PERIODS,
+                CALCULATION_PERIODS,
+                CALCULATION_BASED,
+                FORECAST_START_PERIOD_SID,
+                FORECAST_END_PERIOD_SID)
+                VALUES(SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.RS_MODEL_SID,
+		SOURCE.METHODOLOGY,
+		SOURCE.PRICE_GROUP_TYPE,
+		SOURCE.NET_FLAG,
+		SOURCE.USER_GROUP,
+		SOURCE.CHECK_RECORD,
+		SOURCE.BASELINE_PERIODS,
+		SOURCE.SELECTED_PERIODS,
+                SOURCE.CALCULATION_PERIODS,
+                SOURCE.CALCULATION_BASED,
+                SOURCE.FORECAST_START_PERIOD_SID,
+                SOURCE.FORECAST_END_PERIOD_SID);
+		
+		MERGE NM_DISCOUNT_PROJECTION AS TARGET
+		USING ( 
+		SELECT PROJECTION_DETAILS_SID,
+		RS_MODEL_SID,
+		PERIOD_SID,
+		PROJECTION_SALES,
+		PROJECTION_RATE,
+		ADJUSTMENT_TYPE,
+		ADJUSTMENT_BASIS,                
+		ADJUSTMENT_VALUE,
+		ADJUSTMENT_METHODOLOGY,
+                PROJECTION_RPU,
+                GROWTH,
+                REFRESHED_NAME,
+                REFRESHED_VALUE,
+		DISCOUNT_RATE
+		FROM ST_NM_DISCOUNT_PROJECTION
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID
+		AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+		AND TARGET.RS_MODEL_SID=SOURCE.RS_MODEL_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.DISCOUNT_RATE=SOURCE.DISCOUNT_RATE,
+		TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
+		TARGET.PROJECTION_RATE=SOURCE.PROJECTION_RATE,
+		TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE,
+		TARGET.ADJUSTMENT_BASIS=SOURCE.ADJUSTMENT_BASIS,
+		TARGET.ADJUSTMENT_VALUE=SOURCE.ADJUSTMENT_VALUE,
+		TARGET.ADJUSTMENT_METHODOLOGY=SOURCE.ADJUSTMENT_METHODOLOGY,
+                TARGET.PROJECTION_RPU=SOURCE.PROJECTION_RPU,
+		TARGET.GROWTH=SOURCE.GROWTH,
+                TARGET.REFRESHED_NAME=SOURCE.REFRESHED_NAME,
+		TARGET.REFRESHED_VALUE=SOURCE.REFRESHED_VALUE
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT (PROJECTION_DETAILS_SID,
+		RS_MODEL_SID,
+		PERIOD_SID,
+		PROJECTION_SALES,
+		PROJECTION_RATE,
+		ADJUSTMENT_TYPE,
+		ADJUSTMENT_BASIS,
+		ADJUSTMENT_VALUE,
+		ADJUSTMENT_METHODOLOGY,
+                PROJECTION_RPU,
+                GROWTH,
+                REFRESHED_NAME,
+                REFRESHED_VALUE,
+		DISCOUNT_RATE)
+                VALUES(SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.RS_MODEL_SID,
+		SOURCE.PERIOD_SID,
+		SOURCE.PROJECTION_SALES,
+		SOURCE.PROJECTION_RATE,
+		SOURCE.ADJUSTMENT_TYPE,
+		SOURCE.ADJUSTMENT_BASIS,
+		SOURCE.ADJUSTMENT_VALUE,
+		SOURCE.ADJUSTMENT_METHODOLOGY,
+                SOURCE.PROJECTION_RPU,
+                SOURCE.GROWTH,
+                SOURCE.REFRESHED_NAME,
+                SOURCE.REFRESHED_VALUE,
+		SOURCE.DISCOUNT_RATE);
+		
+		MERGE NM_ACTUAL_DISCOUNT AS TARGET
+		USING ( 
+		SELECT PROJECTION_DETAILS_SID,
+		RS_MODEL_SID,
+		PERIOD_SID,
+		ACTUAL_SALES,
+		ACTUAL_RATE,
+		ACTUAL_PROJECTION_SALES,
+		ACTUAL_PROJECTION_RATE,
+                ACTUAL_RPU,
+                ACTUAL_PROJECTION_RPU
+		FROM ST_NM_ACTUAL_DISCOUNT
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID
+		AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+		AND TARGET.RS_MODEL_SID=SOURCE.RS_MODEL_SID)
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
+		TARGET.ACTUAL_RATE=SOURCE.ACTUAL_RATE,
+		TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,
+		TARGET.ACTUAL_PROJECTION_RATE=SOURCE.ACTUAL_PROJECTION_RATE,
+                TARGET.ACTUAL_RPU=SOURCE.ACTUAL_RPU,
+                TARGET.ACTUAL_PROJECTION_RPU = SOURCE.ACTUAL_PROJECTION_RPU 
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT(PROJECTION_DETAILS_SID,
+		RS_MODEL_SID,
+		PERIOD_SID,
+		ACTUAL_SALES,
+		ACTUAL_RATE,
+		ACTUAL_PROJECTION_SALES,
+		ACTUAL_PROJECTION_RATE,
+                ACTUAL_RPU,
+                ACTUAL_PROJECTION_RPU)
+                VALUES(SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.RS_MODEL_SID,
+		SOURCE.PERIOD_SID,
+		SOURCE.ACTUAL_SALES,
+		SOURCE.ACTUAL_RATE,
+		SOURCE.ACTUAL_PROJECTION_SALES,
+		SOURCE.ACTUAL_PROJECTION_RATE,
+                SOURCE.ACTUAL_RPU,
+                SOURCE.ACTUAL_PROJECTION_RPU);
+		
+		MERGE NM_ASSUMPTIONS AS TARGET
+		USING ( 
+		SELECT NM_ASSUMPTIONS_SID,
+		PROJECTION_DETAILS_SID,
+		PROJECTION_PERIOD,
+		SEGMENT,
+		GROSS_SALES_PRIOR,
+		GROSS_SALES_PROJECTED,
+		GROSS_SALES_PERCENT_CHANGE,
+		TOTAL_DISCOUNT_PERCENT_PRIOR,
+		TOTAL_DISCOUNT_PERCENT_PROJECTED,
+		TOTAL_DISCOUNT_PERCENT_CHANGE,
+		NET_SALES_PRIOR,
+		NET_SALES_PROJECTED,
+		NET_SALES_PERCENT_CHANGE,
+		REASON_CODES,
+		COMMENTARY,
+		CAM_ID,
+		PARENT
+		FROM ST_NM_ASSUMPTIONS
+		WHERE USER_ID=?UID AND SESSION_ID=?SID
+		) AS SOURCE 
+		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID 
+		AND TARGET.PROJECTION_PERIOD=SOURCE.PROJECTION_PERIOD 
+		AND SOURCE.NM_ASSUMPTIONS_SID=TARGET.NM_ASSUMPTIONS_SID) 
+		WHEN MATCHED 
+		THEN 
+		UPDATE SET 
+		TARGET.SEGMENT=SOURCE.SEGMENT, 
+		TARGET.GROSS_SALES_PRIOR=SOURCE.GROSS_SALES_PRIOR, 
+		TARGET.GROSS_SALES_PROJECTED=SOURCE.GROSS_SALES_PROJECTED, 
+		TARGET.GROSS_SALES_PERCENT_CHANGE=SOURCE.GROSS_SALES_PERCENT_CHANGE, 
+		TARGET.TOTAL_DISCOUNT_PERCENT_PRIOR=SOURCE.TOTAL_DISCOUNT_PERCENT_PRIOR, 
+		TARGET.TOTAL_DISCOUNT_PERCENT_PROJECTED=SOURCE.TOTAL_DISCOUNT_PERCENT_PROJECTED, 
+		TARGET.TOTAL_DISCOUNT_PERCENT_CHANGE=SOURCE.TOTAL_DISCOUNT_PERCENT_CHANGE, 
+		TARGET.NET_SALES_PRIOR=SOURCE.NET_SALES_PRIOR, 
+		TARGET.NET_SALES_PROJECTED=SOURCE.NET_SALES_PROJECTED, 
+		TARGET.NET_SALES_PERCENT_CHANGE=SOURCE.NET_SALES_PERCENT_CHANGE, 
+		TARGET.REASON_CODES=SOURCE.REASON_CODES, 
+		TARGET.COMMENTARY=SOURCE.COMMENTARY, 
+		TARGET.CAM_ID=SOURCE.CAM_ID,
+		TARGET.PARENT=SOURCE.PARENT
+		WHEN NOT MATCHED BY TARGET
+		THEN 
+		INSERT (PROJECTION_DETAILS_SID,
+		PROJECTION_PERIOD,
+		SEGMENT,
+		GROSS_SALES_PRIOR,
+		GROSS_SALES_PROJECTED,
+		GROSS_SALES_PERCENT_CHANGE,
+		TOTAL_DISCOUNT_PERCENT_PRIOR,
+		TOTAL_DISCOUNT_PERCENT_PROJECTED,
+		TOTAL_DISCOUNT_PERCENT_CHANGE,
+		NET_SALES_PRIOR,
+		NET_SALES_PROJECTED,
+		NET_SALES_PERCENT_CHANGE,
+		REASON_CODES,
+		COMMENTARY,
+		CAM_ID,
+		PARENT)
+                VALUES(
+		SOURCE.PROJECTION_DETAILS_SID,
+		SOURCE.PROJECTION_PERIOD,
+		SOURCE.SEGMENT,
+		SOURCE.GROSS_SALES_PRIOR,
+		SOURCE.GROSS_SALES_PROJECTED,
+		SOURCE.GROSS_SALES_PERCENT_CHANGE,
+		SOURCE.TOTAL_DISCOUNT_PERCENT_PRIOR,
+		SOURCE.TOTAL_DISCOUNT_PERCENT_PROJECTED,
+		SOURCE.TOTAL_DISCOUNT_PERCENT_CHANGE,
+		SOURCE.NET_SALES_PRIOR,
+		SOURCE.NET_SALES_PROJECTED,
+		SOURCE.NET_SALES_PERCENT_CHANGE,
+		SOURCE.REASON_CODES,
+		SOURCE.COMMENTARY,
+		SOURCE.CAM_ID,
+		SOURCE.PARENT);
+		]]>
+    </sql>
+    
+    <sql id="getPeriodSID">
+        <![CDATA[ 
+                DECLARE @frequency CHAR(1) = '@selectedfreq',
+        @year      INT = @selectedyear,
+        @period    INT = @selectedperiod
+
+SELECT Min(PERIOD_SID)
+FROM   PERIOD
+WHERE  year = @year
+       AND ( ( @FREQUENCY = 'Q'
+               AND QUARTER = @period )
+              OR ( @FREQUENCY = 'S'
+                   AND SEMI_ANNUAL = @period )
+              OR ( @FREQUENCY = 'M'
+                   AND month = @period )
+              OR @FREQUENCY = 'A')  ;
+        ]]>
+    </sql>
+     
+</custom-sql>

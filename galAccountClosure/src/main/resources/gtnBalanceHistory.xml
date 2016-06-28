@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield"  xmlns:c="urn:import:org.asi.ui.custommenubar" id="mainPanel">
+    <VerticalLayout id="historyVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="historyPanel1" caption="Selection Criteria">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="selectionCriteriaLayout" immediate="true" columns="6" rows="2">
+                    
+                    <Label value="Time Period:" contentMode="HTML" width="91px"/>
+                    <ComboBox id="timePeriodDdlb" immediate="true" width="189px"/>
+                    <Label value="View:" contentMode="HTML" />
+                    <ComboBox id="viewDdlb" immediate="true" width="189px"/>
+                    <Label value="Item Identifier:" contentMode="HTML" width="106px"/>
+                    <ComboBox id="itemIdentifierDdlb" immediate="true" width="189px"/>
+                    
+                    <Label value="As of Date:" contentMode="HTML" width="82px"/>
+                    <PopupDateField id="asOfDate" dateFormat="MM/dd/yyyy" width="182px" styleName="popupdatefieldwidth"/>
+                    <Label value="Variables:" contentMode="HTML" />
+                    <!--<b:CustomTextField id="variablesDdlb" styleName="searchicon" />-->
+                     <c:CustomMenuBar id="customMenuBar" styleName="custommenumulticheck"/>
+                </GridLayout>
+                </HorizontalLayout>
+        </Panel>
+       
+        <HorizontalLayout id="horizontalLayout2" spacing="true" margin="true" immediate="true">
+            <HorizontalLayout spacing="true" margin="true">
+                <Button id="populateBtn" caption="POPULATE"></Button>
+                <Button id="resetBtn" caption="RESET"></Button>
+                <Button id="liabilitySummaryBtn" caption="LIABILITY SUMMARY" ></Button>
+            </HorizontalLayout>
+            <!--<GridLayout spacing="true"  id="viewLayout" immediate="true" columns="4" rows="1">-->
+            <HorizontalLayout spacing="true" margin="true">
+                <Label caption="Filter Type:" contentMode="HTML" />
+                <ComboBox id="filterTypeDdlb" immediate="true" />
+                <Label caption="Value:" contentMode="HTML" />
+                <ComboBox id="valueDdlb" immediate="true" />
+            </HorizontalLayout>
+            <!--</GridLayout>-->
+        </HorizontalLayout>
+        
+        <Panel id="historyResultsPanel2" caption="Results">
+            <VerticalLayout>
+                <VerticalLayout id="tableVerticalLayout">
+                </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="exportBtn" caption="EXPORT" />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

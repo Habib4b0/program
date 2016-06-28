@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 4.0.0//EN" "http://www.liferay.com/dtd/liferay-display_4_0_0.dtd">
+
+<display>
+	<category name="Transactional">
+		<portlet id="ActualsMaster" />
+		<portlet id="GLBalanceMaster" />
+		<portlet id="CPI Master" />
+		<portlet id="GlCostCenterMaster" />
+		<!-- Added by Mani -->
+		<portlet id="SalesMaster" />
+		<portlet id="ForecastSales" />
+		<portlet id="AverageShelfLife" />
+		<portlet id="ItemHierarchy" />
+
+		<portlet id="ItemHierarchyDefinition" />
+		<portlet id="LotMaster" />
+		<portlet id="MasterDataAttributeMaster" />
+
+		<portlet id="BestPrice" />
+		<portlet id="FormulaDetails" />
+		<portlet id="AuditInbound" />
+                <portlet id="Accrual Details" />
+                <portlet id="Demand" />
+                <portlet id="InventoryWithdrawalSummary" />
+                 <portlet id="Returns" />
+                 <portlet id="CustomerSales" />
+                 <portlet id="ActualGTSCustomerProduct" />
+	</category>
+</display>

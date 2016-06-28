@@ -1,0 +1,677 @@
+/*
+ * 
+ */
+package com.stpl.app.galforecasting.nationalassumptions.ui.form;
+
+import com.stpl.app.galforecasting.nationalassumptions.dto.AttachmentDTO;
+import com.stpl.app.galforecasting.nationalassumptions.logic.AdditionalInfoLogic;
+import com.stpl.app.galforecasting.nationalassumptions.util.CommonUiUtils;
+import com.stpl.app.galforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.galforecasting.nationalassumptions.util.Constants.CommonConstants.DATE_FORMAT;
+import static com.stpl.app.galforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
+import static com.stpl.app.galforecasting.nationalassumptions.util.Constants.CommonConstants.USER_ID;
+import com.stpl.app.galforecasting.nationalassumptions.util.FileUploader;
+import com.stpl.app.galforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.galforecasting.utils.Constant;
+import com.stpl.ifs.util.ExportPdf;
+import com.stpl.ifs.util.ExportWord;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.FieldEvents;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.LayoutEvents;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.JavaScriptFunction;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.VerticalLayout;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AdditionalInformation.
+ *
+ */
+public class AdditionalInformation extends CustomComponent {
+
+    /**
+     * The Constant serialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+    /**
+     * The Constant LOGGER.
+     */
+    private static final Logger LOGGER = Logger.getLogger(AdditionalInformation.class);
+
+    /**
+     * The excel export image.
+     */
+    private final Resource wordImage = new ThemeResource("../../icons/word.png");
+    /**
+     * The graph image.
+     */
+    private final Resource pdfImage = new ThemeResource("../../icons/pdf.png");
+    /**
+     * The excelBtn btn.
+     */
+    @UiField("wordBtn")
+    public Button wordBtn;
+
+    /**
+     * The add notes btn.
+     */
+    @UiField("addNotesBtn")
+    public Button addNotesBtn;
+
+    /**
+     * The pdf btn.
+     */
+    @UiField("pdfBtn")
+    public Button pdfBtn;
+
+    /**
+     * The remove btn.
+     */
+    @UiField("removeBtn")
+    public Button removeBtn;
+    /**
+     * The results table.
+     */
+    @UiField("resultsTable")
+    public Table resultsTable;
+    /**
+     * The basepath.
+     */
+    private String basepath = (VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() == null ? StringUtils.EMPTY : VaadinService.getCurrent().getBaseDirectory().getAbsolutePath());
+    /**
+     * The module name.
+     */
+    private final static String MODULE_NAME = "National Assumptions";
+    /**
+     * The new notes.
+     */
+    @UiField("newNotes")
+    public TextArea newNotes;
+
+    /**
+     * The notes history.
+     */
+    @UiField("notesHistory")
+    private TextArea notesHistory;
+
+    /**
+     * The layout.
+     */
+    @UiField("layout")
+    VerticalLayout layout;
+    /**
+     * The table bean.
+     */
+    private AttachmentDTO tableBean;
+    /**
+     * The table bean id.
+     */
+    private Object tableBeanId;
+    /**
+     * The file downloader.
+     */
+    private FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
+    /**
+     * The attachments list bean.
+     */
+    private BeanItemContainer<AttachmentDTO> attachmentsListBean = new BeanItemContainer<AttachmentDTO>(AttachmentDTO.class);
+
+    List<AttachmentDTO> newFileDto = new ArrayList<AttachmentDTO>();
+
+    /**
+     * The move back.
+     */
+    private final String moveBack = "../";
+
+    /**
+     * The user id.
+     */
+    final String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID.getConstant());
+    /**
+     * The file size.
+     */
+    private Double fileSize = 0.00;
+
+    /**
+     * The file path.
+     */
+    final File filePath = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId);
+    /**
+     * The upload receiver.
+     */
+    private FileUploader uploadReceiver = new FileUploader(basepath, MODULE_NAME);
+    /**
+     * The add attachment.
+     */
+    private Upload addAttachment = new Upload(null, uploadReceiver);
+    /**
+     * The uploader.
+     */
+    private TextField uploader = new TextField();
+
+    /**
+     * The notes history.
+     */
+    private static final String NOTES_HISTORY = "Notes History";
+    /**
+     * The logo.
+     */
+    private File logo = new File(basepath + "/WEB-INF/images/company_logo.png");
+    /**
+     * The file name.
+     */
+    private final static String FILENAME = "Notes_History_National_Assumptions";
+    /**
+     * The word file.
+     */
+    private File wordFile = new File(filePath + File.separator + FILENAME + ExportWord.DOC_EXT);
+    /**
+     * The pdf file.
+     */
+    private File pdfFile = new File(filePath + File.separator + FILENAME + ExportPdf.PDF_EXT);
+    /**
+     * The word downloader.
+     */
+    private FileDownloader wordDownloader;
+    /**
+     * The pdf downloader.
+     */
+    private FileDownloader pdfDownloader;
+    public List<AttachmentDTO> removedDetailsList = new ArrayList<AttachmentDTO>();
+    /**
+     * The common logic.
+     */
+    private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
+    List<String> notesList = new ArrayList<String>();
+    List<String> wordList = new ArrayList<String>();
+    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+
+    /**
+     * The file path.
+     */
+    final File filePathForLink = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME);
+
+    /**
+     * Instantiates a new additional information.
+     */
+    public AdditionalInformation() {
+        try {
+            LOGGER.info("AdditionalInformation Constructor initiated");
+            setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/AdditionalInformation.xml"), this));
+            layout.addComponent(uploader);
+            layout.addComponent(addAttachment);
+            createExportDocs();
+            configureFields();
+            LOGGER.info("AdditionalInformation Constructor ends");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Configure fields.
+     */
+    private void configureFields() throws PortalException, Exception {
+
+        newNotes.setInputPrompt("- Enter New Note -");
+        wordBtn.setIcon(wordImage);
+        pdfBtn.setIcon(pdfImage);
+        resultsTable.setContainerDataSource(attachmentsListBean);
+        resultsTable.setVisibleColumns(CommonUiUtils.ATTACHMENT_COLUMNS);
+        resultsTable.setColumnHeaders(CommonUiUtils.ATTACHMENT_HEADER);
+        resultsTable.setSelectable(true);
+        resultsTable.setColumnAlignment(CommonUiUtils.ATTACHMENT_COLUMNS[0], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.ATTACHMENT_COLUMNS[1], Table.Align.CENTER);
+        resultsTable.setColumnAlignment(CommonUiUtils.ATTACHMENT_COLUMNS[2], Table.Align.LEFT);
+        uploader.setStyleName(Constant.SEARCH_TEXT);
+        layout.setStyleName("uploadId");
+        notesHistory.setEnabled(false);
+        newNotes.setInputPrompt("- Enter New Note -");
+        if (Constant.VIEW.equalsIgnoreCase(mode)) {
+            disableFieldsOnView();
+        }
+        uploader.addFocusListener(new FieldEvents.FocusListener() {
+            /**
+             * Will execute,when we click an uploader.
+             */
+            @Override
+            public void focus(final FieldEvents.FocusEvent event) {
+                addAttachment.focus();
+            }
+        });
+        JavaScript.getCurrent().addFunction("callJava", new JavaScriptFunction() {
+            @Override
+            /**
+             * Call
+             */
+            public void call(final org.json.JSONArray arguments) throws org.json.JSONException {
+                File fileUpload;
+                final String value = String.valueOf(arguments.get(0));
+                fileUpload = new File(value);
+                final String name = fileUpload.getAbsolutePath();
+                if (name.contains("\\")) {
+                    final String replace = name.replace("\\", ",");
+                    final String[] array = replace.split(",");
+                    final String filename = array[array.length - 1];
+                    uploader.setValue(filename);
+                } else if (name.contains("/")) {
+                    final String replace = name.replace("/", ",");
+                    final String[] array = replace.split(",");
+                    final String filename = array[array.length - 1];
+                    uploader.setValue(filename);
+                } else {
+                    uploader.setValue(name);
+                }
+                uploader.focus();
+
+            }
+        });
+        addAttachment.addChangeListener(new Upload.ChangeListener() {
+            @Override
+            public void filenameChanged(Upload.ChangeEvent event) {
+                uploader.setValue(event.getFilename());
+            }
+        });
+        addAttachment.setButtonCaption(Constant.ADD);
+        addAttachment.addStartedListener(new Upload.StartedListener() {
+            @Override
+            public void uploadStarted(Upload.StartedEvent event) {
+                LOGGER.info("uploadStarted method in addStartedListener started");
+                String fileName = event.getFilename();
+
+                String[] format = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
+                List<String> formatList = Arrays.asList(format);
+
+                if (StringUtils.isBlank(event.getFilename()) || StringUtils.isBlank(uploader.getValue())) {
+                    AbstractNotificationUtils.getErrorNotification("Add attachment", "There is no file to add. Please locate a file to upload.");
+                    uploadReceiver.setUpload(false);
+                } else if (!formatList.contains(fileName.substring(fileName.lastIndexOf('.') + 1))) {
+                    AbstractNotificationUtils.getErrorNotification("Add attachment Error", "This is an unsupported file type. Please upload a supported file type: doc, docx, ppt, xls, xlsx, pdf, txt, csv, jpeg.");
+                    uploadReceiver.setUpload(false);
+                    uploader.setValue(StringUtils.EMPTY);
+                } else {
+                    uploadReceiver.setUpload(true);
+                }
+                LOGGER.info("uploadStarted method in addStartedListener ends");
+            }
+        });
+
+        addAttachment.addSucceededListener(new Upload.SucceededListener() {
+            /**
+             * Will execute,when we add an attachment.
+             */
+            @Override
+            public void uploadSucceeded(final Upload.SucceededEvent event) {
+                try {
+                    LOGGER.info("uploadSucceeded method in addSucceededListener started , the user id is " + userId);
+                    String fileName = event.getFilename();
+                    String[] format = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
+                    List<String> formatList = Arrays.asList(format);
+                    if (StringUtils.isNotBlank(event.getFilename()) && StringUtils.isNotBlank(uploader.getValue()) && formatList.contains(fileName.substring(fileName.lastIndexOf('.') + 1))) {
+                        Object[] items = attachmentsListBean.getItemIds().toArray();
+                        for (Object item : items) {
+                            BeanItem<AttachmentDTO> dtoBean = attachmentsListBean.getItem(item);
+                            String docName = dtoBean.getBean().getDocumentName().getCaption();
+                            String docUserName = dtoBean.getBean().getUserName();
+                            if (docName.equals(event.getFilename()) && docUserName.equals(CommonUtils.userMap.get(userId))) {
+                                attachmentsListBean.removeItem(item);
+                                break;
+                            }
+                        }
+                        AttachmentDTO attachDto = new AttachmentDTO();
+                        SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_FORMAT.getConstant());
+                        attachDto.setDateAdded(dateTimeFormat.format(new Date()));
+                        attachDto.setDocumentName(AdditionalInfoLogic.configureDownloader(event.getFilename(), filePath.getAbsolutePath()));
+                        attachDto.setUserName(CommonUtils.getUserNameById(userId));
+                        attachDto.setDocumentFullPath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId
+                                + File.separator + event.getFilename());
+                        attachmentsListBean.addBean(attachDto);
+                        newFileDto.add(attachDto);
+                        CommonUtils.getMessageNotification(event.getFilename() + " uploaded successfully");
+                        uploader.setValue(StringUtils.EMPTY);
+                    }
+                    LOGGER.info("uploadSucceeded method in addSucceededListener ends");
+                } catch (Exception e) {
+                    LOGGER.error(e.getMessage());
+                }
+            }
+
+        });
+        addAttachment.addProgressListener(new Upload.ProgressListener() {
+            /**
+             * Will execute,when we add an attachment.
+             */
+            @Override
+            public void updateProgress(final long readBytes, final long contentLength) {
+                LOGGER.info("updateProgress method in addProgressListener started");
+                fileSize = Double.valueOf(contentLength) / 1024;
+                LOGGER.info("updateProgress method in addProgressListener ends");
+            }
+        });
+        layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            /**
+             * Will execute,when we click layout.
+             */
+            @Override
+            public void layoutClick(final LayoutEvents.LayoutClickEvent event) {
+                callJavaScript();
+            }
+        });
+
+        uploader.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                LOGGER.info("uploader.addValueChangeListener started");
+                File[] listOfFiles = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId)
+                        .listFiles();
+                boolean fileExist = false;
+                for (File file : listOfFiles) {
+                    if (event.getProperty().getValue().toString().equals(file.getName())) {
+                        fileExist = true;
+                    }
+                }
+                if (fileExist) {
+                    new AbstractNotificationUtils() {
+                        @Override
+                        public void noMethod() {
+                            uploader.setValue(StringUtils.EMPTY);
+                        }
+
+                        @Override
+                        /**
+                         * The method is triggered when Yes button of the
+                         * message box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        public void yesMethod() {
+                            // do nothing
+                        }
+                    }.getConfirmationMessage("File Exists", "Selected file already Exists. Do you want to replace it?");
+                }
+                LOGGER.info("uploader.addValueChangeListener ends");
+            }
+        });
+
+        setValues(false);
+    }
+
+    /**
+     * Results table.
+     *
+     * @param event the event
+     */
+    @UiHandler("resultsTable")
+    public void resultsTable(final ItemClickEvent event) {
+        LOGGER.info("Inside resultsTable itemClick method");
+
+        tableBeanId = event.getItemId();
+        BeanItem<?> targetItem = null;
+        if (tableBeanId instanceof BeanItem<?>) {
+            targetItem = (BeanItem<?>) tableBeanId;
+        } else if (tableBeanId instanceof AttachmentDTO) {
+            targetItem = new BeanItem<AttachmentDTO>((AttachmentDTO) tableBeanId);
+        }
+        tableBean = (AttachmentDTO) targetItem.getBean();
+        LOGGER.info("Ends resultsTable itemClick method");
+    }
+
+    /**
+     * Adds the notes btn.
+     *
+     * @param event the event
+     */
+    @UiHandler("addNotesBtn")
+    public void addNotesBtn(final Button.ClickEvent event) {
+        LOGGER.info("Inside addNotesBtn listener method");
+        final String enteredvalue = newNotes.getValue();
+        if ((StringUtils.EMPTY).equals(enteredvalue.trim())) {
+            AbstractNotificationUtils.getErrorNotification("Add Note Error", "There is no note to add. Please type a note in the Notes Section. ");
+        } else {
+            new AbstractNotificationUtils() {
+                public void noMethod() {
+                    // do nothing
+                }
+
+                @Override
+                /**
+                 * The method is triggered when Yes button of the message box is
+                 * pressed .
+                 *
+                 * @param buttonId The buttonId of the pressed button.
+                 */
+                public void yesMethod() {
+                    try {
+                        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("<hh:mm:ss a> <MM/dd/yyyy>");
+                        int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID.getConstant());
+                        if (addInfoLogic.saveNotes(projectionId, CommonUtils.getUserNameById(userId), enteredvalue, MODULE_NAME)) {
+                            wordList.add(enteredvalue + "<" + CommonUtils.getUserNameById(userId) + ">" + dateTimeFormat.format(new Date()));
+                            notesList.add(enteredvalue + "<" + CommonUtils.getUserNameById(userId) + ">" + dateTimeFormat.format(new Date()));
+
+                            notesHistory.setValue(notesHistory.getValue() + newNotes.getValue() + "<" + CommonUtils.getUserNameById(userId) + ">" + dateTimeFormat.format(new Date()) + "\n");
+                            newNotes.setValue(StringUtils.EMPTY);
+                            documentExporter();
+                        }
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
+                    }
+                }
+            }.getConfirmationMessage("New note confirmation", "Are you sure you want to add this note");
+        }
+        LOGGER.info("End of addNotesBtn listener method");
+    }
+
+    /**
+     * Removes the btn.
+     *
+     * @param event the event
+     */
+    @UiHandler("removeBtn")
+    public void removeBtn(final Button.ClickEvent event) {
+        LOGGER.info("Inside removeBtn listener method");
+        if (tableBeanId == null || resultsTable.size() <= 0 || !resultsTable.isSelected(tableBeanId)) {
+            AbstractNotificationUtils.getInfoNotification("Remove Attachment", "Please select an attachment to remove.");
+        } else {
+            if (tableBean.getUserName().equalsIgnoreCase(CommonUtils.getUserNameById(userId))) {
+
+                new AbstractNotificationUtils() {
+                    public void noMethod() {
+                        // do nothing
+                    }
+
+                    @Override
+                    /**
+                     * The method is triggered when Yes button of the message
+                     * box is pressed .
+                     *
+                     * @param buttonId The buttonId of the pressed button.
+                     */
+                    public void yesMethod() {
+                        try {
+                            AttachmentDTO dto = new AttachmentDTO();
+                            dto.setDocDetailsId(tableBean.getDocDetailsId());
+                            dto.setDocumentFullPath(tableBean.getDocumentFullPath());
+                            removedDetailsList.add(dto);
+
+                            File file = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + MODULE_NAME + File.separator + userId
+                                    + File.separator + tableBean.getDocumentName());
+                            file.delete();
+                            resultsTable.removeItem(tableBeanId);
+                            tableBeanId = null;
+                            tableBean = (AttachmentDTO) null;
+
+                        } catch (Exception e) {
+                            LOGGER.error(e.getMessage());
+                        }
+                    }
+                }.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+
+            } else {
+                AbstractNotificationUtils.getInfoNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+
+            }
+        }
+
+        LOGGER.info("End of removeBtn listener method");
+    }
+
+    /**
+     * Creates the export docs.
+     */
+    private void createExportDocs() {
+        // Creates directory
+        Resource wordRes;
+        Resource pdfRes;
+        LOGGER.info("Inside AdditionalInformation create Export Docs mehtod " + filePath);
+        if (!filePath.exists()) {
+            filePath.mkdirs();
+        }
+        wordRes = new FileResource(wordFile);
+        pdfRes = new FileResource(pdfFile);
+        wordDownloader = new FileDownloader(wordRes);
+        pdfDownloader = new FileDownloader(pdfRes);
+        wordDownloader.extend(wordBtn);
+        pdfDownloader.extend(pdfBtn);
+        LOGGER.info("End of AdditionalInformation create export docs method");
+    }
+
+    /**
+     * Call java script.
+     */
+    public void callJavaScript() {
+        LOGGER.info("Inside of AdditionalInformation callJavaScript Method");
+
+        uploader.setDebugId("textId");
+        layout.setDebugId("layoutId");
+
+        Page.getCurrent()
+                .getJavaScript()
+                .execute(
+                        "var f=document.getElementById('layoutId').children[1];" + "var f2=f.firstChild.firstChild.children[1]; " + "f2.addEventListener('change', function(){" + "var f3=f2.value;"
+                        + "callJava(f3)" + "}, false);");
+        LOGGER.info("Ends of AdditionalInformation callJavaScript Method");
+    }
+
+    /**
+     * Sets the uploder value.
+     */
+    public void setUploderValue() {
+        LOGGER.info("Inside of AdditionalInformation setUploderValue Method");
+        uploader.setValue(StringUtils.EMPTY);
+        newNotes.focus();
+        LOGGER.info("Ends of AdditionalInformation setUploderValue Method");
+    }
+
+    /**
+     * Document exporter.
+     */
+    public void documentExporter() {
+        LOGGER.info("Indide AdditionalInformation document Exporter");
+
+        final ExportWord exportWord = new ExportWord(filePath, wordFile);
+        exportWord.wordExport(wordList);
+        final Resource wordResOnEdit = new FileResource(new File(filePath + File.separator + FILENAME + ExportWord.DOC_EXT));
+        wordDownloader.setFileDownloadResource(wordResOnEdit);
+
+        final ExportPdf exportPdf = new ExportPdf(NOTES_HISTORY, filePath, logo, pdfFile);
+        exportPdf.export(notesHistory.getValue());
+        final Resource pdfResOnEdit = new FileResource(new File(filePath + File.separator + FILENAME + ExportPdf.PDF_EXT));
+        pdfDownloader.setFileDownloadResource(pdfResOnEdit);
+
+        LOGGER.info("Ends AdditionalInformation document Exporter");
+    }
+
+    /**
+     * Sets the values.
+     *
+     * @throws SystemException ,PortalException
+     * @throws PortalException the portal exception
+     * @throws Exception the exception
+     */
+    public void setValues(boolean saveFlag) throws SystemException, PortalException, Exception {
+        LOGGER.info("Inside of AdditionalInformation setValues Method");
+        String mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
+        if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode) || saveFlag) {
+            attachmentsListBean.removeAllItems();
+            final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID.getConstant());
+            final List<AttachmentDTO> allFiles = addInfoLogic.getAttachmentDTOList(projectionId, MODULE_NAME, filePathForLink);
+
+            attachmentsListBean.addAll(addInfoLogic.addUserFile(allFiles));
+            wordList.clear();
+            notesHistory.setValue(addInfoLogic.getNotes(projectionId, MODULE_NAME, wordList));
+            newNotes.setValue(StringUtils.EMPTY);
+        }
+        LOGGER.info("Ends of AdditionalInformation setValues Method");
+    }
+
+    public List<AttachmentDTO> getUploadedData() {
+        return attachmentsListBean.getItemIds();
+    }
+
+    public List<String> getAddedNotes() {
+        return notesList;
+    }
+
+    public List<AttachmentDTO> getRemoveDocDetailsItem() {
+        return removedDetailsList;
+    }
+
+    public void saveAdditionalInformation() throws Exception {
+        int projectionId = (Integer) VaadinSession.getCurrent()
+                .getAttribute(PROJECTION_ID.getConstant());
+        List<String> addedNotes = getAddedNotes();
+        for (String enteredNotes : addedNotes) {
+            addInfoLogic.saveNotes(projectionId, CommonUtils.getUserNameById(userId), enteredNotes, MODULE_NAME);
+        }
+        notesList.clear();
+        for (AttachmentDTO attached : newFileDto) {
+            addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName().getCaption(), CommonUtils.getUserNameById(userId), fileSize, MODULE_NAME);
+        }
+        List<AttachmentDTO> removedAttachments = getRemoveDocDetailsItem();
+        for (AttachmentDTO removed : removedAttachments) {
+            if (removed.getDocDetailsId() != 0) {
+                addInfoLogic.deleteUploadedFile(removed.getDocDetailsId());
+            }
+        }
+        removedDetailsList.clear();
+        // reload the table and text area
+        setValues(true);
+    }
+
+    public void disableFieldsOnView() {
+        addNotesBtn.setEnabled(false);
+        newNotes.setEnabled(false);
+        notesHistory.setEnabled(false);
+        addAttachment.setEnabled(false);
+        removeBtn.setEnabled(false);
+    }
+}

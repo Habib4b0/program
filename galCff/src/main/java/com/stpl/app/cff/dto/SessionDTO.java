@@ -1,0 +1,719 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.cff.dto;
+
+import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+
+/**
+ *
+ * @author Manasa
+ */
+public class SessionDTO implements Cloneable {
+
+    private int projectionId;
+    private int workflowId;
+    private String sessionId;
+    private String projectionName;
+    private String action;
+    private String workflowFlag;
+    private String editOperation;
+    private String userId;
+    private String userName;
+    private String workflowStatus;
+    private String sessionDate;
+    private ForecastDTO forecastDTO;
+    private String workflowUserType;
+    private boolean saveFlag = false;
+    private boolean submitFlag;
+    private boolean cidtIndicator;
+    private boolean salesIndicator;
+    private boolean discountIndicator;
+    private boolean ppaIndicator;
+    private boolean projectionSaveFlag;
+    private Date fromDate;
+    private Date toDate;
+    private String fromPeriod;
+    private String toPeriod;
+    private String customerLevelNumber;
+    private String productLevelNumber;
+    private int lowerMostProductLevelNo;
+    private int lowerMostCustomerLevelNo;
+    private int lowerMostCustomLevelNo;
+    private Boolean assumptionSales;
+    private Boolean assumptionDiscount;
+    private Boolean assumptionPPA;
+    private Map<String, Integer> projectionPeriod = new HashMap<String, Integer>();
+    private Map<String, List> FrequencyAndQuater = new HashMap<String, List>();
+    private Map<String, Date> HistoryAndStartDate = new HashMap<String, Date>();
+    private Date currentDate;
+    private Map<String, Map<String, Integer>> historyEndDetails = new HashMap<String, Map<String, Integer>>();
+    private Map<String, Integer> projectionDetails = new HashMap<String, Integer>();
+    private boolean fromDateChanged = false;
+    private String custRelationshipBuilderSid = StringUtils.EMPTY;
+    private String prodRelationshipBuilderSid = StringUtils.EMPTY;
+    private Map<String, String> customerDescription = new HashMap<String, String>();
+    private Map<String, String> productDescription = new HashMap<String, String>();
+    private int customerHierarchyId;
+    private int productHierarchyId;
+    private int customerRelationId;
+    private int productRelationId;
+    private String marketTypeValue = StringUtils.EMPTY;
+    private String discount = StringUtils.EMPTY;
+    private int discountTypeId = 0;
+    private int custHierarchySid;
+    private int prodHierarchySid;
+    private long processId;
+    private String marketType = StringUtils.EMPTY;
+    private String modifiedDate;
+    private int projectionDetailsSid;
+    private String cusFieldName = StringUtils.EMPTY;
+    private String customerHierSid = StringUtils.EMPTY;
+    private String productHierSid = StringUtils.EMPTY;
+    private int totalCustomerLevelNo;
+    private String totalDiscountCount = StringUtils.EMPTY;
+    //Added for persisting freq value in session for calc and adj prc
+    private String frequency = StringUtils.EMPTY;
+    private Map<String, String> returnsDetailsMap = new HashMap<String, String>();
+    private String detailsSID = StringUtils.EMPTY;
+    private int noOfApproval;
+    private int approvalLevel;
+    private String companyIds = StringUtils.EMPTY;
+    private String contractIds = StringUtils.EMPTY;
+    private String ccpDetailsId = StringUtils.EMPTY;
+    private String forecastName = StringUtils.EMPTY;
+    private boolean hasTradingPartner;
+    private boolean isGenerated = false;
+
+    public boolean isHasTradingPartner() {
+        return hasTradingPartner;
+    }
+
+    public void setHasTradingPartner(boolean hasTradingPartner) {
+        this.hasTradingPartner = hasTradingPartner;
+    }
+
+    public int getProjectionId() {
+        return projectionId;
+    }
+
+    public void setProjectionId(int projectionId) {
+        this.projectionId = projectionId;
+    }
+
+    public int getWorkflowId() {
+        return workflowId;
+    }
+
+    public void setWorkflowId(int workflowId) {
+        this.workflowId = workflowId;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getProjectionName() {
+        return projectionName;
+    }
+
+    public void setProjectionName(String projectionName) {
+        this.projectionName = projectionName;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getWorkflowFlag() {
+        return workflowFlag;
+    }
+
+    public void setWorkflowFlag(String workflowFlag) {
+        this.workflowFlag = workflowFlag;
+    }
+
+    public String getEditOperation() {
+        return editOperation;
+    }
+
+    public void setEditOperation(String editOperation) {
+        this.editOperation = editOperation;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getWorkflowStatus() {
+        return workflowStatus;
+    }
+
+    public void setWorkflowStatus(String workflowStatus) {
+        this.workflowStatus = workflowStatus;
+    }
+
+    public ForecastDTO getForecastDTO() {
+        return forecastDTO;
+    }
+
+    public void setForecastDTO(ForecastDTO forecastDTO) {
+        this.forecastDTO = forecastDTO;
+    }
+
+    public String getWorkflowUserType() {
+        return workflowUserType;
+    }
+
+    public void setWorkflowUserType(String workflowUserType) {
+        this.workflowUserType = workflowUserType;
+    }
+
+    public boolean isSaveFlag() {
+        return saveFlag;
+    }
+
+    public void setSaveFlag(boolean saveFlag) {
+        this.saveFlag = saveFlag;
+    }
+
+    public boolean isSubmitFlag() {
+        return submitFlag;
+    }
+
+    public void setSubmitFlag(boolean submitFlag) {
+        this.submitFlag = submitFlag;
+    }
+
+    public boolean isCidtIndicator() {
+        return cidtIndicator;
+    }
+
+    public void setCidtIndicator(boolean cidtIndicator) {
+        this.cidtIndicator = cidtIndicator;
+    }
+
+    public boolean isSalesIndicator() {
+        return salesIndicator;
+    }
+
+    public void setSalesIndicator(boolean salesIndicator) {
+        this.salesIndicator = salesIndicator;
+    }
+
+    public boolean isDiscountIndicator() {
+        return discountIndicator;
+    }
+
+    public void setDiscountIndicator(boolean discountIndicator) {
+        this.discountIndicator = discountIndicator;
+    }
+
+    public boolean isPpaIndicator() {
+        return ppaIndicator;
+    }
+
+    public void setPpaIndicator(boolean ppaIndicator) {
+        this.ppaIndicator = ppaIndicator;
+    }
+
+    public boolean isProjectionSaveFlag() {
+        return projectionSaveFlag;
+    }
+
+    public void setProjectionSaveFlag(boolean projectionSaveFlag) {
+        this.projectionSaveFlag = projectionSaveFlag;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    public String getFromPeriod() {
+        return fromPeriod;
+    }
+
+    public void setFromPeriod(String fromPeriod) {
+        this.fromPeriod = fromPeriod;
+    }
+
+    public String getToPeriod() {
+        return toPeriod;
+    }
+
+    public void setToPeriod(String toPeriod) {
+        this.toPeriod = toPeriod;
+    }
+
+    public String getCustomerLevelNumber() {
+        return customerLevelNumber;
+    }
+
+    public void setCustomerLevelNumber(String customerLevelNumber) {
+        this.customerLevelNumber = customerLevelNumber;
+    }
+
+    public String getProductLevelNumber() {
+        return productLevelNumber;
+    }
+
+    public void setProductLevelNumber(String productLevelNumber) {
+        this.productLevelNumber = productLevelNumber;
+    }
+
+    public int getLowerMostProductLevelNo() {
+        return lowerMostProductLevelNo;
+    }
+
+    public void setLowerMostProductLevelNo(int lowerMostProductLevelNo) {
+        this.lowerMostProductLevelNo = lowerMostProductLevelNo;
+    }
+
+    public int getLowerMostCustomerLevelNo() {
+        return lowerMostCustomerLevelNo;
+    }
+
+    public void setLowerMostCustomerLevelNo(int lowerMostCustomerLevelNo) {
+        this.lowerMostCustomerLevelNo = lowerMostCustomerLevelNo;
+    }
+
+    public int getLowerMostCustomLevelNo() {
+        return lowerMostCustomLevelNo;
+    }
+
+    public void setLowerMostCustomLevelNo(int lowerMostCustomLevelNo) {
+        this.lowerMostCustomLevelNo = lowerMostCustomLevelNo;
+    }
+
+    public Boolean getAssumptionSales() {
+        return assumptionSales;
+    }
+
+    public void setAssumptionSales(Boolean assumptionSales) {
+        this.assumptionSales = assumptionSales;
+    }
+
+    public Boolean getAssumptionDiscount() {
+        return assumptionDiscount;
+    }
+
+    public void setAssumptionDiscount(Boolean assumptionDiscount) {
+        this.assumptionDiscount = assumptionDiscount;
+    }
+
+    public Boolean getAssumptionPPA() {
+        return assumptionPPA;
+    }
+
+    public void setAssumptionPPA(Boolean assumptionPPA) {
+        this.assumptionPPA = assumptionPPA;
+    }
+
+    public Map<String, Integer> getProjectionPeriod() {
+        return projectionPeriod;
+    }
+
+    public void setProjectionPeriod(Map<String, Integer> projectionPeriod) {
+        this.projectionPeriod = projectionPeriod;
+    }
+
+    public Map<String, List> getFrequencyAndQuater() {
+        return FrequencyAndQuater;
+    }
+
+    public void setFrequencyAndQuater(Map<String, List> FrequencyAndQuater) {
+        this.FrequencyAndQuater = FrequencyAndQuater;
+    }
+
+    public void addFrequencyAndQuater(String frequency, List HistoryCount) {
+        this.FrequencyAndQuater.put(frequency, HistoryCount);
+    }
+
+    public List getFrequencyAndQuaterValue(String frequency) {
+        return FrequencyAndQuater.get(frequency);
+    }
+
+    public Map<String, Date> getHistoryAndStartDate() {
+        return HistoryAndStartDate;
+    }
+
+    public void setHistoryAndStartDate(Map<String, Date> HistoryAndStartDate) {
+        this.HistoryAndStartDate = HistoryAndStartDate;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
+
+    public Map<String, Map<String, Integer>> getHistoryEndDetails() {
+        return historyEndDetails;
+    }
+
+    public void setHistoryEndDetails(Map<String, Map<String, Integer>> historyEndDetails) {
+        this.historyEndDetails = historyEndDetails;
+    }
+
+    public void addHistoryEndDetails(String frequency, Map<String, Integer> value) {
+        this.historyEndDetails.put(frequency, value);
+    }
+
+    public Map<String, Integer> getHistoryEndDetails(String frequency) {
+        return historyEndDetails.get(frequency);
+    }
+
+    public Map<String, Integer> getProjectionDetails() {
+        return projectionDetails;
+    }
+
+    public void setProjectionDetails(Map<String, Integer> projectionDetails) {
+        this.projectionDetails = projectionDetails;
+    }
+
+    public boolean isFromDateChanged() {
+        return fromDateChanged;
+    }
+
+    public void setFromDateChanged(boolean fromDateChanged) {
+        this.fromDateChanged = fromDateChanged;
+    }
+
+    public String getCustRelationshipBuilderSid() {
+        return custRelationshipBuilderSid;
+    }
+
+    public void setCustRelationshipBuilderSid(String custRelationshipBuilderSid) {
+        this.custRelationshipBuilderSid = custRelationshipBuilderSid;
+    }
+
+    public String getProdRelationshipBuilderSid() {
+        return prodRelationshipBuilderSid;
+    }
+
+    public void setProdRelationshipBuilderSid(String prodRelationshipBuilderSid) {
+        this.prodRelationshipBuilderSid = prodRelationshipBuilderSid;
+    }
+
+    public Map<String, String> getCustomerDescription() {
+        return customerDescription;
+    }
+
+    public void setCustomerDescription(Map<String, String> customerDescription) {
+        this.customerDescription = customerDescription;
+    }
+
+    public Map<String, String> getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(Map<String, String> productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public int getCustomerHierarchyId() {
+        return customerHierarchyId;
+    }
+
+    public void setCustomerHierarchyId(int customerHierarchyId) {
+        this.customerHierarchyId = customerHierarchyId;
+    }
+
+    public int getProductHierarchyId() {
+        return productHierarchyId;
+    }
+
+    public void setProductHierarchyId(int productHierarchyId) {
+        this.productHierarchyId = productHierarchyId;
+    }
+
+    public int getCustomerRelationId() {
+        return customerRelationId;
+    }
+
+    public void setCustomerRelationId(int customerRelationId) {
+        this.customerRelationId = customerRelationId;
+    }
+
+    public int getProductRelationId() {
+        return productRelationId;
+    }
+
+    public void setProductRelationId(int productRelationId) {
+        this.productRelationId = productRelationId;
+    }
+
+    public String getMarketTypeValue() {
+        return marketTypeValue;
+    }
+
+    public void setMarketTypeValue(String marketTypeValue) {
+        this.marketTypeValue = marketTypeValue;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public int getDiscountTypeId() {
+        return discountTypeId;
+    }
+
+    public void setDiscountTypeId(int discountTypeId) {
+        this.discountTypeId = discountTypeId;
+    }
+
+    public int getCustHierarchySid() {
+        return custHierarchySid;
+    }
+
+    public void setCustHierarchySid(int custHierarchySid) {
+        this.custHierarchySid = custHierarchySid;
+    }
+
+    public int getProdHierarchySid() {
+        return prodHierarchySid;
+    }
+
+    public void setProdHierarchySid(int prodHierarchySid) {
+        this.prodHierarchySid = prodHierarchySid;
+    }
+
+    public long getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(long processId) {
+        this.processId = processId;
+    }
+
+    public String getMarketType() {
+        return marketType;
+    }
+
+    public void setMarketType(String marketType) {
+        this.marketType = marketType;
+    }
+
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(String modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public int getProjectionDetailsSid() {
+        return projectionDetailsSid;
+    }
+
+    public void setProjectionDetailsSid(int projectionDetailsSid) {
+        this.projectionDetailsSid = projectionDetailsSid;
+    }
+
+    public String getCusFieldName() {
+        return cusFieldName;
+    }
+
+    public void setCusFieldName(String cusFieldName) {
+        this.cusFieldName = cusFieldName;
+    }
+
+    public String getCustomerHierSid() {
+        return customerHierSid;
+    }
+
+    public void setCustomerHierSid(String customerHierSid) {
+        this.customerHierSid = customerHierSid;
+    }
+
+    public String getProductHierSid() {
+        return productHierSid;
+    }
+
+    public void setProductHierSid(String productHierSid) {
+        this.productHierSid = productHierSid;
+    }
+
+    public int getTotalCustomerLevelNo() {
+        return totalCustomerLevelNo;
+    }
+
+    public void setTotalCustomerLevelNo(int totalCustomerLevelNo) {
+        this.totalCustomerLevelNo = totalCustomerLevelNo;
+    }
+
+    public String getTotalDiscountCount() {
+        return totalDiscountCount;
+    }
+
+    public void setTotalDiscountCount(String totalDiscountCount) {
+        this.totalDiscountCount = totalDiscountCount;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
+
+    public Map<String, String> getReturnsDetailsMap() {
+        return returnsDetailsMap;
+    }
+
+    public void setReturnsDetailsMap(Map<String, String> returnsDetailsMap) {
+        this.returnsDetailsMap = returnsDetailsMap;
+    }
+
+    public String getDetailsSID() {
+        return detailsSID;
+    }
+
+    public void setDetailsSID(String detailsSID) {
+        this.detailsSID = detailsSID;
+    }
+
+    public int getNoOfApproval() {
+        return noOfApproval;
+    }
+
+    public void setNoOfApproval(int noOfApproval) {
+        this.noOfApproval = noOfApproval;
+    }
+
+    public int getApprovalLevel() {
+        return approvalLevel;
+    }
+
+    public void setApprovalLevel(int approvalLevel) {
+        this.approvalLevel = approvalLevel;
+    }
+
+    public String getCompanyIds() {
+        return companyIds;
+    }
+
+    public void setCompanyIds(String companyIds) {
+        this.companyIds = companyIds;
+    }
+
+    public String getContractIds() {
+        return contractIds;
+    }
+
+    public void setContractIds(String contractIds) {
+        this.contractIds = contractIds;
+    }
+
+    public String getCcpDetailsId() {
+        return ccpDetailsId;
+    }
+
+    public void setCcpDetailsId(String ccpDetailsId) {
+        this.ccpDetailsId = ccpDetailsId;
+    }
+
+    public String getForecastName() {
+        return forecastName;
+    }
+
+    public void setForecastName(String forecastName) {
+        this.forecastName = forecastName;
+    }
+
+    public void setSessionDate(String format) {
+        this.sessionDate = sessionDate;
+    }
+
+    public void addProjectionPeriod(String frequency, Integer period) {
+        this.projectionPeriod.put(frequency, period);
+    }
+
+    public Integer getProjectionPeriod(String frequency) {
+        return projectionPeriod.get(frequency);
+    }
+
+    public String getSessionDate() {
+        return sessionDate;
+    }
+
+    public SessionDTO clone() throws CloneNotSupportedException {
+        SessionDTO sessiondto = (SessionDTO) super.clone();
+        return sessiondto;
+    }
+
+    public String getLevelValueDiscription(String hierarchyNo, String indicator) {
+        String retVal;
+        if ("C".equals(indicator)) {
+            if (customerDescription == null) {
+                retVal = StringUtils.EMPTY;
+            } else {
+                retVal = customerDescription.get(hierarchyNo) == null ? StringUtils.EMPTY : customerDescription.get(hierarchyNo);
+            }
+        } else if ("P".equals(indicator)) {
+            if (productDescription == null) {
+                retVal = StringUtils.EMPTY;
+            } else {
+                retVal = productDescription.get(hierarchyNo) == null ? StringUtils.EMPTY : productDescription.get(hierarchyNo);
+            }
+        } else {
+            retVal = StringUtils.EMPTY;
+        }
+        return retVal;
+    }
+
+    public boolean isIsGenerated() {
+        return isGenerated;
+    }
+
+    public void setIsGenerated(boolean isGenerated) {
+        this.isGenerated = isGenerated;
+    }
+    }

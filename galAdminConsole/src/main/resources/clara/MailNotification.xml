@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<VerticalLayout styleName="responsiveTabGrid" xmlns:el="urn:import:com.stpl.app.ui.errorhandling">
+<el:ErrorLabel id="errorMsg" />      
+    <Panel caption="Mail Notification">
+            <VerticalLayout styleName="responsiveTabGrid">
+            <!--<GridLayout id="grid" spacing="true" immediate="true" columns="4" rows="5" margin="true">-->
+            <Label  value="" contentMode="HTML" />
+                <HorizontalLayout  styleName="responsiveTabGrid">
+            <Label id="processNameLb" value="Process Name" contentMode="HTML" styleName="mandatory"/>
+            <ComboBox id="processName" inputPrompt="" width="250px"/></HorizontalLayout>
+            <Label  value="" contentMode="HTML" />
+             <Panel caption="Success Mail Notification">
+<!--            
+            
+      
+            <Label  value="" contentMode="HTML" />-->
+                 <HorizontalLayout margin="true" id="hlayoutSuccess">
+                     <GridLayout id="grid1"  immediate="true" columns="4" rows="4" >
+                <Label id="successToLb" value="Email To" contentMode="HTML" styleName="mandatory"/>
+            <TextField id="successEmailTo" width="300px"/>
+            
+            
+            <Label id="successCcLb" value="Email Cc" contentMode="HTML" />
+            <TextField id="successCc" width="300px" />
+                               
+          
+                     
+                <Label id="successSubjectLb" value="Subject" contentMode="HTML" styleName="mandatory"/>
+            <TextArea id="successSubject" inputPrompt="" width="300px" />
+            
+              
+                <Label id="successTextLb" value="Email Body" contentMode="HTML" styleName="mandatory"/>
+            <TextArea id="successText" inputPrompt="" width="300px" />
+           </GridLayout>
+               
+            </HorizontalLayout>
+             </Panel>
+             <Panel caption="Failure Mail Notification" > 
+             <HorizontalLayout margin="true" id="hlayoutFailure" >
+                   <GridLayout id="grid2"  immediate="true" columns="4" rows="4" >
+              <Label id="failureToLb" value="Failure To" contentMode="HTML" styleName="mandatory"/>
+            <TextField id="failureEmailTo" width="300px" />
+            
+              <Label id="failureCcLb" value="Email Cc" contentMode="HTML" />
+            <TextField id="failureCc"  width="300px" />
+            
+              <Label id="failSubjectLb" value="Subject" contentMode="HTML" styleName="mandatory"/>
+            <TextArea id="failSubject" inputPrompt="" width="300px" />
+    
+            
+              <Label id="failTextLb" value="Email Body" contentMode="HTML" styleName="mandatory"/>
+            <TextArea id="failText" inputPrompt="" width="300px" />
+                   </GridLayout>
+             </HorizontalLayout>
+             
+             </Panel>
+                <!--</GridLayout>-->
+                <HorizontalLayout margin="true" id="hlayout" styleName="responsiveTabGrid">
+                    <Button id="savebtn" caption="Save" immediate="true"/>
+                    <!--<Button id="editbtn" caption="Edit" immediate="true"/>-->
+                    <!--<Button id="viewbtn" caption="View" immediate="true"/>-->
+                </HorizontalLayout>
+              
+            </VerticalLayout>
+        </Panel>
+</VerticalLayout>

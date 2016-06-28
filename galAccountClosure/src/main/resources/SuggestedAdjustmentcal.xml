@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="dsVerticalLayout" spacing="true"
+                    margin="true" immediate="true"  styleName="width-auto" >
+        <Panel id="panel1" caption="Selection Criteria">
+            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="dsLayout" immediate="true" columns="2" rows="10">
+                    <Label caption="Company: " contentMode="HTML" />
+                    <TextField id="company" immediate="true" />
+                    <Label caption="Market Type: " contentMode="HTML" />
+                    <TextField id="marketType" immediate="true" />
+                    <Label caption="Disc/Acct Type: " contentMode="HTML" />
+                    <TextField id="acctType" immediate="true" />
+                    <Label caption="Disc/Acct Sub-Type: " contentMode="HTML" />
+                    <TextField id="acctSubType" immediate="true" />
+                    <Label caption="Customer/Group: " contentMode="HTML" />
+                    <TextField id="customerGroup" styleName="searchicon" width="180px" />
+                    <Label caption="Contract: " contentMode="HTML" />
+                    <TextField id="contractId" immediate="true" />
+                    <Label caption="Product/Group: " contentMode="HTML" />
+                    <TextField id="productGroup" styleName="searchicon" width="180px" />
+                    <Label caption="Product: " contentMode="HTML" />
+                    <TextField id="productName" immediate="true" />
+                    <Label caption="Product Identifier: " contentMode="HTML" />
+                    <TextField id="ndc" immediate="true" />
+                </GridLayout>
+                <HorizontalLayout spacing="true" >
+                    <Label contentMode="HTML" />
+                    <VerticalLayout id="availableTableLayout" width="500px"   immediate="true" >
+                    </VerticalLayout>				
+                        
+                  
+                </HorizontalLayout>
+            </HorizontalLayout>
+        </Panel>
+        <Panel id="csPanel" caption="Customer/Product Details">
+            <VerticalLayout id="vLayout" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="csLayout" immediate="true" columns="17" rows="1">
+                    <Label caption="Frequency: " contentMode="HTML" />
+                    <ComboBox id="frequency" immediate="true" />
+                    <Label caption="From Date" contentMode="HTML" />
+                    <ComboBox id="fromDateDdlb" immediate="true" width="150px" />
+                    <Label caption="To Date" contentMode="HTML" />
+                    <ComboBox id="toDateDdlb" immediate="true" width="150px"/>
+                    <CheckBox id="grossTadeSales" immediate="true" />
+                    <Label caption="Gross Trade Sales" contentMode="HTML" />
+                    <CheckBox id="demand" immediate="true" />
+                    <Label caption="Demand" contentMode="HTML" />
+                    <CheckBox id="inventoryWithdraws" immediate="true" />
+                    <Label caption="Inventory Withdraws" contentMode="HTML" />
+                    <CheckBox id="useSelected" immediate="true" />
+                    <Label caption="Use Selected Period" contentMode="HTML" />
+                    <CheckBox id="alternateHistory" immediate="true" />
+                    <Label caption="Alternate History" contentMode="HTML" />
+                    <Label caption=" " contentMode="HTML" />
+                </GridLayout>
+                <HorizontalLayout spacing="true" immediate="true" >
+                    <Panel caption="History/Projections">
+                        <VerticalLayout spacing="true" margin="true" immediate="true">
+                            <GridLayout spacing="true" margin="false" immediate="true" columns="2" rows="1">
+                                <GridLayout spacing="true" margin="false" immediate="true" columns="1" rows="14">
+                                    <Label caption=" " contentMode="HTML" />
+                                    <Label caption="Sales: " contentMode="HTML" />
+                                    <Label caption="Payments: " contentMode="HTML" />
+                                    <Label caption="Actual GTS: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Projected GTS: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Actual Payments: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Actual Rate: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Projected Payment: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Projected Rate: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Accrual: " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Auto Accruals " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Manual Adjustments " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Payment True-Up " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Other " contentMode="HTML" styleName="pmpy-label"/>
+                                    <Label caption="Accrual Rate:" contentMode="HTML" styleName="pmpy-label"/>
+                                </GridLayout>
+                                <VerticalLayout id="tableLayout" spacing="true" margin="false" immediate="true">
+                                    <!--                        <b:ExtFilterTable id="pmpyTable" pageLength="5" immediate="true" selectable="true" styleName="table-header-normal"/>                                        -->
+                                </VerticalLayout>
+                            </GridLayout>
+                            <HorizontalLayout spacing="true" margin="false" immediate="true">
+                                <Button id="excelBtn"  caption="EXPORT"></Button>   
+                                <Button id="graphBtn" primaryStyleName="link"></Button>                            
+                            </HorizontalLayout>
+                        </VerticalLayout>
+                    </Panel>
+                    <VerticalLayout spacing="true" margin="false" immediate="true">
+                        <Panel caption="Effective Dates" >
+                            <GridLayout spacing="false" margin="false" immediate="true" columns="6" rows="1" width="574px" >
+                                <Label caption=" " contentMode="HTML" />
+                                <Label caption=" " contentMode="HTML" />
+                                <Label value="Start Date: " width="80px" contentMode="HTML" />
+                                <PopupDateField id="startDate" dateFormat="dd/mm/yyyy" />
+                                <Label value="End Date: " width="80px" contentMode="HTML" />
+                                <PopupDateField id="endDate" dateFormat="dd/mm/yyyy" />
+                            </GridLayout>
+                        </Panel>
+                        <Panel caption="Methodology Selection" >
+                            <VerticalLayout spacing="true" margin="true" immediate="true">
+                                <GridLayout spacing="false" margin="true" immediate="true" columns="3" rows="14" width="545px" height="495px">
+                                    <Label value="Sales Basis: " width="90px" contentMode="HTML" />
+                                    <ComboBox id="salesBasisDdlb" immediate="true" width="155px" height="28px"/>
+                                    <Label caption=" " contentMode="HTML" />
+                                    <OptionGroup multiSelect="false" id="manualRadio" immediate="true" enable="true" styleName = "brradio" />
+                                    <VerticalLayout>
+                                        <TextField id="manual" immediate="true" width="150px" />
+                                        <TextField id="average" immediate="true" width="150px" />
+                                        <TextField id="weightedAverage" immediate="true" width="150px" />
+                                        <TextField id="timeWeightedAverage" immediate="true" width="150px" />
+                                        <TextField id="movingAverage" immediate="true" width="150px" />
+                                        <TextField id="growth" immediate="true" width="150px" />
+                                        <TextField id="provisionGrowth" immediate="true" width="150px" />
+                                        <TextField id="salesGrowth" immediate="true" width="150px" />
+                                        <TextField id="exponentialSmoothing" immediate="true" width="150px" />
+                                        <TextField id="dumpingFactor" immediate="true" width="150px" />
+                                    </VerticalLayout>
+                                </GridLayout>
+                                <HorizontalLayout>
+                                    <Button id="resetCalcBtn" caption="RESET" alignment="BOTTOM_RIGHT" />
+                                    <Button id="calculateBtn" caption="CALCULATE" alignment="BOTTOM_RIGHT" />
+                                    <Button id="submitMethodBtn" caption="SUBMIT" alignment="BOTTOM_RIGHT" />
+                                </HorizontalLayout>
+                            </VerticalLayout>
+                        </Panel>
+
+                    </VerticalLayout>
+             
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

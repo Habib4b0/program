@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+    <portlet>
+        <description>Base Rate Portlet</description>
+        <portlet-name>Base Rate</portlet-name>
+        <display-name>Base Rate</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.accountclose.home.ui.BaseRateUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Base Rate</title>
+            <short-title>Base Rate</short-title>
+            <keywords>Base Rate</keywords>
+        </portlet-info>
+    </portlet>
+    <!-- Fixed Dollar Adjustment -->
+    <portlet>
+        <description>Fixed Dollar Adjustment</description>
+        <portlet-name>Fixed Dollar Adjustment</portlet-name>
+        <display-name>Fixed Dollar Adjustment</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.accountclose.home.ui.FixedDollarAdjustUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Fixed Dollar Adjustment</title>
+            <short-title>Fixed Dollar Adjustment</short-title>
+            <keywords>Fixed Dollar Adjustment</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>GTN Balance Report Portlet</description>
+        <portlet-name>Gtn Balance Report</portlet-name>
+        <display-name>GTN Balance Report</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.accountclose.gtnbalancereport.ui.GtnBalanceUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>GTN Balance Report</title>
+            <short-title>GTN Balance</short-title>
+            <keywords>GTN Balance</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>GL Reserve Mapping Portlet</description>
+        <portlet-name>GL Reserve Mapping</portlet-name>
+        <display-name>GL Reserve Mapping</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.accountclose.glReserveMapping.ui.GLReserveMappingUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>GL Reserve Mapping</title>
+            <short-title>Reserve Mapping</short-title>
+            <keywords>Reserve Mapping</keywords>
+        </portlet-info>
+    </portlet>
+</portlet-app>

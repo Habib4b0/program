@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield"
+                xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling" spacing="true">
+       
+    <Panel caption="Hierarchy Definition" >
+        <HorizontalLayout id="hLayout" styleName="responsiveTabGrid" spacing = "true" >
+            <CssLayout id="cssLayout" width="100%" height="100%" spacing ="true">
+                <errorMsg:ErrorLabel id="errorMsg"/>
+
+                <Label id="labelHierarchyNameId" value="Hierarchy Name" styleName= "mandatory" contentMode="HTML" />
+                <TextField id="hierarchyName" inputPrompt="" />
+
+                <Label id="labelHierarchyType" value="Hierarchy Type" contentMode="HTML" />
+                <OptionGroup multiSelect="false" id="hierarchyType" immediate="true" enable="true" styleName = "horizontal"/>   
+
+                <Label id="labelHierarchyCategory" value="HierarchyCategory" styleName= "mandatory" contentMode="HTML" />
+                <ComboBox id="hierarchyCategory" immediate="true" nullSelectionAllowed="true" pageLength="7" inputPrompt="-Select One-" />
+            </CssLayout>
+        </HorizontalLayout>
+    </Panel>
+    <Panel caption="Level Definition" spacing="true">
+        <VerticalLayout margin="true" spacing="true">
+            <HorizontalLayout id="hLayout1" styleName="responsiveTabGrid">
+                <CssLayout id="cssLayout1" width="100%" height="100%">
+
+                    <Label id="labelLevelNo" value="Level #" contentMode="HTML" />
+                    <TextField id="levelNo" inputPrompt="" />
+
+                    <Label id="labelLevelName" value="Level Name" contentMode="HTML" />
+                    <TextField id="levelName" inputPrompt="" />
+
+                    <Label id="labelUserDefinedOrLinked" value="UserDefined / Linked" contentMode="HTML" />
+                    <OptionGroup multiSelect="false" id="userDefinedOrLinked" immediate="true" enable="true" styleName = "horizontal"/>  
+
+                    <Label id="labelTableName" value="Table Name" contentMode="HTML"  />
+                    <b:CustomTextField id="tableName" styleName="searchicon" />
+
+                    <Label id="labelFieldName" value="Field Name" contentMode="HTML"  />
+                    <b:CustomTextField id="fieldName" styleName="searchicon" /> 
+                </CssLayout>
+            </HorizontalLayout>
+            <HorizontalLayout id="hLayout2" spacing="true" >
+                <Button id="addRowBtn" caption="ADD ROW" immediate="true"/>
+                <Button id="updateRowBtn" caption="UPDATE ROW" immediate="true"/>
+                <Button id="resetButton" caption="RESET" immediate="true"/>
+            </HorizontalLayout> 
+            <Panel caption="Results" spacing="true" >
+                <VerticalLayout id="resultsLayout"> 
+                    <HorizontalLayout id="resultsControlLayout"/>
+                </VerticalLayout>
+            </Panel>
+            <HorizontalLayout>
+                <Button id="deleteRowBtn" caption="DELETE ROW" immediate="true"/>
+                <Button id="viewBackBtn" caption="BACK" immediate="true"/>
+                <Button id="displayBtn" caption="DISPLAY" immediate="true"/>
+                <Button id="excelExportLevels" />
+            </HorizontalLayout>            
+        </VerticalLayout>
+    </Panel>
+    <Panel caption="Level Values" id = "levelValuesPanel" spacing="true">
+        <HorizontalLayout spacing="true" >
+            <CssLayout id="cssLayout2" width="100%" height="100%">
+                <VerticalLayout margin="true" spacing="true">
+                    <HorizontalLayout>
+                        <Label id="labelDisplayLevelNo" value="Level #" contentMode="HTML" />
+                        <TextField id="displayLevelNo" inputPrompt="" />
+                    </HorizontalLayout>
+                    <HorizontalLayout>
+                        <Label id="lableDisplayLevelName" value="Level Name" contentMode="HTML" />
+                        <TextField id="displayLevelName" inputPrompt="" />
+                    </HorizontalLayout>
+                </VerticalLayout>
+                
+                <VerticalLayout spacing="true">
+                        <VerticalLayout margin="true">
+                            <VerticalLayout id="levelResultsLayout">
+                                <HorizontalLayout id="levelResultsControlLayout"/>
+                            </VerticalLayout>
+                                <HorizontalLayout>
+                                    <Button id="displayAddRowBtn" caption="ADD ROW" immediate="true"/>
+                                    <Button id="displayDeleteRowBtn" caption="DELETE ROW" immediate="true"/>
+                                </HorizontalLayout>
+                        </VerticalLayout>
+                </VerticalLayout>
+            </CssLayout>
+        </HorizontalLayout>
+    </Panel>
+    <HorizontalLayout spacing="true">
+        <Button id="backBtn" caption="BACK" immediate="true"/>
+        <Button id="saveBtn" caption="SAVE" immediate="true"/>
+        <Button id="resetBtn" caption="RESET" immediate="true"/>
+    </HorizontalLayout>
+</VerticalLayout>

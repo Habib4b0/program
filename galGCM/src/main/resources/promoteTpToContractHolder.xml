@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:errorMsg="urn:import:com.stpl.app.gcm.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="promoteTpToChVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+         <errorMsg:ErrorLabel id="errorMsg"/>
+        <Panel id="promoteTpToChPanel1" caption="Company Search">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="8" rows="2">
+                    <Label caption="Company ID: " contentMode="HTML" />
+                    <TextField id="companyId" immediate="true" />
+                    <Label caption="Company Name: " contentMode="HTML" />
+                    <TextField id="companyName" immediate="true" />
+                    <Label caption="Company Category: " contentMode="HTML" />
+                    <ComboBox id="companyCategory" immediate="true" width="205px"/>
+                    <Label caption="Identifier Type: " contentMode="HTML" />
+                    <ComboBox id="identifierType" immediate="true" width="205px"/>
+                    <Label caption="Company Type: " contentMode="HTML" />
+                    <ComboBox id="companyType" immediate="true" width="205px"/>
+                    <Label caption="Company No: " contentMode="HTML" />
+                    <TextField id="companyNo" immediate="true" />
+                    <Label caption="Trade Class: " contentMode="HTML" />
+                    <ComboBox id="tradeClass" immediate="true" width="205px"/>
+                    <Label caption="Identifier: " contentMode="HTML" />
+                    <TextField id="identifier" immediate="true" />
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout id="buttonLayout">
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn1" caption="RESET" />  
+        </HorizontalLayout>
+        <Panel id="promoteTpToChPanel2" caption="Results">
+            <VerticalLayout>
+                <VerticalLayout id="promoteTpToChDtoTableLayout" spacing="true" margin="false" immediate="true">
+                </VerticalLayout>
+                <HorizontalLayout  margin = "true">
+                    <Button id="excelBtn" primaryStyleName="link"/>
+                </HorizontalLayout>
+                <HorizontalLayout>
+                    <Button id="resetBtn2" caption="RESET" alignment="BOTTOM_LEFT" />
+                    <Button id="addBtn" caption="ADD" alignment="BOTTOM_LEFT" /> 
+                    <Button id="editBtn" caption="EDIT" alignment="BOTTOM_LEFT" />   
+                    <Button id="deleteBtn" caption="DELETE" alignment="BOTTOM_LEFT" />  
+                    <Button id="transferBtn" caption="TRANSFER" alignment="BOTTOM_LEFT" />  
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

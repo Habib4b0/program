@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:p="urn:vaadin:parent">
+
+    <VerticalLayout spacing="true" margin="true" immediate="true" width="100%" styleName="bootstrap-forecast">
+        <Panel id="panel1" caption="Non-FAMP Results Selection "
+                       spacing="true" margin="true" immediate="true"  width="100%">
+         
+            <VerticalLayout spacing="true" margin="true" height="150px">
+            <GridLayout id="gridLayout" spacing="true" margin="false" immediate="true"
+                                    columns="4" rows="3">
+
+                <Label value="History: " contentMode="HTML" width="133px" />
+                <ComboBox id="nfHistoryDdlb" nullSelectionAllowed="false"
+                                          immediate="true"/>
+
+                <Label value="Variables: " contentMode="HTML"  />
+                <OptionGroup multiSelect="false" id="nfVariables"
+                                                     immediate="true" enable="true" styleName="horizontal">
+                </OptionGroup>
+			
+                <Label value="Therapeutic Class: " contentMode="HTML" width="133px"/>
+                <ComboBox id="nfTherapeuticDdlb" nullSelectionAllowed="false"
+                                          immediate="true" />
+
+                <Label value="Actuals/Projections: " contentMode="HTML" width="180px"/>
+                <OptionGroup multiSelect="false" id="nfActualOrProj" 
+                                                     immediate="true" enable="true" styleName="horizontal">
+                </OptionGroup>
+				
+                <Label value="Brand: " contentMode="HTML" />
+                <ComboBox id="nfBrandDdlb" nullSelectionAllowed="false"
+                                          immediate="true"/>
+
+                <Label value="Projection Period Order: " contentMode="HTML" width="180px" />
+                <OptionGroup multiSelect="false" id="nfPeriodOrder"
+                                                     immediate="true" enable="true" styleName="horizontal">
+                </OptionGroup>
+			
+            </GridLayout>
+   </VerticalLayout>
+        </Panel>
+
+        <HorizontalLayout spacing="true" margin="false"
+                                  immediate="true">
+            <Button id="nfGenerateBtn" caption="GENERATE" immediate="true"></Button>
+            <Button id="nfResetBtn" caption="RESET" immediate="true"></Button>
+        </HorizontalLayout>
+
+        <Panel caption="Non-FAMP Results" width="100%">
+            <VerticalLayout id="verticalLayout" spacing="true"
+                            margin="true" immediate="true">
+                 <HorizontalLayout spacing="true" margin="false">
+                 <Label value="NDC: " visible="false" contentMode="HTML" />
+                    <ComboBox id="nfNdcFilterDdlb" nullSelectionAllowed="false" visible="false"
+                                          immediate="true"/>
+                 </HorizontalLayout>
+                <VerticalLayout id="nfTableVerticalLayout" spacing="true"
+                                 margin="false" immediate="true">              
+                </VerticalLayout> 
+                <Button id="nfExcelBtn" primaryStyleName="link"></Button>
+            </VerticalLayout>
+        </Panel>
+
+        <Button id="nfCloseBtn" caption="CLOSE" immediate="true"></Button>
+
+    </VerticalLayout>
+
+</Panel>

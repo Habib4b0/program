@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <HorizontalLayout id="horizontalLayoutMain" spacing="true" margin="false" immediate="true">
+        <VerticalLayout id="dsVerticalLayout" spacing="true" margin="true" immediate="true">
+            <Panel id="panel1" caption="Manual Processing" width="505px" height="690px">
+                <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
+                    <VerticalLayout id="manualProcessesTable" spacing="true" margin="false" immediate="true">
+                    </VerticalLayout>
+                </HorizontalLayout>
+            </Panel>
+            <HorizontalLayout>
+                <Button id="runBtn1" caption="RUN" />
+            </HorizontalLayout>
+            
+        </VerticalLayout>
+        <VerticalLayout id="dsVerticalLayout2" spacing="true" margin="true" immediate="true">
+            <Panel id="panel3" caption="Scheduled Processing" width="970px" height="330px">
+                <HorizontalLayout id="horizontalLayout3" spacing="true" margin="true" immediate="true">
+                    <VerticalLayout id="scheduledProcessesTable" spacing="true" margin="false" immediate="true">
+                    </VerticalLayout>
+                </HorizontalLayout>
+            </Panel>
+            <Panel id="panel4" caption="Scheduled Process Editor" width="970px" height="350px">
+                <HorizontalLayout id="horizontalLayout4" spacing="true" margin="true" immediate="true">
+                    <GridLayout spacing="true" margin="false" immediate="true" columns="4" rows="5">
+                        <Label caption="Process Name:" contentMode="HTML" />
+                        <TextField id="processName" immediate="true" width="197px" />
+                        <Label caption="Frequency:" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="frequencyRadio" immediate="true" enable="true" styleName = "horizontal"/>
+                        <Label caption="Status:" contentMode="HTML" />
+                        <ComboBox id="status" immediate="true" width="207px" />
+                        <Label caption="Run Every:" contentMode="HTML" />
+                        <ComboBox id="hours" immediate="true" />
+                        <Label caption="Start Date: " contentMode="HTML" />
+                        <PopupDateField id="startDate" dateFormat="dd/mm/yyyy" />
+                        <Label caption=" " contentMode="HTML" />
+                        <ComboBox id="minutes" immediate="true" />
+                        <Label caption="End Date: " contentMode="HTML" />
+                        <PopupDateField id="endDate" dateFormat="dd/mm/yyyy" />
+                        <Label caption=" " contentMode="HTML" />
+                        <Label caption=" " contentMode="HTML" />
+                        <Label caption="Calendar: " contentMode="HTML" />
+                        <ComboBox id="calendar" immediate="true" width="207px"/>
+                    </GridLayout>
+                </HorizontalLayout>
+            </Panel>
+            <HorizontalLayout>
+                <Button id="updateBtn" caption="UPDATE" />
+            </HorizontalLayout>
+        </VerticalLayout>
+    </HorizontalLayout>
+</Panel>

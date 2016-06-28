@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" 
+		xmlns:errorMsg="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:b="urn:import:org.asi.ui.extfilteringtable"
+                    id="mainLayout">
+	<errorMsg:ErrorLabel id="errorLB" />
+	<HorizontalLayout width="100%" height="100%">
+		<Panel height="610px"  width="100%">
+			<HorizontalSplitPanel height="600px">
+				<Panel caption="Component Search" >
+                                    <VerticalLayout spacing="true">
+					<Panel caption="Search Criteria">
+                                            <VerticalLayout margin="true" styleName = "width-auto">
+                                            <GridLayout id="compGridLayout" immediate="true" columns="4" rows="1">
+                                                    <Label id="leftComponentLabel" value="Component" contentMode="HTML" />
+                                                    <ComboBox id="leftComponent" immediate="true" />
+                                                    <Label id="leftSearchTypeLabel" value="Search Type" contentMode="HTML" />
+                                                    <OptionGroup id="leftSearchType" multiSelect="false" immediate="true" enable="true" styleName = "horizontal" />
+                                            </GridLayout>
+                                            <GridLayout id="contractGridLayout" immediate="true" columns="4" rows="2" >
+			                            <Label id="leftContractIdLabel" value="Contract ID" contentMode="HTML"/>
+			                            <TextField id="leftContractId" />
+			                            <Label id="leftContractNoLabel" value="Contract No" contentMode="HTML"/>
+			                            <TextField id="leftContractNo" />
+			                            <Label id="leftContractNameLabel" value="Contract Name" contentMode="HTML" />
+			                            <TextField id="leftContractName" />
+			                            <Label id="leftContractTypeLabel" value="Contract Type" contentMode="HTML" />
+			                            <ComboBox id="leftContractType" immediate="true" />
+                                            </GridLayout>
+                                            <GridLayout id="contractDetailGridLayout" immediate="true" columns="4" rows="2" >
+                                                    <Label id="leftContractStartDateLabel" value="Contract Start Date" contentMode="HTML" />
+                                                    <PopupDateField id="leftContractStartDate"  immediate="true" />
+                                                    <Label id="leftContractEndDateLabel" value="Contract End Date" contentMode="HTML" />
+                                                    <PopupDateField id="leftContractEndDate"  immediate="true" />
+                                                    <Label id="leftContractHolderNoLabel" value="Contract Holder No" contentMode="HTML"/>
+			                            <TextField id="leftContractHolderNo" />
+			                            <Label id="leftContractHolderNameLabel" value="Contract Holder Name" contentMode="HTML"/>
+			                            <TextField id="leftContractHolderName" />
+                                            </GridLayout>
+                                            <GridLayout id="cfpGridLayout" immediate="true" columns="4" rows="2" >
+			                            <Label id="leftCfpIdLabel" value="CFP ID" contentMode="HTML"/>
+			                            <TextField id="leftCfpId" />
+			                            <Label id="leftCfpNoLabel" value="CFP No" contentMode="HTML"/>
+			                            <TextField id="leftCfpNo" />
+			                            <Label id="leftCfpNameLabel" value="CFP Name" contentMode="HTML" />
+			                            <TextField id="leftCfpName" />
+			                            <Label id="leftCfpTypeLabel" value="CFP Type" contentMode="HTML" />
+			                            <ComboBox id="leftCfpType" immediate="true" />
+                                            </GridLayout>       
+                                            <GridLayout id="cfpDetailGridLayout" immediate="true" columns="4" rows="2" >       
+			                            <Label id="leftCompanyNoLabel" value="Company No" contentMode="HTML" />
+                                                    <TextField id="leftCompanyNo" />
+                                                    <Label id="leftCompanyNameLabel" value="Company Name" contentMode="HTML" />
+                                                    <TextField id="leftCompanyName" />
+                                                    <Label id="leftCompanyTypeLabel" value="Company Type" contentMode="HTML" />
+			                            <ComboBox id="leftCompanyType" immediate="true" />
+			                            <Label id="leftCompanyCategoryLabel" value="Company Category" contentMode="HTML" />
+                                                    <TextField id="leftCompanyCategory" />
+                                            </GridLayout>
+								<GridLayout id="ifpGridLayout" immediate="true" columns="4" rows="2" >
+			                            <Label id="leftIfpIdLabel" value="IFP ID" contentMode="HTML"/>
+			                            <TextField id="leftIfpId" />
+			                            <Label id="leftIfpNoLabel" value="IFP No" contentMode="HTML"/>
+			                            <TextField id="leftIfpNo" />
+			                            <Label id="leftIfpNameLabel" value="IFP Name" contentMode="HTML" />
+			                            <TextField id="leftIfpName" />
+			                            <Label id="leftIfpTypeLabel" value="IFP Type" contentMode="HTML" />
+			                            <ComboBox id="leftIfpType" immediate="true" />
+								</GridLayout>
+			                    <GridLayout id="ifpDetailGridLayout" immediate="true" columns="4" rows="2" >
+			                            <Label id="leftIfpItemNoLabel" value="Item No" contentMode="HTML" />
+                                                    <TextField id="leftIfpItemNo" />
+                                                    <Label id="leftIfpItemNameLabel" value="Item Name" contentMode="HTML" />
+                                                    <TextField id="leftIfpItemName" />
+                                                    <Label id="leftIfpTherapeuticClassLabel" value="Therapeutic Class" contentMode="HTML" />
+			                            <ComboBox id="leftIfpTherapeuticClass" immediate="true" />
+			                            <Label id="leftIfpBrandNameLabel" value="Brand Name" contentMode="HTML" />
+			                            <ComboBox id="leftIfpBrandName" immediate="true" />			                            
+                                            </GridLayout>
+                                            <GridLayout id="psGridLayout" immediate="true" columns="4" rows="2" >
+			                            <Label id="leftPsIdLabel" value="PS ID" contentMode="HTML"/>
+			                            <TextField id="leftPsId" />
+			                            <Label id="leftPsNoLabel" value="PS No" contentMode="HTML"/>
+			                            <TextField id="leftPsNo" />
+			                            <Label id="leftPsNameLabel" value="PS Name" contentMode="HTML" />
+			                            <TextField id="leftPsName" />
+			                            <Label id="leftPsTypeLabel" value="PS Type" contentMode="HTML" />
+			                            <ComboBox id="leftPsType" immediate="true" />
+			                    </GridLayout>        
+			                    <GridLayout id="psDetailGridLayout" immediate="true" columns="4" rows="2" >        
+			                            <Label id="leftPsItemNoLabel" value="Item No" contentMode="HTML" />
+                                                    <TextField id="leftPsItemNo" />
+                                                    <Label id="leftPsItemNameLabel" value="Item Name" contentMode="HTML" />
+                                                    <TextField id="leftPsItemName" />
+                                                    <Label id="leftPsTherapeuticClassLabel" value="Therapeutic Class" contentMode="HTML" />
+			                            <ComboBox id="leftPsTherapeuticClass" immediate="true" />
+			                            <Label id="leftPsBrandNameLabel" value="Brand Name" contentMode="HTML" />
+			                            <ComboBox id="leftPsBrandName" immediate="true" />			                            
+                                            </GridLayout>
+                                            <GridLayout id="rsGridLayout" immediate="true" columns="4" rows="2" >
+			                            <Label id="leftRsIdLabel" value="RS ID" contentMode="HTML"/>
+			                            <TextField id="leftRsId" />
+			                            <Label id="leftRsNoLabel" value="RS No" contentMode="HTML"/>
+			                            <TextField id="leftRsNo" />
+			                            <Label id="leftRsNameLabel" value="RS Name" contentMode="HTML" />
+			                            <TextField id="leftRsName" />
+			                            <Label id="leftRsTypeLabel" value="RS Type" contentMode="HTML" />
+			                            <ComboBox id="leftRsType" immediate="true" />
+			                    </GridLayout>        
+			                    <GridLayout id="rsDetailGridLayout" immediate="true" columns="4" rows="2" >        
+			                            <Label id="leftRsItemNoLabel" value="Item No" contentMode="HTML" />
+                                                    <TextField id="leftRsItemNo" />
+                                                    <Label id="leftRsItemNameLabel" value="Item Name" contentMode="HTML" />
+                                                    <TextField id="leftRsItemName" />
+                                                    <Label id="leftRsBrandNameLabel" value="Brand Name" contentMode="HTML" />
+			                            <ComboBox id="leftRsBrandName" immediate="true" />
+			                            <Label id="leftRsProgramCategoryLabel" value="Program Category" contentMode="HTML" />
+			                            <ComboBox id="leftRsProgramCategory" immediate="true" />			                            			                            
+                                            </GridLayout>
+                                            </VerticalLayout>		
+                                        </Panel>
+                                        <HorizontalLayout id="componentSearchLayout" margin="true" spacing="true">
+                                                <Button id="searchBtn" caption="Search" immediate="true" />
+                                                <Button id="resetBtn" caption="Reset" immediate="true" />
+                                        </HorizontalLayout>
+
+                                        <Panel caption="Component Results">
+                                                <b:ExtFilterTable id="componentSearchResultsTable" />
+                                        </Panel>
+                                        <Panel caption="Component Details" id="detailPanel">
+                                                <b:ExtFilterTable id="componentSearchDetailsTable" />
+                                        </Panel>
+                                        <HorizontalLayout margin="true" spacing="true">
+                                                <Button id="addToTreeBtn" caption="Add To Tree" />
+                                                <Button id="resultsExport" styleName="link" />
+                                        </HorizontalLayout>
+                                    </VerticalLayout>
+
+				</Panel>
+				<Panel height="600px" >				
+				<VerticalSplitPanel id="verticalSplitPanel" width="100%" height="100%" >
+					<Panel caption="Working Board" height="100%">
+						<VerticalLayout spacing="true">
+							<Tree id="dashBoardTree"/>
+							<HorizontalLayout id="treeButtonLayout" spacing="true">
+								<Button id="saveTreeBtn" caption="Save"/>
+								<Button id="removeTreeBtn" caption="Remove"/>
+							</HorizontalLayout>
+						</VerticalLayout>
+					</Panel>
+					<Panel caption="Contract Management"  height="100%">
+                                            <VerticalLayout id="processLayout" spacing="true" >
+                                                <Panel caption="Search Criteria">
+                                                    <VerticalLayout margin="true" styleName = "width-auto">
+                                                        <GridLayout id="compRightGridLayout" immediate="true" columns="4" rows="1">
+                                                                <Label id="rightComponentLabel" value="Component" contentMode="HTML" />
+                                                                <ComboBox id="rightComponent" immediate="true" />
+                                                                <Label id="rightSearchTypeLabel" value="Search Type" contentMode="HTML" />
+                                                                <OptionGroup id="rightSearchType" multiSelect="false" immediate="true" enable="true" styleName = "horizontal" />
+                                                        </GridLayout>
+                                                        <GridLayout id="contractRightGridLayout" immediate="true" columns="4" rows="2" >
+                                                                <Label id="rightContractIdLabel" value="Contract ID" contentMode="HTML"/>
+                                                                <TextField id="rightContractId" />
+                                                                <Label id="rightContractNoLabel" value="Contract No" contentMode="HTML"/>
+                                                                <TextField id="rightContractNo" />
+                                                                <Label id="rightContractNameLabel" value="Contract Name" contentMode="HTML" />
+                                                                <TextField id="rightContractName" />
+                                                                <Label id="rightContractTypeLabel" value="Contract Type" contentMode="HTML" />
+                                                                <ComboBox id="rightContractType" immediate="true" />
+                                                        </GridLayout>
+                                                        <GridLayout id="contractDetailRightGridLayout" immediate="true" columns="4" rows="2" >
+                                                                <Label id="rightContractStartDateLabel" value="Contract Start Date" contentMode="HTML" />
+                                                                <PopupDateField id="rightContractStartDate"  immediate="true" />
+                                                                <Label id="rightContractEndDateLabel" value="Contract End Date" contentMode="HTML" />
+                                                                <PopupDateField id="rightContractEndDate"  immediate="true" />
+                                                                <Label id="rightContractHolderNoLabel" value="Contract Holder No" contentMode="HTML"/>
+                                                                <TextField id="rightContractHolderNo" />
+                                                                <Label id="rightContractHolderNameLabel" value="Contract Holder Name" contentMode="HTML"/>
+                                                                <TextField id="rightContractHolderName" />
+                                                        </GridLayout>
+                                                        <GridLayout id="cfpRightGridLayout" immediate="true" columns="4" rows="3" >
+                                                                <Label id="rightCfpIdLabel" value="CFP ID" contentMode="HTML"/>
+                                                                <TextField id="rightCfpId" />
+                                                                <Label id="rightCfpNoLabel" value="CFP No" contentMode="HTML"/>
+                                                                <TextField id="rightCfpNo" />
+                                                                <Label id="rightCfpNameLabel" value="CFP Name" contentMode="HTML" />
+                                                                <TextField id="rightCfpName" />
+                                                                <Label id="rightCfpTypeLabel" value="CFP Type" contentMode="HTML" />
+                                                                <ComboBox id="rightCfpType" immediate="true" />
+                                                                <Label id="rightCompanyIdLabel" value="Company ID" contentMode="HTML" />
+                                                                <TextField id="rightCompanyId" />
+                                                                
+                                                        </GridLayout>       
+                                                        <GridLayout id="cfpDetailRightGridLayout" immediate="true" columns="4" rows="2" >       
+                                                                <Label id="rightCompanyNoLabel" value="Company No" contentMode="HTML" />
+                                                                <TextField id="rightCompanyNo" />
+                                                                <Label id="rightCompanyNameLabel" value="Company Name" contentMode="HTML" />
+                                                                <TextField id="rightCompanyName" />
+                                                                <Label id="rightCompanyTypeLabel" value="Company Type" contentMode="HTML" />
+                                                                <ComboBox id="rightCompanyType" immediate="true" />
+                                                                <Label id="rightCompanyCategoryLabel" value="Company Category" contentMode="HTML" />
+                                                                <TextField id="rightCompanyCategory" />
+                                                        </GridLayout>
+                                                        <GridLayout id="ifpRightGridLayout" immediate="true" columns="4" rows="3" >
+                                                                <Label id="rightIfpIdLabel" value="IFP ID" contentMode="HTML"/>
+                                                                <TextField id="rightIfpId" />
+                                                                <Label id="rightIfpNoLabel" value="IFP No" contentMode="HTML"/>
+                                                                <TextField id="rightIfpNo" />
+                                                                <Label id="rightIfpNameLabel" value="IFP Name" contentMode="HTML" />
+                                                                <TextField id="rightIfpName" />
+                                                                <Label id="rightIfpTypeLabel" value="IFP Type" contentMode="HTML" />
+                                                                <ComboBox id="rightIfpType" immediate="true" />
+                                                                <Label id="rightIfpItemIdLabel" value="Item ID" contentMode="HTML" />
+                                                                <TextField id="rightIfpItemId" />
+                                                        </GridLayout>
+                                                        <GridLayout id="ifpDetailRightGridLayout" immediate="true" columns="4" rows="2" >
+                                                                <Label id="rightIfpItemNoLabel" value="Item No" contentMode="HTML" />
+                                                                <TextField id="rightIfpItemNo" />
+                                                                <Label id="rightIfpItemNameLabel" value="Item Name" contentMode="HTML" />
+                                                                <TextField id="rightIfpItemName" />
+                                                                <Label id="rightIfpTherapeuticClassLabel" value="Therapeutic Class" contentMode="HTML" />
+                                                                <ComboBox id="rightIfpTherapeuticClass" immediate="true" />
+                                                                <Label id="rightIfpBrandNameLabel" value="Brand Name" contentMode="HTML" />
+                                                                <ComboBox id="rightIfpBrandName" immediate="true" />			                            
+                                                        </GridLayout>
+                                                        <GridLayout id="psRightGridLayout" immediate="true" columns="4" rows="2" >
+                                                                <Label id="rightPsIdLabel" value="PS ID" contentMode="HTML"/>
+                                                                <TextField id="rightPsId" />
+                                                                <Label id="rightPsNoLabel" value="PS No" contentMode="HTML"/>
+                                                                <TextField id="rightPsNo" />
+                                                                <Label id="rightPsNameLabel" value="PS Name" contentMode="HTML" />
+                                                                <TextField id="rightPsName" />
+                                                                <Label id="rightPsTypeLabel" value="PS Type" contentMode="HTML" />
+                                                                <ComboBox id="rightPsType" immediate="true" />
+                                                        </GridLayout>        
+                                                        <GridLayout id="psDetailRightGridLayout" immediate="true" columns="4" rows="2" >        
+                                                                <Label id="rightPsItemNoLabel" value="Item No" contentMode="HTML" />
+                                                                <TextField id="rightPsItemNo" />
+                                                                <Label id="rightPsItemNameLabel" value="Item Name" contentMode="HTML" />
+                                                                <TextField id="rightPsItemName" />
+                                                                <Label id="rightPsTherapeuticClassLabel" value="Therapeutic Class" contentMode="HTML" />
+                                                                <ComboBox id="rightPsTherapeuticClass" immediate="true" />
+                                                                <Label id="rightPsBrandNameLabel" value="Brand Name" contentMode="HTML" />
+                                                                <ComboBox id="rightPsBrandName" immediate="true" />			                            
+                                                        </GridLayout>
+                                                        <GridLayout id="rsRightGridLayout" immediate="true" columns="4" rows="2" >
+                                                                <Label id="rightRsIdLabel" value="RS ID" contentMode="HTML"/>
+                                                                <TextField id="rightRsId" />
+                                                                <Label id="rightRsNoLabel" value="RS No" contentMode="HTML"/>
+                                                                <TextField id="rightRsNo" />
+                                                                <Label id="rightRsNameLabel" value="RS Name" contentMode="HTML" />
+                                                                <TextField id="rightRsName" />
+                                                                <Label id="rightRsTypeLabel" value="RS Type" contentMode="HTML" />
+                                                                <ComboBox id="rightRsType" immediate="true" />
+                                                        </GridLayout>        
+                                                        <GridLayout id="rsDetailRightGridLayout" immediate="true" columns="4" rows="2" >        
+                                                                <Label id="rightRsItemNoLabel" value="Item No" contentMode="HTML" />
+                                                                <TextField id="rightRsItemNo" />
+                                                                <Label id="rightRsItemNameLabel" value="Item Name" contentMode="HTML" />
+                                                                <TextField id="rightRsItemName" />
+                                                                <Label id="rightRsBrandNameLabel" value="Brand Name" contentMode="HTML" />
+                                                                <ComboBox id="rightRsBrandName" immediate="true" />
+                                                                <Label id="rightRsProgramCategoryLabel" value="Program Category" contentMode="HTML" />
+                                                                <ComboBox id="rightRsProgramCategory" immediate="true" />			                            			                            
+                                                        </GridLayout>
+                                                    </VerticalLayout>		
+                                                </Panel>
+							<HorizontalLayout margin="true" id="processSearchLayout" spacing="true">
+								<Button id="processSearchBtn" caption="Search"/>
+								<Button id="processResetBtn" caption="Reset"/>
+							</HorizontalLayout>
+							<Panel caption="Results">
+								<TreeTable id="processTreeTable" immediate="true"/>
+							</Panel>
+							<HorizontalLayout id="paginationLayout" />	
+							<HorizontalLayout margin="true" id="processResultsLayout" spacing="true">
+								<Button id="processBtn" caption="Process"/>
+								<Button id="rebuildBtn" caption="Rebuild"/>
+								<Button id="processExportBtn" styleName="link"/>
+							</HorizontalLayout>
+						</VerticalLayout>
+					</Panel>					
+				</VerticalSplitPanel>
+				</Panel>				
+			</HorizontalSplitPanel>			
+		</Panel>
+	</HorizontalLayout>
+</VerticalLayout>

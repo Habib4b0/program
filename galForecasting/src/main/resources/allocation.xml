@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="parentVerticalLayout" spacing="true"
+                    margin="true" immediate="true" height="100%">
+        <Panel immediate="true" caption="Alternate History Selection">
+           
+            <VerticalLayout  spacing="true" margin="true" >
+                <GridLayout columns="7" rows="1" spacing="true">
+                    <Label caption="Frequency: " contentMode="HTML" />
+                    <ComboBox id="frequency" immediate="true" width="205px"/>
+                    <Label caption="Date Range: " contentMode="HTML" />
+                     <Label caption="From: " contentMode="HTML" />
+                    <ComboBox id="from" immediate="true" inputPrompt="-Select One-" />
+                    <Label caption="To: " contentMode="HTML" />
+                    <ComboBox id="to" immediate="true" inputPrompt="-Select One-" width="205px"/>
+                    </GridLayout>
+                    
+                     <VerticalLayout id="selectedCustomerTableLayout" spacing="true" margin="false" immediate="true">
+                    </VerticalLayout>
+                    
+                    <!--<GridLayout columns="3" rows="1" spacing="true">-->
+                    <HorizontalLayout>
+                    <Button id="addBtn" caption="ADD TO QUEUE"  />
+                    <Button id="resetBtn" caption="RESET"  /> 
+                    <Button id="refreshBtn" caption="REFRESH"  />
+                    <Button id="export" primaryStyleName="link"  /> 
+                    </HorizontalLayout>
+                <!--</GridLayout>--> 
+               
+                    
+            </VerticalLayout>
+        </Panel>
+        
+        <Panel caption="Allocation Details"  width="100%">
+            <VerticalLayout spacing="true" margin="true">
+               
+                    <VerticalLayout id="allocationDetailsLayout" spacing="true" margin="false" immediate="true">
+                    </VerticalLayout>
+                 
+                <!--<GridLayout columns="2" rows="1" spacing="true">-->
+                    <HorizontalLayout>
+                        <Button id="removeBtn" caption="REMOVE"  />
+                        <Button id="removeAllBtn" caption="REMOVE ALL"  /> 
+                        <Button id="exportBtn"  primaryStyleName="link"  />
+                    </HorizontalLayout>
+                <!--</GridLayout>-->
+                
+            </VerticalLayout>
+        </Panel> 
+        
+    </VerticalLayout>
+
+</Panel>

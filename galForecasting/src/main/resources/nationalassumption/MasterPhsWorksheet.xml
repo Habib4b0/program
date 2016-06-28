@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" width="100%" spacing="true" margin="true" immediate="true">
+    <VerticalLayout spacing="true" margin="true" immediate="true" width="100%">
+        <Panel caption="Product Selection">
+
+            <GridLayout immediate="true" rows="1" columns="6"  margin="true" spacing="true">
+                <Label caption="Brand:" contentMode="HTML" />
+                <ComboBox id="brand" inputPrompt="-Select One-"  />
+                <Label caption="NDC:" contentMode="HTML" />
+                <ComboBox id="ndc" inputPrompt="-Select One-"  />
+                <Button id="generate" caption="GENERATE" />
+                <Button id="reset" caption="RESET" />
+            </GridLayout>
+        </Panel>
+        <Panel caption="Price Types" immediate="true" width="100%">
+                <VerticalLayout id="verticalLayout" spacing="true"
+                            margin="true" immediate="true">
+            <VerticalLayout id="tableVerticalLayout" spacing="true"
+                                 margin="false" immediate="true">
+              
+                </VerticalLayout> 
+            <VerticalLayout immediate="true">               
+                <Button id="excelBtn"  primaryStyleName="link" immediate="true"/>
+            </VerticalLayout>
+               </VerticalLayout> 
+        </Panel>
+        <HorizontalLayout spacing="true" margin="true">
+            <Button id="calculate" caption="CALCULATE" />
+            <Button id="tableReset" caption="RESET" />
+            <Button id="submit" caption="SUBMIT" />
+            <Button id="close" caption="CLOSE" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

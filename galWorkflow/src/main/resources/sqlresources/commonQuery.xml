@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+    <sql id="wi.sample">
+        <query>
+	<![CDATA[
+            SELECT WORKFLOW_ID FROM WORKFLOW_MASTER
+        ]]>
+        </query>
+    </sql>
+</custom-sql>

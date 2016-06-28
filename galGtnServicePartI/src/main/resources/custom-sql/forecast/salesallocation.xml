@@ -1,0 +1,1515 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="sqlTemplate">
+		<![CDATA[
+
+		]]>
+    </sql>
+    
+    <sql id="loadLevelForExpandCollapse">
+		<![CDATA[
+			SELECT Distinct HLD.RELATIONSHIP_LEVEL_VALUES,HLD.HIERARCHY_NO FROM (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD    
+                        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID  AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID?
+                        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID? 
+                        JOIN PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID    
+                        WHERE PM.PROJECTION_MASTER_SID =  ?PMSID?) CCPMAP, (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID,   RLD1.RELATIONSHIP_LEVEL_VALUES,    
+                        RLD1.LEVEL_NO, RLD1.LEVEL_NAME  FROM RELATIONSHIP_LEVEL_DEFINITION RLD1  JOIN  PROJECTION_CUST_HIERARCHY  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID    
+                        AND PCH.PROJECTION_MASTER_SID =  ?PMSID? WHERE  RLD1.HIERARCHY_NO LIKE '%') HLD    
+                        WHERE CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' order By HLD.HIERARCHY_NO;
+		]]>
+    </sql>
+    
+    <sql id="getListViewProductLevel">
+		<![CDATA[
+                    (SELECT
+                    ISNULL (sum(ch_sa.GTS_SALES), 0) as GTS_SALES,
+                    ISNULL (sum(ch_sa.ACTUAL_SALES), 0) as CONTRACT_SALES,
+                    ISNULL (avg(ch_sa.PER_OF_BUSINESS), 0) as PER_OF_BUSINESS,   
+                    0 as PER_OF_SALES,    
+                    ?SELECTBRAND?
+                    ?SELECTITEM?
+                    p."YEAR" ,    
+                    p.QUARTER,
+                    min(ch_mas.CALCULATION_PERIODS) as baseLine,
+                    min(ch_mas.METHODOLOGY) as methodology,COUNT (*)  AS RCOUNT ,0 as actualProj,null as historySales , null as historyUnits,
+                    min(CASE(ch_mas.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,  
+                    count(distinct case when  ch_mas.CALCULATION_PERIODS is null then '1' else  ch_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,  
+                    count(distinct case when ch_mas.METHODOLOGY is null then '1' else  ch_mas.METHODOLOGY end)     AS methoCount,  
+                    count(distinct case when  ch_mas.CALCULATION_BASED is null then '1' else  ch_mas.CALCULATION_BASED end)     AS calcBasedcount        
+                    FROM projection_details pd
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID ?COUNTCONDNDC?
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRAND?'  ?COUNTCONDBRAND?
+                    JOIN ST_CH_SALES_PROJECTION_MASTER ch_mas
+                    ON pd.PROJECTION_DETAILS_SID = ch_mas.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_ACTUAL_SALES ch_sa
+                    ON ch_mas.PROJECTION_DETAILS_SID = ch_sa.PROJECTION_DETAILS_SID
+                    JOIN PERIOD p  ON p.period_sid = ch_sa.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  ?PMSID?
+                    AND ch_mas.USER_ID = '?USERID?' AND ch_mas.SESSION_ID = '?SESSIONID?'  AND ch_sa.USER_ID  = '?USERID?'  AND ch_sa.SESSION_ID = '?SESSIONID?'
+                    ?GROUPBYBRAND? 
+                    ?GROUPBYITEM? )
+                    UNION
+                    (SELECT
+                    ISNULL (sum(ch_sp.GTS_SALES), 0) as GTS_SALES,
+                    ISNULL (sum(ch_sp.PROJECTED_SALES), 0) as CONTRACT_SALES,
+                    ISNULL (avg(ch_sp.PER_OF_BUSINESS), 0) as PER_OF_BUSINESS,   
+                    ISNULL (avg(ch_sp.PER_OF_SALES), 0) as PER_OF_SALES,
+                    ?SELECTBRAND? 
+                    ?SELECTITEM? 
+                    p."YEAR" ,    
+                    p.QUARTER,
+                    min(ch_mas.CALCULATION_PERIODS) as baseLine,
+                    min(ch_mas.METHODOLOGY) as methodology,COUNT (*)  AS RCOUNT ,0 as actualProj,null as historySales , null as historyUnits,
+                    min(CASE(ch_mas.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,  
+                    count(distinct case when  ch_mas.CALCULATION_PERIODS is null then '1' else  ch_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,  
+                    count(distinct case when ch_mas.METHODOLOGY is null then '1' else  ch_mas.METHODOLOGY end)     AS methoCount,  
+                    count(distinct case when  ch_mas.CALCULATION_BASED is null then '1' else  ch_mas.CALCULATION_BASED end)     AS calcBasedcount        
+                    FROM projection_details pd
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  ?COUNTCONDNDC?
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRAND?'  ?COUNTCONDBRAND?
+                    JOIN ST_CH_SALES_PROJECTION_MASTER ch_mas
+                    ON pd.PROJECTION_DETAILS_SID = ch_mas.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_PROJECTION_SALES ch_sp
+                    ON ch_mas.PROJECTION_DETAILS_SID = ch_sp.PROJECTION_DETAILS_SID
+                    JOIN PERIOD p  ON p.period_sid = ch_sp.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  ?PMSID?
+                    AND ch_mas.USER_ID = '?USERID?' AND ch_mas.SESSION_ID = '?SESSIONID?'  AND ch_sp.USER_ID  = '?USERID?'  AND ch_sp.SESSION_ID = '?SESSIONID?'
+                    ?GROUPBYBRAND?   
+                    ?GROUPBYITEM?    )
+                    ?ORDERBYBRAND?   
+                    ?ORDERBITEM?     
+		]]>
+    </sql>
+    <sql id="COUNTCONDNDC">
+		<![CDATA[
+                     AND IM.ITEM_MASTER_SID in (SELECT distinct IM.ITEM_MASTER_SID as itemSid
+                    FROM   projection_details pd
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRAND?'
+                    JOIN ST_CH_SALES_PROJECTION_MASTER ch_mas
+                    ON pd.PROJECTION_DETAILS_SID = ch_mas.PROJECTION_DETAILS_SID
+                    WHERE  pd.PROJECTION_MASTER_SID =  ?PMSID? 
+                    order by IM.ITEM_MASTER_SID 
+                    OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY)
+		]]>
+    </sql>
+    <sql id="COUNTCONDBRAND">
+		<![CDATA[
+                     AND BRAND.BRAND_MASTER_SID in (SELECT distinct BRAND.BRAND_MASTER_SID as sid
+                    FROM   PROJECTION_DETAILS pd
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRAND?'
+                    JOIN ST_CH_SALES_PROJECTION_MASTER ch_mas
+                    ON pd.PROJECTION_DETAILS_SID = ch_mas.PROJECTION_DETAILS_SID
+                    WHERE  pd.PROJECTION_MASTER_SID =  ?PMSID? 
+                    order by BRAND.BRAND_MASTER_SID 
+                    OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY)
+
+		]]>
+    </sql>
+    <sql id="COUNTNDCBRAND">
+		<![CDATA[
+                    ?CONDNDC?
+                    ?CONDBRAND?
+                    FROM   PROJECTION_DETAILS pd
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRAND?'
+                    JOIN ST_CH_SALES_PROJECTION_MASTER ch_mas
+                    ON pd.PROJECTION_DETAILS_SID = ch_mas.PROJECTION_DETAILS_SID
+                    WHERE  pd.PROJECTION_MASTER_SID =  ?PMSID? 
+                    ?ORDERBYNDC?
+                    ?ORDERBYBRAND?
+                    OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY)
+
+		]]>
+    </sql>
+    
+    <sql id="getProdViewBrandNdcCount">
+        <![CDATA[
+            SELECT 
+            ?COUNTNDC?
+            ?COUNTBRAND?
+            FROM  PROJECTION_DETAILS pd
+            JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID
+            JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+            JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRAND?' 
+            JOIN ST_CH_SALES_PROJECTION_MASTER ch_mas
+            ON pd.PROJECTION_DETAILS_SID = ch_mas.PROJECTION_DETAILS_SID
+            WHERE  pd.PROJECTION_MASTER_SID =  ?PMSID?;
+	]]>
+    </sql>
+    
+    <sql id="customerUnderProductView">
+		<![CDATA[
+                    (SELECT
+                    ISNULL (sum(CH_SA.GTS_SALES), 0) as GTS_SALES,
+                    ISNULL (sum(CH_SA.ACTUAL_SALES), 0) as CONTRACT_SALES,
+                    ISNULL (avg(CH_SA.PER_OF_BUSINESS), 0) as PER_OF_BUSINESS,   
+                    0 as PER_OF_SALES,    
+                    max(RLD.LEVEL_NO) as LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES as LEVEL_VALUE,   
+                    P."YEAR" ,    
+                    p.QUARTER,
+                    min(CH_MASTER.CALCULATION_PERIODS) as BASE_LINE,
+                    min(CH_MASTER.METHODOLOGY) as METHODOLOGY, RLD.RELATIONSHIP_LEVEL_SID AS RSID, CCP.HIERARCHY_NO AS HIER_NO, COUNT (*) AS RCOUNT, 0 AS ACTUAL_PROJ, null as HISTORY_SALES, null as HISTORY_UNITS,
+                    min(CASE(CH_MASTER.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS CHECK_REC, RLD.LEVEL_Name as HIERARCHY_LEVEL,   
+                    count(distinct case when  CH_MASTER.CALCULATION_PERIODS is null then '1' else  CH_MASTER.CALCULATION_PERIODS end)     AS CALC_PERIOD_COUNT,  
+                    count(distinct case when CH_MASTER.METHODOLOGY is null then '1' else  CH_MASTER.METHODOLOGY end)     AS METHOD_COUNT,  
+                    count(distinct case when  CH_MASTER.CALCULATION_BASED is null then '1' else  CH_MASTER.CALCULATION_BASED end)     AS CALC_BASED_COUNT        
+                    FROM   PROJECTION_DETAILS PD
+                    JOIN (SELECT CCPMAP.CCP_DETAILS_SID,
+                    HLD.HIERARCHY_NO,
+                    HLD.RELATIONSHIP_LEVEL_SID
+                    FROM (SELECT RLD.HIERARCHY_NO,
+                    CCP.CCP_DETAILS_SID
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RSID?
+                    JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    ) CCPMAP JOIN 
+                    (SELECT RLD1.HIERARCHY_NO,
+                    RLD1.RELATIONSHIP_LEVEL_SID,
+                    RLD1.LEVEL_NO
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1
+                    JOIN   PROJECTION_CUST_HIERARCHY  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID = ?PMSID? 
+                    AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' 
+                    JOIN CCP_DETAILS CCPD ON CCPMAP.CCP_DETAILS_SID = CCPD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.ITEM_NO like '?NDCNAME?'
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRANDNAME?'
+                    WHERE HLD.LEVEL_NO like '?FORECASTLEVEL?' 
+                    AND HLD.HIERARCHY_NO like '?HIERNO?%'   
+                    AND HLD.HIERARCHY_NO in (SELECT distinct HLD.HIERARCHY_NO
+                    FROM   (SELECT RLD.HIERARCHY_NO,
+                    CCP.CCP_DETAILS_SID
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RSID?
+                    JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    ) CCPMAP JOIN 
+                    (SELECT RLD1.HIERARCHY_NO,
+                    RLD1.RELATIONSHIP_LEVEL_SID,
+                    RLD1.LEVEL_NO
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1
+                    JOIN   PROJECTION_CUST_HIERARCHY  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID = ?PMSID?  
+                    AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' 
+                    JOIN CCP_DETAILS CCPD ON CCPMAP.CCP_DETAILS_SID=CCPD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.ITEM_NO like '?NDCNAME?'
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like  '?BRANDNAME?'
+                    WHERE HLD.LEVEL_NO like '?FORECASTLEVEL?' 
+                    AND HLD.HIERARCHY_NO like '?HIERNO?%'   
+                    order by HLD.HIERARCHY_NO offset ?START?  rows fetch next ?OFFSET? rows only) 
+                    ) CCP
+                    ON CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD  ON  CCP.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID   JOIN ST_CH_SALES_PROJECTION_MASTER CH_MASTER
+                    ON PD.PROJECTION_DETAILS_SID = CH_MASTER.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_ACTUAL_SALES CH_SA
+                    ON CH_MASTER.PROJECTION_DETAILS_SID = CH_SA.PROJECTION_DETAILS_SID
+                    JOIN PERIOD P  ON p.period_sid = CH_SA.PERIOD_SID     WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID?
+                    AND CH_MASTER.USER_ID = '?USERID?' AND CH_MASTER.SESSION_ID = '?SESSIONID?'  AND CH_SA.USER_ID  = '?USERID?'  AND CH_SA.SESSION_ID = '?SESSIONID?'
+                    GROUP  BY RLD.RELATIONSHIP_LEVEL_VALUES,p.QUARTER ,RLD.LEVEL_NO,P."YEAR"  ,RLD.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO ,RLD.LEVEL_NAME)
+                    UNION 
+                    (SELECT
+                    ISNULL (sum(ch_sp.GTS_SALES), 0) as GTS_SALES,
+                    ISNULL (sum(ch_sp.PROJECTED_SALES), 0) as CONTRACT_SALES,
+                    ISNULL (avg(ch_sp.PER_OF_BUSINESS), 0) as PER_OF_BUSINESS,   
+                    ISNULL (avg(ch_sp.PER_OF_SALES), 0) as PER_OF_SALES,
+                    max(RLD.LEVEL_NO) as LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES as LEVEL_VALUE,   
+                    P."YEAR" ,    
+                    p.QUARTER,
+                    min(CH_MASTER.CALCULATION_PERIODS) as BASE_LINE,
+                    min(CH_MASTER.METHODOLOGY) as METHODOLOGY,RLD.RELATIONSHIP_LEVEL_SID as RSID, CCP.HIERARCHY_NO,COUNT (*)  AS RCOUNT ,1 as ACTUAL_PROJ,null as HISTORY_SALES , null as HISTORY_UNITS,
+                    min(CASE(CH_MASTER.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS CHECK_REC,RLD.LEVEL_Name as HIERARCHY_LEVEL,   
+                    count(distinct case when  CH_MASTER.CALCULATION_PERIODS is null then '1' else  CH_MASTER.CALCULATION_PERIODS end)     AS CALC_PERIOD_COUNT,  
+                    count(distinct case when CH_MASTER.METHODOLOGY is null then '1' else  CH_MASTER.METHODOLOGY end)     AS METHOD_COUNT,  
+                    count(distinct case when  CH_MASTER.CALCULATION_BASED is null then '1' else  CH_MASTER.CALCULATION_BASED end)     AS CALC_BASED_COUNT        
+                    FROM   PROJECTION_DETAILS PD
+                    JOIN (SELECT CCPMAP.CCP_DETAILS_SID,
+                    HLD.HIERARCHY_NO,
+                    HLD.RELATIONSHIP_LEVEL_SID
+                    FROM   (SELECT RLD.HIERARCHY_NO,
+                    CCP.CCP_DETAILS_SID
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RSID?
+                    JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    ) CCPMAP JOIN 
+                    (SELECT RLD1.HIERARCHY_NO,
+                    RLD1.RELATIONSHIP_LEVEL_SID,
+                    RLD1.LEVEL_NO
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1
+                    JOIN   PROJECTION_CUST_HIERARCHY  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID = ?PMSID? 
+                    AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' 
+                    JOIN CCP_DETAILS CCPD ON CCPMAP.CCP_DETAILS_SID = CCPD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.ITEM_NO like '?NDCNAME?'
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRANDNAME?'
+                    WHERE HLD.LEVEL_NO like '?FORECASTLEVEL?' 
+                    AND HLD.HIERARCHY_NO like '?HIERNO?%'   
+                    AND HLD.HIERARCHY_NO in (SELECT distinct HLD.HIERARCHY_NO
+                    FROM   (SELECT RLD.HIERARCHY_NO,
+                    CCP.CCP_DETAILS_SID
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RSID?
+                    JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    ) CCPMAP JOIN 
+                    (SELECT RLD1.HIERARCHY_NO,
+                    RLD1.RELATIONSHIP_LEVEL_SID,
+                    RLD1.LEVEL_NO
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1
+                    JOIN   PROJECTION_CUST_HIERARCHY  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID = ?PMSID?  
+                    AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' 
+                    JOIN CCP_DETAILS CCPD ON CCPMAP.CCP_DETAILS_SID=CCPD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.ITEM_NO like '?NDCNAME?'
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like  '?BRANDNAME?'
+                    WHERE HLD.LEVEL_NO like '?FORECASTLEVEL?' 
+                    AND HLD.HIERARCHY_NO like '?HIERNO?%'   
+                    order by HLD.HIERARCHY_NO offset ?START?  rows fetch next ?OFFSET? rows only)
+                    ) CCP
+                    ON CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD  ON  CCP.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID   JOIN ST_CH_SALES_PROJECTION_MASTER CH_MASTER
+                    ON PD.PROJECTION_DETAILS_SID = CH_MASTER.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_PROJECTION_SALES ch_sp
+                    ON CH_MASTER.PROJECTION_DETAILS_SID = ch_sp.PROJECTION_DETAILS_SID
+                    JOIN PERIOD P  ON p.period_sid = ch_sp.PERIOD_SID     WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID? 
+                    AND CH_MASTER.USER_ID = '?USERID?' AND CH_MASTER.SESSION_ID = '?SESSIONID?'  AND ch_sp.USER_ID  = '?USERID?'  AND ch_sp.SESSION_ID = '?SESSIONID?'
+                    GROUP  BY RLD.RELATIONSHIP_LEVEL_VALUES,p.QUARTER ,RLD.LEVEL_NO,P."YEAR"  ,RLD.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO ,RLD.LEVEL_NAME)
+                    order by RLD.RELATIONSHIP_LEVEL_VALUES,P."YEAR",p.QUARTER, ACTUAL_PROJ;
+		]]>
+    </sql>
+    
+    <sql id="customerUnderProductViewCount">
+		<![CDATA[
+                SELECT count (distinct HLD.RELATIONSHIP_LEVEL_SID)
+                FROM   (SELECT RLD.HIERARCHY_NO,
+                CCP.CCP_DETAILS_SID
+                FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RSID?
+                JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                ) CCPMAP JOIN 
+                (SELECT RLD1.HIERARCHY_NO,
+                RLD1.RELATIONSHIP_LEVEL_SID,
+                RLD1.LEVEL_NO
+                FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1
+                JOIN   PROJECTION_CUST_HIERARCHY  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID = ?PMSID? 
+                AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' 
+                JOIN CCP_DETAILS CCPD ON CCPMAP.CCP_DETAILS_SID=CCPD.CCP_DETAILS_SID
+                JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.ITEM_NO like '?NDCNAME?'
+                JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.BRAND_NAME like '?BRANDNAME?'
+                WHERE HLD.LEVEL_NO like '?FORECASTLEVEL?'  
+                AND HLD.HIERARCHY_NO like '?HIERNO?%';
+		]]>
+    </sql>
+    
+    <sql id="generateSalesProjection">
+		<![CDATA[
+                    (SELECT ISNULL (AVG(SUM_QUERY.GTS_SUM), 0) as GTS_SALES,
+                    ISNULL (sum(CH_SA.CONTRACT_SALES), 0) as CONTRACT_SALES,
+                    ISNULL ((cast(sum(CH_SA.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    ?SELECTNAME? as levelName, 
+                    P."YEAR" , P.QUARTER,
+                    min(CH_MAS.CALCULATION_PERIODS) as baseLine,
+                    min(CH_MAS.METHODOLOGY) as methodology,COUNT (*)  AS RCOUNT ,0 as actualProj,null as historySales , null as historyUnits,
+                    min(CASE(CH_MAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,  
+                    count(DISTINCT case when  CH_MAS.CALCULATION_PERIODS is null then '1' else  CH_MAS.CALCULATION_PERIODS end)     AS calcPeriodCount,  
+                    count(DISTINCT case when CH_MAS.METHODOLOGY is null then '1' else  CH_MAS.METHODOLOGY end)     AS methoCount,
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/3 AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as COUNT1
+                    ?DENSE_RANK?
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  AND IM.?ITEMFIELD? like '?ITEM?'
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS'
+                    ?JOINCOUNTITEM?
+
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'  
+                    ?JOINCOUNTBRAND?
+
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'  
+                    ?JOINCOUNTCOMPANY?
+
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    ?JOINCOUNTCONTRACT?
+
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_ACTUAL_SALES CH_SA ON CH_MAS.PROJECTION_DETAILS_SID = CH_SA.PROJECTION_DETAILS_SID
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SA.PERIOD_SID     
+                    
+                    ?GTSSUBJOINQUERYACTUALS?
+                    
+                    WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID? AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SA.USER_ID  = '?USERID?'  AND CH_SA.SESSION_ID = '?SESSIONID?'
+                    GROUP BY ?GROUPBY? P.QUARTER, P."YEAR")
+                    UNION
+                    (SELECT
+                    ISNULL (AVG(SUM_QUERY.GTS_SUM), 0) as GTS_SALES,
+                    ISNULL (sum(CH_SP.CONTRACT_SALES), 0) as CONTRACT_SALES,
+                    ISNULL ((cast(sum(CH_SP.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    ?SELECTNAME? as levelName, 
+                    P."YEAR", P.QUARTER,
+                    min(CH_MAS.CALCULATION_PERIODS) as baseLine,
+                    min(CH_MAS.METHODOLOGY) as methodology,COUNT (*)  AS RCOUNT ,1 as actualProj,null as historySales , null as historyUnits,
+                    min(CASE(CH_MAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,  
+                    count(DISTINCT case when  CH_MAS.CALCULATION_PERIODS is null then '1' else  CH_MAS.CALCULATION_PERIODS end)     AS calcPeriodCount,  
+                    count(DISTINCT case when CH_MAS.METHODOLOGY is null then '1' else  CH_MAS.METHODOLOGY end)     AS methoCount,
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/3 AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as COUNT1
+                    ?DENSE_RANK?
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  AND IM.?ITEMFIELD? like '?ITEM?'
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS' 
+                    ?JOINCOUNTITEM?
+
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'
+                    ?JOINCOUNTBRAND?
+
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                    ?JOINCOUNTCOMPANY?
+
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    ?JOINCOUNTCONTRACT?
+
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_SALES_PROJECTION CH_SP ON CH_MAS.PROJECTION_DETAILS_SID = CH_SP.PROJECTION_DETAILS_SID
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SP.PERIOD_SID     
+
+                    
+                    ?GTSSUBJOINQUERYPROJECTIONS?
+
+                    WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID? AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SP.USER_ID  = '?USERID?'  AND CH_SP.SESSION_ID = '?SESSIONID?'
+                    GROUP BY ?GROUPBY? P.QUARTER, P."YEAR")
+                    ORDER BY ?ORDERBY? P."YEAR", P.QUARTER, actualProj;    
+		]]>
+    </sql>
+
+    <sql id="JOINCOUNTITEM">
+		<![CDATA[
+                    AND IM.ITEM_MASTER_SID in (SELECT DISTINCT IM.ITEM_MASTER_SID as sid
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS' 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS
+                    ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    WHERE PD.PROJECTION_MASTER_SID =  ?PMSID?
+                    
+		]]>
+    </sql>
+    
+    <sql id="JOINCOUNTBRAND">
+		<![CDATA[
+                    AND BRAND.BRAND_MASTER_SID in (SELECT DISTINCT BRAND.BRAND_MASTER_SID as sid
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS'
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS
+                    ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    WHERE PD.PROJECTION_MASTER_SID =  ?PMSID?
+                    
+		]]>
+    </sql>
+    
+    <sql id="JOINCOUNTCOMPANY">
+		<![CDATA[
+                    AND COMP.COMPANY_MASTER_SID in (SELECT DISTINCT COMP.COMPANY_MASTER_SID as sid
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS' 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS
+                    ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    WHERE PD.PROJECTION_MASTER_SID =  ?PMSID?
+                    
+		]]>
+    </sql>
+
+    <sql id="JOINCOUNTCONTRACT">
+		<![CDATA[
+                    AND CONT.CONTRACT_MASTER_SID in (SELECT DISTINCT CONT.CONTRACT_MASTER_SID as sid
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS' 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS
+                    ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    WHERE PD.PROJECTION_MASTER_SID =  ?PMSID?
+                    
+		]]>
+    </sql>
+    
+    <sql id="generateSalesProjectionCount">
+		<![CDATA[
+                    SELECT COUNT (DISTINCT ?SID?) as sid
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'
+                    JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                    JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?' 
+                    JOIN HELPER_TABLE TPC ON TPC.HELPER_TABLE_SID=IM.THERAPEUTIC_CLASS AND TPC.DESCRIPTION like '?THERAPEUTIC?' AND TPC.LIST_NAME = 'ITEM_THERP_CLASS' 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS
+                    ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    WHERE PD.PROJECTION_MASTER_SID =  ?PMSID?
+		]]>
+    </sql>
+    
+    <sql id="totalSales">
+		<![CDATA[
+                    (SELECT ISNULL (avg(SUM_QUERY.GTS_SUM), 0) as GTS_SALES, ISNULL (sum(CH_SA.CONTRACT_SALES), 0) as CONTRACT_SALES, 
+                    ISNULL ((cast(sum(CH_SA.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    'Total Sales' as levelName, P."YEAR" , P.QUARTER,min(CH_MAS.CALCULATION_PERIODS) as baseLine, 
+                    min(CH_MAS.METHODOLOGY) as methodology,COUNT (*)  AS RCOUNT ,0 as actualProj,null as historySales , null as historyUnits, 
+                    min(CASE(CH_MAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END) AS checkrec, count(DISTINCT case when  CH_MAS.CALCULATION_PERIODS is null then '1' else  CH_MAS.CALCULATION_PERIODS end)    
+                    AS calcPeriodCount, count(DISTINCT case when CH_MAS.METHODOLOGY is null then '1' else CH_MAS.METHODOLOGY end) AS methoCount, '1' as LEVEL_INDEX,
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/3 AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as COUNT1 
+                    FROM PROJECTION_DETAILS PD 
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID 
+                    JOIN ST_CH_ACTUAL_SALES CH_SA ON CH_MAS.PROJECTION_DETAILS_SID = CH_SA.PROJECTION_DETAILS_SID 
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SA.PERIOD_SID 
+
+                    ?GTSSUBJOINQUERYTOTALSALESACTUALS?
+
+                    WHERE PD.PROJECTION_MASTER_SID =  ?PMSID? AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  
+                    AND CH_SA.USER_ID  = '?USERID?'  AND CH_SA.SESSION_ID = '?SESSIONID?' GROUP BY P.QUARTER, P."YEAR")
+                    UNION 
+                    (SELECT ISNULL (avg(SUM_QUERY.GTS_SUM), 0) as GTS_SALES, ISNULL (sum(CH_SP.CONTRACT_SALES), 0) as CONTRACT_SALES, 
+                    ISNULL ((cast(sum(CH_SP.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    'Total Sales' as levelName, P."YEAR", P.QUARTER,min(CH_MAS.CALCULATION_PERIODS) as baseLine, 
+                    min(CH_MAS.METHODOLOGY) as methodology, COUNT (*)  AS RCOUNT ,1 as actualProj,null as historySales , null as historyUnits, 
+                    min(CASE(CH_MAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END) AS checkrec, count(DISTINCT case when  CH_MAS.CALCULATION_PERIODS is null then '1' else  CH_MAS.CALCULATION_PERIODS end)     
+                    AS calcPeriodCount, count(DISTINCT case when CH_MAS.METHODOLOGY is null then '1' else CH_MAS.METHODOLOGY end) AS methoCount, '1' as LEVEL_INDEX ,
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/3 AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as COUNT1 
+                    FROM PROJECTION_DETAILS PD 
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID =CH_MAS.PROJECTION_DETAILS_SID 
+                    JOIN ST_CH_SALES_PROJECTION CH_SP ON CH_MAS.PROJECTION_DETAILS_SID = CH_SP.PROJECTION_DETAILS_SID 
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SP.PERIOD_SID 
+
+                    ?GTSSUBJOINQUERYTOTALSALESPROJECTION?
+
+                    WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID? 
+                    AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SP.USER_ID  = '?USERID?'  
+                    AND CH_SP.SESSION_ID = '?SESSIONID?' GROUP BY P.QUARTER, P."YEAR") ORDER BY P."YEAR", P.QUARTER, actualProj;
+		]]>
+    </sql>
+    
+    <sql id="totalSalesOld">
+		<![CDATA[
+                    (SELECT ISNULL (sum(CH_SA.GTS_SALES), 0) as GTS_SALES,
+                    ISNULL (sum(CH_SA.CONTRACT_SALES), 0) as CONTRACT_SALES,
+                    ISNULL (avg(CH_SA.PER_OF_BUSINESS), 0) as PER_OF_BUSINESS,   
+                    'Total Sales' as levelName, 
+                    P."YEAR" , P.QUARTER,
+                    min(CH_MAS.CALCULATION_PERIODS) as baseLine,
+                    min(CH_MAS.METHODOLOGY) as methodology,COUNT (*)  AS RCOUNT ,0 as actualProj,null as historySales , null as historyUnits,
+                    min(CASE(CH_MAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,  
+                    count(DISTINCT case when  CH_MAS.CALCULATION_PERIODS is null then '1' else  CH_MAS.CALCULATION_PERIODS end)     AS calcPeriodCount,  
+                    count(DISTINCT case when CH_MAS.METHODOLOGY is null then '1' else  CH_MAS.METHODOLOGY end)     AS methoCount, 
+                    '1' as LEVEL_INDEX   
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_ACTUAL_SALES CH_SA ON CH_MAS.PROJECTION_DETAILS_SID = CH_SA.PROJECTION_DETAILS_SID
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SA.PERIOD_SID     
+                    WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID? AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SA.USER_ID  = '?USERID?'  AND CH_SA.SESSION_ID = '?SESSIONID?'
+                    GROUP BY P.QUARTER, P."YEAR")
+                    UNION
+                    (SELECT
+                    ISNULL (sum(CH_SP.GTS_SALES), 0) as GTS_SALES,
+                    ISNULL (sum(CH_SP.CONTRACT_SALES), 0) as CONTRACT_SALES,
+                    ISNULL (avg(CH_SP.PER_OF_BUSINESS), 0) as PER_OF_BUSINESS,   
+                    'Total Sales' as levelName, 
+                    P."YEAR", P.QUARTER,
+                    min(CH_MAS.CALCULATION_PERIODS) as baseLine,
+                    min(CH_MAS.METHODOLOGY) as methodology, COUNT (*)  AS RCOUNT ,0 as actualProj,null as historySales , null as historyUnits,
+                    min(CASE(CH_MAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,  
+                    count(DISTINCT case when  CH_MAS.CALCULATION_PERIODS is null then '1' else  CH_MAS.CALCULATION_PERIODS end)     AS calcPeriodCount,  
+                    count(DISTINCT case when CH_MAS.METHODOLOGY is null then '1' else  CH_MAS.METHODOLOGY end)     AS methoCount, 
+                    '1' as LEVEL_INDEX      
+                    FROM PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID
+                    JOIN ST_CH_SALES_PROJECTION CH_SP ON CH_MAS.PROJECTION_DETAILS_SID = CH_SP.PROJECTION_DETAILS_SID
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SP.PERIOD_SID     
+                    WHERE  PD.PROJECTION_MASTER_SID =  ?PMSID? AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SP.USER_ID  = '?USERID?'  AND CH_SP.SESSION_ID = '?SESSIONID?'
+                    GROUP BY P.QUARTER, P."YEAR")
+                    ORDER BY P."YEAR", P.QUARTER;    
+		]]>
+    </sql>
+        
+        
+    <sql id="loadLevelForExpandCollapseOld">
+		<![CDATA[
+                    SELECT DISTINCT PD.PROJECTION_DETAILS_SID, IM.THERAPEUTIC_CLASS , CCP.COMPANY_MASTER_SID,CCP.CONTRACT_MASTER_SID , 
+                    CCP.ITEM_MASTER_SID, CM.COMPANY_NO ,CONT.CONTRACT_NO ,BM.BRAND_NAME, IM.ITEM_NO, BM.BRAND_MASTER_SID  
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM 
+                    WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  
+                    AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID  
+                    AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                    AND PD.PROJECTION_MASTER_SID = ?PMSID?  
+		]]>
+    </sql>
+
+    
+
+
+    <sql id="GTSSUBJOINQUERY">
+        <![CDATA[
+                JOIN (SELECT SUM(PER_OF_BUSINESS_SUM) AS PER_OF_BUSINESS_SUM, sum(GTS_SUM) AS GTS_SUM, RETURN_VALUE, CH_YEAR, CH_QUARTER
+                From (
+                select SUM(TEMP_TABLE.PER_OF_BUSINESS) AS PER_OF_BUSINESS_SUM, avg(TEMP_TABLE.GTS_SALES) AS GTS_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM, ?SELECTNAMESUBQUERY? RETURN_VALUE,  
+                P2.YEAR CH_YEAR, P2.QUARTER CH_QUARTER 
+                FROM PROJECTION_DETAILS PD2 JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  ?PMSID? 
+                JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID AND IM.?ITEMFIELD? like '?ITEM?'
+                JOIN BRAND_MASTER BRAND ON BRAND.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND BRAND.?BRANDFIELD? like '?BRAND?'  
+                JOIN COMPANY_MASTER COMP ON COMP.COMPANY_MASTER_SID=CCP2.COMPANY_MASTER_SID AND COMP.?COMPANYFIELD? like '?COMPANY?'
+                JOIN CONTRACT_MASTER CONT ON CONT.CONTRACT_MASTER_SID=CCP2.CONTRACT_MASTER_SID AND CONT.?CONTRACTFIELD? like '?CONTRACT?'
+                JOIN ?TEMP_TABLE? TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?'
+                JOIN PERIOD P2 ON TEMP_TABLE.PERIOD_SID = P2.PERIOD_SID 
+                GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID, P2.YEAR , P2.QUARTER, ?SELECTNAMESUBQUERY?) SUM_NDC
+                GROUP BY RETURN_VALUE,SUM_NDC.CH_YEAR , SUM_NDC.CH_QUARTER) AS SUM_QUERY  ON P.QUARTER = SUM_QUERY.CH_QUARTER AND P."YEAR"  = SUM_QUERY.CH_YEAR  AND SUM_QUERY.RETURN_VALUE = ?SELECTNAMESUBQUERY?
+	]]>
+    </sql>
+        
+    <sql id="GTSSUBJOINQUERYTOTALSALES">
+        <![CDATA[
+                JOIN (SELECT SUM(PER_OF_BUSINESS_SUM) AS PER_OF_BUSINESS_SUM, sum(GTS_SUM) AS GTS_SUM, CH_YEAR, CH_QUARTER
+                From (
+                select SUM(TEMP_TABLE.PER_OF_BUSINESS) AS PER_OF_BUSINESS_SUM, avg(TEMP_TABLE.GTS_SALES) AS GTS_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM, 
+                P2.YEAR CH_YEAR, P2.QUARTER CH_QUARTER 
+                FROM PROJECTION_DETAILS PD2 JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID = ?PMSID? 
+                JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID
+                JOIN ?TEMP_TABLE?  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?'
+                JOIN PERIOD P2 ON TEMP_TABLE.PERIOD_SID = P2.PERIOD_SID 
+                GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID, P2.YEAR , P2.QUARTER) SUM_NDC
+                GROUP BY SUM_NDC.CH_YEAR , SUM_NDC.CH_QUARTER) SUM_QUERY ON SUM_QUERY.CH_YEAR=P."YEAR" AND SUM_QUERY.CH_QUARTER=P.QUARTER
+
+	]]>
+    </sql>
+        
+    <sql id="loadLevelForExpandCollapse">
+        <![CDATA[
+                            (SELECT DISTINCT ?SELECT_1? +'->'+ ?SELECT_2? +'->'+  ?SELECT_3? +'->' + ?SELECT_4? + ?SELECT_5? as captionList,  
+                            '?LEVELNO?->' + ?SELECT_SID_1?   +'->'+ ?SELECT_SID_2?   +'->'+ ?SELECT_SID_3?   +'->'+ ?SELECT_SID_4? + ?SELECT_SID_5?  as valueList 
+                            FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                            AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                            AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+		]]>
+    </sql>
+        
+    <sql id="loadLevelForExpandCollapseProdNDC">
+		<![CDATA[
+                    (SELECT DISTINCT '1' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?)) as captionList, 
+                        '1->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID)) as valueList
+                          FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                        AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                        AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                        UNION
+                        (SELECT DISTINCT '2' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+(CONVERT(varchar(150), IM.?ITEMFIELD?)) as captionList,  
+                        '2->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID) as valueList
+                        FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                        AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                        AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                        UNION
+                        (SELECT DISTINCT '3' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+(CONVERT(varchar(150), IM.?ITEMFIELD?))+'->'+'Total Customer'  as captionList,  
+                        '3->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->'+'Total Customer' as valueList 
+                        FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                        AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                        AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                        UNION
+                        (SELECT DISTINCT '4' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+(CONVERT(varchar(150), IM.?ITEMFIELD?))+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))  as captionList,  
+                        '4->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID) as valueList 
+                         FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                        AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                        AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+		]]>
+    </sql>   
+    <sql id="loadLevelForExpandCollapseProdNDCLastUnion">
+		<![CDATA[
+                        UNION
+                        (SELECT DISTINCT '5' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+(CONVERT(varchar(150), IM.?ITEMFIELD?))+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+(CONVERT(varchar(150), CONT.?CONTRACTFIELD?))  as captionList,  
+                        '5->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID) as valueList 
+                        FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                        AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                        AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?);
+
+		]]>
+    </sql>   
+    
+    
+    <sql id="loadLevelForExpandCollapseProdBrand">
+		<![CDATA[
+                    (SELECT DISTINCT '1' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?)) as captionList, 
+                    '1->'+((CONVERT(varchar(10), BM.BRAND_MASTER_SID))) as valueList
+                      FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '2' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+'Total Customer'  as captionList,  
+                    '2->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+'Total Customer' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '3' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))  as captionList,  
+                    '3->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID) as valueList 
+                     FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+		]]>
+    </sql>   
+    <sql id="loadLevelForExpandCollapseProdBrandLastUnion">
+		<![CDATA[
+                    UNION
+                    (SELECT DISTINCT '4' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+ (CONVERT(varchar(150), CONT.?CONTRACTFIELD?))  as captionList,  
+                    '4->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?);
+		]]>
+    </sql>   
+    <sql id="loadLevelForExpandCollapseCustNDC">
+		<![CDATA[
+                    (SELECT DISTINCT '1' as levelNo, 'Total Customer'  as captionList, 
+                    '1->Total Customer' as valueList
+                      FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '2' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))  as captionList,  
+                    '2->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID) as valueList 
+                     FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '3' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+(CONVERT(varchar(150), CONT.?CONTRACTFIELD?))  as captionList,  
+                    '3->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '4' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+(CONVERT(varchar(150), CONT.?CONTRACTFIELD?))+'->'+(CONVERT(varchar(150), BM.?BRANDFIELD?))  as captionList,  
+                    '4->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID)) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+		]]>
+    </sql>   
+    <sql id="loadLevelForExpandCollapseCustNDCLastUnion">
+		<![CDATA[
+                    UNION
+                    (SELECT DISTINCT '5' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+(CONVERT(varchar(150), CONT.?CONTRACTFIELD?))+'->'+(CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+(CONVERT(varchar(150), IM.?ITEMFIELD?))  as captionList,  
+                    '5->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?);
+		]]>
+    </sql>   
+    <sql id="loadLevelForExpandCollapseCustBrand">
+		<![CDATA[
+                    (SELECT DISTINCT '1' as levelNo, 'Total Customer'  as captionList, 
+                    '1->Total Customer' as valueList
+                      FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '2' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))  as captionList,  
+                    '2->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID) as valueList 
+                     FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '3' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+(CONVERT(varchar(150), CONT.?CONTRACTFIELD?))  as captionList,  
+                    '3->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+		]]>
+    </sql>   
+    <sql id="loadLevelForExpandCollapseCustBrandLastUnion">
+		<![CDATA[
+                    UNION
+                    (SELECT DISTINCT '4' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+(CONVERT(varchar(150), CONT.?CONTRACTFIELD?))+'->'+(CONVERT(varchar(150), BM.?BRANDFIELD?))  as captionList,  
+                    '4->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID)) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?);
+		]]>
+    </sql>   
+    
+    <sql id="saveCheckRecord">
+		<![CDATA[
+                ?UPDATEJOIN? 
+                ?UPDATECCPJOIN?
+		]]>
+    </sql>   
+    
+    <sql id="gettherapeuticclass">
+     <![CDATA[ SELECT distinct HT.DESCRIPTION, HT.HELPER_TABLE_SID from dbo.PROJECTION_DETAILS PD JOIN dbo.CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+               AND PD.PROJECTION_MASTER_SID=?
+               JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID 
+               JOIN dbo.HELPER_TABLE HT ON IM.THERAPEUTIC_CLASS=HT.HELPER_TABLE_SID;
+    ]]>
+    </sql>   
+    <sql id="multiCheck">
+        <![CDATA[ 
+           SELECT RLD1.LEVEL_NO, RLD1.PARENT_NODE, RLD1.HIERARCHY_NO HNO, RLD1.RELATIONSHIP_LEVEL_VALUES, MIN(CASE(MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END) AS CHECK_RECORD
+           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD 
+           JOIN  ?PHTABLE?  PH ON PH.PROJECTION_MASTER_SID = '?PMSID?' AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID 
+           AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSID?' 
+           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO LIKE '%' 
+           AND RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID AND RLD.HIERARCHY_NO 
+           LIKE RLD1.HIERARCHY_NO + '%' AND RLD1.LEVEL_NO LIKE '%'
+           JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+           JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = PH.PROJECTION_MASTER_SID AND PD.PROJECTION_MASTER_SID = '?PMSID?' 
+           JOIN ST_CH_SALES_PROJECTION_MASTER MAS ON MAS.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID AND MAS.SESSION_ID = '?SESSIONID?'
+           GROUP BY RLD1.LEVEL_NO, RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_VALUES, RLD1.PARENT_NODE
+           HAVING MIN(CASE(MAS.CHECK_RECORD)WHEN 1 THEN 1 ELSE 0 END) = 1 AND RLD1.LEVEL_NO =  MAX(RLD1.LEVEL_NO)
+           ORDER BY RLD1.LEVEL_NO;
+       ]]>
+    </sql>   
+
+                
+    <sql id="prepareProcedureCall">
+		<![CDATA[
+                    UPDATE SPM SET SPM.METHODOLOGY = '?METHODOLOGY?', SPM.CALCULATION_PERIODS = '?CALCPERIOD?' 
+                    FROM PROJECTION_DETAILS PD 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER SPM ON PD.PROJECTION_DETAILS_SID=SPM.PROJECTION_DETAILS_SID 
+                    AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    AND SPM.CHECK_RECORD = 1
+                    AND SPM.SESSION_ID = '?SESSIONID?'  AND SPM.USER_ID  = '?USERID?';
+		]]>
+    </sql>   
+
+    <sql id="excelExportProdNDC">
+		<![CDATA[
+                    ((SELECT DISTINCT '1' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->%->%->%->%'  as captionList,  
+                    '1->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->%->%->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '2' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+IM.?ITEMFIELD?+'->%->%->%'  as captionList,  
+                    '2->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->%->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '3' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+IM.?ITEMFIELD?+'->Total Customer->%->%'  as captionList,  
+                    '3->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->Total Customer->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '4' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+IM.?ITEMFIELD?+'->Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?)) +'->%'  as captionList,  
+                    '4->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                     UNION
+                    (SELECT DISTINCT '5' as levelNo, (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+IM.?ITEMFIELD?+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?  as captionList,  
+                    '5->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID)+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?))  ORDER BY captionList;
+
+		]]>
+    </sql>   
+    <sql id="excelExportProdBrand">
+		<![CDATA[
+                    ((SELECT DISTINCT '1' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->%->%->%'  as captionList,  
+                    '1->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->%->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '2' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+'Total Customer->%->%'  as captionList,  
+                    '2->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+'Total Customer->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '3' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->%'  as captionList,  
+                    '3->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                     UNION
+                    (SELECT DISTINCT '4' as levelNo,  (CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?  as captionList,  
+                    '4->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+'Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)) ORDER BY captionList ;
+		]]>
+    </sql>   
+    <sql id="excelExportCustNDC">
+		<![CDATA[
+                   ((SELECT DISTINCT '1' as levelNo,  'Total Customer->%->%->%->%'  as captionList,  
+                    '1->Total Customer->%->%->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '2' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->%->%->%'  as captionList,  
+                    '2->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->%->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '3' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?+'->%->%'  as captionList,  
+                    '3->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->%->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                    UNION
+                    (SELECT DISTINCT '4' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?+'->'+(CONVERT(varchar(150), BM.?BRANDFIELD?))+'->%'  as captionList,  
+                    '4->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->%' as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                     UNION
+                    (SELECT DISTINCT '5' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?+'->'+(CONVERT(varchar(150), BM.?BRANDFIELD?))+'->'+IM.?ITEMFIELD?  as captionList,  
+                    '5->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID))+'->'+CONVERT(varchar(10), IM.ITEM_MASTER_SID) as valueList 
+                    FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                    AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                    AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)) ORDER BY captionList ;
+		]]>
+    </sql>   
+    <sql id="excelExportCustBrand">
+		<![CDATA[
+                ((SELECT DISTINCT '1' as levelNo,  'Total Customer->%->%->%'  as captionList,  
+                '1->Total Customer->%->%->%' as valueList 
+                FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                UNION
+                (SELECT DISTINCT '2' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->%->%'  as captionList,  
+                '2->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->%->%' as valueList 
+                FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                UNION
+                (SELECT DISTINCT '3' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?+'->%'  as captionList,  
+                '3->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->%' as valueList 
+                FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)
+                UNION
+                (SELECT DISTINCT '4' as levelNo,  'Total Customer->'+(CONVERT(varchar(150), CM.?COMPANYFIELD?))+'->'+CONT.?CONTRACTFIELD?+'->'+(CONVERT(varchar(150), BM.?BRANDFIELD?))  as captionList,  
+                '4->Total Customer->'+CONVERT(varchar(10), CM.COMPANY_MASTER_SID)+'->'+CONVERT(varchar(10), CCP.CONTRACT_MASTER_SID)+'->'+(CONVERT(varchar(10), BM.BRAND_MASTER_SID)) as valueList 
+                FROM PROJECTION_DETAILS PD, CCP_DETAILS CCP, ITEM_MASTER IM, COMPANY_MASTER CM, CONTRACT_MASTER CONT, BRAND_MASTER BM WHERE CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
+                AND IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID 
+                AND BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?)) ORDER BY captionList;
+		]]>
+    </sql>   
+    
+    
+    <sql id="checkHundredPercentage">
+		<![CDATA[
+                  ?DECLARECCP?
+                  ?JOINCCP?
+                  SELECT MIN(CT.MAX_CT_SALES) 
+                  FROM ( select AVG(GTS.GTS_SUM)-(AVG(GTS.CONT_SUM_NDC)-AVG(CT_SALES.CONT_SUM)) -((?INPUT?*(AVG(GTS.GTS_SUM)/AVG(TOTAL.GTS_SUM))*100)/100) MAX_CT_SALES
+                  FROM @CCP PD2 JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  ?PMSID? 
+                  JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID 
+                  JOIN  ST_CH_SALES_PROJECTION  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?' 
+                  JOIN "PERIOD" P2 ON TEMP_TABLE.PERIOD_SID = P2.PERIOD_SID  ?UPDATEPERIOD?
+
+                  JOIN (SELECT sum(GTS_SUM) AS GTS_SUM, SUM(SUM_NDC.CONT_SUM_NDC) AS CONT_SUM_NDC, ITEM_SID_SUM, CH_YEAR, CH_FREQ From ( select avg(CH_PS2.GTS_SALES) AS GTS_SUM, ISNULL(SUM(CH_PS2.CONTRACT_SALES), 0) 
+                  AS CONT_SUM_NDC, IM.ITEM_MASTER_SID ITEM_SID_SUM, P2.YEAR CH_YEAR, P2.?FREQUENCY? CH_FREQ 
+                  FROM PROJECTION_DETAILS PD2 JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID = ?PMSID? 
+                  JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID AND IM.ITEM_MASTER_SID IN (SELECT DISTINCT CCP.ITEM_MASTER_SID FROM @CCP CCP)
+                  JOIN ST_CH_SALES_PROJECTION CH_PS2 ON CH_PS2.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND CH_PS2.SESSION_ID = '?SESSIONID?' JOIN PERIOD P2 ON CH_PS2.PERIOD_SID = P2.PERIOD_SID  
+                  ?UPDATEPERIOD?  GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID, P2.YEAR , P2.?FREQUENCY?) SUM_NDC GROUP BY SUM_NDC.ITEM_SID_SUM,SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) GTS 
+                  ON GTS.ITEM_SID_SUM=IM.ITEM_MASTER_SID AND GTS.CH_YEAR=P2."YEAR" AND GTS.CH_FREQ=P2.?FREQUENCY? 
+
+                  JOIN ( SELECT sum(GTS_SUM) AS GTS_SUM, CH_YEAR, CH_FREQ From (select avg(CH_PS2.GTS_SALES) AS GTS_SUM, 
+                  IM.ITEM_MASTER_SID ITEM_SID_SUM, P2.YEAR CH_YEAR, P2.?FREQUENCY? CH_FREQ 
+                  FROM @CCP PD2 
+                  JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID = ?PMSID? 
+                  JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID   
+                  JOIN ST_CH_SALES_PROJECTION CH_PS2 ON CH_PS2.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND CH_PS2.SESSION_ID = '?SESSIONID?' JOIN PERIOD P2 ON CH_PS2.PERIOD_SID = P2.PERIOD_SID  
+                  ?UPDATEPERIOD?  GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID, P2.YEAR , P2.?FREQUENCY? ) SUM_NDC GROUP BY SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) TOTAL 
+                  ON TOTAL.CH_YEAR=P2."YEAR" AND TOTAL.CH_FREQ=P2.?FREQUENCY? 
+
+                  JOIN (  select ISNULL(SUM(CH_PS2.CONTRACT_SALES), 0) AS CONT_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM, P2.YEAR CH_YEAR, P2.?FREQUENCY? CH_FREQ 
+                  FROM @CCP PD2 
+                  JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID = ?PMSID? 
+                  JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID  
+                  JOIN ST_CH_SALES_PROJECTION CH_PS2 ON CH_PS2.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND CH_PS2.SESSION_ID = '?SESSIONID?' 
+                  JOIN PERIOD P2 ON CH_PS2.PERIOD_SID = P2.PERIOD_SID  ?UPDATEPERIOD?  GROUP BY IM.ITEM_MASTER_SID, P2.YEAR , P2.?FREQUENCY?) CT_SALES 
+                  ON CT_SALES.ITEM_SID_SUM=IM.ITEM_MASTER_SID AND CT_SALES.CH_YEAR=P2."YEAR" AND CT_SALES.CH_FREQ=P2.?FREQUENCY? GROUP BY IM.ITEM_MASTER_SID,P2."YEAR", P2."MONTH") CT;
+
+		]]>
+    </sql>
+
+    <sql id="updateRecord">
+		<![CDATA[
+                    ?DECLARECCP?
+                    ?JOINCCP?
+                    UPDATE CH_SP SET CH_SP.CONTRACT_SALES=UPDATE_SUB.MONTHLY_CCP_CONTRIBUTION,CH_SP.CONTRACT_UNITS=UPDATE_SUB.MONTHLY_CCP_CONTRIBUTION/CH_SP.WAC_PRICE,
+                    CH_SP.PER_OF_BUSINESS=(UPDATE_SUB.MONTHLY_CCP_CONTRIBUTION/CH_SP.GTS_SALES)*100
+                    FROM @CCP PD 
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN ST_CH_SALES_PROJECTION CH_SP ON PD.PROJECTION_DETAILS_SID = CH_SP.PROJECTION_DETAILS_SID AND CH_SP.SESSION_ID = '?SESSIONID?'
+                    JOIN "PERIOD" P  ON P.PERIOD_SID = CH_SP.PERIOD_SID 
+                    JOIN (select (((?INPUT?*(cast(AVG(GTS.GTS_SUM)as float)/cast(AVG(TOTAL.GTS_SUM)as float)))
+                    *(cast(avg(TEMP_TABLE.GTS_SALES)as float)/cast(AVG(GTS.GTS_SUM) as float)))/cast(count(PD2.PROJECTION_DETAILS_SID)as float)) MONTHLY_CCP_CONTRIBUTION, 
+                    AVG(GTS.CONT_SUM) CONT_SUM,
+                    IM.ITEM_MASTER_SID ITEM_SID_SUM,  P2.PERIOD_SID
+                    FROM @CCP PD2 JOIN CCP_DETAILS CCP2
+                    ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  ?PMSID? JOIN ITEM_MASTER IM 
+                    ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID 
+                    JOIN  ST_CH_SALES_PROJECTION  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?' 
+                    JOIN "PERIOD" P2 ON TEMP_TABLE.PERIOD_SID = P2.PERIOD_SID ?UPDATEPERIOD? 
+                    JOIN (SELECT sum(GTS_SUM) AS GTS_SUM,SUM(SUM_NDC.CONT_SUM) AS CONT_SUM, ITEM_SID_SUM, CH_YEAR, CH_FREQ
+                    From (select avg(CH_PS2.GTS_SALES) AS GTS_SUM, 
+                    SUM(CH_PS2.CONTRACT_SALES) AS CONT_SUM,
+                    IM.ITEM_MASTER_SID ITEM_SID_SUM, 
+                    P2.YEAR CH_YEAR, P2.?FREQUENCY? CH_FREQ 
+                    FROM PROJECTION_DETAILS PD2 JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID = ?PMSID? 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID AND IM.ITEM_MASTER_SID IN (SELECT DISTINCT CCP.ITEM_MASTER_SID FROM @CCP CCP)
+                    JOIN ST_CH_SALES_PROJECTION CH_PS2 ON CH_PS2.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND CH_PS2.SESSION_ID = '?SESSIONID?'
+                    JOIN PERIOD P2 ON CH_PS2.PERIOD_SID = P2.PERIOD_SID ?UPDATEPERIOD? 
+                    GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID, P2.YEAR , P2.?FREQUENCY?) SUM_NDC
+                    GROUP BY SUM_NDC.ITEM_SID_SUM,SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) GTS 
+                    ON GTS.ITEM_SID_SUM=IM.ITEM_MASTER_SID AND GTS.CH_YEAR=P2."YEAR" AND GTS.CH_FREQ=P2.?FREQUENCY?
+                    JOIN (SELECT sum(GTS_SUM) AS GTS_SUM, CH_YEAR, CH_FREQ
+                    From (select avg(CH_PS2.GTS_SALES) AS GTS_SUM, 
+                    IM.ITEM_MASTER_SID ITEM_SID_SUM, 
+                    P2.YEAR CH_YEAR, P2.?FREQUENCY? CH_FREQ 
+                    FROM @CCP PD2 JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID = ?PMSID? 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID  
+                    JOIN ST_CH_SALES_PROJECTION CH_PS2 ON CH_PS2.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND CH_PS2.SESSION_ID = '?SESSIONID?'
+                    JOIN PERIOD P2 ON CH_PS2.PERIOD_SID = P2.PERIOD_SID ?UPDATEPERIOD? 
+                    GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID, P2.YEAR , P2.?FREQUENCY?) SUM_NDC
+                    GROUP BY SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) TOTAL ON TOTAL.CH_YEAR=P2."YEAR" AND TOTAL.CH_FREQ=P2.?FREQUENCY?
+                    GROUP BY IM.ITEM_MASTER_SID, P2.PERIOD_SID) UPDATE_SUB ON UPDATE_SUB.ITEM_SID_SUM=IM.ITEM_MASTER_SID AND UPDATE_SUB.PERIOD_SID=P.PERIOD_SID;
+		]]>
+    </sql>
+    
+
+
+    <sql id="getSelectedBaseLine">
+		<![CDATA[
+                    SELECT DISTINCT SPM.CALCULATION_PERIODS FROM ST_CH_SALES_PROJECTION_MASTER SPM
+                    JOIN PROJECTION_DETAILS PD ON SPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    WHERE SPM.SESSION_ID = '?SESSIONID?' AND SPM.USER_ID = '?USERID?';
+		]]>
+    </sql>
+    
+    <sql id="checkSelectAll">
+		<![CDATA[
+                    SELECT DISTINCT SPM.CHECK_RECORD FROM ST_CH_SALES_PROJECTION_MASTER SPM 
+                    JOIN PROJECTION_DETAILS PD ON SPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    WHERE SPM.SESSION_ID = '?SESSIONID?' AND SPM.USER_ID = '?USERID?';
+		]]>
+    </sql>
+    
+    <sql id="getLevelName">
+		<![CDATA[
+                    SELECT HD.LEVEL_NAME, HD.FIELD_NAME
+                    FROM HIERARCHY_LEVEL_DEFINITION HD
+                    WHERE HD.HIERARCHY_DEFINITION_SID in (?CHDID?, ?PHDID?)
+                    AND HD.LEVEL_VALUE_REFERENCE = 'Linked'
+		]]>
+    </sql>
+    
+    <sql id="isCheckAll">
+		<![CDATA[
+                    SELECT distinct MAS.CHECK_RECORD FROM ST_CH_SALES_PROJECTION_MASTER MAS WHERE MAS.SESSION_ID = '?SESSIONID?' AND MAS.USER_ID = '?USERID?';
+		]]>
+    </sql>
+ 
+    <sql id="generateDynamicSalesCount">
+		<![CDATA[
+                   SELECT 
+                    Count(DISTINCT RLD1.RELATIONSHIP_LEVEL_SID)
+                    FROM  RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN ?PHTABLE? PH
+                         ON PH.PROJECTION_MASTER_SID = '?PMSID?'
+                                 AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID
+                                 AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSID?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
+                         ON RLD1.HIERARCHY_NO LIKE '?HNO?' + '%'
+                                 AND RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID
+                                 AND RLD.HIERARCHY_NO LIKE RLD1.HIERARCHY_NO + '%'
+                                 AND RLD1.LEVEL_NO = '?LEVELNO?'
+                    JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = PH.PROJECTION_MASTER_SID
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID
+                    ?PRODJOIN?;
+		]]>
+    </sql>
+
+
+    <sql id="generateDynamicSales">
+		<![CDATA[
+                  ?DECLARECCP?
+                  ?JOINCCP?
+
+                    select * from
+                    ((SELECT ISNULL (AVG(SUM_QUERY.GTS_SUM), 0) as GTS_SALES, 
+                    ISNULL (sum(CH_SA.CONTRACT_SALES), 0) as CONTRACT_SALES, 
+                    ISNULL ((cast(sum(CH_SA.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    PD.HIERARCHY_NO AS HIERARCHY_NO,
+                    PD.LEVEL_NO AS LEVEL_NO,
+                    ?SELECTFREQJOIN?
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/?COUNTFREQUENCY? AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as CCPCOUNT,
+                    0 AS ACTUALPROJ,
+                    '?H_INDICATOR?' AS HNO,
+                    PD.LEVEL_NAME AS LEVEL_NAME
+                    FROM @CCP PD 
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PD.HIERARCHY_NO 
+                    IN (SELECT DISTINCT SCCP.HIERARCHY_NO FROM @CCP SCCP ORDER BY SCCP.HIERARCHY_NO OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY )
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  
+                    ?THERAP?
+                    JOIN ?MASTER_TABLE? CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID 
+                    JOIN ?ACTUALS_TABLE? CH_SA ON CH_MAS.PROJECTION_DETAILS_SID = CH_SA.PROJECTION_DETAILS_SID 
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SA.PERIOD_SID     
+                    JOIN (SELECT SUM(PER_OF_BUSINESS_SUM) AS PER_OF_BUSINESS_SUM, sum(GTS_SUM) AS GTS_SUM, RETURN_VALUE, CH_YEAR, CH_FREQ 
+                    From ( select SUM(TEMP_TABLE.PER_OF_BUSINESS) AS PER_OF_BUSINESS_SUM, avg(TEMP_TABLE.GTS_SALES) AS GTS_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM,  PD2.HIERARCHY_NO  RETURN_VALUE, P.YEAR CH_YEAR, P.?FREQUENCY? CH_FREQ 
+                    FROM @CCP PD2 
+                    JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  '?PMSID?' 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID 
+                    JOIN  ?ACTUALS_TABLE?  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?' 
+                    JOIN PERIOD P ON TEMP_TABLE.PERIOD_SID = P.PERIOD_SID GROUP BY IM.ITEM_MASTER_SID, P.PERIOD_SID, P.?FREQUENCY? , P.YEAR,  PD2.HIERARCHY_NO ) SUM_NDC GROUP BY RETURN_VALUE,SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) AS SUM_QUERY  
+                    ON P.?FREQUENCY? = SUM_QUERY.CH_FREQ AND P."YEAR"  = SUM_QUERY.CH_YEAR  AND SUM_QUERY.RETURN_VALUE =  PD.HIERARCHY_NO      
+                    WHERE  PD.PROJECTION_MASTER_SID =  '?PMSID?' AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SA.USER_ID  = '?USERID?'  AND CH_SA.SESSION_ID = '?SESSIONID?'
+                     GROUP BY  PD.HIERARCHY_NO, PD.LEVEL_NO, PD.LEVEL_NAME, ?GROUPFREQJOIN?)
+                    UNION
+                    (SELECT ISNULL (AVG(SUM_QUERY.GTS_SUM), 0) as GTS_SALES, 
+                    ISNULL (sum(CH_SP.CONTRACT_SALES), 0) as CONTRACT_SALES, 
+                    ISNULL ((cast(sum(CH_SP.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    PD.HIERARCHY_NO AS HIERARCHY_NO,
+                    PD.LEVEL_NO AS LEVEL_NO,
+                    ?SELECTFREQJOIN?
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/?COUNTFREQUENCY? AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as CCPCOUNT,
+                    1 AS ACTUALPROJ,
+                    '?H_INDICATOR?' AS HNO,
+                    PD.LEVEL_NAME AS LEVEL_NAME
+                    FROM @CCP PD 
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PD.HIERARCHY_NO 
+                    IN (SELECT DISTINCT SCCP.HIERARCHY_NO FROM @CCP SCCP ORDER BY SCCP.HIERARCHY_NO OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY )
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    ?THERAP?
+                    JOIN ?MASTER_TABLE? CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID 
+                    JOIN ?PROJECTION_TABLE? CH_SP ON CH_MAS.PROJECTION_DETAILS_SID = CH_SP.PROJECTION_DETAILS_SID 
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SP.PERIOD_SID     
+                    JOIN (SELECT SUM(PER_OF_BUSINESS_SUM) AS PER_OF_BUSINESS_SUM, sum(GTS_SUM) AS GTS_SUM, RETURN_VALUE, CH_YEAR, CH_FREQ 
+                    From ( select SUM(TEMP_TABLE.PER_OF_BUSINESS) AS PER_OF_BUSINESS_SUM, avg(TEMP_TABLE.GTS_SALES) AS GTS_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM,  PD2.HIERARCHY_NO  RETURN_VALUE, P.YEAR CH_YEAR, P.?FREQUENCY? CH_FREQ 
+                    FROM @CCP PD2 
+                    JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  '?PMSID?' 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID 
+                    JOIN  ?PROJECTION_TABLE?  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?' 
+                    JOIN PERIOD P ON TEMP_TABLE.PERIOD_SID = P.PERIOD_SID GROUP BY IM.ITEM_MASTER_SID, P.PERIOD_SID, P.?FREQUENCY? , P.YEAR,  PD2.HIERARCHY_NO ) SUM_NDC GROUP BY RETURN_VALUE,SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) AS SUM_QUERY  
+                    ON P.?FREQUENCY? = SUM_QUERY.CH_FREQ AND P."YEAR"  = SUM_QUERY.CH_YEAR  AND SUM_QUERY.RETURN_VALUE =  PD.HIERARCHY_NO      
+                    WHERE  PD.PROJECTION_MASTER_SID =  '?PMSID?' AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SP.USER_ID  = '?USERID?'  AND CH_SP.SESSION_ID = '?SESSIONID?'
+                    ?PROJECTIONSTARTDATE?
+                    GROUP BY  PD.HIERARCHY_NO, PD.LEVEL_NO, PD.LEVEL_NAME, ?GROUPFREQJOIN?)) SA
+                    ORDER BY SA.HIERARCHY_NO, SA.LEVEL_NO, SA.LEVEL_NAME, ?ORDERFREQJOIN? SA.ACTUALPROJ;
+		]]>
+    </sql>
+    
+    <sql id="generateCustomViewCount">
+		<![CDATA[
+                     SELECT count(distinct HLD?H_INDICATOR?.HIERARCHY_NO) as CNT
+                     FROM
+                     (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID
+                     FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                     JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSIDC?'
+                     JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                     ) CCPMAPC
+                     JOIN
+                     (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID
+                     FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                     JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDP?'
+                     JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                     ) CCPMAPP
+                     ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID
+                     JOIN
+                     (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                     JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID AND CVD.CUSTOM_VIEW_MASTER_SID='?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOC?'
+                     JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                     JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                     WHERE RLD2.HIERARCHY_NO like '?HNOC?'+'%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'
+                     JOIN
+                     (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                     JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID  AND CVD.CUSTOM_VIEW_MASTER_SID='?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOP?'
+                     JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                     JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                     WHERE RLD2.HIERARCHY_NO like '?HNOP?'+'%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%';
+		]]>
+    </sql>
+    
+    <sql id="generateCustomView">
+		<![CDATA[
+                  ?DECLARECCP?
+                    ?JOINCCP?
+
+                    select * from
+                    ((SELECT ISNULL (AVG(SUM_QUERY.GTS_SUM), 0) as GTS_SALES, 
+                    ISNULL (sum(CH_SA.CONTRACT_SALES), 0) as CONTRACT_SALES, 
+                    ISNULL ((cast(sum(CH_SA.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    PD.HIERARCHY_NO  as HIERARCHY_NO,
+                    PD.LEVEL_NO  as LEVEL_NO,
+                    ?SELECTFREQJOIN?
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/?COUNTFREQUENCY? AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as CCPCOUNT,
+                    0 AS ACTUALPROJ,
+                    '?H_INDICATOR?' AS HNO,
+                    PD.LEVEL_NAME AS LEVEL_NAME
+                    FROM @CCP PD 
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PD.HIERARCHY_NO 
+                    IN (SELECT DISTINCT SCCP.HIERARCHY_NO FROM @CCP SCCP ORDER BY SCCP.HIERARCHY_NO OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY )
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID 
+                    JOIN ST_CH_ACTUAL_SALES CH_SA ON CH_MAS.PROJECTION_DETAILS_SID = CH_SA.PROJECTION_DETAILS_SID 
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SA.PERIOD_SID     
+                    JOIN (SELECT SUM(PER_OF_BUSINESS_SUM) AS PER_OF_BUSINESS_SUM, sum(GTS_SUM) AS GTS_SUM, RETURN_VALUE, CH_YEAR, CH_FREQ 
+                    From ( select SUM(TEMP_TABLE.PER_OF_BUSINESS) AS PER_OF_BUSINESS_SUM, avg(TEMP_TABLE.GTS_SALES) AS GTS_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM,  PD2.HIERARCHY_NO  RETURN_VALUE, P.YEAR CH_YEAR, P.?FREQUENCY? CH_FREQ 
+                    FROM @CCP PD2 
+                    JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  '?PMSID?' 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID 
+                    JOIN  ST_CH_ACTUAL_SALES  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?' 
+                    JOIN PERIOD P ON TEMP_TABLE.PERIOD_SID = P.PERIOD_SID GROUP BY IM.ITEM_MASTER_SID, P.PERIOD_SID, P.?FREQUENCY? , P.YEAR,  PD2.HIERARCHY_NO ) SUM_NDC GROUP BY RETURN_VALUE,SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) AS SUM_QUERY  
+                    ON P.?FREQUENCY? = SUM_QUERY.CH_FREQ AND P."YEAR"  = SUM_QUERY.CH_YEAR  AND SUM_QUERY.RETURN_VALUE =  PD.HIERARCHY_NO      
+                    WHERE  PD.PROJECTION_MASTER_SID =  '?PMSID?' AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SA.USER_ID  = '?USERID?'  AND CH_SA.SESSION_ID = '?SESSIONID?'
+                    GROUP BY  PD.HIERARCHY_NO, PD.LEVEL_NO, PD.LEVEL_NAME, ?GROUPFREQJOIN?)
+                    UNION
+                    (SELECT ISNULL (AVG(SUM_QUERY.GTS_SUM), 0) as GTS_SALES, 
+                    ISNULL (sum(CH_SP.CONTRACT_SALES), 0) as CONTRACT_SALES, 
+                    ISNULL ((cast(sum(CH_SP.CONTRACT_SALES) as float)/cast(AVG(SUM_QUERY.GTS_SUM) as float))*cast(100.00 as float), 0) as PER_OF_BUSINESS,  
+                    PD.HIERARCHY_NO  as HIERARCHY_NO,
+                    PD.LEVEL_NO  as LEVEL_NO,
+                    ?SELECTFREQJOIN?
+                    sum(CASE(CH_MAS.CHECK_RECORD )WHEN 1 THEN 1 ELSE 0 END)/?COUNTFREQUENCY? AS CHECK_RECORD,
+                    COUNT(distinct PD.PROJECTION_DETAILS_SID) as CCPCOUNT,
+                    1 AS ACTUALPROJ,
+                    '?H_INDICATOR?' AS HNO,
+                    PD.LEVEL_NAME AS LEVEL_NAME
+                    FROM @CCP PD  
+                    JOIN CCP_DETAILS CCP  ON  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PD.HIERARCHY_NO 
+                    IN (SELECT DISTINCT SCCP.HIERARCHY_NO FROM @CCP SCCP ORDER BY SCCP.HIERARCHY_NO OFFSET ?START? ROWS FETCH NEXT ?OFFSET? ROWS ONLY )
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    JOIN ST_CH_SALES_PROJECTION_MASTER CH_MAS ON PD.PROJECTION_DETAILS_SID = CH_MAS.PROJECTION_DETAILS_SID 
+                    JOIN ST_CH_SALES_PROJECTION CH_SP ON CH_MAS.PROJECTION_DETAILS_SID = CH_SP.PROJECTION_DETAILS_SID 
+                    JOIN PERIOD P  ON P.PERIOD_SID = CH_SP.PERIOD_SID     
+                    JOIN (SELECT SUM(PER_OF_BUSINESS_SUM) AS PER_OF_BUSINESS_SUM, sum(GTS_SUM) AS GTS_SUM, RETURN_VALUE, CH_YEAR, CH_FREQ 
+                    From ( select SUM(TEMP_TABLE.PER_OF_BUSINESS) AS PER_OF_BUSINESS_SUM, avg(TEMP_TABLE.GTS_SALES) AS GTS_SUM, IM.ITEM_MASTER_SID ITEM_SID_SUM,  PD2.HIERARCHY_NO  RETURN_VALUE, P.YEAR CH_YEAR, P.?FREQUENCY? CH_FREQ 
+                    FROM @CCP PD2 
+                    JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = PD2.CCP_DETAILS_SID AND PD2.PROJECTION_MASTER_SID =  '?PMSID?' 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID 
+                    JOIN  ST_CH_SALES_PROJECTION  TEMP_TABLE ON TEMP_TABLE.PROJECTION_DETAILS_SID = PD2.PROJECTION_DETAILS_SID AND TEMP_TABLE.SESSION_ID = '?SESSIONID?' 
+                    JOIN PERIOD P ON TEMP_TABLE.PERIOD_SID = P.PERIOD_SID GROUP BY IM.ITEM_MASTER_SID, P.PERIOD_SID, P.?FREQUENCY? , P.YEAR,  PD2.HIERARCHY_NO ) SUM_NDC GROUP BY RETURN_VALUE,SUM_NDC.CH_YEAR , SUM_NDC.CH_FREQ) AS SUM_QUERY  
+                    ON P.?FREQUENCY? = SUM_QUERY.CH_FREQ AND P."YEAR"  = SUM_QUERY.CH_YEAR  AND SUM_QUERY.RETURN_VALUE =  PD.HIERARCHY_NO      
+                    WHERE  PD.PROJECTION_MASTER_SID =  '?PMSID?' AND CH_MAS.USER_ID = '?USERID?' AND CH_MAS.SESSION_ID = '?SESSIONID?'  AND CH_SP.USER_ID  = '?USERID?'  AND CH_SP.SESSION_ID = '?SESSIONID?'
+                    ?PROJECTIONSTARTDATE?
+                    GROUP BY  PD.HIERARCHY_NO, PD.LEVEL_NO, PD.LEVEL_NAME, ?GROUPFREQJOIN?)) SA
+                    ORDER BY SA.HIERARCHY_NO, SA.LEVEL_NO, SA.LEVEL_NAME, ?ORDERFREQJOIN? SA.ACTUALPROJ;
+		]]>
+    </sql>
+    
+    <sql id="customJoin">
+		<![CDATA[
+                     SELECT distinct ?PMSID? as PROJECTION_MASTER_SID, CCPMAP?H_INDICATOR?.CCP_DETAILS_SID, CCPMAP?H_INDICATOR?.PROJECTION_DETAILS_SID,
+                     HLD?H_INDICATOR?.RELATIONSHIP_LEVEL_SID, HLD?H_INDICATOR?.LEVEL_NO, HLD?H_INDICATOR?.HIERARCHY_NO, CCPMAP?H_INDICATOR?.LEVEL_NAME  FROM
+                    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, RLD.LEVEL_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, RLD.LEVEL_NAME
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDC?'
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=?PMSID?
+                    ) CCPMAPC
+                    JOIN
+                    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, RLD.LEVEL_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, RLD.LEVEL_NAME
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDP?'
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=?PMSID?
+                    ) CCPMAPP
+                    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID
+                    JOIN
+                    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOC?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                    JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                    WHERE RLD2.HIERARCHY_NO like '?HNOC?'+'%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'
+                    JOIN
+                    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID  AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOP?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                    JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                    WHERE RLD2.HIERARCHY_NO like '?HNOP?'+'%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'
+		]]>
+    </sql>
+        
+    <sql id="generateJoin">
+		<![CDATA[
+                    SELECT 
+                    PD.PROJECTION_MASTER_SID PMSID, CCPMAP.CCP_DETAILS_SID CCPSID, PD.PROJECTION_DETAILS_SID PDSID, RLD1.RELATIONSHIP_LEVEL_SID RLSID, RLD1.LEVEL_NO, RLD1.HIERARCHY_NO HNO, RLD1.LEVEL_NAME
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN ?PHTABLE? PH
+                         ON PH.PROJECTION_MASTER_SID = '?PMSID?'
+                                 AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID
+                                 AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSID?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
+                         ON RLD1.HIERARCHY_NO LIKE '?HNO?' + '%'
+                                 AND RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID
+                                 AND RLD.HIERARCHY_NO LIKE RLD1.HIERARCHY_NO + '%'
+                                 AND RLD1.LEVEL_NO = '?LEVELNO?'
+                    JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = PH.PROJECTION_MASTER_SID AND PD.PROJECTION_MASTER_SID = '?PMSID?'
+		]]>
+    </sql>
+    <sql id="updateJoin">
+		<![CDATA[
+                    SELECT 
+                    PD.PROJECTION_MASTER_SID PMSID, CCPMAP.CCP_DETAILS_SID CCPSID, PD.PROJECTION_DETAILS_SID PDSID, RLD1.RELATIONSHIP_LEVEL_SID RLSID,
+                    RLD1.LEVEL_NO, RLD1.HIERARCHY_NO HNO, IM.ITEM_MASTER_SID, RLD1.LEVEL_NAME
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN ?PHTABLE? PH
+                         ON PH.PROJECTION_MASTER_SID = ?PMSID? 
+                                 AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID
+                                 AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSID?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
+                         ON RLD1.HIERARCHY_NO LIKE '?HNO?'
+                                 AND RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID
+                                 AND RLD.HIERARCHY_NO LIKE RLD1.HIERARCHY_NO + '%'
+                                 AND RLD1.LEVEL_NO = '?LEVELNO?'
+                    JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = PH.PROJECTION_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID? 
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    ?THERAP?
+		]]>
+    </sql>
+    <sql id="updateCustomJoin">
+		<![CDATA[
+                    SELECT distinct ?PMSID? as PROJECTION_MASTER_SID, CCPMAP?H_INDICATOR?.CCP_DETAILS_SID, CCPMAP?H_INDICATOR?.PROJECTION_DETAILS_SID,
+                    HLD?H_INDICATOR?.RELATIONSHIP_LEVEL_SID, HLD?H_INDICATOR?.LEVEL_NO, HLD?H_INDICATOR?.HIERARCHY_NO, IM.ITEM_MASTER_SID, CCPMAP?H_INDICATOR?.LEVEL_NAME  FROM
+                    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, RLD.LEVEL_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, RLD.LEVEL_NAME
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDC?'
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=?PMSID?
+                    ) CCPMAPC
+                    JOIN
+                    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, RLD.LEVEL_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, RLD.LEVEL_NAME
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDP?'
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=?PMSID?
+                    ) CCPMAPP
+                    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID
+                    JOIN
+                    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOC?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                    JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                    WHERE RLD2.HIERARCHY_NO like '?HNOC?'+'%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'
+                    JOIN
+                    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID  AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOP?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                    JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                    WHERE RLD2.HIERARCHY_NO like '?HNOP?'+'%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = CCPMAP?H_INDICATOR?.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    
+		]]>
+    </sql>
+    <sql id="saveCheckProcedureCustomJoin">
+		<![CDATA[
+                   
+                    FROM (SELECT RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, SPM.CHECK_RECORD 
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDC?'
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=?PMSID?
+                    JOIN ST_CH_SALES_PROJECTION_MASTER SPM ON PD.PROJECTION_DETAILS_SID=SPM.PROJECTION_DETAILS_SID AND SPM.SESSION_ID = '?SESSIONID?' ) CCPMAPC
+                    JOIN
+                    (SELECT RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, SPM.CHECK_RECORD 
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDP?'
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=?PMSID?
+                    JOIN ST_CH_SALES_PROJECTION_MASTER SPM ON PD.PROJECTION_DETAILS_SID=SPM.PROJECTION_DETAILS_SID AND SPM.SESSION_ID = '?SESSIONID?' ) CCPMAPP
+                    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID
+                    JOIN
+                    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOC?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                    JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                    WHERE RLD2.HIERARCHY_NO like '?HNOC?'+'%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'
+                    JOIN
+                    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID  AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOP?'
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID
+                    JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=?PMSID?
+                    WHERE RLD2.HIERARCHY_NO like '?HNOP?'+'%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = CCPMAP?H_INDICATOR?.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID 
+                    
+		]]>
+    </sql>
+    <sql id="saveCheckProcedureJoin">
+		<![CDATA[
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN ?PHTABLE? PH
+                     ON PH.PROJECTION_MASTER_SID = ?PMSID?
+                             AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID
+                             AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID?
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
+                     ON RLD1.HIERARCHY_NO LIKE '?HNO?'
+                             AND RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID
+                             AND RLD.HIERARCHY_NO LIKE RLD1.HIERARCHY_NO + '%'
+                             AND RLD1.LEVEL_NO LIKE '?LEVELNO?'
+                JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID
+                JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCPMAP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                JOIN ST_CH_SALES_PROJECTION_MASTER SPM ON PD.PROJECTION_DETAILS_SID=SPM.PROJECTION_DETAILS_SID AND SPM.SESSION_ID = '?SESSIONID?';
+		]]>
+    </sql>
+    <sql id="declareCustomCcpUpdate">
+		<![CDATA[
+                    DECLARE @CCP TABLE
+                        (PROJECTION_MASTER_SID INT,
+                           CCP_DETAILS_SID INT,
+                           PROJECTION_DETAILS_SID INT,
+                           RELATIONSHIP_LEVEL_SID INT,
+                           LEVEL_NO INT,
+                           HIERARCHY_NO VARCHAR(200),
+                           LEVEL_NAME VARCHAR(50), 
+                           ITEM_MASTER_SID INT)
+                    INSERT INTO @CCP
+                           (PROJECTION_MASTER_SID,
+                            CCP_DETAILS_SID,   
+                            PROJECTION_DETAILS_SID,
+                            RELATIONSHIP_LEVEL_SID,
+                            LEVEL_NO,
+                            HIERARCHY_NO,
+                            LEVEL_NAME, 
+                            ITEM_MASTER_SID)
+                            
+		]]>
+    </sql>
+    <sql id="declareCcpUpdate">
+		<![CDATA[
+                    DECLARE @CCP TABLE
+                        (PROJECTION_MASTER_SID INT,
+                           CCP_DETAILS_SID INT,
+                           PROJECTION_DETAILS_SID INT,
+                           RELATIONSHIP_LEVEL_SID INT,
+                           LEVEL_NO INT,
+                           HIERARCHY_NO VARCHAR(200),
+                           ITEM_MASTER_SID INT,
+                           LEVEL_NAME VARCHAR(50))
+                    INSERT INTO @CCP
+                           (PROJECTION_MASTER_SID,
+                            CCP_DETAILS_SID,   
+                            PROJECTION_DETAILS_SID,
+                            RELATIONSHIP_LEVEL_SID,
+                            LEVEL_NO,
+                            HIERARCHY_NO,
+                            ITEM_MASTER_SID,
+                            LEVEL_NAME)
+		]]>
+    </sql>
+    <sql id="declareCcp">
+		<![CDATA[
+                    DECLARE @CCP TABLE
+                        (PROJECTION_MASTER_SID INT,
+                           CCP_DETAILS_SID INT,
+                           PROJECTION_DETAILS_SID INT,
+                           RELATIONSHIP_LEVEL_SID INT,
+                           LEVEL_NO INT,
+                           HIERARCHY_NO VARCHAR(200),
+                           LEVEL_NAME VARCHAR(50))
+                    INSERT INTO @CCP
+                           (PROJECTION_MASTER_SID,
+                            CCP_DETAILS_SID,   
+                            PROJECTION_DETAILS_SID,
+                            RELATIONSHIP_LEVEL_SID,
+                            LEVEL_NO,
+                            HIERARCHY_NO,
+                            LEVEL_NAME)
+		]]>
+    </sql>
+
+
+    <sql id="getNDCLabel">
+		<![CDATA[
+                    SELECT DISTINCT RLD.RELATIONSHIP_LEVEL_VALUES AS RLV, IM.ITEM_MASTER_SID AS ITEMSID, IM.ITEM_NO+ITEM_NAME AS NDC11, IM.NDC8 AS NDC8, RLD.HIERARCHY_NO AS HNO
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+                    JOIN PROJECTION_PROD_HIERARCHY  PH ON PH.PROJECTION_MASTER_SID = ?PMSID? AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSID?' 
+                    JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = PH.PROJECTION_MASTER_SID
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND IM.ITEM_MASTER_SID = RLD.RELATIONSHIP_LEVEL_VALUES
+                    WHERE RLD.LEVEL_NAME LIKE 'NDC 11';
+		]]>
+    </sql>
+    <sql id="customUpdateJoinOld">
+		<![CDATA[
+                    SELECT PD.PROJECTION_MASTER_SID PMSID, CCPMAP.CCP_DETAILS_SID CCPSID, PD.PROJECTION_DETAILS_SID PDSID, RLD1.RELATIONSHIP_LEVEL_SID RLSID, RLD1.LEVEL_NO, RLD1.HIERARCHY_NO HNO, IM.ITEM_MASTER_SID, RLD1.LEVEL_NAME 
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD JOIN  PROJECTION_CUST_HIERARCHY  PH ON PH.PROJECTION_MASTER_SID = ?PMSID? AND RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSID?' 
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO LIKE '%' + '%' AND RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID AND RLD.HIERARCHY_NO LIKE RLD1.HIERARCHY_NO + '%' 
+                    AND RLD1.LEVEL_NO = '1' JOIN CCP_MAP CCPMAP ON CCPMAP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID
+                    AND PD.PROJECTION_MASTER_SID = PH.PROJECTION_MASTER_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?   
+                    JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = CCPMAP.CCP_DETAILS_SID 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+
+		]]>
+    </sql>
+    <sql id="customUpdateJoin">
+		<![CDATA[
+                    SELECT distinct ?PMSID? as PROJECTION_MASTER_SID, CCPMAPC.CCP_DETAILS_SID, CCPMAPC.PROJECTION_DETAILS_SID,
+                    HLDC.RELATIONSHIP_LEVEL_SID, HLDC.LEVEL_NO, HLDC.HIERARCHY_NO, CCPMAPC.LEVEL_NAME, CCPMAPC.ITEM_MASTER_SID  
+
+                    FROM (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, RLD.LEVEL_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, RLD.LEVEL_NAME, IM.ITEM_MASTER_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID='?RBSIDC?' JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID 
+                    AND PD.PROJECTION_MASTER_SID = ?PMSID? JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID) CCPMAPC 
+
+                    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, RLD.LEVEL_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID, RLD.LEVEL_NAME, IM.ITEM_MASTER_SID 
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = '?RBSIDP?' 
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID? JOIN CCP_DETAILS CCP2 ON CCP2.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+                    JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP2.ITEM_MASTER_SID) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID 
+
+                    JOIN (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM CUSTOM_VIEW_DETAILS CVD 
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOC?' 
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID 
+                    JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID = ?PMSID? 
+                    WHERE RLD2.HIERARCHY_NO like '?HNOC?'+'%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%' 
+                    
+                    JOIN (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD 
+                    JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID  AND CVD.CUSTOM_VIEW_MASTER_SID = '?CVSID?' AND CVD.LEVEL_NO  like '?LEVELNOP?' 
+                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID 
+                    JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID = ?PMSID? 
+                    WHERE RLD2.HIERARCHY_NO like '?HNOP?'+'%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'    
+
+		]]>
+    </sql>
+    
+    <sql id="uncheckAll">
+		<![CDATA[
+                    UPDATE SPM SET SPM.CHECK_RECORD = 0 FROM ST_CH_SALES_PROJECTION_MASTER SPM 
+                    JOIN PROJECTION_DETAILS PD ON SPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PMSID?
+                    WHERE SPM.SESSION_ID = '?SESSIONID?' AND SPM.USER_ID = '?USERID?';
+		]]>
+    </sql>
+
+</custom-sql>

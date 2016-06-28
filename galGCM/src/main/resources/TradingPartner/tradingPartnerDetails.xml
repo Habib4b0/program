@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel id="mainPanel" caption = "Current-Customer Details">
+    <VerticalLayout spacing="false"
+                    margin="true" immediate="true">
+                
+        <VerticalLayout id="tradingPartnerTableLayout" spacing="true" margin="false" immediate="true">
+        </VerticalLayout>
+                
+        <HorizontalLayout  margin = "true" spacing = "true">
+            <Button id="excelBtn" primaryStyleName="link"/>
+            <Button id="rebuild" caption="CANCEL REMOVE" alignment="BOTTOM_LEFT" /> 
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>
