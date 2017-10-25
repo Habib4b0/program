@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable"
+        xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
+        xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="promoteTpToChVerticalLayout" spacing="true"
+                    margin="true" immediate="true" styleName = "width-auto">
+        
+        <Panel id="removeDiscountPanel1" caption="Search Criteria">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="6" rows="2">
+                    <Label caption="Rebate Plan ID: " contentMode="HTML" />
+                    <TextField id="rebatePlanId" inputPrompt="" immediate="true"/>
+                    
+                    <Label caption="Rebate Plan No: " contentMode="HTML" />
+                    <TextField id="rebatePlanNo" inputPrompt="" immediate="true"/>
+                    
+                    <Label caption="Rebate Plan Name: " contentMode="HTML" />
+                    <TextField id="rebatePlanName" inputPrompt="" immediate="true"/>
+                    
+                    <Label caption="Rebate Plan Status: " contentMode="HTML" />
+                    <ComboBox id="rebatePlanStatus" inputPrompt="" immediate="true"/>
+                    
+                    <Label caption="Rebate Plan Type: " contentMode="HTML" />
+                    <ComboBox id="rebatePlanType" inputPrompt="" immediate="true"/>
+                </GridLayout>                
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout >
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET"  />
+        </HorizontalLayout>
+        <Panel id="removeDiscountPanel2" caption="Results">
+            <VerticalLayout styleName="width-auto" >
+                <VerticalLayout id="formulaTableLayout"  immediate="true">
+                </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="selectBtn" caption="SELECT"  />
+                    <Button id="closeBtn" caption="CLOSE"  />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

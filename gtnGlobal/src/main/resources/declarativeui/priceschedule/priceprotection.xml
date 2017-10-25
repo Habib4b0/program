@@ -1,0 +1,37 @@
+<VerticalLayout id="root" margin="true" caption="Pricing" width="100%" height="100%" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:ct="urn:import:com.stpl.ifs.ui" xmlns:c="urn:import:org.asi.ui.customcombobox">
+	<HorizontalLayout id="massLayout" caption="Mass Update" spacing="false" margin="false" immediate="true">
+		<CssLayout id="cssLayout" spacing="true" immediate="true" width="100%" height="100%">
+			<OptionGroup id="massCheck" enabled="true" immediate="true" styleName="horizontal"/>
+			<c:CustomComboBox id="massField" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+			<Label id="basePriceTypeLB" value="Base Price Type"/>
+                        <c:CustomComboBox id="basePriceType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+                        <Label id="valueforddlb" value="Value"  contentMode="HTML" immediate="true" width="80px" />
+                        <PopupDateField id="massDate" immediate="true" />
+			<TextField id="massValue"  enabled="true" immediate="true" />
+			<c:CustomComboBox id="massSelect"  styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+                        <b:CustomTextField id="massLookup"  immediate="true" />
+                        <HorizontalLayout spacing="true" margin="false">
+			<Button id="btnPopulate" caption="Populate" immediate="true" />
+			<Button id="btnAllPopulate" caption="Populate All" immediate="true"  />
+                        </HorizontalLayout>
+		</CssLayout>
+	</HorizontalLayout>
+        <HorizontalLayout>
+            <Label value="Record: "  contentMode="HTML" immediate="true"  />
+            <OptionGroup multiSelect="true" id="record" immediate="true" enable="true" styleName = "horizontal"/>
+        </HorizontalLayout>
+
+<!--	<HorizontalLayout id="hlayout" spacing="false" margin="false" immediate="true" styleName="prev-next-layout">
+		<Button id="prevColumn" immediate="true" styleName="prev-column-button" />
+		<Button id="nextColumn" immediate="true" styleName="next-column-button" />
+	</HorizontalLayout>-->
+	<Panel id="mainPanel" caption="Results">
+		<ct:ExtPagedTable id="priceProtectionTable" />
+	</Panel>
+        <HorizontalLayout>
+	<HorizontalLayout id="controlLayout" spacing="false" margin="false" immediate="true" />
+        <CssLayout immediate="true" width="100%" height="100%">
+                <Button id="excel" immediate="true" primaryStyleName="link" />
+        </CssLayout>
+        </HorizontalLayout>
+</VerticalLayout>

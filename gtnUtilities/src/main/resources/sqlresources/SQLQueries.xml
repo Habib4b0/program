@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+    
+    <entity id="getScheduledJobs">
+        <query>
+            <![CDATA[
+
+SELECT	 [JOBNAME] = [JOBS].[NAME]
+		
+		,[ENABLED] = CASE [JOBS].[ENABLED] WHEN 1 THEN 'YES' ELSE 'NO' END
+		
+		,[DESCRIPTION] = [JOBS].[DESCRIPTION]
+		,[OCCURS] = 
+				CASE [SCHEDULE].[FREQ_TYPE]
+					WHEN   1 THEN 'ONCE'
+					WHEN   4 THEN 'DAILY'
+					WHEN   8 THEN 'WEEKLY'
+					WHEN  16 THEN 'MONTHLY'
+					WHEN  32 THEN 'MONTHLY RELATIVE'
+					WHEN  64 THEN 'WHEN SQL SERVER AGENT STARTS'
+					WHEN 128 THEN 'START WHENEVER THE CPU(S) BECOME IDLE' 
+					ELSE ''
+				END
+		,[OCCURS_DETAIL] = 
+				CASE [SCHEDULE].[FREQ_TYPE]
+					WHEN   1 THEN 'O'
+					WHEN   4 THEN 'EVERY ' + CONVERT(VARCHAR, [SCHEDULE].[FREQ_INTERVAL]) + ' DAY(S)'
+					WHEN   8 THEN 'EVERY ' + CONVERT(VARCHAR, [SCHEDULE].[FREQ_RECURRENCE_FACTOR]) + ' WEEKS(S) ON ' + 
+						LEFT(
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  1 =  1 THEN 'SUNDAY, '    ELSE '' END + 
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  2 =  2 THEN 'MONDAY, '    ELSE '' END + 
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  4 =  4 THEN 'TUESDAY, '   ELSE '' END + 
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  8 =  8 THEN 'WEDNESDAY, ' ELSE '' END + 
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] & 16 = 16 THEN 'THURSDAY, '  ELSE '' END + 
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] & 32 = 32 THEN 'FRIDAY, '    ELSE '' END + 
+							CASE WHEN [SCHEDULE].[FREQ_INTERVAL] & 64 = 64 THEN 'SATURDAY, '  ELSE '' END , 
+							LEN(
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  1 =  1 THEN 'SUNDAY, '    ELSE '' END + 
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  2 =  2 THEN 'MONDAY, '    ELSE '' END + 
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  4 =  4 THEN 'TUESDAY, '   ELSE '' END + 
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] &  8 =  8 THEN 'WEDNESDAY, ' ELSE '' END + 
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] & 16 = 16 THEN 'THURSDAY, '  ELSE '' END + 
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] & 32 = 32 THEN 'FRIDAY, '    ELSE '' END + 
+								CASE WHEN [SCHEDULE].[FREQ_INTERVAL] & 64 = 64 THEN 'SATURDAY, '  ELSE '' END 
+							) - 1
+						)
+					WHEN  16 THEN 'DAY ' + CONVERT(VARCHAR, [SCHEDULE].[FREQ_INTERVAL]) + ' OF EVERY ' + CONVERT(VARCHAR, [SCHEDULE].[FREQ_RECURRENCE_FACTOR]) + ' MONTH(S)'
+					WHEN  32 THEN 'THE ' + 
+							CASE [SCHEDULE].[FREQ_RELATIVE_INTERVAL]
+								WHEN  1 THEN 'FIRST'
+								WHEN  2 THEN 'SECOND'
+								WHEN  4 THEN 'THIRD'
+								WHEN  8 THEN 'FOURTH'
+								WHEN 16 THEN 'LAST' 
+							END +
+							CASE [SCHEDULE].[FREQ_INTERVAL]
+								WHEN  1 THEN ' SUNDAY'
+								WHEN  2 THEN ' MONDAY'
+								WHEN  3 THEN ' TUESDAY'
+								WHEN  4 THEN ' WEDNESDAY'
+								WHEN  5 THEN ' THURSDAY'
+								WHEN  6 THEN ' FRIDAY'
+								WHEN  7 THEN ' SATURDAY'
+								WHEN  8 THEN ' DAY'
+								WHEN  9 THEN ' WEEKDAY'
+								WHEN 10 THEN ' WEEKEND DAY' 
+							END + ' OF EVERY ' + CONVERT(VARCHAR, [SCHEDULE].[FREQ_RECURRENCE_FACTOR]) + ' MONTH(S)' 
+					ELSE ''
+				END
+		,[FREQUENCY] = 
+				CASE [SCHEDULE].[FREQ_SUBDAY_TYPE]
+					WHEN 1 THEN 'OCCURS ONCE AT ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_START_TIME]), 6), 5, 0, ':'), 3, 0, ':')
+					WHEN 2 THEN 'OCCURS EVERY ' + 
+								CONVERT(VARCHAR, [SCHEDULE].[FREQ_SUBDAY_INTERVAL]) + ' SECONDS(S) BETWEEN ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_START_TIME]), 6), 5, 0, ':'), 3, 0, ':') + ' AND ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_END_TIME]), 6), 5, 0, ':'), 3, 0, ':')
+					WHEN 4 THEN 'OCCURS EVERY ' + 
+								CONVERT(VARCHAR, [SCHEDULE].[FREQ_SUBDAY_INTERVAL]) + ' MINUTE(S) BETWEEN ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_START_TIME]), 6), 5, 0, ':'), 3, 0, ':') + ' AND ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_END_TIME]), 6), 5, 0, ':'), 3, 0, ':')
+					WHEN 8 THEN 'OCCURS EVERY ' + 
+								CONVERT(VARCHAR, [SCHEDULE].[FREQ_SUBDAY_INTERVAL]) + ' HOUR(S) BETWEEN ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_START_TIME]), 6), 5, 0, ':'), 3, 0, ':') + ' AND ' + 
+								STUFF(STUFF(RIGHT('000000' + CONVERT(VARCHAR(8), [SCHEDULE].[ACTIVE_END_TIME]), 6), 5, 0, ':'), 3, 0, ':')
+					ELSE ''
+				END,
+			EXECUTION_TIME,
+		 LAST_EXECUTION_DAY,
+		 CASE WHEN STATUS=1 THEN 'SUCCESS' ELSE 'FAIL' END AS STATUS
+FROM	 [MSDB].[DBO].[SYSJOBS] AS [JOBS] WITH(NOLOCK) 
+		 LEFT OUTER JOIN [MSDB].[DBO].[SYSJOBSCHEDULES] AS [JOBSCHEDULE] WITH(NOLOCK) 
+				 ON [JOBS].[JOB_ID] = [JOBSCHEDULE].[JOB_ID] 
+		 LEFT OUTER JOIN [MSDB].[DBO].[SYSSCHEDULES] AS [SCHEDULE] WITH(NOLOCK) 
+				 ON [JOBSCHEDULE].[SCHEDULE_ID] = [SCHEDULE].[SCHEDULE_ID] 
+		 INNER JOIN [MSDB].[DBO].[SYSCATEGORIES] [CATEGORIES] WITH(NOLOCK) 
+				 ON [JOBS].[CATEGORY_ID] = [CATEGORIES].[CATEGORY_ID] 
+
+		  LEFT JOIN
+		  
+		(
+		SELECT JOB_ID,SUM(RUN_DURATION) EXECUTION_TIME ,
+		CONVERT(DATETIME,CONVERT(VARCHAR(15),MAX(RUN_DATE))) AS LAST_EXECUTION_DAY,
+		MAX(RUN_STATUS) AS STATUS 
+		FROM [MSDB].[DBO].SYSJOBHISTORY  WITH(NOLOCK) 
+		  GROUP BY JOB_ID
+		)SYSHIS
+		  ON SYSHIS.JOB_ID=JOBS.JOB_ID
+                                
+
+        ]]>
+        </query>
+    </entity>
+      <entity id="getScheduledJobsCount">
+        <query>
+            <![CDATA[
+            SELECT	 count(*)
+FROM	 [msdb].[dbo].[sysjobs] AS [jobs] WITh(NOLOCK) 
+		 LEFT OUTER JOIN [msdb].[dbo].[sysjobschedules] AS [jobschedule] WITh(NOLOCK) 
+				 ON [jobs].[job_id] = [jobschedule].[job_id] 
+		 LEFT OUTER JOIN [msdb].[dbo].[sysschedules] AS [schedule] WITh(NOLOCK) 
+				 ON [jobschedule].[schedule_id] = [schedule].[schedule_id] 
+		 INNER JOIN [msdb].[dbo].[syscategories] [categories] WITh(NOLOCK) 
+				 ON [jobs].[category_id] = [categories].[category_id] 
+
+        ]]>
+        </query>
+    </entity>
+    
+</sql>

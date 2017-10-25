@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="loadLatestCCP">
+      <![CDATA[
+            ;WITH CTE
+                  AS (SELECT Row_number()OVER(PARTITION BY CCP_DETAILS_SID ORDER BY WM.CREATED_DATE DESC) RN,
+                             WORKFLOW_MASTER_SID,
+                             WORKFLOW_ID,
+                             WM.PROJECTION_MASTER_SID,
+                             PM.PROJECTION_NAME,
+                             PM.FORECASTING_TYPE,
+                             CCP_DETAILS_SID,
+                             WORKFLOW_STATUS=HT.[DESCRIPTION],
+                             APPROVED_BY,
+                             WM.MODIFIED_DATE,
+                             WM.CREATED_BY,
+                             WM.CREATED_DATE
+                      FROM   PROJECTION_MASTER PM, WORKFLOW_MASTER WM
+                             INNER JOIN PROJECTION_DETAILS PD
+                                     ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                             INNER JOIN HELPER_TABLE HT
+                                     ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                      WHERE  HT.[DESCRIPTION] = 'Approved' and PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID)
+              SELECT DISTINCT WORKFLOW_MASTER_SID,
+                    WORKFLOW_ID,
+                    PROJECTION_MASTER_SID,
+                    PROJECTION_NAME,
+                    FORECASTING_TYPE,
+                    WORKFLOW_STATUS,
+                    APPROVED_BY,
+                    MODIFIED_DATE,
+                    CREATED_BY,
+                    CREATED_DATE
+              FROM  CTE
+              WHERE  RN = 1
+        ]]>        
+    </sql>
+    
+    <sql id="getCffDetails">
+        <![CDATA[
+                select DISTINCT WM.WORKFLOW_MASTER_SID,
+                    WM.WORKFLOW_ID,
+                    PM.PROJECTION_MASTER_SID,
+                    PM.PROJECTION_NAME,
+                    PM.FORECASTING_TYPE,
+                    WM.WORKFLOW_STATUS_ID,
+                    WM.APPROVED_BY,
+                    WM.MODIFIED_DATE,
+                    WM.CREATED_BY,
+                    WM.CREATED_DATE
+               from PROJECTION_MASTER PM, WORKFLOW_MASTER WM,CFF_DETAILS CD
+               where CD.PROJECTION_MASTER_SID=WM.PROJECTION_MASTER_SID AND CD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+        ]]> 
+    </sql>
+    
+    <sql id="saveCffResults">
+		<![CDATA[
+                
+        ;WITH CTE
+                  AS (SELECT Row_number()OVER(PARTITION BY CCP_DETAILS_SID ORDER BY WM.CREATED_DATE DESC) RN,
+                             WORKFLOW_MASTER_SID,
+                             WORKFLOW_ID,
+                             WM.PROJECTION_MASTER_SID,
+                             PM.PROJECTION_NAME,
+                             PM.FORECASTING_TYPE,
+                             CCP_DETAILS_SID,
+                             WORKFLOW_STATUS=HT.[DESCRIPTION],
+                             APPROVED_BY,
+                             WM.MODIFIED_DATE,
+                             WM.CREATED_BY,
+                             WM.CREATED_DATE
+                      FROM   PROJECTION_MASTER PM, WORKFLOW_MASTER WM
+                             INNER JOIN PROJECTION_DETAILS PD
+                                     ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                             INNER JOIN HELPER_TABLE HT
+                                     ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                      WHERE  HT.[DESCRIPTION] = 'Approved' and PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID)
+              SELECT CCP_DETAILS_SID,
+                    PROJECTION_MASTER_SID 
+              FROM  CTE
+              WHERE  RN = 1
+
+    ]]>
+    </sql>
+    
+    
+    
+    
+    <sql id="getCffSearchCount">
+       
+        <![CDATA[
+            SELECT COUNT(*) FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = ? AND SESSION_ID = ? ? ;
+        ]]>
+     
+    </sql>
+  
+    <sql id="getCffSearchResults">
+                     
+        <![CDATA[         
+            SELECT 
+                CHECK_RECORD, 
+                FINANCIAL_FORECAST_ID, 
+                FINANCIAL_FORECAST_NAME, 
+                TYPE, 
+                PROJECT_ID, 
+                PROJECTION_NAME,
+                YEAR,
+                MONTH,
+                CONTRACT_ID,
+                CONTRACT_NO,
+                CONTRACT_NAME,
+                CONTRACT_TYPE,
+                CONTRACT_HOLDER_ID,
+                CONTRACT_HOLDER_NO,
+                CONTRACT_HOLDER_NAME,
+                CUSTOMER_ID,
+                CUSTOMER_NO,
+                CUSTOMER_NAME,
+                ITEM_ID,
+                ITEM_NO,
+                ITEM_NAME,
+                SALES_DOLLARS,
+                SALES_UNITS,
+                SALES_INCLUSION,
+                DEDUCTION_ID,
+                DEDUCTION_NO,
+                DEDUCTION_NAME,
+                DEDUCTION_CATEGORY,
+                DEDUCTION_TYPE,
+                DEDUCTION_PROGRAM,
+                DEDUCTION_INCLUSION,
+                DEDUCTION_CATEGORY1,
+                DEDUCTION_CATEGORY2,
+                DEDUCTION_CATEGORY3,
+                DEDUCTION_CATEGORY4,
+                DEDUCTION_CATEGORY5,
+                DEDUCTION_CATEGORY6,
+                DEDUCTION_DOLLARS,
+                DEDUCTION_RATE,
+                DEDUCTION_PER_UNIT,
+                NET_SALES_DOLLAR,
+                COGS_AMOUNT,
+                COGS_PER_UNIT,
+                NET_PROFIT_DOLLARS,
+                NET_PROFIT_PER_UNIT,
+                COMPANY_ID,
+                COMPANY_NO,
+                COMPANY_NAME,
+                BUSINESS_UNIT_ID,
+                BUSINESS_UNIT_NO,
+                BUSINESS_UNIT_NAME,
+                FINANCIAL_FORECAST_CREATION_DATE,
+                FINANCIAL_FORECAST_APPROVAL_DATE,
+                OUTBOUND_STATUS,
+                ORIGINAL_BATCH_ID,
+                CONTRACT_MASTER_SID,
+                COMPANY_MASTER_SID,
+                ITEM_MASTER_SID,
+                PERIOD_SID,
+                GL_COMPANY_MASTER_SID,
+                CFF_DETAILS_SID,
+                RS_MODEL_SID
+                FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = ? AND SESSION_ID= ? 
+                 ? ? 
+                OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+        ]]>
+      
+    </sql>
+    <sql id="getPriorName">
+        <![CDATA[
+                SELECT CM.CFF_MASTER_SID,CM.CFF_TYPE,CM.CFF_NAME,htable.DESCRIPTION from CFF_MASTER CM 
+                LEFT JOIN CFF_DETAILS CD on CM.CFF_MASTER_SID=CD.CFF_MASTER_SID
+                LEFT JOIN CFF_APPROVAL_DETAILS CAD on CAD.CFF_MASTER_SID=CM.CFF_MASTER_SID
+                LEFT JOIN HELPER_TABLE HTABLE on HTABLE.HELPER_TABLE_SID=CAD.APPROVAL_STATUS
+                WHERE HTABLE.DESCRIPTION like 'Approved' AND            
+        ]]> 
+    </sql>
+</custom-sql>

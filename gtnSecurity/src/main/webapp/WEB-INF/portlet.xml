@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	version="2.0">
+	<!-- Added by Mani -->
+	<portlet>
+		<description>BusinessRoleModuleMaster</description>
+		<portlet-name>BusinessRoleModuleMaster</portlet-name>
+		<display-name>BusinessRoleModuleMaster</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.security.businessRoleModuleMaster.ui.BusinessRoleModuleMasterUI</value>
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>Business Role Module Master</title>
+			<short-title>BusinessRoleModuleMaster</short-title>
+			<keywords>BusinessRoleModuleMaster</keywords>
+		</portlet-info>
+	</portlet>
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>BusinessRoleMgmt</portlet-name>
+		<display-name>BusinessRoleMgmt</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+			<value>com.stpl.app.security.busineessRoleMgmt.ui.BusinessRoleMgmtUI</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>Business Role Management</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>
+	
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>UserGrpBsnsRoleMaster</portlet-name>
+		<display-name>User Group Business Role Master</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+			<value>com.stpl.app.security.userGrpBsnsRoleMgmt.ui.UserBsnsRoleMgmtUI</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>User Group Business Role Master</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>UDC</portlet-name>
+		<display-name>UDC</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+			<value>com.stpl.app.security.udc.ui.UdcUI</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>UDC</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>
+        <portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>NotificationMgmt</portlet-name>
+		<display-name>Notification Management</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+			<value>com.stpl.app.security.notificationMgmt.ui.NotificationMgmtUI</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>Notification Management</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>
+</portlet-app>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+   
+    <entity id="Line_Level_Available_Checkbox">
+        <query> 
+                    <![CDATA[
+        UPDATE ST 
+        SET    AVAILABLE_CHECKBOX = [$AVAILABLE_CHECKBOX] 
+        FROM   [$TABLE_NAME] ST 
+        JOIN "PERIOD" P 
+        ON P.PERIOD_SID = ST.PERIOD_SID 
+        WHERE  P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]' 
+        AND ST.CCP_DETAILS_SID = [$PROJECTION_DETAILS_SID]; 
+                    ]]>
+        </query>
+    </entity>
+    <entity id="Available_CheckAll">
+        <query> 
+                    <![CDATA[
+        UPDATE ST 
+        SET    AVAILABLE_CHECKBOX = [$AVAILABLE_CHECKBOX] 
+        FROM   [$TABLE_NAME] ST 
+        JOIN "PERIOD" P 
+        ON P.PERIOD_SID = ST.PERIOD_SID 
+        WHERE P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]' 
+                    ]]>
+        </query>
+    </entity>
+ 
+    <entity id="Add_To_Queue_Update">
+        <query> 
+                    <![CDATA[
+            UPDATE ST 
+            SET    ST.CHECK_RECORD = 1,  AVAILABLE_CHECKBOX = 0
+            FROM   [$TABLE_NAME] ST 
+            JOIN   "PERIOD" P 
+            ON     P.PERIOD_SID = ST.PERIOD_SID 
+            WHERE  AVAILABLE_CHECKBOX = 1 
+            AND    P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]';
+                    ]]>
+        </query>
+    </entity>
+    <entity id="Selected_Line_Level_Check">
+        <query> 
+                    <![CDATA[
+                     UPDATE ST 
+        SET    SELECTED_CHECKBOX = [$SELECTED_CHECKBOX] 
+        FROM   [$TABLE_NAME] ST 
+        JOIN "PERIOD" P 
+        ON P.PERIOD_SID = ST.PERIOD_SID 
+        WHERE  
+         P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]' 
+        AND ST.CCP_DETAILS_SID = [$PROJECTION_DETAILS_SID]; 
+                    ]]>
+        </query>
+    </entity>
+    <entity id="Selected_Check_All">
+
+        <query> 
+                            <![CDATA[
+        UPDATE ST 
+        SET    SELECTED_CHECKBOX = [$SELECTED_CHECKBOX] 
+        FROM   [$TABLE_NAME] ST 
+        JOIN "PERIOD" P 
+        ON P.PERIOD_SID = ST.PERIOD_SID 
+        WHERE CHECK_RECORD = 1
+        AND P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]' 
+                            ]]>
+        </query>
+    </entity>
+    <entity id="Selected_Remove">
+
+        <query> 
+                            <![CDATA[
+        UPDATE ST 
+        SET    CHECK_RECORD = 0,ST.SELECTED_CHECKBOX = 0
+        FROM   [$TABLE_NAME]  ST 
+               JOIN "PERIOD" P 
+                 ON P.PERIOD_SID = ST.PERIOD_SID 
+        WHERE   ST.SELECTED_CHECKBOX = 1 
+               AND P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]' 
+                            ]]>
+        </query>
+    </entity>
+    <entity id="Selected_Remove_All">
+
+        <query> 
+                            <![CDATA[
+                UPDATE [$TABLE_NAME]
+                SET CHECK_RECORD = 0,SELECTED_CHECKBOX = 0
+                            ]]>
+        </query>
+    </entity>
+    <entity id="Count_Available_Table">
+
+        <query> 
+                       <![CDATA[
+                        IF EXISTS (SELECT 1 
+                                FROM   [$TABLE_NAME] ST 
+                                       JOIN "PERIOD" P 
+                                         ON P.PERIOD_SID = ST.PERIOD_SID 
+                                WHERE  ST.AVAILABLE_CHECKBOX = '1' 
+                                       AND P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]') 
+                            SELECT 1 
+                        ELSE 
+                            SELECT 0 
+                            ]]>
+        </query>
+    </entity>
+    <entity id="Count_Selected_Table">
+
+        <query> 
+                       <![CDATA[
+                        IF EXISTS (SELECT 1 
+                                FROM   [$TABLE_NAME] ST 
+                                       JOIN "PERIOD" P 
+                                         ON P.PERIOD_SID = ST.PERIOD_SID 
+                                WHERE   ST.SELECTED_CHECKBOX = '1' 
+                                       AND P.PERIOD_DATE BETWEEN '[$START_DATE]' AND '[$END_DATE]') 
+                            SELECT 1 
+                        ELSE 
+                            SELECT 0 
+                            ]]>
+        </query>
+    </entity>
+    <entity id="Get_Count_Allocation_Tables">
+        <query> 
+                       <![CDATA[
+        SELECT
+	COUNT(DISTINCT STAH.CCP_DETAILS_SID)
+        FROM
+	[$TABLE_NAME] STAH
+        [$FILTER_JOIN]
+        WHERE
+        1=1
+        [$SELECTED_TABLE_CHECK]
+        [$FILTER_CONDITION];
+                            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Get_Fileter_Join_allocationTab">
+        <query> 
+                       <![CDATA[
+        JOIN dbo.CCP_DETAILS CCP
+                ON CCP.CCP_DETAILS_SID = STAH.CCP_DETAILS_SID
+        JOIN dbo.COMPANY_MASTER CM
+                ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+        JOIN dbo.CONTRACT_MASTER CO
+                ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+        JOIN dbo.ITEM_MASTER IM
+                ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                            ]]>
+        </query>
+    </entity>
+</sql>

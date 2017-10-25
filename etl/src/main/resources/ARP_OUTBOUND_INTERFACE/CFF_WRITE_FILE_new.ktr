@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>CFF_WRITE_FILE_new</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>&#47;</directory>
+    <parameters>
+    </parameters>
+    <log>
+<trans-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<perf-log-table><connection/>
+<schema/>
+<table/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>SEQ_NR</id><enabled>Y</enabled><name>SEQ_NR</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>INPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>INPUT_BUFFER_ROWS</name></field><field><id>OUTPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>OUTPUT_BUFFER_ROWS</name></field></perf-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+<step-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <created_user>-</created_user>
+  <created_date>2013&#47;07&#47;05 14:13:25.909</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2013&#47;07&#47;05 14:13:25.909</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>BPI DB</name>
+    <server>${BPI_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_DB}</database>
+    <port>1433</port>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>STAGING DB</name>
+    <server>${STAGING_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${STAGING_DB}</database>
+    <port>1433</port>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>ACCRUAL_DETAILS 2</from><to>Set Variables</to><enabled>Y</enabled> </hop>  </order>
+  <step>
+    <name>ACCRUAL_DETAILS 2</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <sql>DECLARE @START_YEAR INT = YEAR(GETDATE())
+DECLARE @END_YEAR INT = (
+              SELECT MAX(A.YEAR)
+              FROM ST_ARP_OUTBOUND ST
+              INNER JOIN ARP_OUTBOUND A ON ST.ITEM_MASTER_SID = A.ITEM_MASTER_SID
+                     AND ST.ARP_WORKFLOW_ID = A.ARP_WORKFLOW_ID
+                     AND ST.ACCOUNT_TYPE = A.ACCOUNT_TYPE
+                     AND (
+                           st.rs_model_sid = a.rs_model_sid
+                           OR st.rs_model_sid IS NULL
+                           OR a.rs_model_sid IS NULL
+                           )
+					AND (st.RS_CATEGORY=a.RS_CATEGORY or st.RS_CATEGORY is null or a.RS_CATEGORY is null)
+                    AND (st.RS_TYPE=a.RS_TYPE or st.RS_TYPE is null or a.RS_TYPE is null)
+                     AND (st.REBATE_PROGRAM_TYPE=a.REBATE_PROGRAM_TYPE or  st.REBATE_PROGRAM_TYPE is null or a.REBATE_PROGRAM_TYPE is null)
+
+              WHERE ST.ETL_CHECK_RECORD = 1
+              )
+DECLARE @COL_LIST AS VARCHAR(MAX) = &apos;&apos;
+DECLARE @QUERY AS VARCHAR(MAX)
+DECLARE @NO_OF_YEARS INT = ABS(@END_YEAR - @START_YEAR)
+       ,@CNTR INT = 1
+
+SET @QUERY = &apos;SELECT  A.PROJECTION_MASTER_SID ,
+                A.ARP_WORKFLOW_ID                       ,
+                a.COMPANY_MASTER_SID     ,
+                A.ITEM_MASTER_SID              ,
+                A.BRAND_MASTER_SID       ,
+                A.ACCOUNT_TYPE,
+                ACCOUNT,
+                HT1.DESCRIPTION AS PROGRAM,
+                HT2.DESCRIPTION AS TYPE,
+                HT3.DESCRIPTION AS CATEGORY,
+                a.ARP_CREATION_DATE      ,
+                a.ARP_APPROVAL_DATE      ,
+                a.OUTBOUND_STATUS              ,
+                a.ORIGINAL_BATCH_ID      ,
+                CHECK_RECORD           ,
+                USER_ID     ,
+                SESSION_ID                   ,
+                ETL_CHECK_RECORD,&apos;
+
+WHILE (@CNTR &lt;= @NO_OF_YEARS + 1)
+BEGIN
+       SET @QUERY += &apos;
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.JAN END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;1],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.FEB END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;2],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.MAR END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;3],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.APR END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;4],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.MAY END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;5],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.JUN END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;6],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + 
+              &apos; THEN A.JUL END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;7],                                                                                                                                             
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.AUG END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;8],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.SEP END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;9],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.OCT END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;10],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.NOV END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;11],
+ISNULL(SUM(CASE WHEN A.YEAR = &apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; THEN A.DEC END ),0)AS [&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;12]&apos; + IIF(@CNTR = @NO_OF_YEARS + 1, 
+                     &apos;&apos;, &apos;,&apos;)
+       SET @CNTR = @CNTR + 1
+END
+
+SET @QUERY += 
+       &apos; FROM ARP_OUTBOUND A
+               inner JOIN ST_ARP_OUTBOUND ST
+                ON ST.ARP_WORKFLOW_ID=a.ARP_WORKFLOW_ID
+                and (a.rs_model_sid = ST.rs_model_sid or a.rs_model_sid is null or st.rs_model_sid is null)
+                                                                and st.item_master_Sid=a.item_master_sid
+                                                                and st.ACCOUNT_TYPE = A.ACCOUNT_TYPE
+                                                                                                                       AND (st.RS_CATEGORY=a.RS_CATEGORY or st.RS_CATEGORY is null or a.RS_CATEGORY is null)
+                    AND (st.RS_TYPE=a.RS_TYPE or st.RS_TYPE is null or a.RS_TYPE is null)
+                     AND (st.REBATE_PROGRAM_TYPE=a.REBATE_PROGRAM_TYPE or  st.REBATE_PROGRAM_TYPE is null or a.REBATE_PROGRAM_TYPE is null)
+
+                                                                LEFT JOIN RS_MODEL RS ON ST.RS_MODEL_SID = RS.RS_MODEL_SID
+                                                                LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = RS.REBATE_PROGRAM_TYPE
+                LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = RS.RS_TYPE
+                                                                LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID = RS.RS_CATEGORY
+                                                                                                              WHERE 
+ ST.ETL_CHECK_RECORD=1
+      
+      
+                                                                     
+ GROUP BY
+                A.PROJECTION_MASTER_SID        ,
+                A.ARP_WORKFLOW_ID                       ,
+                A.COMPANY_MASTER_SID     ,
+                A.ITEM_MASTER_SID              ,
+                A.BRAND_MASTER_SID       ,
+                A.ACCOUNT_TYPE,
+                ACCOUNT,
+                HT1.DESCRIPTION,
+                HT2.DESCRIPTION,
+                HT3.DESCRIPTION,
+               A.ARP_CREATION_DATE,
+                A.ARP_APPROVAL_DATE,
+                A.OUTBOUND_STATUS ,
+                A.ORIGINAL_BATCH_ID,   
+                CHECK_RECORD,
+                USER_ID,
+                SESSION_ID,
+                ETL_CHECK_RECORD
+               &apos;
+
+                       
+SET @CNTR = 1
+
+WHILE (@CNTR &lt;= @NO_OF_YEARS + 1)
+BEGIN
+       SET @COL_LIST += &apos;
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;1],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;2],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;3],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;4],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;5],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;6],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;7],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;8],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;9],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;10],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;11],
+[&apos; + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + &apos; &apos; + &apos;12] &apos; + IIF(@CNTR = @NO_OF_YEARS + 1, &apos;&apos;, &apos;,&apos;)
+       SET @CNTR = @CNTR + 1
+END
+
+DECLARE @STRING NVARCHAR(MAX)
+
+
+
+
+
+--set @cols = &apos;STUFF((select distinct   &apos;&apos;_&apos;&apos; +  a.ORIGINAL_BATCH_ID  FROM (&apos; + @QUERY + 
+--       &apos;)A
+--                    group by a.ORIGINAL_BATCH_ID
+             
+--            FOR XML PATH(&apos;&apos;), TYPE            ).value(&apos;&apos;.&apos;&apos;, &apos;&apos;NVARCHAR(MAX)&apos;&apos;) 
+--        ,1,1,&apos;&apos;)&apos;
+
+
+--print @cols
+
+
+SET @STRING = &apos;
+
+DECLARE @cols AS NVARCHAR(MAX)
+
+
+set @cols = STUFF(( select distinct &apos;&apos;_&apos;&apos; +  A.ORIGINAL_BATCH_ID FROM ST_ARP_OUTBOUND ST
+              INNER JOIN ARP_OUTBOUND A ON ST.ITEM_MASTER_SID = A.ITEM_MASTER_SID
+                    AND ST.ARP_WORKFLOW_ID = A.ARP_WORKFLOW_ID
+                    AND ST.ACCOUNT_TYPE = A.ACCOUNT_TYPE
+                     AND (
+                           st.rs_model_sid = a.rs_model_sid
+                           OR st.rs_model_sid IS NULL
+                           OR a.rs_model_sid IS NULL               )
+              WHERE ST.ETL_CHECK_RECORD = 1
+
+
+            FOR XML PATH(&apos;&apos;&apos;&apos;), TYPE).value(&apos;&apos;.&apos;&apos;, &apos;&apos;NVARCHAR(MAX)&apos;&apos;) 
+        ,1,1,&apos;&apos;&apos;&apos;)
+
+
+
+
+SELECT   top 1 
+ &apos;&apos;${OUTBOUND_FILE_PATH}&#47;Accrual Rate Projection&#47;Output&#47;ACCRUAL_RATE_PROJECTION_&apos;&apos;+@cols as new_name
+   
+
+
+FROM (&apos; + @QUERY + 
+       &apos;)A INNER JOIN
+PROJECTION_MASTER PM
+ON A.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+INNER JOIN COMPANY_MASTER CM ON A.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+INNER JOIN ITEM_MASTER IM ON A.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+INNER JOIN BRAND_MASTER BM ON A.BRAND_MASTER_SID = BM.BRAND_MASTER_SID&apos;
+
+
+
+execute (@STRING)</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>564</xloc>
+      <yloc>102</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Set Variables</name>
+    <type>SetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <field_name>new_name</field_name>
+        <variable_name>new_name</variable_name>
+        <variable_type>ROOT_JOB</variable_type>
+        <default_value/>
+        </field>
+      </fields>
+    <use_formatting>N</use_formatting>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>676</xloc>
+      <yloc>271</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+</transformation>

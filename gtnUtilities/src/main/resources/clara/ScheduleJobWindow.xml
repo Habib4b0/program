@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout id="mainLayout"  margin="true" spacing="true" >
+       
+        <Panel caption="New Job Schedule" width="100%">
+            <VerticalLayout  margin="true" spacing="true">
+                <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" >
+                    <Label value="Name" id ="nameLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                    <TextField id="name" enabled="true" immediate="true" />  
+                    <Label value="Schedule Type" id ="scheduleTypeLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                    <ComboBox id="scheduleType" enabled="true" immediate="true" />  
+                    <CheckBox id="enabled" enabled="true" immediate="true" />  
+                </HorizontalLayout>
+                
+                <Panel caption="One Time Ocurrence" width="100%">
+                      <HorizontalLayout id="oneTimeLayout" spacing="true" margin="true" >
+                        <Label value="Date"  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />  
+                      <PopupDateField id="oneTimeDate" enabled="true" immediate="true" /> 
+                      </HorizontalLayout>
+                </Panel> 
+                <Panel caption="Frequency" width="100%">
+                       <VerticalLayout  margin="true" spacing="true">
+                    <HorizontalLayout id="frequencyLayout" spacing="true" margin="true" >
+                        <Label value="Occurs"  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                        <ComboBox id="occurs" enabled="true" immediate="true" />  
+                        <Label value="Recurs Every"  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                        <ComboBox id="recursEvery" enabled="true" imoccursLabelmediate="true" />  
+                     </HorizontalLayout>
+                      <HorizontalLayout id="frequencyLayout2" spacing="true" margin="true" >
+                        <Label value="Weeks On"  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                        <OptionGroup id="days" enabled="true" immediate="true" styleName = "horizontal" /> 
+                    </HorizontalLayout>
+                       </VerticalLayout>
+                </Panel> 
+                  <Panel caption="Daily Frequency" width="100%">
+                      <VerticalLayout  margin="true" spacing="true">
+                          <HorizontalLayout id="dailyfrequencyLayout" spacing="true" margin="true" >
+                              <OptionGroup id="occursOnceSelect" enabled="true" immediate="true" styleName = "horizontal" /> 
+                              <PopupDateField id="occursOnceAt" enabled="true" immediate="true" />  
+                          </HorizontalLayout>
+                          <HorizontalLayout id="dailyfrequencyLayout2" spacing="true" margin="true" >
+                              <OptionGroup id="occursEverySelection" enabled="true" immediate="true" styleName = "horizontal" /> 
+                              <ComboBox id="occursEvery" enabled="true" imoccursLabelmediate="true" />  
+                              <ComboBox id="occursEveryFrequency" enabled="true" imoccursLabelmediate="true" />
+                          </HorizontalLayout>
+                          <HorizontalLayout id="dailyfrequencyLayout3" spacing="true" margin="true" > 
+                              <Label value="Starting At"  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  /> 
+                              <PopupDateField id="startingAt" enabled="true" immediate="true" />  
+                              <Label value="Ending At"  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                              <PopupDateField id="endingAt" enabled="true" immediate="true" />  
+                          </HorizontalLayout>
+                      </VerticalLayout>
+                </Panel>
+                  <Panel caption="Duration" width="100%">
+                    <HorizontalLayout id="durationLayout" spacing="true" margin="true" >
+                        <Label value="Start Date" enabled="true" immediate="true" styleName = "horizontal" /> 
+                        <PopupDateField id="startDate" enabled="true" immediate="true" />  
+                        <OptionGroup id="endDateSelection" enabled="true" immediate="true" styleName = "horizontal" /> 
+                        <PopupDateField id="endDate" enabled="true" immediate="true" />  
+                    </HorizontalLayout>
+                </Panel>
+               
+                <Panel caption="Summary" width="100%">
+                    <HorizontalLayout id="SummaryLayout" spacing="true" margin="true" >
+                        <Label value="Description" id ="descriptionLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                        <TextField id="description" enabled="true" immediate="true" />               
+                    </HorizontalLayout>
+                </Panel> 
+
+                <HorizontalLayout id="buttonLayout" spacing="true" margin="true" >
+                    <Button id="saveBtn" caption="SAVE" immediate="true" />
+                    <Button id="closeBtn" caption="CLOSE" immediate="true" />
+                </HorizontalLayout>
+                
+            </VerticalLayout>
+        </Panel>  
+                                                         
+    </VerticalLayout>
+</Panel>

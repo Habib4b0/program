@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel id="panel1" caption="Item Identifiers" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:a="urn:import:org.asi.ui.extfilteringtable"  xmlns:error="urn:import:com.stpl.app.ui.errorhandling">
+    <VerticalLayout margin="true" spacing="true" >
+        <error:ErrorLabel id="errorMsg"/>
+        
+        <a:ExtFilterTable id="qualifierTable" selectable="true" immediate="true" />
+    <!--styleName="responsiveTabGrid"-->
+        <Panel id="panel2" caption="Item Identifier Setup"  >
+            <HorizontalLayout spacing="true" margin="true" >
+                <VerticalLayout>
+                    <CssLayout id="cssLayout" width="100%" height="100%">
+                        <Label id="identifierCodeQualifierLB" value="Identifier Code Qualifier" contentMode="HTML" />
+                        <TextField id="identifierCodeQualifier" inputPrompt=""/>
+                        <Label id="effectiveDatesLB" value="Effective Dates" contentMode="HTML" />
+                        <ComboBox id="effectiveDates" enable="true" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" />
+                    </CssLayout>    
+                    <CssLayout id="cssLayout1" width="100%" height="100%">    
+                        <Label id="identifierCodeQualifierNameLB" value="Identifier Code Qualifier Name" contentMode="HTML" />
+                        <TextField id="identifierCodeQualifierName" inputPrompt=""/>
+                        <Label id="entityCodeLB" value="Entity Code" contentMode="HTML" />
+                        <ComboBox id="entityCode" enable="true" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" />
+                    </CssLayout>
+                </VerticalLayout>
+                <CssLayout width="100%" height="100%">
+                    <Label id="notesLB" value="Notes" contentMode="HTML" />
+                    <TextArea id="notes" styleName="editListTextArea"/>
+                </CssLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout id="btnLayout">
+            <Button id="QualifierSave" caption="SAVE" immediate="true"/>
+            <Button id="QualifierDelete" caption="DELETE" immediate="true" />
+            <Button id="IdentifierRemove" caption="RESET" immediate="true" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

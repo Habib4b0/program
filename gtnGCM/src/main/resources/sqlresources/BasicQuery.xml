@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="Company Contract Search">
+        <query> 
+                    <![CDATA[
+                        DECLARE @COMPANY_MS_SID VARCHAR(1000) = ?;
+
+
+DECLARE @TEMP_PROJ AS TABLE
+  (
+     PROJECTION_MASTER_SID INT PRIMARY KEY
+  )
+
+INSERT INTO @TEMP_PROJ
+            (PROJECTION_MASTER_SID)
+SELECT DISTINCT A.PROJECTION_MASTER_SID
+FROM   WORKFLOW_MASTER A
+JOIN   PROJECTION_DETAILS B ON A.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID
+JOIN   CCP_DETAILS C ON C.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+WHERE  A.PROJECTION_MASTER_SID IS NOT NULL
+       AND C.COMPANY_MASTER_SID IN( @COMPANY_MS_SID)
+
+if object_id('tempdb..#intr') is not null
+drop table #intr
+
+CREATE TABLE #intr
+  (
+     PROJECTION_MASTER_SID INT,
+     WORKFLOW_MASTER_SID   INT,
+     WORKFLOW_STATUS       VARCHAR(200),
+     IFP_CONTRACT_SID      INT,
+     CFP_CONTRACT_SID      INT,
+     CONTRACT_MASTER_SID   INT,
+     COMPANY_MASTER_SID    INT
+  )
+
+INSERT #intr
+SELECT DISTINCT PD.PROJECTION_MASTER_SID,
+                WM.WORKFLOW_MASTER_SID,
+                HT.DESCRIPTION AS WORKFLOW_STATUS,
+                IFP_C.IFP_CONTRACT_SID,
+                CFP_D.CFP_CONTRACT_SID,
+                CFP_C.CONTRACT_MASTER_SID,
+                CFP_D.COMPANY_MASTER_SID
+FROM   CFP_CONTRACT CFP_C
+       JOIN CFP_CONTRACT_DETAILS CFP_D
+         ON CFP_C.CFP_CONTRACT_SID = CFP_D.CFP_CONTRACT_SID
+       JOIN IFP_CONTRACT IFP_C
+         ON IFP_C.CFP_CONTRACT_SID = CFP_D.CFP_CONTRACT_SID
+            AND IFP_C.CONTRACT_MASTER_SID = CFP_C.CONTRACT_MASTER_SID
+       JOIN IFP_CONTRACT_DETAILS IFP_D
+         ON IFP_D.IFP_CONTRACT_SID = IFP_C.IFP_CONTRACT_SID
+       JOIN CCP_DETAILS CCP
+         ON CCP.ITEM_MASTER_SID = IFP_D.ITEM_MASTER_SID
+            AND CCP.COMPANY_MASTER_SID = CFP_D.COMPANY_MASTER_SID
+            AND CCP.CONTRACT_MASTER_SID = CFP_C.CONTRACT_MASTER_SID
+       JOIN PROJECTION_DETAILS PD
+         ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+       JOIN WORKFLOW_MASTER WM
+         ON WM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+       JOIN HELPER_TABLE HT
+         ON HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+		 where cfp_c.INBOUND_STATUS <> 'D'
+		 and cfp_d.INBOUND_STATUS <> 'D'
+		 and IFP_C.INBOUND_STATUS <> 'D'
+		 and IFP_D.INBOUND_STATUS <> 'D'
+AND PD.PROJECTION_MASTER_SID NOT IN (SELECT PROJECTION_MASTER_SID
+                                            FROM   @TEMP_PROJ)
+
+;WITH TEMP
+     AS (SELECT DISTINCT CM.COMPANY_NAME AS 'Contract Holder',
+                         CON.CONTRACT_NO,
+                         CON.CONTRACT_NAME,
+                         HEL.DESCRIPTION AS 'CONTRACT_TYPE',
+                         CON.START_DATE  AS 'CONTRACT_START_DATE',
+                         CON.END_DATE    AS 'CONTRACT_END_DATE',
+                         CFP_CON.CFP_NAME,
+                         CFP_CON.CFP_NO,
+                         CFP_MOD.CFP_ID,
+                         CFP_CON.CFP_STATUS,
+                         CFP_CON.CFP_START_DATE,
+                         CFP_CON.CFP_END_DATE,
+                         IFP_CON.IFP_NAME,
+                         IFP_CON.IFP_NO,
+                         IFP_MOD.IFP_ID,
+                         IFP_CON.IFP_STATUS,
+                         IFP_CON.IFP_START_DATE,
+                         IFP_CON.IFP_END_DATE,
+                         PS_CON.PS_NAME,
+                         PS_CON.PS_NO    AS 'PS NO',
+                         PS_MOD.PS_ID,
+                         PS_CON.PS_STATUS,
+                         PS_CON.PS_START_DATE,
+                         PS_CON.PS_END_DATE,
+                         RS_CON.RS_NAME,
+                         RS_CON.RS_NO    AS 'RAR NO',
+                         RS_CON.RS_Id    AS 'RAR CATEGORY',
+                         RS_MOD.RS_ID,
+                         RS_CON.RS_STATUS,
+                         RS_CON.RS_START_DATE,
+                         RS_CON.RS_END_DATE,
+                         CFP_CON.CFP_CONTRACT_SID,
+                         RS_CON.RS_CONTRACT_SID,
+                         IFP_CON.IFP_CONTRACT_SID,
+                         PS_CON.PS_CONTRACT_SID,
+                         CON.CONTRACT_MASTER_SID,
+                         A.PROJECTION_MASTER_SID,
+                         A.WORKFLOW_MASTER_SID
+         FROM   CONTRACT_MASTER CON
+                LEFT JOIN COMPANY_MASTER CM
+                       ON CON.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                JOIN CFP_CONTRACT CFP_CON
+                  ON CFP_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                JOIN IFP_CONTRACT IFP_CON
+                  ON IFP_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                     AND IFP_CON.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                JOIN PS_CONTRACT PS_CON
+                  ON PS_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                     AND ps_con.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                     AND PS_CON.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID
+                JOIN RS_CONTRACT RS_CON
+                  ON RS_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                     AND RS_CON.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                     AND rs_con.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID
+                     AND RS_CON.PS_CONTRACT_SID = PS_CON.PS_CONTRACT_SID
+                JOIN HELPER_TABLE HEL
+                  ON HEL.HELPER_TABLE_SID = CON.CONTRACT_TYPE
+                JOIN CFP_CONTRACT_DETAILS CFP_CON_DET
+                  ON CFP_CON_DET.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                JOIN COMPANY_MASTER CM1
+                  ON CM1.COMPANY_MASTER_SID = CFP_CON_DET.COMPANY_MASTER_SID
+                CROSS APPLY(SELECT DISTINCT t.PROJECTION_MASTER_SID,
+                                            t.WORKFLOW_MASTER_SID,
+                                            t.WORKFLOW_STATUS,
+                                            t.IFP_CONTRACT_SID,
+                                            t.CFP_CONTRACT_SID
+                            FROM   #intr t
+                            WHERE  t.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                                   AND t.COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID
+                                   AND t.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                                   AND t.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID) A
+                LEFT JOIN(SELECT CFP_MOD.CFP_NO,
+                                 CFP_MODEL_SID,
+                                 CFP_MOD.CFP_ID,
+                                 CFP_ST.DESCRIPTION AS CFP_STATUS
+                          FROM   CFP_MODEL CFP_MOD
+                                 INNER JOIN HELPER_TABLE CFP_ST
+                                         ON CFP_ST.HELPER_TABLE_SID = CFP_MOD.CFP_STATUS
+										 where CFP_MOD.INBOUND_STATUS <> 'D') CFP_MOD
+                       ON CFP_MOD.CFP_MODEL_SID = CFP_CON.CFP_MODEL_SID
+                LEFT JOIN(SELECT IFP_MOD.IFP_NO,
+                                 IFP_MODEL_SID,
+                                 IFP_MOD.IFP_ID,
+                                 IFP_ST.DESCRIPTION AS IFP_STATUS
+                          FROM   IFP_MODEL IFP_MOD
+                                 JOIN HELPER_TABLE IFP_ST
+                                   ON IFP_ST.HELPER_TABLE_SID = IFP_MOD.IFP_STATUS
+								    where IFP_MOD.INBOUND_STATUS <> 'D') IFP_MOD
+                       ON IFP_MOD.IFP_MODEL_SID = IFP_CON.IFP_MODEL_SID
+                LEFT JOIN(SELECT RS_MOD.RS_NO,
+                                 RS_MODEL_SID,
+                                 RS_MOD.RS_ID,
+                                 RS_ST.DESCRIPTION AS RS_STATUS
+                          FROM   RS_MODEL RS_MOD
+                                 JOIN HELPER_TABLE RS_ST
+                                   ON RS_ST.HELPER_TABLE_SID = RS_MOD.RS_STATUS
+								    where RS_MOD.INBOUND_STATUS <> 'D'
+								   ) RS_MOD
+                       ON RS_MOD.RS_MODEL_SID = RS_CON.RS_MODEL_SID
+                LEFT JOIN(SELECT PS_MOD.PS_NO,
+                                 PS_MODEL_SID,
+                                 PS_MOD.PS_ID,
+                                 PS_ST.DESCRIPTION AS PS_STATUS
+                          FROM   PS_MODEL PS_MOD
+                                 JOIN HELPER_TABLE PS_ST
+                                   ON PS_ST.HELPER_TABLE_SID = PS_MOD.PS_STATUS
+								       where PS_MOD.INBOUND_STATUS <> 'D'
+								   ) PS_MOD
+                       ON PS_MOD.PS_MODEL_SID = PS_CON.PS_MODEL_SID
+         WHERE  CON.INBOUND_STATUS <> 'D'
+                AND CFP_CON.INBOUND_STATUS <> 'D'
+                AND CFP_CON_DET.INBOUND_STATUS <> 'D'
+                AND IFP_CON.INBOUND_STATUS <> 'D'
+                AND PS_CON.INBOUND_STATUS <> 'D'
+                AND RS_CON.INBOUND_STATUS <> 'D'
+                AND CON.CONTRACT_NO LIKE '%'
+                AND CM1.COMPANY_MASTER_SID NOT IN ( @COMPANY_MS_SID )
+                AND CFP_CON.CFP_CONTRACT_SID NOT IN(SELECT CFP.CFP_CONTRACT_SID
+                                                    FROM   CONTRACT_MASTER A
+                                                           JOIN CFP_CONTRACT CFP
+                                                             ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID
+                                                                AND CFP.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                                                           JOIN CFP_CONTRACT_DETAILS CFP_D
+                                                             ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID
+                                                    WHERE  CFP_D.COMPANY_MASTER_SID IN( @COMPANY_MS_SID )
+                                                           AND CFP_D.INBOUND_STATUS <> 'D'
+                                                    GROUP  BY CFP.CFP_CONTRACT_SID
+                                                    HAVING Sum(( CASE
+                                                                   WHEN CFP_D.COMPANY_MASTER_SID IN( @COMPANY_MS_SID ) THEN -1
+                                                                   ELSE 0
+                                                                 END )) = -?))
+INSERT INTO GCM_GLOBAL_DETAILS
+            (CHECK_RECORD,
+             CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+             IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             USER_ID,
+             SESSION_ID,
+             SCREEN_NAME,
+             OPERATION,
+             PROJECTION_MASTER_SID,
+             WORKFLOW_MASTER_SID,
+             MODULE_NAME,
+             CREATED_DATE)
+SELECT '0',
+       CONTRACT_MASTER_SID,
+       CFP_CONTRACT_SID,
+       IFP_CONTRACT_SID,
+       PS_CONTRACT_SID,
+       RS_CONTRACT_SID,
+       '?',
+       '?',
+       '?',
+       '0',
+       PROJECTION_MASTER_SID,
+       WORKFLOW_MASTER_SID,
+       'CUSTOMER_MANAGEMENT',
+       GETDATE()
+FROM   TEMP; 
+
+ DELETE FROM GCM_GLOBAL_DETAILS
+WHERE CREATED_DATE <= GETDATE() - 1
+ AND MODULE_NAME = 'CUSTOMER_MANAGEMENT';
+                    ]]>
+        </query>
+    </entity>
+    <entity id="Company Contract Search Inverse">
+        <query> 
+                    <![CDATA[
+                       DECLARE @COMPANY_MS_SID       VARCHAR(1000) =?;
+          WITH TEMP
+     AS (SELECT DISTINCT CM.COMPANY_NAME AS 'Contract Holder',
+                         CON.CONTRACT_NO,
+                         CON.CONTRACT_NAME,
+                         HEL.DESCRIPTION AS 'CONTRACT_TYPE',
+                         CON.START_DATE  AS 'CONTRACT_START_DATE',
+                         CON.END_DATE    AS 'CONTRACT_END_DATE',
+                         CFP_CON.CFP_NAME,
+                         CFP_CON.CFP_NO,
+                         CFP_MOD.CFP_ID,
+                         CFP_CON.CFP_STATUS,
+                         CFP_CON.CFP_START_DATE,
+                         CFP_CON.CFP_END_DATE,
+                         IFP_CON.IFP_NAME,
+                         IFP_CON.IFP_NO,
+                         IFP_MOD.IFP_ID,
+                         IFP_CON.IFP_STATUS,
+                         IFP_CON.IFP_START_DATE,
+                         IFP_CON.IFP_END_DATE,
+                         PS_CON.PS_NAME,
+                         PS_CON.PS_NO    AS 'PS NO',
+                         PS_MOD.PS_ID,
+                         PS_CON.PS_STATUS,
+                         PS_CON.PS_START_DATE,
+                         PS_CON.PS_END_DATE,
+                         RS_CON.RS_NAME,
+                         RS_CON.RS_NO    AS 'RAR NO',
+                         RS_CON.RS_Id    AS 'RAR CATEGORY',
+                         RS_MOD.RS_ID,
+                         RS_CON.RS_STATUS,
+                         RS_CON.RS_START_DATE,
+                         RS_CON.RS_END_DATE,
+                         CFP_CON.CFP_CONTRACT_SID,
+                         RS_CON.RS_CONTRACT_SID,
+                         IFP_CON.IFP_CONTRACT_SID,
+                         PS_CON.PS_CONTRACT_SID,
+                         CFP_CON_DET.COMPANY_START_DATE,
+                         CFP_CON_DET.COMPANY_END_DATE,
+                         CFP_CON_DET.CFP_CONTRACT_ATTACHED_STATUS,
+                         CON.CONTRACT_MASTER_SID,
+                         A.PROJECTION_MASTER_SID,
+                         A.WORKFLOW_MASTER_SID
+         FROM   CONTRACT_MASTER CON
+                LEFT JOIN COMPANY_MASTER CM
+                       ON CON.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                JOIN CFP_CONTRACT CFP_CON
+                  ON CFP_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                JOIN IFP_CONTRACT IFP_CON
+                  ON IFP_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                     AND IFP_CON.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                JOIN PS_CONTRACT PS_CON
+                  ON PS_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                     AND ps_con.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                     AND PS_CON.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID
+                JOIN RS_CONTRACT RS_CON
+                  ON RS_CON.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                     AND RS_CON.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                     AND rs_con.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID
+                     AND RS_CON.PS_CONTRACT_SID = PS_CON.PS_CONTRACT_SID
+                JOIN HELPER_TABLE HEL
+                  ON HEL.HELPER_TABLE_SID = CON.CONTRACT_TYPE
+                JOIN CFP_CONTRACT_DETAILS CFP_CON_DET
+                  ON CFP_CON_DET.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                JOIN COMPANY_MASTER CM1
+                  ON CM1.COMPANY_MASTER_SID = CFP_CON_DET.COMPANY_MASTER_SID
+                CROSS APPLY(SELECT PD.PROJECTION_MASTER_SID,
+                                   WM.WORKFLOW_MASTER_SID,
+                                   HT.DESCRIPTION AS WORKFLOW_STATUS,
+                                   IFP_C.IFP_CONTRACT_SID,
+                                   CFP_D.CFP_CONTRACT_SID
+                            FROM   CFP_CONTRACT CFP_C
+                                   JOIN CFP_CONTRACT_DETAILS CFP_D
+                                     ON CFP_C.CFP_CONTRACT_SID = CFP_D.CFP_CONTRACT_SID
+                                        AND CFP_C.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                                        AND CFP_D.COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID
+                                   JOIN IFP_CONTRACT IFP_C
+                                     ON IFP_C.CFP_CONTRACT_SID = CFP_D.CFP_CONTRACT_SID
+                                        AND IFP_C.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                                   JOIN IFP_CONTRACT_DETAILS IFP_D
+                                     ON IFP_D.IFP_CONTRACT_SID = IFP_C.IFP_CONTRACT_SID
+                                   JOIN CCP_DETAILS CCP
+                                     ON CCP.ITEM_MASTER_SID = IFP_D.ITEM_MASTER_SID
+                                        AND CCP.COMPANY_MASTER_SID = CFP_D.COMPANY_MASTER_SID
+                                        AND CCP.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                                   JOIN PROJECTION_DETAILS PD
+                                     ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                                   JOIN WORKFLOW_MASTER WM
+                                     ON WM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                                   JOIN HELPER_TABLE HT
+                                     ON HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+                            WHERE  CFP_D.CFP_CONTRACT_SID = CFP_CON.CFP_CONTRACT_SID
+                                   AND IFP_D.IFP_CONTRACT_SID = IFP_CON.IFP_CONTRACT_SID
+                            GROUP  BY PD.PROJECTION_MASTER_SID,
+                                      IFP_C.IFP_CONTRACT_SID,
+                                      CFP_D.CFP_CONTRACT_SID,
+                                      WM.WORKFLOW_MASTER_SID,
+                                      HT.DESCRIPTION)A
+                LEFT JOIN (SELECT CFP_MOD.CFP_NO,
+                                  CFP_MODEL_SID,
+                                  CFP_MOD.CFP_ID,
+                                  CFP_ST.DESCRIPTION AS CFP_STATUS
+                           FROM   CFP_MODEL CFP_MOD
+                                  INNER JOIN HELPER_TABLE CFP_ST
+                                          ON CFP_ST.HELPER_TABLE_SID = CFP_MOD.CFP_STATUS) CFP_MOD
+                       ON CFP_MOD.CFP_MODEL_SID = CFP_CON.CFP_MODEL_SID
+                LEFT JOIN (SELECT IFP_MOD.IFP_NO,
+                                  IFP_MODEL_SID,
+                                  IFP_MOD.IFP_ID,
+                                  IFP_ST.DESCRIPTION AS IFP_STATUS
+                           FROM   IFP_MODEL IFP_MOD
+                                  JOIN HELPER_TABLE IFP_ST
+                                    ON IFP_ST.HELPER_TABLE_SID = IFP_MOD.IFP_STATUS) IFP_MOD
+                       ON IFP_MOD.IFP_MODEL_SID = IFP_CON.IFP_MODEL_SID
+                LEFT JOIN (SELECT RS_MOD.RS_NO,
+                                  RS_MODEL_SID,
+                                  RS_MOD.RS_ID,
+                                  RS_ST.DESCRIPTION AS RS_STATUS
+                           FROM   RS_MODEL RS_MOD
+                                  JOIN HELPER_TABLE RS_ST
+                                    ON RS_ST.HELPER_TABLE_SID = RS_MOD.RS_STATUS) RS_MOD
+                       ON RS_MOD.RS_MODEL_SID = RS_CON.RS_MODEL_SID
+                LEFT JOIN (SELECT PS_MOD.PS_NO,
+                                  PS_MODEL_SID,
+                                  PS_MOD.PS_ID,
+                                  PS_ST.DESCRIPTION AS PS_STATUS
+                           FROM   PS_MODEL PS_MOD
+                                  JOIN HELPER_TABLE PS_ST
+                                    ON PS_ST.HELPER_TABLE_SID = PS_MOD.PS_STATUS) PS_MOD
+                       ON PS_MOD.PS_MODEL_SID = PS_CON.PS_MODEL_SID
+         WHERE CON.INBOUND_STATUS <> 'D'
+                AND CFP_CON.INBOUND_STATUS <> 'D'
+                AND CFP_CON_DET.INBOUND_STATUS <> 'D'
+                AND IFP_CON.INBOUND_STATUS <> 'D'
+                AND PS_CON.INBOUND_STATUS <> 'D'
+                AND RS_CON.INBOUND_STATUS <> 'D'
+                AND CON.CONTRACT_NO LIKE '%'
+                AND CM1.COMPANY_MASTER_SID IN ( @COMPANY_MS_SID )
+                AND CFP_CON.CFP_CONTRACT_SID IN (SELECT CFP.CFP_CONTRACT_SID
+                                                 FROM   CONTRACT_MASTER A
+                                                        JOIN CFP_CONTRACT CFP
+                                                          ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID
+                                                             AND CFP.CONTRACT_MASTER_SID = CON.CONTRACT_MASTER_SID
+                                                        JOIN CFP_CONTRACT_DETAILS CFP_D
+                                                          ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID
+                                                 WHERE  CFP_D.COMPANY_MASTER_SID IN ( @COMPANY_MS_SID )
+                                                        AND CFP_D.INBOUND_STATUS <> 'D'
+                                                 GROUP  BY CFP.CFP_CONTRACT_SID
+                                                 HAVING Sum(( CASE
+                                                                WHEN CFP_D.COMPANY_MASTER_SID IN ( @COMPANY_MS_SID ) THEN -1
+                                                                ELSE 0
+                                                              END )) = -?))
+INSERT INTO GCM_GLOBAL_DETAILS
+            (CHECK_RECORD,
+             CONTRACT_MASTER_SID,
+             CFP_CONTRACT_SID,
+             IFP_CONTRACT_SID,
+             PS_CONTRACT_SID,
+             RS_CONTRACT_SID,
+             USER_ID,
+             SESSION_ID,
+             SCREEN_NAME,
+             START_DATE,
+             END_DATE,
+             STATUS,
+             TEMP_START_DATE,
+             TEMP_END_DATE,
+             TEMP_STATUS,
+             OPERATION,
+             PROJECTION_MASTER_SID,
+             WORKFLOW_MASTER_SID,
+             MODULE_NAME,
+             CREATED_DATE)
+SELECT '0',
+       CONTRACT_MASTER_SID,
+       CFP_CONTRACT_SID,
+       IFP_CONTRACT_SID,
+       PS_CONTRACT_SID,
+       RS_CONTRACT_SID,
+       '?',
+       '?',
+       '?',
+       COMPANY_START_DATE,
+       COMPANY_END_DATE,
+       CFP_CONTRACT_ATTACHED_STATUS,
+       COMPANY_START_DATE           AS 'TEMP_START_DATE',
+       COMPANY_END_DATE             AS 'TEMP_END_DATE',
+       CFP_CONTRACT_ATTACHED_STATUS AS 'TEMP_STATUS',
+       '0',
+       PROJECTION_MASTER_SID,
+       WORKFLOW_MASTER_SID,
+       'CUSTOMER_MANAGEMENT',
+       GETDATE()
+FROM   TEMP; 
+
+
+ DELETE FROM GCM_GLOBAL_DETAILS
+WHERE CREATED_DATE <= GETDATE() - 1
+ AND MODULE_NAME = 'CUSTOMER_MANAGEMENT';
+
+                    ]]>
+        </query>
+    </entity>
+    
+    <entity id="Close button delete">
+      <query>
+    		<![CDATA[
+   DECLARE @SESSION_ID VARCHAR(100) ='?'
+DELETE FROM GCM_GLOBAL_DETAILS
+WHERE  session_id = @SESSION_ID
+AND MODULE_NAME='CUSTOMER_MANAGEMENT'
+		]]>
+      </query>
+    </entity>
+    <entity id="buttonSecurity">
+      <query>
+    		<![CDATA[
+                        select DISTINCT
+				MP.PROPERTY_NAME,
+				BMM.ACCESS_MODULE
+	
+			from
+				USERGROUP_BUSINESSROLE UBM
+			JOIN BUSINESSROLE_MODULE BMM ON
+				UBM.BUSINESSROLE_MASTER_SID = BMM.BUSINESSROLE_MASTER_SID
+			JOIN MODULE_PROPERTIES MP ON
+				BMM.SUBMODULE_PROPERTY_ID = MP.MODULE_PROPERTY_SID
+			JOIN MODULE_SUBMODULE_MASTER SMM ON
+				SMM.MODULE_SUBMODULE_SID = MP.MODULE_SUBMODULE_SID
+			AND MP.CATEGORY_NAME = '?'
+			AND SMM.MODULE_NAME = '?'
+			AND SMM.SUBMODULE_NAME = '?'
+			AND MP.TAB_NAME = '?'
+                        ?
+		]]>
+      </query>
+    </entity>
+   
+</sql>

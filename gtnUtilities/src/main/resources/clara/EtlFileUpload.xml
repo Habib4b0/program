@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout margin="true" spacing="true" >
+                <HorizontalLayout immediate="true" spacing="true" margin="true" >
+                   <Label value="Process Type " id ="" contentMode="HTML" immediate="true" />
+                  <OptionGroup id="selectType"  enabled="true" immediate="true" styleName = "horizontal" /> 
+                   <Label value=" Interface " id ="selectFileLabel" contentMode="HTML" immediate="true"   />
+                    <ComboBox id="selectedInterface" width="200px" enabled="true" immediate="true" />  
+                    
+              
+                    <!--<Upload id="selectFile" enabled="true" immediate="true" />-->  
+              
+                  
+                </HorizontalLayout>
+                 <HorizontalLayout id="uploadLayout"  immediate="true" spacing="true" margin="true" >
+
+                     <Label value="Interface Path" contentMode="HTML" id ="interfacepathLabel" immediate="true"  />
+                     <TextField id="interfacepath" enabled="true" immediate="true" />  
+                    <Label value=" " id ="blankSpace" contentMode="HTML" immediate="true" />
+              </HorizontalLayout>
+               <HorizontalLayout immediate="true" spacing="true" margin="true" >
+                     <Label value="Path: " contentMode="HTML" id ="basepathLabel" immediate="true" />
+                     <TextField id="basepath" enabled="true" immediate="true" />  
+                
+                </HorizontalLayout>
+                
+                <HorizontalLayout id="buttonLayout" spacing="true" margin="true" >
+                         <Label value=" " id ="blankSpace1" contentMode="HTML" immediate="true" />
+                    <Button id="submitBtn" caption="UPLOAD" immediate="true" />
+                    <Button id="cancelBtn" caption="RESET" immediate="true" />
+                </HorizontalLayout>
+                
+<!--        <Panel caption="Results" id="resultsTable">
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>  
+        </Panel>
+        <HorizontalLayout id="buttonLayout2" spacing="true" margin="true" >
+            <Button id="viewBtn" caption="VIEW" immediate="true" />
+            <Button id="deleteBtn" caption="REMOVE" immediate="true" />
+        </HorizontalLayout>-->
+                                                         
+    </VerticalLayout>
+</Panel>

@@ -1,0 +1,1364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job>
+  <name>CSV_TO_INTERFACE</name>
+    <description/>
+    <extended_description/>
+    <job_version/>
+  <directory>&#47;</directory>
+  <created_user>-</created_user>
+  <created_date>2015&#47;09&#47;21 12:26:31.910</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2015&#47;09&#47;21 12:26:31.910</modified_date>
+    <parameters>
+    </parameters>
+  <connection>
+    <name>DB</name>
+    <server>${BPI_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_DB}</database>
+    <port>1433</port>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>staging</name>
+    <server>${STAGING_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${STAGING_DB}</database>
+    <port>1433</port>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+    <slaveservers>
+    </slaveservers>
+<job-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<jobentry-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>JOBENTRYNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>RESULT</id><enabled>Y</enabled><name>RESULT</name></field><field><id>NR_RESULT_ROWS</id><enabled>Y</enabled><name>NR_RESULT_ROWS</name></field><field><id>NR_RESULT_FILES</id><enabled>Y</enabled><name>NR_RESULT_FILES</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field><field><id>COPY_NR</id><enabled>N</enabled><name>COPY_NR</name></field></jobentry-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+   <pass_batchid>N</pass_batchid>
+   <shared_objects_file/>
+  <entries>
+    <entry>
+      <name>csv file</name>
+      <description/>
+      <type>FILES_EXIST</type>
+      <filename/>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>778</xloc>
+      <yloc>184</yloc>
+      </entry>
+    <entry>
+      <name>CSV_TO_INTERFACE_TRAN</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>791</xloc>
+      <yloc>923</yloc>
+      </entry>
+    <entry>
+      <name>ERROR CODE</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DECLARE @batch_id VARCHAR(20)= (SELECT TOP 1 batch_id
+   FROM   IVLD_ADJUSTED_DEMAND_ACTUAL
+   ORDER  BY INTF_INSERTED_DATE DESC)
+
+UPDATE IVLD_ADJUSTED_DEMAND_ACTUAL
+SET    ERROR_FIELD = Substring(CASE WHEN ADJUSTED_DEMAND_ACTUAL_INTF_ID IS NULL THEN &apos;,ADJUSTED_DEMAND_ACTUAL_INTF_ID&apos; ELSE &apos;&apos; END + CASE WHEN FORECAST_TYPE IS NULL THEN &apos;,FORECAST_TYPE&apos; ELSE &apos;&apos; END + CASE WHEN FORECAST_YEAR IS NULL THEN &apos;,FORECAST_YEAR&apos; ELSE &apos;&apos; END + CASE WHEN FORECAST_MONTH IS NULL THEN &apos;,FORECAST_MONTH&apos; ELSE &apos;&apos; END + CASE WHEN MARKET_SIZE_UNITS IS NULL THEN &apos;,MARKET_SIZE_UNITS&apos; ELSE &apos;&apos; END + CASE WHEN MARKET_SHARE_RATIO IS NULL THEN &apos;,MARKET_SHARE_RATIO&apos; ELSE &apos;&apos; END + CASE WHEN MARKET_SHARE_UNITS IS NULL THEN &apos;,MARKET_SHARE_UNITS&apos; ELSE &apos;&apos; END + CASE WHEN TOTAL_DEMAND_UNITS IS NULL THEN &apos;,TOTAL_DEMAND_UNITS&apos; ELSE &apos;&apos; END + CASE WHEN GROSS_UNITS IS NULL THEN &apos;,GROSS_UNITS&apos; ELSE &apos;&apos; END + CASE WHEN GROSS_PRICE IS NULL THEN &apos;,GROSS_PRICE&apos; ELSE &apos;&apos; END + CASE WHEN GROSS_AMOUNT IS NULL THEN &apos;,GROSS_AMOUNT&apos; ELSE &apos;&apos; END + CASE WHEN NET_SALES_PRICE IS NULL THEN &apos;,NET_SALES_PRICE&apos; ELSE &apos;&apos; END + CASE WHEN NET_SALES_AMOUNT IS NULL THEN &apos;,NET_SALES_AMOUNT&apos; ELSE &apos;&apos; END
+                               + CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &apos;,ADD_CHG_DEL_INDICATOR&apos; ELSE &apos;&apos; END + CASE WHEN SOURCE IS NULL THEN &apos;,SOURCE&apos; ELSE &apos;&apos; END + CASE WHEN COUNTRY IS NULL THEN &apos;,COUNTRY&apos; ELSE &apos;&apos; END + CASE WHEN ORGANIZATION_KEY IS NULL THEN &apos;,ORGANIZATION_KEY&apos; ELSE &apos;&apos; END + CASE WHEN BATCH_ID IS NULL THEN &apos;,BATCH_ID&apos; ELSE &apos;&apos; END, 2, 100000)
+WHERE  BATCH_ID = @batch_id
+       AND ERROR_CODE = &apos;E01&apos;
+
+UPDATE IVLD_ADJUSTED_DEMAND_ACTUAL
+SET    ERROR_FIELD = CASE WHEN Isdate(CREATED_DATE)=0 AND CREATED_DATE IS NOT NULL THEN &apos;,CREATED_DATE&apos; ELSE &apos;&apos; END + CASE WHEN Isdate(MODIFIED_DATE)=0 AND MODIFIED_DATE IS NOT NULL THEN &apos;,MODIFIED_DATE&apos; ELSE &apos;&apos; END
+WHERE  ( Isdate(CREATED_DATE) = 0
+         AND CREATED_DATE IS NOT NULL )
+        OR ( Isdate(MODIFIED_DATE) = 0
+             AND MODIFIED_DATE IS NOT NULL )
+           AND BATCH_ID = @batch_id
+           AND ERROR_CODE = &apos;E03&apos;
+           AND ERROR_FIELD = &apos;CREATED_DATE&apos; 
+</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>797</xloc>
+      <yloc>1014</yloc>
+      </entry>
+    <entry>
+      <name>START</name>
+      <description/>
+      <type>SPECIAL</type>
+      <start>Y</start>
+      <dummy>N</dummy>
+      <repeat>N</repeat>
+      <schedulerType>0</schedulerType>
+      <intervalSeconds>0</intervalSeconds>
+      <intervalMinutes>60</intervalMinutes>
+      <hour>12</hour>
+      <minutes>0</minutes>
+      <weekDay>1</weekDay>
+      <DayOfMonth>1</DayOfMonth>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>776</xloc>
+      <yloc>28</yloc>
+      </entry>
+    <entry>
+      <name>DELETE FIILES IN FILE PROCESS (2)</name>
+      <description/>
+      <type>DELETE_FILES</type>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <filemask/>
+        </field>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE1.csv</name>
+          <filemask/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1139</xloc>
+      <yloc>1493</yloc>
+      </entry>
+    <entry>
+      <name>DELETE FIILES IN FILE PROCESS</name>
+      <description/>
+      <type>DELETE_FILES</type>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <filemask/>
+        </field>
+        <field>
+          <name>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <filemask/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>480</xloc>
+      <yloc>1570</yloc>
+      </entry>
+    <entry>
+      <name>DUMMY</name>
+      <description/>
+      <type>SPECIAL</type>
+      <start>N</start>
+      <dummy>Y</dummy>
+      <repeat>N</repeat>
+      <schedulerType>0</schedulerType>
+      <intervalSeconds>0</intervalSeconds>
+      <intervalMinutes>60</intervalMinutes>
+      <hour>12</hour>
+      <minutes>0</minutes>
+      <weekDay>1</weekDay>
+      <DayOfMonth>1</DayOfMonth>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>998</xloc>
+      <yloc>180</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO ERROR</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>480</xloc>
+      <yloc>1468</yloc>
+      </entry>
+    <entry>
+      <name>REARRANGING THE HEADER IN ORDER</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;csv_inject.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>784</xloc>
+      <yloc>254</yloc>
+      </entry>
+    <entry>
+      <name>DELETE TEMP FILE</name>
+      <description/>
+      <type>DELETE_FILES</type>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE1.csv</name>
+          <filemask/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>483</xloc>
+      <yloc>1363</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO PROCESSED</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1140</xloc>
+      <yloc>1406</yloc>
+      </entry>
+    <entry>
+      <name>CSV TO INTERFACE AUDIT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_AUDIT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>788</xloc>
+      <yloc>439</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS</name>
+      <description/>
+      <type>ABORT</type>
+      <message>INVALID HEADER</message>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>461</xloc>
+      <yloc>865</yloc>
+      </entry>
+    <entry>
+      <name>MAIL</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;HEADER_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>464</xloc>
+      <yloc>758</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO ERROR (2)</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>460</xloc>
+      <yloc>675</yloc>
+      </entry>
+    <entry>
+      <name>DELETE TEMP FIILES IN FILE PROCESS</name>
+      <description/>
+      <type>DELETE_FILES</type>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE1.csv</name>
+          <filemask/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>468</xloc>
+      <yloc>577</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_ACTUAL_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>478</xloc>
+      <yloc>1682</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED</name>
+      <description/>
+      <type>COPY_FILES</type>
+      <copy_empty_folders>Y</copy_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <overwrite_files>N</overwrite_files>
+      <include_subfolders>N</include_subfolders>
+      <remove_source_files>N</remove_source_files>
+      <add_result_filesname>Y</add_result_filesname>
+      <destination_is_a_file>N</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>461</xloc>
+      <yloc>391</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>Y</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>466</xloc>
+      <yloc>477</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED (2)</name>
+      <description/>
+      <type>COPY_FILES</type>
+      <copy_empty_folders>Y</copy_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <overwrite_files>N</overwrite_files>
+      <include_subfolders>N</include_subfolders>
+      <remove_source_files>N</remove_source_files>
+      <add_result_filesname>Y</add_result_filesname>
+      <destination_is_a_file>N</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>477</xloc>
+      <yloc>1134</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>Y</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>477</xloc>
+      <yloc>1247</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED (3)</name>
+      <description/>
+      <type>COPY_FILES</type>
+      <copy_empty_folders>Y</copy_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <overwrite_files>N</overwrite_files>
+      <include_subfolders>N</include_subfolders>
+      <remove_source_files>N</remove_source_files>
+      <add_result_filesname>Y</add_result_filesname>
+      <destination_is_a_file>N</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1142</xloc>
+      <yloc>1205</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>Y</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1138</xloc>
+      <yloc>1297</yloc>
+      </entry>
+    <entry>
+      <name>CSV_TO_INTERFACE_TRAN_USER</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>790</xloc>
+      <yloc>618</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS 2</name>
+      <description/>
+      <type>ABORT</type>
+      <message>INVALID HEADER</message>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>133</xloc>
+      <yloc>588</yloc>
+      </entry>
+    <entry>
+      <name>MAIL 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;HEADER_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>136</xloc>
+      <yloc>481</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO ERROR (2) 2</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>132</xloc>
+      <yloc>398</yloc>
+      </entry>
+    <entry>
+      <name>DELETE FIILES IN FILE PROCESS 2</name>
+      <description/>
+      <type>DELETE_FILES</type>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <filemask/>
+        </field>
+        <field>
+          <name>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <filemask/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>158</xloc>
+      <yloc>1276</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO ERROR 2</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>158</xloc>
+      <yloc>1174</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_ACTUAL_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>156</xloc>
+      <yloc>1388</yloc>
+      </entry>
+    <entry>
+      <name>DELETE FIILES IN FILE PROCESS (2) 2</name>
+      <description/>
+      <type>DELETE_FILES</type>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <fields>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <filemask/>
+        </field>
+        <field>
+          <name>${FILE_LOCAL_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE1.csv</name>
+          <filemask/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>828</xloc>
+      <yloc>1334</yloc>
+      </entry>
+    <entry>
+      <name>FILEPROCESS TO PROCESSED 2</name>
+      <description/>
+      <type>MOVE_FILES</type>
+      <move_empty_folders>N</move_empty_folders>
+      <arg_from_previous>N</arg_from_previous>
+      <include_subfolders>N</include_subfolders>
+      <add_result_filesname>N</add_result_filesname>
+      <destination_is_a_file>Y</destination_is_a_file>
+      <create_destination_folder>N</create_destination_folder>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <nr_errors_less_than>10</nr_errors_less_than>
+      <success_condition>success_if_no_errors</success_condition>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
+      <iffileexists>do_nothing</iffileexists>
+      <destinationFolder/>
+      <ifmovedfileexists>do_nothing</ifmovedfileexists>
+      <moved_date_time_format/>
+      <create_move_to_folder>N</create_move_to_folder>
+      <add_moved_date>N</add_moved_date>
+      <add_moved_time>N</add_moved_time>
+      <SpecifyMoveFormat>N</SpecifyMoveFormat>
+      <AddMovedDateBeforeExtension>N</AddMovedDateBeforeExtension>
+      <simulate>N</simulate>
+      <fields>
+        <field>
+          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
+          <destination_filefolder>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_ACTUAL_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <wildcard/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>829</xloc>
+      <yloc>1247</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 2 3</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${OUTBOUND_FLAG}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>309</xloc>
+      <yloc>295</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 2 3 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${OUTBOUND_FLAG}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>960</xloc>
+      <yloc>1090</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 2 3 3</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>${OUTBOUND_FLAG}</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>Y</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>304</xloc>
+      <yloc>996</yloc>
+      </entry>
+  </entries>
+  <hops>
+    <hop>
+      <from>START</from>
+      <to>csv file</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE_TRAN</from>
+      <to>ERROR CODE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>csv file</from>
+      <to>DUMMY</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO ERROR</from>
+      <to>DELETE FIILES IN FILE PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>csv file</from>
+      <to>REARRANGING THE HEADER IN ORDER</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DELETE TEMP FILE</from>
+      <to>FILEPROCESS TO ERROR</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO PROCESSED</from>
+      <to>DELETE FIILES IN FILE PROCESS (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REARRANGING THE HEADER IN ORDER</from>
+      <to>CSV TO INTERFACE AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DELETE TEMP FIILES IN FILE PROCESS</from>
+      <to>FILEPROCESS TO ERROR (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO ERROR (2)</from>
+      <to>MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DELETE FIILES IN FILE PROCESS</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME</from>
+      <to>DELETE TEMP FIILES IN FILE PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED (2)</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</from>
+      <to>DELETE TEMP FILE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED (3)</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</from>
+      <to>FILEPROCESS TO PROCESSED</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV TO INTERFACE AUDIT</from>
+      <to>CSV_TO_INTERFACE_TRAN_USER</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE_TRAN_USER</from>
+      <to>CSV_TO_INTERFACE_TRAN</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO ERROR (2) 2</from>
+      <to>MAIL 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL 2</from>
+      <to>STOP PROCESS 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO ERROR 2</from>
+      <to>DELETE FIILES IN FILE PROCESS 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DELETE FIILES IN FILE PROCESS 2</from>
+      <to>STOP PROCESS AUDIT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>FILEPROCESS TO PROCESSED 2</from>
+      <to>DELETE FIILES IN FILE PROCESS (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REARRANGING THE HEADER IN ORDER</from>
+      <to>Simple evaluation 2 2 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 2 3</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 2 3</from>
+      <to>FILEPROCESS TO ERROR (2) 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ERROR CODE</from>
+      <to>Simple evaluation 2 2 3 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 2 3 2</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED (3)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 2 3 2</from>
+      <to>FILEPROCESS TO PROCESSED 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 2 3 3</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 2 3 3</from>
+      <to>FILEPROCESS TO ERROR 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE_TRAN</from>
+      <to>Simple evaluation 2 2 3 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+  </hops>
+  <notepads>
+  </notepads>
+</job>

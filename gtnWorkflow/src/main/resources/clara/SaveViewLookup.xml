@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!--<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling">-->
+    <Panel>
+    <VerticalLayout margin="true" spacing="true" >
+        <!--<p:ErrorLabel id="errormsg"/>-->
+    
+        <HorizontalLayout spacing="true" margin="false">
+            
+            <OptionGroup id="viewType" enabled="true" immediate="true" styleName = "horizontal" />
+            
+        </HorizontalLayout>
+        
+        <HorizontalLayout spacing="true" margin="false">
+            
+            <Label id="viewNamelb" value="View Name" contentMode="HTML" />
+            <TextField id="viewName" inputPrompt="" immediate="true"/>
+            
+        </HorizontalLayout>
+        <HorizontalLayout spacing="true" margin="false">
+            
+            <Button id="cancelBtn" caption="CANCEL" immediate="true"></Button>
+            <Button id="addBtn" caption="ADD" immediate="true"></Button>
+            <Button id="updateBtn" caption="UPDATE" immediate="true"></Button>
+            
+        </HorizontalLayout>
+        
+    </VerticalLayout>
+</Panel>
+

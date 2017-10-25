@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<VerticalLayout spacing="true"  immediate="true">
+    <Panel  margin="true" immediate="true" spacing="true" caption="Component Information">
+         <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+              <VerticalLayout  immediate="true" spacing="true" styleName = "width-auto">
+            <GridLayout spacing="true" id="itemSearchGrid"
+                        immediate="true" columns="10" rows="3">
+                <Label caption="Component Selection : " id="compId" contentMode="HTML" />
+                <ComboBox id="componentSelection" nullSelectionAllowed="true"
+                           immediate="true" />
+                <Label caption=" ID: " id="labelId" contentMode="HTML" />
+                <TextField id="componentId" immediate="true"  width="180px" />
+                <Label caption=" Number: " id="labelNo" contentMode="HTML" />
+                <TextField id="componentNo" immediate="true"  width="180px" />
+                <Label caption=" Name:" id="labelName" contentMode="HTML" />
+                <TextField id="componentName" immediate="true"  width="180px" />
+                <Label caption=" Status :" id="labelStatus" contentMode="HTML" />
+                <TextField id="componentStatus" immediate="true"  width="180px" />
+                <Label caption="Start Date:" id="lableStartDate" contentMode="HTML" />
+                <PopupDateField id="compStartDate" immediate="true"   styleName = "dateLength" dateFormat="MM/dd/yyyy" />
+                <Label caption="End Date:" id="lableEndDate" contentMode="HTML" />
+                <PopupDateField id="compEndDate" immediate="true"   styleName = "dateLength" dateFormat="MM/dd/yyyy" />
+                <Label caption=" Type:" id="labelType" contentMode="HTML" />
+                <TextField id="componentType" immediate="true"  width="180px" />
+                <Label caption="Rebate Frequency:" id="labelRebateFreq" contentMode="HTML" />
+                <TextField id="rebateFrequency" immediate="true"  width="180px" />
+                <Label caption="Basis:" id="labelBasis" contentMode="HTML" />
+                <TextField id="basis" immediate="true"  width="180px" />
+                <Label caption="RS Type: " id="labelRsType" contentMode="HTML" />
+                <ComboBox id="rsType" nullSelectionAllowed="true"
+                          immediate="true" />
+                <Label caption="RS Program Type: " id="lableRsProgramType"  contentMode="HTML" />
+                <ComboBox id="rsProgramType" nullSelectionAllowed="true"
+                           immediate="true" />
+                <Label caption="RS Category: " id="lableRsCategory" contentMode="HTML" />
+                <ComboBox id="rsCategory"  nullSelectionAllowed="true"
+                           immediate="true" />
+                <Label caption="Payment Frequency: " id="lablePaymentFreq" contentMode="HTML" />
+                <ComboBox id="paymentFrequency"  nullSelectionAllowed="true"
+                           immediate="true" />
+                <Label caption="Rebate Plan Level :" id="lableRebatePlanLevel" contentMode="HTML" />
+                <ComboBox id="rebatePlanLevel" nullSelectionAllowed="true"
+                           immediate="true" />
+        
+            </GridLayout>
+       </VerticalLayout>
+    
+    
+       
+            <VerticalLayout  immediate="true" spacing="true" styleName = "width-auto">
+                <VerticalLayout id="tableLayout" 
+                            spacing="true" >
+                    <!--                    <a:ExtFilterTable id="itemResults" styleName="table-header-normal"
+                    immediate="true" selectable="true" />-->
+                
+                </VerticalLayout>
+                <VerticalLayout>
+                    <Button id="exportBtn" primaryStyleName="link"/>
+                </VerticalLayout>
+            </VerticalLayout>
+      </VerticalLayout>
+       </Panel>   
+</VerticalLayout>

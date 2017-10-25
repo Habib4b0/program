@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:p="urn:vaadin:parent" xmlns:s="urn:import:org.asi.ui.extfilteringtable.paged">
+    <VerticalLayout spacing="true" margin="true" width = "100%"> 
+        <Panel caption = "Search Criteria" styleName="textbold" width="100%">
+            <VerticalLayout spacing="true" margin="true" styleName="width-auto"> 
+                <HorizontalLayout spacing="true" margin="true" immediate="true" width="99%">
+                    
+                    <GridLayout spacing="true" margin="false" immediate="true" columns="8" rows="5">
+                        <Label value="CFF ID" id="financialForecastIdLabel" contentMode="HTML"/>
+                        <TextField id="financialForecastId" />
+                        
+                        <Label value="Projection ID" id="projectionIdLabel" contentMode="HTML"/>
+                        <TextField id="projectionId" />
+                        
+                        <Label value="Customer No" id="customerNoLabel" contentMode="HTML"/>
+                        <TextField id="customerNo" />
+                        
+                        <Label value="Company No" id="companyNoLabel" contentMode="HTML"/>
+                        <TextField id="companyNo" />
+                        
+                        <Label value="CFF Name" id="cffNameLabel" contentMode="HTML"/>
+                        <TextField id="financialForecastName" />
+                        
+                        <Label value="Projection Name" id="projectionNameLabel" contentMode="HTML"/>
+                        <TextField id="projectionName" />
+                        
+                        <Label value="Customer Name" id="customerNameLabel" contentMode="HTML"/>
+                        <TextField id="customerName" />
+                        
+                        <Label value="Company Name" id="companyNameLabel" contentMode="HTML"/>
+                        <TextField id="companyName" />
+                        
+                        <Label value="Type" id="typeLabel" contentMode="HTML"/>
+                        <ComboBox id="typeDdlb" nullSelectionAllowed="true" immediate="true" />
+                        
+                        <Label value="Contract No" id="contractNoLabel" contentMode="HTML"/>
+                        <TextField id="contractNo" />
+                        
+                        <Label value="Item No" id="itemNoLabel" contentMode="HTML"/>
+                        <TextField id="itemNo" />
+                        
+                        <Label value="Business Unit No" id="businessUnitNoLabel" contentMode="HTML"/>
+                        <TextField id="businessUnitNo" />
+                        
+                        <Label value="CFF Creation Date From" id="cffCreationDateFromLabel" contentMode="HTML"/>
+                        <PopupDateField id="cffCreationDateFrom" />
+                        
+                        <Label value="CFF Creation Date To" id="cffCreationDateToLabel" contentMode="HTML"/>
+                        <PopupDateField id="cffCreationDateTo" />
+                        
+                        <Label value="Contract Name" id="contractNameLabel" contentMode="HTML"/>
+                        <TextField id="contractName" />
+                        
+                        <Label value="Item Name" id="itemNameLabel" contentMode="HTML"/>
+                        <TextField id="itemName" />
+                        
+                        <Label value="Business Unit Name" id="businessUnitNameLabel" contentMode="HTML"/>
+                        <TextField id="businessUnitName" />
+                        
+                        <Label value="CFF Approval Date From" id="cffApprovalDateFromLabel" contentMode="HTML"/>
+                        <PopupDateField id="cffApprovalDateFrom" />
+                        
+                        <Label value="CFF Approval Date To" id="cffApprovalDateToLabel" contentMode="HTML"/>
+                        <PopupDateField id="cffApprovalDateTo" />
+                    </GridLayout>
+                    
+                </HorizontalLayout>
+                <HorizontalLayout margin="true" immediate="true">
+                    <Button id="searchBtn" caption="SEARCH" visible ="true"/>
+                    <Button id="resetBtn"  caption="RESET" visible ="true"/>            
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+        <Panel caption = "Results" styleName="textbold">
+            <VerticalLayout id="resultLayout">
+                <!--<s:ExtPagedFilterTable id="resultTable" width="100%" styleName="table-header-normal"  pageLength="8" immediate="true" selectable="true" />-->
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout margin="true" immediate="true">
+            <Button id="outboundBtn"  caption="GENERATE OUTBOUND" visible ="true"/>            
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

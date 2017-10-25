@@ -1,0 +1,1915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="getDeleteQuery">
+        <query> 
+            <![CDATA[
+                DECLARE @PROJECTION AS TABLE 
+  ( 
+     ID                     INT IDENTITY (1, 1), 
+     PROJECTION_MASTER_SID  INT, 
+     PROJECTION_DETAILS_SID INT 
+  ) 
+INSERT INTO @PROJECTION  
+            (PROJECTION_MASTER_SID, 
+             PROJECTION_DETAILS_SID) 
+SELECT A.PROJECTION_MASTER_SID, 
+       B.PROJECTION_DETAILS_SID 
+FROM   PROJECTION_MASTER A 
+JOIN   PROJECTION_DETAILS B ON A.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID 
+WHERE  SAVE_FLAG = 'false' 
+       AND FORECASTING_TYPE = '@FORCASTING_TYPE' 
+       AND CREATED_DATE < Getdate() - 1; 
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getDeleteQueryReturns">
+        <query> 
+                    <![CDATA[
+                        DECLARE @PROJECTION AS TABLE 
+          ( 
+             ID                     INT IDENTITY (1, 1), 
+             PROJECTION_MASTER_SID  INT, 
+             RETURNS_DETAILS_SID INT 
+          ) 
+            INSERT INTO @PROJECTION  
+                        (PROJECTION_MASTER_SID, 
+                         RETURNS_DETAILS_SID) 
+            SELECT A.PROJECTION_MASTER_SID,
+                   B.RETURNS_DETAILS_SID
+            FROM   PROJECTION_MASTER A
+            JOIN  RETURNS_DETAILS  B ON A.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID
+            WHERE  SAVE_FLAG = 'false'
+                   AND FORECASTING_TYPE = 'Returns'
+                   AND CREATED_DATE < Getdate() - 1;
+                        ]]>
+        </query>
+    </entity>
+    
+    <entity id="deleteReturnsDetail">
+        <query> 
+                    <![CDATA[
+                        DELETE FROM dbo.RETURNS_DETAILS WHERE PROJECTION_MASTER_SID = @PROJECTIONSID;
+                    ]]>
+        </query>
+    </entity>
+    
+    <entity id="deleteReturnsMap">
+        <query> 
+                    <![CDATA[
+                        DELETE FROM dbo.RETURNS_MAP WHERE PROJECTION_MASTER_SID = @PROJECTIONSID;
+                    ]]>
+        </query>
+    </entity>
+    
+    <entity id="getDeleteQueryAccural">
+        <query> 
+                    <![CDATA[
+                        DECLARE @PROJECTION AS TABLE 
+          ( 
+             ID                     INT IDENTITY (1, 1), 
+             PROJECTION_MASTER_SID  INT, 
+             ACCRUAL_PROJ_DETAILS_SID INT 
+          ) 
+            INSERT INTO @PROJECTION  
+                        (PROJECTION_MASTER_SID, 
+                         ACCRUAL_PROJ_DETAILS_SID) 
+            SELECT A.PROJECTION_MASTER_SID,
+                   B.RETURNS_DETAILS_SID
+            FROM   PROJECTION_MASTER A
+            JOIN  RETURNS_DETAILS  B ON A.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID
+            WHERE  SAVE_FLAG = 'false'
+                   AND FORECASTING_TYPE = 'AccrualRateProjection'
+                   AND CREATED_DATE < Getdate() - 1;
+                        ]]>
+        </query>
+    </entity>
+   
+    <entity id="getforecastDeleteProjectionQuery">
+        <query> 
+            <![CDATA[
+        DELETE A FROM @TABLE_NAME A JOIN (SELECT DISTINCT PROJECTION_MASTER_SID FROM @PROJECTION)B ON A.PROJECTION_MASTER_SID=B.PROJECTION_MASTER_SID
+         ]]>
+        </query>
+    </entity>
+    
+    <entity id="getforecastDeleteDetailsQuery">
+        <query> 
+            <![CDATA[
+            DELETE T FROM @TABLE_NAME T JOIN @PROJECTION A ON A.PROJECTION_DETAILS_SID = T.PROJECTION_DETAILS_SID 
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="getforecastDeleteDetailsQueryAccural">
+        <query> 
+            <![CDATA[
+            DELETE T FROM @TABLE_NAME T JOIN @PROJECTION A ON A.ACCRUAL_PROJ_DETAILS_SID = T.ACCRUAL_PROJ_DETAILS_SID 
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="getforecastDeleteDetailsQueryReturns">
+        <query> 
+            <![CDATA[
+            DELETE T FROM @TABLE_NAME T JOIN @PROJECTION A ON A.RETURNS_DETAILS_SID = T.RETURNS_DETAILS_SID 
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="getProjectionDetailsQuery">
+        <query>   
+            <![CDATA[ 
+            SELECT DISTINCT PD.projection_details_sid
+FROM   projection_details PD,
+       (SELECT CCPMAP.ccp_details_sid
+        FROM   (SELECT RLD.hierarchy_no,
+                       CCP.ccp_details_sid
+                FROM   relationship_level_definition RLD
+                       JOIN ccp_map CCP
+                         ON RLD.relationship_level_sid =
+                            CCP.relationship_level_sid
+                       JOIN projection_details PD
+                         ON PD.ccp_details_sid = CCP.ccp_details_sid
+                            AND PD.projection_master_sid = @PROJECTION_SID
+                       JOIN @HIERARCHY_TABLE PCH
+                         ON PCH.relationship_level_sid =
+                            RLD.relationship_level_sid
+                            AND PCH.projection_master_sid = @PROJECTION_SID) CCPMAP
+               JOIN (SELECT RLD1.hierarchy_no
+                     FROM   relationship_level_definition RLD1
+                            JOIN @HIERARCHY_TABLE PCH
+                              ON PCH.relationship_level_sid =
+                                 RLD1.relationship_level_sid
+                                 AND PCH.projection_master_sid = @PROJECTION_SID
+                                 AND RLD1.hierarchy_no LIKE '%') HLD
+                 ON CCPMAP.hierarchy_no LIKE HLD.hierarchy_no + '%'
+        WHERE  HLD.hierarchy_no IN( @HIERARCHYNO )) CCP
+WHERE  PD.projection_master_sid =  @PROJECTION_SID
+       AND PD.ccp_details_sid = CCP.ccp_details_sid  
+               ]]>
+        </query> 
+    </entity>
+    
+    <entity id="deleteTemplate">
+        <query>   
+             <![CDATA[ 
+                DELETE FROM @TABLE_NAME where PROJECTION_DETAILS_SID in (@PD_SID)
+            ]]>
+        </query> 
+    </entity>  
+            
+   
+    <entity id="getProdGroupSearch">
+        <query>   
+       <![CDATA[
+                   ;WITH CTE_MAIN
+     AS (SELECT IG.ITEM_GROUP_SID,
+                IG.ITEM_GROUP_NO,
+                IG.ITEM_GROUP_NAME,
+                CM.COMPANY_NAME,
+                IG.VERSION_NO,
+                IG.ITEM_GROUP_DESCRIPTION,
+                IGD.ITEM_MASTER_SID
+         FROM   ITEM_GROUP IG,
+                COMPANY_MASTER CM,
+                ITEM_GROUP_DETAILS IGD
+         WHERE  IG.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                AND IGD.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+                AND IG.ITEM_GROUP_NO LIKE '?'
+                AND IG.ITEM_GROUP_NAME LIKE '?'
+                
+                @FILTER@),
+     COUNT_CTE
+     AS (SELECT ITEM_GROUP_SID,
+                CNT
+         FROM   (SELECT ROW_NUMBER()
+                          OVER (
+                            PARTITION BY ITEM_GROUP_SID
+                            ORDER BY ITEM_GROUP_SID)     RN,
+                        COUNT(ITEM_MASTER_SID)
+                          OVER (
+                            PARTITION BY ITEM_GROUP_SID) CNT,
+                        ITEM_GROUP_SID,
+                        ITEM_MASTER_SID
+                 FROM   CTE_MAIN
+                 ?)A
+         WHERE  RN = 1),
+     ITM_GROUP
+     AS (SELECT CNT,
+                ITEM_GROUP_SID,
+                ITEM_GROUP_NO,
+                ITEM_GROUP_NAME,
+                COMPANY_NAME,
+                VERSION_NO,
+                ITEM_GROUP_DESCRIPTION
+         FROM   (SELECT ROW_NUMBER()
+                          OVER (
+                            PARTITION BY ITEM_GROUP_SID
+                            ORDER BY ITEM_GROUP_SID)     RN,
+                        COUNT(ITEM_MASTER_SID)
+                          OVER (
+                            PARTITION BY ITEM_GROUP_SID) CNT,
+                        ITEM_GROUP_SID,
+                        ITEM_GROUP_NO,
+                        ITEM_GROUP_NAME,
+                        COMPANY_NAME,
+                        VERSION_NO,
+                        ITEM_GROUP_DESCRIPTION
+                 FROM   CTE_MAIN)A
+         WHERE  RN = 1)
+SELECT @SELECTION@
+FROM   ITM_GROUP IG
+       JOIN COUNT_CTE C
+         ON IG.ITEM_GROUP_SID = C.ITEM_GROUP_SID
+            AND C.CNT = IG.CNT
+@ORDER_BY@  
+		]]>
+        </query> 
+    </entity>  
+    <entity id="getCustGroupSearch">
+        <query>   
+       <![CDATA[
+           ;WITH CTE_MAIN
+     AS (SELECT IG.COMPANY_GROUP_SID,
+                IG.COMPANY_GROUP_NO,
+                IG.COMPANY_GROUP_NAME,
+                CM.COMPANY_NAME,
+                IG.VERSION_NO,
+                IG.COMPANY_GROUP_DESCRIPTION,
+                IGD.COMPANY_MASTER_SID
+         FROM   COMPANY_GROUP IG
+                INNER JOIN COMPANY_GROUP_DETAILS IGD
+                        ON IGD.COMPANY_GROUP_SID = IG.COMPANY_GROUP_SID
+                INNER JOIN COMPANY_MASTER CM
+                        ON IGD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+         WHERE  IG.COMPANY_GROUP_NO LIKE '?'
+            AND IG.COMPANY_GROUP_NAME LIKE '?'
+             
+    @FILTER@),
+     COUNT_CTE
+     AS (SELECT COMPANY_GROUP_SID,
+                CNT
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID
+                            ORDER BY COMPANY_GROUP_SID)     RN,
+                        Count(COMPANY_MASTER_SID)
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID) CNT,
+                        COMPANY_GROUP_SID,
+                        COMPANY_MASTER_SID
+                 FROM   CTE_MAIN
+                 ? )A
+         WHERE  RN = 1),
+     ITM_GROUP
+     AS (SELECT CNT,
+                COMPANY_GROUP_SID,
+                COMPANY_GROUP_NO,
+                COMPANY_GROUP_NAME,
+                COMPANY_NAME,
+                VERSION_NO,
+                COMPANY_GROUP_DESCRIPTION
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID
+                            ORDER BY COMPANY_GROUP_SID)     RN,
+                        Count(COMPANY_MASTER_SID)
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID) CNT,
+                        COMPANY_GROUP_SID,
+                        COMPANY_GROUP_NO,
+                        COMPANY_GROUP_NAME,
+                        COMPANY_NAME,
+                        VERSION_NO,
+                        COMPANY_GROUP_DESCRIPTION
+                 FROM   CTE_MAIN)A
+         WHERE  RN = 1)
+SELECT @SELECTION@
+FROM   ITM_GROUP IG
+       JOIN COUNT_CTE C
+         ON IG.COMPANY_GROUP_SID = C.COMPANY_GROUP_SID
+            AND C.CNT = IG.CNT
+@ORDER_BY@ 
+		]]>
+        </query> 
+    </entity>  
+
+    <entity id="getDeleteCvd">
+        <query>   
+       <![CDATA[
+           delete CCM from dbo.CUSTOM_CCP_MAP CCM
+
+            Join CUSTOM_VIEW_DETAILS CVD ON CVD.CUSTOM_VIEW_DETAILS_SID=CCM.CUSTOM_VIEW_DETAILS_SID
+
+                AND CVD.CUSTOM_VIEW_MASTER_SID IN(SELECT CUSTOM_VIEW_MASTER_SID
+
+                                              FROM   CUSTOM_VIEW_MASTER cvm
+
+                                                     JOIN @PROJECTION B
+
+                                                       ON B.PROJECTION_MASTER_SID = cvm.PROJECTION_MASTER_SID);
+
+ DELETE CRM
+FROM   dbo.CUSTOM_RELATIONSHIP_BUILDER CRM
+       JOIN CUSTOM_VIEW_DETAILS CVD
+         ON CVD.CUSTOM_VIEW_DETAILS_SID = CRM.CUSTOM_VIEW_DETAILS_SID
+            AND CVD.CUSTOM_VIEW_MASTER_SID IN(SELECT CUSTOM_VIEW_MASTER_SID
+                                              FROM   CUSTOM_VIEW_MASTER cvm
+                                                     JOIN @PROJECTION B
+                                                       ON B.PROJECTION_MASTER_SID = cvm.PROJECTION_MASTER_SID); 
+
+                delete CVD from dbo.CUSTOM_VIEW_DETAILS CVD where
+
+                CVD.CUSTOM_VIEW_MASTER_SID IN(SELECT CUSTOM_VIEW_MASTER_SID
+
+                                                              FROM   CUSTOM_VIEW_MASTER cvm
+
+                                                     JOIN @PROJECTION B
+
+                                                       ON B.PROJECTION_MASTER_SID = cvm.PROJECTION_MASTER_SID);
+                                                       
+		]]>
+        </query> 
+    </entity>  
+
+    <entity id="getDeleteCvdMandated">
+        <query>   
+       <![CDATA[
+           DELETE CCM 
+FROM   dbo.custom_ccp_map CCM 
+       JOIN custom_view_details CVD 
+         ON CVD.custom_view_details_sid = CCM.custom_view_details_sid 
+            AND CVD.custom_view_master_sid IN(SELECT custom_view_master_sid 
+                                              FROM   custom_view_master cvm 
+                                                     JOIN @PROJECTION B 
+                                                       ON 
+                    B.projection_master_sid = cvm.projection_master_sid); 
+
+DELETE CRM 
+FROM   dbo.custom_relationship_builder CRM 
+       JOIN custom_view_details CVD 
+         ON CVD.custom_view_details_sid = CRM.custom_view_details_sid 
+            AND CVD.custom_view_master_sid IN(SELECT custom_view_master_sid 
+                                              FROM   custom_view_master cvm 
+                                                     JOIN @PROJECTION B 
+                                                       ON 
+                    B.projection_master_sid = cvm.projection_master_sid); 
+           
+                delete CVD from dbo.CUSTOM_VIEW_DETAILS CVD where
+
+                CVD.CUSTOM_VIEW_MASTER_SID IN(SELECT CUSTOM_VIEW_MASTER_SID
+
+                                                              FROM   CUSTOM_VIEW_MASTER cvm
+
+                                                     JOIN @PROJECTION B
+
+                                                       ON B.PROJECTION_MASTER_SID = cvm.PROJECTION_MASTER_SID);
+
+		]]>
+        </query> 
+    </entity>  
+    
+    <entity id="getAlternateHistoryProjectionTotal">
+        <query> 
+            <![CDATA[
+            
+      DECLARE
+        @PROJECTION_DETAILS_SID VARCHAR(MAX)='[@PROJECTION_DETAILS_SID]',
+        @FREQUENCY              VARCHAR(20) ='[@Frequency]',
+        @VIEW                   VARCHAR(50) ='[@@VIEW]',
+        @USER_ID                INT=[@USER_ID],
+        @SESSION_ID             INT=[@@SESSION_ID],
+		@START            INT=[@START_MONTH],
+		@START_YEAR             INT=[@START_YEAR],
+		@END                INT=[@END_MONTH],
+		@END_YEAR               INT=[@END_YEAR],
+		@START_DATE             DATETIME,
+		@END_DATE               DATETIME
+		
+
+ DECLARE 
+
+ @ITEM_DETAILS     UDT_ITEM
+,@START_PERIOD_SID INT 
+,@END_PERIOD_SID   INT 
+,@FORECAST_NAME    VARCHAR(50)
+,@FORECAST_VERSION VARCHAR(15)
+
+
+
+BEGIN
+
+
+
+SET @FREQUENCY = LEFT(@FREQUENCY,1)
+
+
+SET @START  = CASE WHEN @FREQUENCY='M' THEN @START
+                   WHEN @FREQUENCY='Q' THEN CASE WHEN  @START =1         THEN 1        
+                                                 WHEN  @START =2         THEN 4
+						                         WHEN  @START =3         THEN 7
+						                         ELSE  10
+						                         END
+                   WHEN @FREQUENCY='S' THEN CASE WHEN  @START =1         THEN 1        
+                                                 ELSE  7
+						                         END
+                   ELSE 1 END
+						                        
+    
+
+
+SET @START_DATE = CONVERT (DATETIME, CONVERT(VARCHAR, @START )+'-01-'+CONVERT(VARCHAR , @START_YEAR))
+SET @END_DATE   = CONVERT (DATETIME, CONVERT(VARCHAR, @END   )+'-01-'+CONVERT(VARCHAR,  @END_YEAR  ))
+
+
+
+SET @START_PERIOD_SID =  (SELECT PERIOD_SID FROM PERIOD P WHERE P.PERIOD_DATE = DATEADD(MM, DATEDIFF(MM, 0, @START_DATE), 0))
+SET @END_PERIOD_SID   =  (SELECT PERIOD_SID FROM PERIOD P WHERE P.PERIOD_DATE = DATEADD(MM, DATEDIFF(MM, 0, @END_DATE)  , 0))
+
+
+------------------------------------------------------AGGREGATION STARTS -------------------------------------------------------------
+
+
+IF OBJECT_ID('TEMPDB.DBO.#ULTIMATE', 'U') IS NOT NULL
+	DROP TABLE #ULTIMATE;
+
+ SELECT 
+	     SDAHA.PROJECTION_DETAILS_SID
+		,SDAHA.RS_CONTRACT_SID
+		,(SDAHA.PERIOD_SID) AS PERIOD_SID
+		,P.YEAR
+		, SUM(SDAHA.ACTUAL_AMOUNT) AS  SUM_ACTUAL_AMOUNT
+	    , SUM(SDAHA.PROJECTION_AMOUNT) AS SUM_PROJECTION_AMOUNT 
+		
+		INTO #ULTIMATE 
+	FROM ST_DISC_ALTERNATE_HIST_ALLOCATION SDAHA
+	JOIN PROJECTION_DETAILS PD ON SDAHA.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+	JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+	JOIN PERIOD P ON P.PERIOD_SID = SDAHA.PERIOD_SID
+        AND SDAHA.PERIOD_SID = SDAHA.PERIOD_SID
+		AND PD.PROJECTION_DETAILS_SID IN (SELECT U.TOKEN FROM  UDF_SPLITSTRING(@PROJECTION_DETAILS_SID, ',') U)
+		AND SDAHA.USER_ID = @USER_ID
+		AND SDAHA.SESSION_ID = @SESSION_ID
+		AND P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID
+
+
+    GROUP BY SDAHA.PROJECTION_DETAILS_SID
+	        ,SDAHA.RS_CONTRACT_SID
+			,SDAHA.PERIOD_SID
+			,P.YEAR
+			,CASE
+             WHEN @FREQUENCY = 'M' THEN P.MONTH
+             WHEN @FREQUENCY = 'Q' THEN P.QUARTER
+             WHEN @FREQUENCY = 'S' THEN P.SEMI_ANNUAL
+             ELSE P.YEAR
+             END
+			,SDAHA.ACTUAL_AMOUNT
+			,SDAHA.PROJECTION_AMOUNT
+------------------------------------------------------------VIEWS-------------------------------------------------------------------
+IF OBJECT_ID('TEMPDB.DBO.#FINAL', 'U') IS NOT NULL
+  DROP TABLE #FINAL;
+
+SELECT CASE WHEN @VIEW = 'PIVOT' THEN NULL
+            ELSE P.YEAR
+                        END AS YEAR,
+           CASE WHEN  @VIEW = 'PIVOT' THEN NULL
+           ELSE
+                CASE
+         WHEN @FREQUENCY = 'M' THEN P.MONTH
+         WHEN @FREQUENCY = 'Q' THEN P.QUARTER
+         WHEN @FREQUENCY = 'S' THEN P.SEMI_ANNUAL
+         ELSE P.YEAR
+       END
+       END AS PERIOD,
+
+	   CASE WHEN @VIEW = 'PIVOT' THEN NULL  ELSE (SELECT RS_NAME FROM RS_CONTRACT WHERE RS_CONTRACT_SID = U.RS_CONTRACT_SID ) END AS REBATE_NAME , 
+
+       SUM(U.SUM_ACTUAL_AMOUNT )       AS ACTUAL_AMOUNT,
+       SUM(U.SUM_PROJECTION_AMOUNT )   AS PROJECTION_AMOUNT
+
+           INTO #FINAL
+
+FROM   #ULTIMATE U
+JOIN PERIOD P ON U.PERIOD_SID = P.PERIOD_SID 
+WHERE  U.PROJECTION_DETAILS_SID IN (SELECT U.TOKEN FROM   UDF_SPLITSTRING(@PROJECTION_DETAILS_SID, ',') U)
+
+
+GROUP  BY   P.YEAR, CASE
+            WHEN @FREQUENCY = 'M' THEN P.MONTH
+            WHEN @FREQUENCY = 'Q' THEN P.QUARTER
+            WHEN @FREQUENCY = 'S' THEN P.SEMI_ANNUAL
+            ELSE P.YEAR
+          END, RS_CONTRACT_SID
+
+ORDER BY CASE WHEN @VIEW = 'PIVOT' THEN NULL  ELSE P.YEAR END ,
+         CASE WHEN @VIEW = 'PIVOT' THEN NULL  ELSE
+         CASE
+            WHEN @FREQUENCY = 'M' THEN P.MONTH
+            WHEN @FREQUENCY = 'Q' THEN P.QUARTER
+            WHEN @FREQUENCY = 'S' THEN P.SEMI_ANNUAL
+            ELSE P.YEAR
+          END
+                  END
+
+IF @VIEW = 'PIVOT'
+SELECT  SUM(ACTUAL_AMOUNT) AS ACTUAL_AMOUNT, SUM(PROJECTION_AMOUNT) AS PROJECTION_AMOUNT FROM #FINAL GROUP BY YEAR, PERIOD
+ELSE
+SELECT * FROM #FINAL ORDER BY YEAR,PERIOD
+------------------------------------------------------------------------------------------------------------------------------------
+END
+ ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="deleteMandatedCVD">
+        <query>   
+       <![CDATA[
+           
+                delete CVD from dbo.CUSTOM_VIEW_DETAILS CVD where
+
+                CVD.CUSTOM_VIEW_MASTER_SID IN( Select PROJECTION_MASTER_SID from CUSTOM_VIEW_MASTER where PROJECTION_MASTER_SID = @PROJECTIONSID);
+                
+                DELETE FROM dbo.CUSTOM_VIEW_MASTER WHERE PROJECTION_MASTER_SID = @PROJECTIONSID;
+
+		]]>
+        </query> 
+    </entity>  
+    
+    
+    <entity id="deleteNonMandatedCVD">
+        <query>   
+       <![CDATA[
+           
+                DELETE
+                FROM   custom_relationship_builder
+                WHERE  custom_view_details_sid IN (SELECT custom_view_details_sid
+                                                   FROM   custom_view_details
+                                                   WHERE  custom_view_master_sid IN (SELECT custom_view_master_sid
+                                                                                     FROM   custom_view_master
+                                                                                     WHERE  projection_master_sid = @PROJECTIONSID)) ;
+                DELETE
+                FROM   custom_ccp_map
+                WHERE  custom_view_details_sid IN (SELECT custom_view_details_sid
+                                                   FROM   custom_view_details
+                                                   WHERE  custom_view_master_sid IN (SELECT custom_view_master_sid
+                                                                                     FROM   custom_view_master
+                                                                                     WHERE  projection_master_sid = @PROJECTIONSID));
+                DELETE
+                FROM   custom_view_details
+                WHERE  custom_view_master_sid IN (SELECT custom_view_master_sid
+                                                  FROM   custom_view_master
+                                                  WHERE  projection_master_sid = @PROJECTIONSID);
+
+                DELETE
+                FROM   custom_view_master
+                WHERE  projection_master_sid = @PROJECTIONSID;
+
+
+		]]>
+        </query> 
+    </entity> 
+    <entity id="ppa-details-generate">
+        <query> 
+            <![CDATA[
+SELECT p.year
+       ,p.MONTH
+       ,ipq.PRICING_QUALIFIER price_protection_price_type
+       ,snpp.Price Price
+       ,snpp.PriceChange PriceChange
+       ,snpp.PROJECTION_MAP map
+       ,snpp.TotalDeductions TotalDeductions
+       ,snpp.PROJECTION_DISCOUNT_UNITS units
+       ,snpp.deduction_per_unit projection_deduction_per_unit
+       ,snpp.NetPrice NetPrice
+       ,snpp.NetMap NetMap
+       ,snpp.PriceProtectionAmountPerUnit PriceProtectionAmountPerUnit
+       ,snpp.PriceProtectionPercentage PriceProtectionPercent
+       ,snpp.TotalPriceProtectionDeduction TotalPriceProtectionDeduction
+       ,snpp.NEP
+       ,snpp.NEP_Formula
+       ,HT1.DESCRIPTION Price_Tolerance_Type
+       ,snpp.Price_Tolerance
+       ,HT2.DESCRIPTION Price_Tolerance_Interval
+       ,HT3.DESCRIPTION Price_Tolerance_Frequency
+       ,snpp.Max_Incremental_Change
+       ,HT4.DESCRIPTION Reset_Eligible
+       ,HT5.DESCRIPTION Reset_Type
+       ,snpp.Reset_Date
+       ,HT6.DESCRIPTION Reset_Interval
+       ,HT7.DESCRIPTION Reset_Frequency
+       ,HT8.DESCRIPTION Net_Price_Type
+       ,nsfm.NET_SALES_FORMULA_NAME Net_Price_Type_Formula
+       ,rs.rs_name
+       ,snpp.period_sid
+       ,p.quarter
+       ,snpp.ccp_details_sid
+       ,rs.RS_CONTRACT_SID
+       ,p.semi_annual
+       
+FROM RS_CONTRACT RS
+JOIN
+ST_NM_PPA_PROJECTION snpp
+ON snpp.RS_CONTRACT_SID = rs.RS_CONTRACT_SID
+LEFT JOIN ITEM_PRICING_QUALIFIER ipq ON ipq.ITEM_PRICING_QUALIFIER_SID = snpp.ITEM_PRICING_QUALIFIER_SID
+LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = SNPP.PRICE_TOLERANCE_TYPE
+       AND SNPP.PRICE_TOLERANCE_TYPE <> 0
+LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = SNPP.PRICE_TOLERANCE_INTERVAL
+       AND SNPP.PRICE_TOLERANCE_INTERVAL <> 0
+LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID = SNPP.PRICE_TOLERANCE_FREQUENCY
+       AND SNPP.PRICE_TOLERANCE_FREQUENCY <> 0
+LEFT JOIN HELPER_TABLE HT4 ON HT4.HELPER_TABLE_SID = SNPP.RESET_ELIGIBLE
+       AND SNPP.RESET_ELIGIBLE <> 0
+LEFT JOIN HELPER_TABLE HT5 ON HT5.HELPER_TABLE_SID = SNPP.RESET_TYPE
+       AND SNPP.RESET_TYPE <> 0
+LEFT JOIN HELPER_TABLE HT6 ON HT6.HELPER_TABLE_SID = SNPP.RESET_INTERVAL
+       AND SNPP.RESET_INTERVAL <> 0
+LEFT JOIN HELPER_TABLE HT7 ON HT7.HELPER_TABLE_SID = SNPP.RESET_FREQUENCY
+       AND SNPP.RESET_FREQUENCY <> 0
+LEFT JOIN HELPER_TABLE HT8 ON HT8.HELPER_TABLE_SID = SNPP.NET_PRICE_TYPE
+       AND SNPP.NET_PRICE_TYPE <> 0
+LEFT JOIN NET_SALES_FORMULA_MASTER NSFM ON NSFM.NET_SALES_FORMULA_MASTER_SID=SNPP.NET_PRICE_TYPE_FORMULA
+JOIN ccp_details cd ON cd.ccp_details_sid = snpp.ccp_details_sid
+JOIN period p ON p.period_sid = snpp.period_sid
+WHERE cd.contract_master_sid = @contractsid
+      AND cd.COMPANY_MASTER_SID = @compsid
+      AND cd.ITEM_MASTER_SID = @itemsid 
+      AND p.PERIOD_SID between @from and @to ORDER BY rs.RS_CONTRACT_SID,p.year @order ,p.MONTH @order OFFSET @start ROWS FETCH NEXT @end ROWS ONLY
+           ]]>
+        </query> 
+    </entity> 
+    <entity id="ppa-details-count">
+        <query> 
+            <![CDATA[
+SELECT count(1)
+                FROM ST_NM_PPA_PROJECTION SNPP
+                LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON IPQ.ITEM_PRICING_QUALIFIER_SID = SNPP.ITEM_PRICING_QUALIFIER_SID
+                JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = SNPP.CCP_DETAILS_SID
+                JOIN PERIOD P ON P.PERIOD_SID = SNPP.PERIOD_SID
+                WHERE CD.CONTRACT_MASTER_SID = @contractsid
+                  AND CD.COMPANY_MASTER_SID = @compsid
+                  AND CD.ITEM_MASTER_SID = @itemsid
+                  AND P.PERIOD_SID BETWEEN @from AND @to
+           ]]>
+        </query> 
+    </entity> 
+    
+    <entity id="get-business-units">
+        <query>
+    		<![CDATA[
+                    SELECT
+                            CM.COMPANY_MASTER_SID,
+                            CM.COMPANY_ID,
+                            CM.COMPANY_NO,
+                            CM.COMPANY_NAME
+                    FROM
+                            COMPANY_MASTER CM
+                    JOIN HELPER_TABLE HT ON
+                            HT.HELPER_TABLE_SID = CM.COMPANY_TYPE
+                    WHERE
+                            HT.LIST_NAME LIKE 'COMPANY_TYPE'
+                            AND HT.DESCRIPTION LIKE 'BUSINESS UNIT'
+                            AND CM.INBOUND_STATUS <> 'D'
+                            AND CM.COMPANY_MASTER_SID = @ORGANIZATION_KEY
+                    ORDER BY COMPANY_NO;
+		]]>
+        </query>
+    </entity>
+    
+    <entity id="get-companies">
+        <query>
+            <![CDATA[
+                SELECT
+                        CM.COMPANY_MASTER_SID,
+                        CM.COMPANY_ID,
+                        CM.COMPANY_NO,
+                        CM.COMPANY_NAME
+                FROM
+                        COMPANY_MASTER CM
+                JOIN HELPER_TABLE HT ON
+                        HT.HELPER_TABLE_SID = CM.COMPANY_TYPE
+                WHERE
+                        HT.LIST_NAME LIKE 'COMPANY_TYPE'
+                        AND HT.DESCRIPTION LIKE 'GLCOMP'
+                        AND CM.INBOUND_STATUS <> 'D'
+                        AND CM.COMPANY_MASTER_SID = @GLCOMP
+                ORDER BY COMPANY_NO;
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="getFileEndDate">
+        <query>
+            <![CDATA[
+            WITH CTE
+             AS (SELECT FORECAST_NAME,
+                        [VERSION],
+                        DESCRIPTION AS FILE_TYPE
+                 FROM   (SELECT FT.FORECAST_NAME,
+                                FT.[VERSION],
+                                HT.DESCRIPTION,
+                                FT.FROM_PERIOD,
+                                Row_number()
+                                  OVER (
+                                    PARTITION BY FT.FILE_TYPE
+                                    ORDER BY FT.FROM_PERIOD DESC) RN
+                         FROM   FILE_MANAGEMENT FT
+                                INNER JOIN HELPER_TABLE HT
+                                        ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+                         WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                                  AND FT.FROM_PERIOD IS NOT NULL )
+                                AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                                       OR FT.TO_PERIOD IS NULL )
+                                AND HT.LIST_NAME = 'FILE_TYPE'
+                                AND HT.DESCRIPTION IN ( 'EX-FACTORY SALES', 'DEMAND', 'INVENTORY WITHDRAWAL - FORECAST SUMMARY' )
+                                AND FT.BUSINESS_UNIT = [?BUSINESS_UNIT] )A
+                 WHERE  RN = 1)
+            SELECT TOP 1 FORECAST_YEAR,
+                         FORECAST_MONTH
+            FROM   (SELECT Cast(FORECAST_YEAR AS INT)  FORECAST_YEAR,
+                           Cast(FORECAST_MONTH AS INT) FORECAST_MONTH
+                    FROM   FORECASTING_MASTER f
+                           INNER JOIN CTE c
+                                   ON c.FORECAST_NAME = f.FORECAST_NAME
+                                      AND FORECAST_VER IN ( c.[VERSION], Floor(c.VERSION) )
+                    UNION ALL
+                    SELECT FORECAST_YEAR,
+                           FORECAST_MONTH
+                    FROM   DEMAND_FORECAST f
+                           INNER JOIN CTE c
+                                   ON c.FORECAST_NAME = f.FORECAST_NAME
+                                      AND FORECAST_VER IN ( c.[VERSION], Floor(c.VERSION) )
+                    UNION ALL
+                    SELECT YEAR,
+                           MONTH
+                    FROM   INVENTORY_WD_PROJ_MAS f
+                           INNER JOIN CTE c
+                                   ON c.FORECAST_NAME = f.FORECAST_NAME
+                                      AND FORECAST_VER IN ( c.[VERSION], Floor(c.VERSION) )) A
+            ORDER  BY FORECAST_YEAR DESC,
+                      FORECAST_MONTH DESC;
+         ]]>
+        </query>
+    </entity>
+    
+        
+    <entity id="check-for-active-file">
+        <query>
+            <![CDATA[
+            IF EXISTS((SELECT TOP 1 FORECAST_NAME
+                FROM   FILE_MANAGEMENT FT 
+                    INNER JOIN HELPER_TABLE HT 
+                            ON HT.HELPER_TABLE_SID = FT.FILE_TYPE 
+                            WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, GETDATE()) 
+                            AND FT.FROM_PERIOD IS NOT NULL ) 
+                    AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, GETDATE()) 
+                            OR FT.TO_PERIOD IS NULL ) 
+                    AND HT.LIST_NAME = 'FILE_TYPE' 
+                    AND HT.[DESCRIPTION] IN ( 'DEMAND', 'CUSTOMER SALES', 'ADJUSTED DEMAND', 'EX-FACTORY SALES', 'INVENTORY WITHDRAWAL - FORECAST SUMMARY','Inventory Withdrawal - Forecast Detail' )
+                    AND FT.BUSINESS_UNIT = [?BUISNESS_UNIT]
+                    AND FT.COMPANY = [?COMPANY]  ))
+            SELECT 1
+            ELSE 
+            SELECT 0
+     ]]>
+        </query>
+    </entity>
+    
+    <entity id="INSERTCCPMAPCUST">
+        <query> 
+            <![CDATA[
+                    DECLARE @HIERARCHY_DEFINITION_SID INT = @HRD,
+                            @RELATIONSHIP_BUILDER_SID INT = @RBS,
+                            @LEVEL_NO                 INT
+
+                    SELECT @LEVEL_NO = Max(LEVEL_NO)
+                    FROM   HIERARCHY_LEVEL_DEFINITION
+                    WHERE  HIERARCHY_DEFINITION_sid = @HIERARCHY_DEFINITION_SID
+
+                    IF Object_id('TEMPDB..#DETAILS') IS NOT NULL
+                      DROP TABLE #DETAILS
+
+                    CREATE TABLE #DETAILS
+                      (
+                         RELATIONSHIP_LEVEL_SID INT,
+                         MASTER_SID             INT,
+                         LEVEL_NO               INT,
+                         PARENT                 INT,
+                         LEVEL_NAME             VARCHAR(50),
+                         CONTRACT_MASTER_SID    INT
+                      )
+
+                    IF EXISTS (SELECT 1
+                               FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                      JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                               WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                      AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                      AND RLD.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ))
+                      BEGIN
+                          INSERT INTO #DETAILS
+                                      (RELATIONSHIP_LEVEL_SID,
+                                       MASTER_SID,
+                                       LEVEL_NO,
+                                       PARENT,
+                                       LEVEL_NAME)
+                          SELECT RELATIONSHIP_LEVEL_SID,
+                                 RELATIONSHIP_LEVEL_VALUES                                                             AS COMPANY_MASTER_SID,
+                                 RLD.LEVEL_NO,
+                                 Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
+                                 RLD.LEVEL_NAME
+                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                 JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                   ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                          WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                 AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                 AND RLD.LEVEL_NAME IN ( 'Trading Partner', 'Customer' )
+                      END
+
+                    IF EXISTS (SELECT 1
+                               FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                      JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                               WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                      AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                      AND RLD.LEVEL_NAME IN ( 'Contract' ))
+                      BEGIN
+                          INSERT INTO #DETAILS
+                                      (RELATIONSHIP_LEVEL_SID,
+                                       MASTER_SID,
+                                       LEVEL_NO,
+                                       PARENT,
+                                       LEVEL_NAME)
+                          SELECT RELATIONSHIP_LEVEL_SID,
+                                 RELATIONSHIP_LEVEL_VALUES                                                             AS CONTRACT_MASTER_SID,
+                                 RLD.LEVEL_NO,
+                                 Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
+                                 RLD.LEVEL_NAME
+                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                 JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                   ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                          WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                 AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                 AND RLD.LEVEL_NAME IN ( 'Contract' )
+                      END
+
+                    IF EXISTS (SELECT 1
+                               FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                      JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                               WHERE  HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                      AND RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                      AND RLD.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ))
+                      BEGIN
+                          INSERT INTO #DETAILS
+                                      (RELATIONSHIP_LEVEL_SID,
+                                       CONTRACT_MASTER_SID,
+                                       MASTER_SID,
+                                       LEVEL_NO,
+                                       PARENT,
+                                       LEVEL_NAME)
+                          SELECT RELATIONSHIP_LEVEL_SID,
+                                 CONTRACT_MASTER_SID,
+                                 RELATIONSHIP_LEVEL_VALUES                                                             AS MASTER_SID,
+                                 RLD.LEVEL_NO,
+                                 Substring(RLD.PARENT_NODE, Charindex('~', RLD.PARENT_NODE) + 1, Len(RLD.PARENT_NODE)) AS PARENT,
+                                 RLD.LEVEL_NAME
+                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                 JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                   ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                                 JOIN CONTRACT_MASTER CM
+                                   ON CM.CONTRACT_TYPE = RLD.RELATIONSHIP_LEVEL_VALUES
+                          WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                                 AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                                 AND RLD.LEVEL_NAME IN ( 'Market Type', 'Contract Type' )
+                      END
+
+                    IF Object_id('tempdb..#result') IS NOT NULL
+                      DROP TABLE #RESULT;
+
+                    WITH CTE
+                         AS (SELECT Dense_rank()
+                                      OVER(
+                                        ORDER BY C.level_no) AS RN,
+                                    C.*
+                             FROM   #DETAILS C)
+                    SELECT DISTINCT p1.RELATIONSHIP_LEVEL_SID,
+                                    CASE
+                                      WHEN P1.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p1.MASTER_SID
+                                      WHEN P2.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p2.MASTER_SID
+                                      WHEN P3.LEVEL_NAME IN ( 'Trading Partner', 'Customer' ) THEN p3.MASTER_SID
+                                    END AS COMPANY_MASTER_SID,
+                                    CASE
+                                      WHEN P1.LEVEL_NAME IN ( 'Contract' ) THEN p1.MASTER_SID
+                                      WHEN P2.LEVEL_NAME IN ( 'Contract' ) THEN p2.MASTER_SID
+                                      WHEN P3.LEVEL_NAME IN ( 'Contract' ) THEN p3.MASTER_SID
+                                    END AS CONTRACT_MASTER_SID,
+                                    CASE
+                                      WHEN P1.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p1.MASTER_SID
+                                      WHEN P2.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p2.MASTER_SID
+                                      WHEN P3.LEVEL_NAME IN ( 'Market Type', 'Contract Type' ) THEN p3.MASTER_SID
+                                    END AS MARKET_TYPE,
+                                    P1.LEVEL_NO
+                    INTO   #RESULT
+                    FROM   CTE P1
+                           LEFT JOIN CTE P2
+                                  ON P1.PARENT = P2.MASTER_SID
+                                     AND P1.RN = P2.RN + 1
+                           LEFT JOIN CTE P3
+                                  ON P2.PARENT = P3.MASTER_SID
+                                     AND P2.RN = P3.RN + 1
+                    WHERE  P1.LEVEL_NO = @LEVEL_NO
+
+                    IF EXISTS (SELECT 1
+                               FROM   #result
+                               WHERE  CONTRACT_MASTER_SID IS NOT NULL
+                                      AND COMPANY_MASTER_SID IS NOT NULL)
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             CCP_DETAILS_SID
+                      FROM   CCP_DETAILS c
+                             JOIN #result r
+                               ON r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                                  AND r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                      WHERE  NOT EXISTS (SELECT 1
+                                         FROM   CCP_MAP cm
+                                         WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                                AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                    ELSE IF EXISTS (SELECT 1
+                               FROM   #result
+                               WHERE  CONTRACT_MASTER_SID IS NULL
+                                      AND COMPANY_MASTER_SID IS NOT NULL)
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             CCP_DETAILS_SID
+                      FROM   CCP_DETAILS c
+                             JOIN #result r
+                               ON r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                      WHERE  NOT EXISTS (SELECT 1
+                                         FROM   CCP_MAP cm
+                                         WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                                AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                    ELSE IF EXISTS (SELECT 1
+                               FROM   #result
+                               WHERE  CONTRACT_MASTER_SID IS NOT NULL
+                                      AND MARKET_TYPE IS NOT NULL
+                                      AND COMPANY_MASTER_SID IS NULL)
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             CCP_DETAILS_SID
+                      FROM   CCP_DETAILS c
+                             JOIN #result r
+                               ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                      WHERE  NOT EXISTS (SELECT 1
+                                         FROM   CCP_MAP cm
+                                         WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                                AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                    ELSE IF EXISTS (SELECT 1
+                               FROM   #result
+                               WHERE  CONTRACT_MASTER_SID IS NULL
+                                      AND MARKET_TYPE IS NOT NULL
+                                      AND COMPANY_MASTER_SID IS NOT NULL)
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             CCP_DETAILS_SID
+                      FROM   CCP_DETAILS c
+                             JOIN (SELECT RELATIONSHIP_LEVEL_SID,
+                                          cm.contract_master_sid,
+                                          r.COMPANY_MASTER_SID
+                                   FROM   #result r
+                                          JOIN contract_master cm
+                                            ON cm.CONTRACT_TYPE = r.MARKET_TYPE) r
+                               ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                                  AND r.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                      WHERE  NOT EXISTS (SELECT 1
+                                         FROM   CCP_MAP cm
+                                         WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                                AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID)
+                    ELSE IF EXISTS (SELECT 1
+                               FROM   #result
+                               WHERE  CONTRACT_MASTER_SID IS NULL
+                                      AND MARKET_TYPE IS NOT NULL
+                                      AND COMPANY_MASTER_SID IS NULL)
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT RELATIONSHIP_LEVEL_SID,
+                             CCP_DETAILS_SID
+                      FROM   CCP_DETAILS c
+                             JOIN (SELECT RELATIONSHIP_LEVEL_SID,
+                                          cm.contract_master_sid
+                                   FROM   #result r
+                                          JOIN contract_master cm
+                                            ON cm.CONTRACT_TYPE = r.MARKET_TYPE) r
+                               ON r.CONTRACT_MASTER_SID = c.CONTRACT_MASTER_SID
+                      WHERE  NOT EXISTS (SELECT 1
+                                         FROM   CCP_MAP cm
+                                         WHERE  cm.RELATIONSHIP_LEVEL_SID = r.RELATIONSHIP_LEVEL_SID
+                                                AND c.CCP_DETAILS_SID = cm.CCP_DETAILS_SID) 
+           ]]>
+        </query> 
+    </entity> 
+    <entity id="INSERTCCPMAPPROD">
+        <query> 
+            <![CDATA[
+                    DECLARE @HIERARCHY_DEFINITION_SID INT = @HRD,
+                            @RELATIONSHIP_BUILDER_SID INT = @RBS,
+                            @LEVEL_NO                 INT
+
+                    SELECT @LEVEL_NO = Max(LEVEL_NO)
+                    FROM   HIERARCHY_LEVEL_DEFINITION
+                    WHERE  HIERARCHY_DEFINITION_sid = @HIERARCHY_DEFINITION_SID
+
+                    IF Object_id('TEMPDB..#DETAILS') IS NOT NULL
+                      DROP TABLE #DETAILS
+
+                    CREATE TABLE #DETAILS
+                      (
+                         RELATIONSHIP_LEVEL_SID INT,
+                         MASTER_SID             INT,
+                         LEVEL_NAME             VARCHAR(50)
+                      )
+                    INSERT INTO #DETAILS
+                    SELECT RELATIONSHIP_LEVEL_SID,
+                           RELATIONSHIP_LEVEL_VALUES AS MASTER_SID,
+                           RLD.LEVEL_NAME
+                    FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                           JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                             ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    WHERE  RLD.RELATIONSHIP_BUILDER_SID = @RELATIONSHIP_BUILDER_SID
+                           AND HLD.HIERARCHY_DEFINITION_SID = @HIERARCHY_DEFINITION_SID
+                           AND RLD.LEVEL_NO = @LEVEL_NO
+
+                    IF EXISTS (SELECT 1
+                               FROM   #DETAILS
+                               WHERE  LEVEL_NAME = 'COMPANY')
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT d.RELATIONSHIP_LEVEL_SID,
+                             cd.CCP_DETAILS_SID
+                      FROM   GL_COST_CENTER_MASTER GL
+                             JOIN COMPANY_MASTER CM
+                               ON GL.COMPANY_CODE = CM.COMPANY_ID
+                             JOIN ITEM_MASTER IM
+                               ON IM.NDC8 = GL.NDC8
+                             JOIN #DETAILS D
+                               ON D.MASTER_SID = CM.COMPANY_MASTER_SID
+                             JOIN CCP_DETAILS cd
+                               ON cd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                      WHERE  GL.INBOUND_STATUS <> 'D'
+                             AND NOT EXISTS (SELECT 1
+                                             FROM   CCP_MAP CC
+                                             WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                    AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)
+
+                    IF EXISTS (SELECT 1
+                               FROM   #DETAILS
+                               WHERE  LEVEL_NAME = 'BRAND')
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT d.RELATIONSHIP_LEVEL_SID,
+                             cd.CCP_DETAILS_SID
+                      FROM   ITEM_MASTER IM
+                             JOIN #DETAILS D
+                               ON D.MASTER_SID = IM.BRAND_MASTER_SID
+                             JOIN CCP_DETAILS cd
+                               ON cd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                                  AND NOT EXISTS (SELECT 1
+                                                  FROM   CCP_MAP CC
+                                                  WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                         AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)
+
+                    IF EXISTS (SELECT 1
+                               FROM   #DETAILS
+                               WHERE  LEVEL_NAME IN ('NDC','N.D.C.'))
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT d.RELATIONSHIP_LEVEL_SID,
+                             cd.CCP_DETAILS_SID
+                      FROM   #DETAILS D
+                             JOIN CCP_DETAILS cd
+                               ON cd.ITEM_MASTER_SID = D.MASTER_SID
+                                  AND NOT EXISTS (SELECT 1
+                                                  FROM   CCP_MAP CC
+                                                  WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                         AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)
+
+                    IF EXISTS (SELECT 1
+                               FROM   #DETAILS
+                               WHERE  LEVEL_NAME LIKE '%THERAPEUTIC%CLASS%')
+                      INSERT INTO CCP_MAP
+                                  (RELATIONSHIP_LEVEL_SID,
+                                   CCP_DETAILS_SID)
+                      SELECT d.RELATIONSHIP_LEVEL_SID,
+                             cd.CCP_DETAILS_SID
+                      FROM   ITEM_MASTER IM
+                             JOIN #DETAILS D
+                               ON D.MASTER_SID = IM.THERAPEUTIC_CLASS
+                             JOIN CCP_DETAILS cd
+                               ON cd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                                  AND NOT EXISTS (SELECT 1
+                                                  FROM   CCP_MAP CC
+                                                  WHERE  CC.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID
+                                                         AND CC.CCP_DETAILS_SID = CD.CCP_DETAILS_SID) 
+           ]]>
+        </query> 
+    </entity> 
+    <entity id="non-mandated-sales-query">
+        <query> 
+            <![CDATA[
+                IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION') IS NOT NULL
+                    DROP TABLE #ST_NM_SALES_PROJECTION
+
+                  SELECT HIERARCHY_NO,
+                         @FREQUENCY@,
+                         P.YEAR,
+                         PROJECTION_SALES=Sum(PROJECTION_SALES),
+                         PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+                         ACCOUNT_GROWTH = Avg(ACCOUNT_GROWTH),
+                         PRODUCT_GROWTH= Avg(PRODUCT_GROWTH)
+                  INTO   #ST_NM_SALES_PROJECTION
+                  FROM   [$TABLE_NAME] S
+                         JOIN #CCP c
+                           ON C.PROJECTION_DETAILS_SID = S.PROJECTION_DETAILS_SID
+                         JOIN PERIOD P
+                           ON P.PERIOD_SID = S.PERIOD_SID
+                  GROUP  BY HIERARCHY_NO,
+                            @FREQUENCY_GROUP@,
+                            P.YEAR
+
+                  IF Object_id('TEMPDB..#ST_NM_ACTUAL_SALES') IS NOT NULL
+                    DROP TABLE #ST_NM_ACTUAL_SALES
+
+                  SELECT HIERARCHY_NO,
+                         @FREQUENCY@,
+                         P.YEAR,
+                         ACTUAL_SALES=Sum(ACTUAL_SALES),
+                         ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+                         Sum(S.HISTORY_PROJECTION_SALES) AS HISTORY_PROJECTION_SALES,
+                         Sum(S.HISTORY_PROJECTION_UNITS) AS HISTORY_PROJECTION_UNITS
+                  INTO   #ST_NM_ACTUAL_SALES
+                  FROM   [$ACTUAL_TABLE_NAME] S
+                         JOIN #CCP C
+                           ON C.PROJECTION_DETAILS_SID = S.PROJECTION_DETAILS_SID
+                         JOIN PERIOD P
+                           ON P.PERIOD_SID = S.PERIOD_SID
+                  GROUP  BY HIERARCHY_NO,
+                            @FREQUENCY_GROUP@,
+                            P.YEAR
+
+                  IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION_MASTER') IS NOT NULL
+                    DROP TABLE #ST_NM_SALES_PROJECTION_MASTER
+
+                  SELECT RLD.RELATIONSHIP_LEVEL_VALUES,
+                         level_no,
+                         CASE
+                           WHEN Count(DISTINCT MSPM.CALCULATION_PERIODS) > 1 THEN '-'
+                           ELSE Max(MSPM.CALCULATION_PERIODS)
+                         END                                    CALCULATION_PERIODS,
+                         CASE
+                           WHEN Count(DISTINCT MSPM.METHODOLOGY) > 1 THEN '-'
+                           ELSE Max(MSPM.METHODOLOGY)
+                         END                                    AS METHODOLOGY,
+                         RLD.RELATIONSHIP_LEVEL_SID,
+                         CCP.HIERARCHY_NO,
+                         Count(*)                               AS RCOUNT,
+                         RLD.LEVEL_NAME,
+                         Min(CASE ( CHECK_RECORD )
+                               WHEN 1 THEN 1
+                               ELSE 0
+                             END)                               AS checkrec,
+                         Sum(CASE ( MSPM.CHECK_RECORD )
+                               WHEN 1 THEN 0
+                               ELSE 1
+                             END) / @FREQDIVISION                           AS UNCHECK_COUNT,
+                         Count(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+                         Min(MSPM.USER_GROUP)                   AS USER_GROUP
+                  INTO   #ST_NM_SALES_PROJECTION_MASTER
+                  FROM   #CCP CCP
+                         JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                           ON CCP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID
+                         JOIN [$MASTER_TABLE_NAME] MSPM
+                           ON CCP.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID
+                              AND ( MSPM.USER_GROUP LIKE '@USER_GROUP'
+                                     OR MSPM.USER_GROUP IS NULL )
+                  GROUP  BY RLD.RELATIONSHIP_LEVEL_VALUES,
+                            level_no,
+                            RLD.RELATIONSHIP_LEVEL_SID,
+                            CCP.HIERARCHY_NO,
+                            RLD.LEVEL_NAME
+
+
+
+                  SELECT MAINQ.account_growth,
+                         MAINQ.product_growth,
+                         MAINQ.projection_sales,
+                         MAINQ.projection_units,
+                         MAINQ.actualsales,
+                         MAINQ.actualunits,
+                         MAINQ.level_no,
+                         MAINQ.rlv,
+                         MAINQ.YEARS,
+                         MAINQ.PERIODS,
+                         MAINQ.calculation_periods,
+                         MAINQ.methodology,
+                         MAINQ.relationship_level_sid,
+                         MAINQ.hierarchy_no,
+                         MAINQ.rcount,
+                         MAINQ.level_name,
+                         MAINQ.actualproj,
+                         MAINQ.historysales,
+                         MAINQ.historyunits,
+                         MAINQ.checkrec,
+                         MAINQ.uncheck_count,
+                         MAINQ.ccpcount,
+                         MAINQ.hierarchy_indicator,
+                         MAINQ.user_group
+                  FROM   (SELECT Q.account_growth,
+                                 Q.product_growth,
+                                 Q.projection_sales,
+                                 Q.projection_units,
+                                 Q.actualsales,
+                                 Q.actualunits,
+                                 Q.level_no,
+                                 Q.rlv,
+                                 Q.YEARS,
+                                 Q.PERIODS,
+                                 Q.calculation_periods,
+                                 Q.methodology,
+                                 Q.relationship_level_sid,
+                                 Q.hierarchy_no,
+                                 Q.rcount,
+                                 Q.level_name,
+                                 Q.actualproj,
+                                 Q.historysales,
+                                 Q.historyunits,
+                                 Q.checkrec,
+                                 Q.uncheck_count,
+                                 Q.ccpcount,
+                                 Q.hierarchy_indicator,
+                                 Q.user_group,
+                                 Dense_rank()
+                                   OVER(
+                                     ORDER BY Q.hierarchy_no ASC ) AS TEMP_INDEX
+                          FROM   (SELECT 0.0                          AS ACCOUNT_GROWTH,
+                                         0.0                          AS PRODUCT_GROWTH,
+                                         NULL                         AS PROJECTION_SALES,
+                                         NULL                         AS PROJECTION_UNITS,
+                                         MAS.ACTUAL_SALES             AS actualSales,
+                                         MAS.ACTUAL_UNITS             AS actualUnits,
+                                         level_no,
+                                         RELATIONSHIP_LEVEL_VALUES    AS rlv,
+                                         "YEAR"                       AS YEARS,
+                                         @FRE@                      AS PERIODS,
+                                         CALCULATION_PERIODS,
+                                         METHODOLOGY,
+                                         RELATIONSHIP_LEVEL_SID,
+                                         MSPM.HIERARCHY_NO,
+                                         RCOUNT,
+                                         LEVEL_NAME,
+                                         1                            AS actualProj,
+                                         MAS.HISTORY_PROJECTION_SALES AS historySales,
+                                         MAS.HISTORY_PROJECTION_UNITS AS historyUnits,
+                                         checkrec,
+                                         UNCHECK_COUNT,
+                                         CCPCOUNT,
+                                         '@HIERARCHY_INDICATOR'                          AS HIERARCHY_INDICATOR,
+                                         USER_GROUP
+                                  FROM   #ST_NM_SALES_PROJECTION_MASTER MSPM
+                                         JOIN #ST_NM_ACTUAL_SALES MAS
+                                           ON MSPM.HIERARCHY_NO = MAS.HIERARCHY_NO
+                                  UNION ALL
+                                  SELECT MSP.ACCOUNT_GROWTH,
+                                         MSP.PRODUCT_GROWTH,
+                                         MSP.PROJECTION_SALES,
+                                         MSP.PROJECTION_UNITS,
+                                         NULL                      AS ACTUAL_SALES,
+                                         NULL                      AS ACTUAL_UNITS,
+                                         LEVEL_NO                  AS level_no,
+                                         RELATIONSHIP_LEVEL_VALUES AS rlv,
+                                         "YEAR"                    AS YEARS,
+                                         @FRE@               AS PERIODS,
+                                         CALCULATION_PERIODS,
+                                         METHODOLOGY,
+                                         RELATIONSHIP_LEVEL_SID,
+                                         MSPM.HIERARCHY_NO,
+                                         RCOUNT,
+                                         LEVEL_NAME,
+                                         0                         AS actualProj,
+                                         NULL                      AS historySales,
+                                         NULL                      AS historyUnits,
+                                         checkrec,
+                                         UNCHECK_COUNT,
+                                         CCPCOUNT,
+                                         '@HIERARCHY_INDICATOR'                  AS HIERARCHY_INDICATOR,
+                                         USER_GROUP
+                                  FROM   #ST_NM_SALES_PROJECTION_MASTER MSPM
+                                         JOIN #ST_NM_SALES_PROJECTION MSP
+                                           ON MSPM.HIERARCHY_NO = MSP.HIERARCHY_NO) Q) MAINQ
+                  WHERE  MAINQ.TEMP_INDEX > @START
+                         AND MAINQ.TEMP_INDEX <= ( @START+@END )
+                  ORDER  BY MAINQ.hierarchy_no,
+                            MAINQ.YEARS,
+                            MAINQ.PERIODS;    
+                          ]]>
+        </query>
+    </entity>
+    <entity id="getCCPTempTableQuery">
+        <query> 
+                                      <![CDATA[
+                                         IF Object_id('TEMPDB..#CCP') IS NOT NULL
+                    DROP TABLE #CCP
+
+                  CREATE TABLE #CCP
+                    (
+                       RELATIONSHIP_LEVEL_SID INT,
+                       PROJECTION_DETAILS_SID INT,
+                       CCP_DETAILS_SID        INT,
+                       HIERARCHY_NO           VARCHAR(50)
+                    )
+
+                  INSERT INTO #CCP
+                              (RELATIONSHIP_LEVEL_SID,
+                               PROJECTION_DETAILS_SID,
+                               CCP_DETAILS_SID,
+                               HIERARCHY_NO)
+                                      ]]>
+        </query>
+    </entity>
+    <entity id="mandated-sales-query">
+        <query> 
+                            <![CDATA[                                                                
+                                IF Object_id('TEMPDB..#ST_M_SALES_PROJECTION') IS NOT NULL DROP
+                                TABLE
+                                    #ST_M_SALES_PROJECTION 
+                                    SELECT
+                                        HIERARCHY_NO,
+                                        @FREQUENCY@,
+                                        P.YEAR,
+                                        PROJECTION_SALES = SUM(PROJECTION_SALES),
+                                        PROJECTION_UNITS = SUM(PROJECTION_UNITS),
+                                        ACCOUNT_GROWTH = AVG(ACCOUNT_GROWTH),
+                                        PRODUCT_GROWTH = AVG(PRODUCT_GROWTH) INTO
+                                            #ST_M_SALES_PROJECTION
+                                        FROM
+                                            [$TABLE_NAME] S JOIN #SELECTED_HIERARCHY_NO  C
+                                                ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID JOIN PERIOD P
+                                                ON P.PERIOD_SID = S.PERIOD_SID
+                                        GROUP BY
+                                            HIERARCHY_NO
+                                           @FREQUENCY_GROUP@,
+                                            P.YEAR
+                                            
+                                    IF Object_id('TEMPDB..#ST_M_ACTUAL_SALES') IS NOT NULL DROP
+                                        TABLE
+                                            #ST_M_ACTUAL_SALES 
+                                            SELECT
+                                                HIERARCHY_NO,
+                                                @FREQUENCY@,
+                                                P.YEAR,
+                                                ACTUAL_SALES = SUM(ACTUAL_SALES),
+                                                ACTUAL_UNITS = SUM(ACTUAL_UNITS),
+                                                SUM(S.ACTUAL_PROJECTION_SALES) AS HISTORY_PROJECTION_SALES,
+                                                SUM(S.ACTUAL_PROJECTION_UNITS) AS HISTORY_PROJECTION_UNITS INTO
+                                                    #ST_M_ACTUAL_SALES
+                                                FROM
+                                                    [$ACTUAL_TABLE_NAME] S JOIN #SELECTED_HIERARCHY_NO C
+                                                        ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID JOIN PERIOD P
+                                                        ON P.PERIOD_SID = S.PERIOD_SID
+                                                
+                                                GROUP BY
+                                                    HIERARCHY_NO
+                                                   @FREQUENCY_GROUP@,
+                                                    P.YEAR IF Object_id('TEMPDB..#ST_M_SALES_PROJECTION_MASTER') IS NOT NULL DROP
+                                                        TABLE
+                                                            #ST_M_SALES_PROJECTION_MASTER SELECT
+                                                                CASE
+                                                                    WHEN COUNT(
+                                                                        DISTINCT MSPM.CALCULATION_PERIODS
+                                                                    ) > 1
+                                                                    THEN '-'
+                                                                    ELSE MAX(MSPM.CALCULATION_PERIODS)
+                                                                END CALCULATION_PERIODS,
+                                                                CASE
+                                                                    WHEN COUNT(
+                                                                        DISTINCT MSPM.METHODOLOGY
+                                                                    ) > 1
+                                                                    THEN '-'
+                                                                    ELSE MAX(MSPM.METHODOLOGY)
+                                                                END AS METHODOLOGY,
+                                                                CCP.HIERARCHY_NO,
+                                                                COUNT(*) AS RCOUNT,
+                                                                MIN(
+                                                                    CASE
+                                                                        (CHECK_RECORD) WHEN 1
+                                                                        THEN 1
+                                                                        ELSE 0
+                                                                    END
+                                                                ) AS checkrec,
+                                                                SUM(
+                                                                    CASE
+                                                                        (MSPM.CHECK_RECORD) WHEN 1
+                                                                        THEN 0
+                                                                        ELSE 1
+                                                                    END
+                                                                ) / @FREQDIVISION AS UNCHECK_COUNT,
+                                                                COUNT(MSPM.CCP_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT
+                                                                INTO
+                                                                    #ST_M_SALES_PROJECTION_MASTER
+                                                                FROM
+                                                                    #SELECTED_HIERARCHY_NO CCP  JOIN [$MASTER_TABLE_NAME] MSPM
+                                                                        ON CCP.CCP_DETAILS_SID = MSPM.CCP_DETAILS_SID                                                                            
+                                                              
+                                                                GROUP BY
+                                                                    CCP.HIERARCHY_NO
+
+                                                                    SELECT
+                                                                        MAINQ.account_growth,
+                                                                        MAINQ.product_growth,
+                                                                        MAINQ.projection_sales,
+                                                                        MAINQ.projection_units,
+                                                                        MAINQ.actualsales,
+                                                                        MAINQ.actualunits,
+                                                                        MAINQ.YEARS,
+                                                                        MAINQ.PERIODS,
+                                                                        MAINQ.calculation_periods,
+                                                                        MAINQ.methodology,
+                                                                        MAINQ.hierarchy_no,
+                                                                        MAINQ.rcount,
+                                                                        MAINQ.actualproj,
+                                                                        MAINQ.checkrec,
+                                                                        MAINQ.uncheck_count,
+                                                                        MAINQ.ccpcount,
+                                                                        MAINQ.hierarchy_indicator                                                                               
+                                                                    FROM
+                                                                        (
+                                                                            SELECT
+                                                                                Q.account_growth,
+                                                                                Q.product_growth,
+                                                                                Q.projection_sales,
+                                                                                Q.projection_units,
+                                                                                Q.actualsales,
+                                                                                Q.actualunits,
+                                                                                Q.YEARS,
+                                                                                Q.PERIODS,
+                                                                                Q.calculation_periods,
+                                                                                Q.methodology,
+                                                                                Q.hierarchy_no,
+                                                                                Q.rcount,
+                                                                                Q.actualproj,
+                                                                                Q.checkrec,
+                                                                                Q.uncheck_count,
+                                                                                Q.ccpcount,
+                                                                                Q.hierarchy_indicator,
+
+                                                                                DENSE_RANK() OVER(
+                                                                                ORDER BY
+                                                                                    Q.hierarchy_no ASC
+                                                                                ) AS TEMP_INDEX
+                                                                            FROM
+                                                                                (
+                                                                                    SELECT
+                                                                                        0.0 AS ACCOUNT_GROWTH,
+                                                                                        0.0 AS PRODUCT_GROWTH,
+                                                                                        NULL AS PROJECTION_SALES,
+                                                                                        NULL AS PROJECTION_UNITS,
+                                                                                        MAS.ACTUAL_SALES AS actualSales,
+                                                                                        MAS.ACTUAL_UNITS AS actualUnits,
+                                                                                        "YEAR" AS YEARS,
+                                                                                        @FRE@ AS PERIODS,
+                                                                                        CALCULATION_PERIODS,
+                                                                                        METHODOLOGY,
+                                                                                        MSPM.HIERARCHY_NO,
+                                                                                        RCOUNT,
+                                                                                        1 AS actualProj,
+                                                                                        checkrec,
+                                                                                        UNCHECK_COUNT,
+                                                                                        CCPCOUNT,
+                                                                                        '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR                                                                                               
+                                                                                    FROM
+                                                                                        #ST_M_SALES_PROJECTION_MASTER MSPM JOIN #ST_M_ACTUAL_SALES MAS
+                                                                                            ON MSPM.HIERARCHY_NO = MAS.HIERARCHY_NO
+                                                                                UNION ALL SELECT
+                                                                                        MSP.ACCOUNT_GROWTH,
+                                                                                        MSP.PRODUCT_GROWTH,
+                                                                                        MSP.PROJECTION_SALES,
+                                                                                        MSP.PROJECTION_UNITS,
+                                                                                        NULL AS ACTUAL_SALES,
+                                                                                        NULL AS ACTUAL_UNITS,
+                                                                                        "YEAR" AS YEARS,
+                                                                                        @FRE@ AS PERIODS,
+                                                                                        CALCULATION_PERIODS,
+                                                                                        METHODOLOGY,
+                                                                                        MSPM.HIERARCHY_NO,
+                                                                                        RCOUNT,
+                                                                                        0 AS actualProj,
+                                                                                        checkrec,
+                                                                                        UNCHECK_COUNT,
+                                                                                        CCPCOUNT,
+                                                                                        '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR                                                                                                
+                                                                                    FROM
+                                                                                        #ST_M_SALES_PROJECTION_MASTER MSPM JOIN #ST_M_SALES_PROJECTION MSP
+                                                                                            ON MSPM.HIERARCHY_NO = MSP.HIERARCHY_NO
+                                                                                ) Q
+                                                                        ) MAINQ
+                                                                   WHERE  MAINQ.TEMP_INDEX > @START
+                                                                        AND MAINQ.TEMP_INDEX <= ( @START+@END )
+                                                                    ORDER BY
+                                                                        MAINQ.hierarchy_no,
+                                                                        MAINQ.YEARS,
+                                                                        MAINQ.PERIODS;
+   
+                                          ]]>
+        </query>
+    </entity>
+    <entity id="CustomCCP">
+        <query> 
+                    <![CDATA[
+                       DECLARE @CCP TABLE
+    (
+        RELATIONSHIP_LEVEL_SID INT,
+        CCP_DETAILS_SID INT,
+        PROJECTION_DETAILS_SID INT NOT NULL,
+        HIERARCHY_NO VARCHAR(50)
+    ) INSERT
+        INTO
+            @CCP(
+                RELATIONSHIP_LEVEL_SID,
+                CCP_DETAILS_SID,
+                PROJECTION_DETAILS_SID,
+                HIERARCHY_NO
+            ) SELECT
+                DISTINCT HLDC.RELATIONSHIP_LEVEL_SID,
+                CCPMAPC.CCP_DETAILS_SID,
+                CCPMAPC.PROJECTION_DETAILS_SID,
+                HLDC.HIERARCHY_NO
+            FROM
+                (
+                    SELECT
+                        RLD.RELATIONSHIP_LEVEL_VALUES,
+                        RLD.HIERARCHY_NO,
+                        PD.PROJECTION_DETAILS_SID,
+                        CCP.CCP_DETAILS_SID
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP
+                            ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID
+                        AND RLD.RELATIONSHIP_BUILDER_SID = ? JOIN PROJECTION_DETAILS PD
+                            ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                        AND PD.PROJECTION_MASTER_SID = ? JOIN ST_NM_SALES_PROJECTION_MASTER S
+                            ON S.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+                    WHERE
+                        S.USER_GROUP LIKE '?'
+                        AND S.USER_ID = ?
+                        AND S.SESSION_ID = ?
+                ) CCPMAPC JOIN(
+                    SELECT
+                        RLD.RELATIONSHIP_LEVEL_VALUES,
+                        RLD.HIERARCHY_NO,
+                        CCP.CCP_DETAILS_SID
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP
+                            ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID
+                        AND RLD.RELATIONSHIP_BUILDER_SID = ? JOIN PROJECTION_DETAILS PD
+                            ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                        AND PD.PROJECTION_MASTER_SID = ? JOIN ST_NM_SALES_PROJECTION_MASTER S
+                            ON S.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+                    WHERE
+                        S.USER_GROUP LIKE '?'
+                        AND S.USER_ID = ?
+                        AND S.SESSION_ID = ?
+                ) CCPMAPP
+                    ON CCPMAPC.CCP_DETAILS_SID = CCPMAPP.CCP_DETAILS_SID JOIN(
+                    SELECT
+                        RLD2.HIERARCHY_NO,
+                        RLD2.RELATIONSHIP_LEVEL_SID,
+                        CVD.LEVEL_NO
+                    FROM
+                        dbo.CUSTOM_VIEW_DETAILS CVD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                            ON CVD.HIERARCHY_ID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        AND CVD.CUSTOM_VIEW_MASTER_SID = ?
+                        AND CVD.LEVEL_NO LIKE '?%' JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2
+                            ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD2.HIERARCHY_LEVEL_DEFINITION_SID JOIN PROJECTION_CUST_HIERARCHY PCH2
+                            ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID
+                        AND PCH2.PROJECTION_MASTER_SID = ?
+                    WHERE
+                        RLD2.HIERARCHY_NO LIKE '?%'
+                ) HLDC
+                    ON CCPMAPC.HIERARCHY_NO LIKE HLDC.HIERARCHY_NO + '%' JOIN(
+                    SELECT
+                        RLD2.HIERARCHY_NO,
+                        RLD2.RELATIONSHIP_LEVEL_SID,
+                        CVD.LEVEL_NO
+                    FROM
+                        dbo.CUSTOM_VIEW_DETAILS CVD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                            ON CVD.HIERARCHY_ID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        AND CVD.CUSTOM_VIEW_MASTER_SID = ?
+                        AND CVD.LEVEL_NO LIKE '?%' JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2
+                            ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD2.HIERARCHY_LEVEL_DEFINITION_SID JOIN PROJECTION_PROD_HIERARCHY PCH2
+                            ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID
+                        AND PCH2.PROJECTION_MASTER_SID = ?
+                    WHERE
+                        RLD2.HIERARCHY_NO LIKE '?%'
+                ) HLDP
+                    ON CCPMAPP.HIERARCHY_NO LIKE HLDP.HIERARCHY_NO + '%'
+                    ]]>
+        </query>
+    </entity>
+    <entity id="CustomCCPView">
+        <query> 
+                    <![CDATA[
+                       DECLARE @CCP TABLE
+    (
+        RELATIONSHIP_LEVEL_SID INT,
+        CCP_DETAILS_SID INT,
+        PROJECTION_DETAILS_SID INT NOT NULL,
+        HIERARCHY_NO VARCHAR(50)
+    ) INSERT
+        INTO
+            @CCP(
+                RELATIONSHIP_LEVEL_SID,
+                CCP_DETAILS_SID,
+                PROJECTION_DETAILS_SID,
+                HIERARCHY_NO
+            ) SELECT
+                DISTINCT HLDC.RELATIONSHIP_LEVEL_SID,
+                CCPMAPC.CCP_DETAILS_SID,
+                CCPMAPC.PROJECTION_DETAILS_SID,
+                HLDC.HIERARCHY_NO
+            FROM
+                (
+                    SELECT
+                        RLD.RELATIONSHIP_LEVEL_VALUES,
+                        RLD.HIERARCHY_NO,
+                        PD.PROJECTION_DETAILS_SID,
+                        CCP.CCP_DETAILS_SID
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP
+                            ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID
+                        AND RLD.RELATIONSHIP_BUILDER_SID = ? JOIN PROJECTION_DETAILS PD
+                            ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                        AND PD.PROJECTION_MASTER_SID = ? JOIN   NM_SALES_PROJECTION_MASTER S
+                            ON S.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+                    WHERE
+                        S.USER_GROUP LIKE '?'
+                ) CCPMAPC JOIN(
+                    SELECT
+                        RLD.RELATIONSHIP_LEVEL_VALUES,
+                        RLD.HIERARCHY_NO,
+                        CCP.CCP_DETAILS_SID
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP
+                            ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID
+                        AND RLD.RELATIONSHIP_BUILDER_SID = ? JOIN PROJECTION_DETAILS PD
+                            ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                        AND PD.PROJECTION_MASTER_SID = ? JOIN   NM_SALES_PROJECTION_MASTER S
+                            ON S.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+                    WHERE
+                        S.USER_GROUP LIKE '?'
+                ) CCPMAPP
+                    ON CCPMAPC.CCP_DETAILS_SID = CCPMAPP.CCP_DETAILS_SID JOIN(
+                    SELECT
+                        RLD2.HIERARCHY_NO,
+                        RLD2.RELATIONSHIP_LEVEL_SID,
+                        CVD.LEVEL_NO
+                    FROM
+                        dbo.CUSTOM_VIEW_DETAILS CVD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                            ON CVD.HIERARCHY_ID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        AND CVD.CUSTOM_VIEW_MASTER_SID = ?
+                        AND CVD.LEVEL_NO LIKE '?%' JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2
+                            ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD2.HIERARCHY_LEVEL_DEFINITION_SID JOIN PROJECTION_CUST_HIERARCHY PCH2
+                            ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID
+                        AND PCH2.PROJECTION_MASTER_SID = ?
+                    WHERE
+                        RLD2.HIERARCHY_NO LIKE '?%'
+                ) HLDC
+                    ON CCPMAPC.HIERARCHY_NO LIKE HLDC.HIERARCHY_NO + '%' JOIN(
+                    SELECT
+                        RLD2.HIERARCHY_NO,
+                        RLD2.RELATIONSHIP_LEVEL_SID,
+                        CVD.LEVEL_NO
+                    FROM
+                        dbo.CUSTOM_VIEW_DETAILS CVD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                            ON CVD.HIERARCHY_ID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        AND CVD.CUSTOM_VIEW_MASTER_SID = ?
+                        AND CVD.LEVEL_NO LIKE '?%' JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2
+                            ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD2.HIERARCHY_LEVEL_DEFINITION_SID JOIN PROJECTION_PROD_HIERARCHY PCH2
+                            ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID
+                        AND PCH2.PROJECTION_MASTER_SID = ?
+                    WHERE
+                        RLD2.HIERARCHY_NO LIKE '?%'
+                ) HLDP
+                    ON CCPMAPP.HIERARCHY_NO LIKE HLDP.HIERARCHY_NO + '%'
+                    ]]>
+        </query>
+    </entity>
+    
+    <entity id="check-mandated-actual-discount">
+        <query> 
+            <![CDATA[
+
+                IF EXISTS(SELECT 1
+                            FROM   ST_M_ACTUAL_DISCOUNT D
+                            JOIN   ST_CCP_HIERARCHY B ON D.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                                )
+                SELECT 1 
+                ELSE 
+                SELECT 0;
+                
+            ]]>
+        </query>
+    </entity>
+
+    <entity id="check-mandated-discount-projection">
+        <query> 
+            <![CDATA[
+
+            IF EXISTS(SELECT 1
+                           FROM   ST_M_DISCOUNT_PROJECTION D
+                            JOIN   ST_CCP_HIERARCHY B ON D.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                           )
+            SELECT 1 
+            ELSE 
+            SELECT 0;
+
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="get-companyName">
+        <query>
+            <![CDATA[
+                SELECT
+                        CM.COMPANY_MASTER_SID,CM.COMPANY_ID,CM.COMPANY_NAME
+                FROM COMPANY_MASTER CM WHERE CM.COMPANY_MASTER_SID = @GLCOMP
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getProgramCode">
+        <query>
+            <![CDATA[
+                     SELECT
+	             DISTINCT CM.CONTRACT_NAME
+                         FROM
+	                dbo.CONTRACT_MASTER CM
+                     JOIN dbo.CCP_DETAILS CCP ON
+	              CCP.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID
+                     JOIN dbo.PROJECTION_DETAILS PD ON
+	              PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+	            AND PD.PROJECTION_MASTER_SID = @ProjectSID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="relation-ship-level-details">
+        <query>
+            <![CDATA[
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.LEVEL_NO as TREE_LEVEL_NO,
+                    '?' as HIERARCHY_INDICATOR,
+                    RLD.LEVEL_NAME,
+                    RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                FROM
+                    PROJECTION_MASTER PM
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
+                    RLD.RELATIONSHIP_BUILDER_SID = PM.?
+                WHERE
+                    PM.PROJECTION_MASTER_SID = ?
+                    AND RLD.LEVEL_NO >= ?;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="sales-join-nonmandated">
+        <query>
+            <![CDATA[
+                JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="sales-join-mandated">
+        <query>
+            <![CDATA[
+                JOIN ST_M_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="discount-join">
+        <query>
+            <![CDATA[
+                JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            ]]>
+        </query>
+    </entity>
+     <entity id="discount-join-mandated">
+        <query>
+            <![CDATA[
+                JOIN ST_M_SUPPLEMENTAL_DISC_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="ppa-join">
+        <query>
+            <![CDATA[
+                JOIN ST_NM_PPA_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="user-group-condition">
+        <query>
+            <![CDATA[
+                WHERE SPM.USER_GROUP LIKE '[?USER_GROUP]'
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="alternate-join-count">
+        <query>
+            <![CDATA[
+                JOIN ST_ALTERNATE_HIST_ALLOCATION SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="alternate-join-loaddata">
+        <query>
+            <![CDATA[
+    JOIN (SELECT DISTINCT ccp_details_sid   FROM   ST_ALTERNATE_HIST_ALLOCATION)ch1
+         ON CH1.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+     ]]>
+        </query>
+    </entity>
+    
+    <entity id="get-discount-name-with-program-category">
+        <query>
+            <![CDATA[
+                SELECT DISTINCT RS.RS_CONTRACT_SID AS DISCOUNT_ID,
+                                RS.RS_NAME AS DISCOUNT_NAME
+                FROM ST_NM_DISCOUNT_PROJ_MASTER DM
+                JOIN CCP_DETAILS CCP ON DM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID  
+                JOIN RS_CONTRACT RS ON RS.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND DM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+                WHERE DM.PRICE_GROUP_TYPE IN (?)  
+                AND INBOUND_STATUS <> 'D'
+                ORDER BY DISCOUNT_NAME;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="get-discount-name-with-program">
+        <query>
+            <![CDATA[
+                SELECT DISTINCT RS.RS_CONTRACT_SID AS DISCOUNT_ID,
+                                RS.RS_NAME AS DISCOUNT_NAME
+                FROM ST_NM_DISCOUNT_PROJ_MASTER DM
+                JOIN CCP_DETAILS CCP ON DM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID  
+                JOIN RS_CONTRACT RS ON RS.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND DM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+                WHERE RS.RS_NAME IN (?)  
+                AND INBOUND_STATUS <> 'D'
+                ORDER BY DISCOUNT_NAME;
+            ]]>
+        </query>
+    </entity>
+     <entity id="levelNo-Query">
+        <query>
+            <![CDATA[
+               SELECT DISTINCT  RLD.LEVEL_NO FROM dbo.RELATIONSHIP_LEVEL_DEFINITION RLD
+                             JOIN @TABLE_NAME PCH ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID 
+                                 AND PCH.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                 ORDER BY  RLD.LEVEL_NO DESC
+            ]]>
+        </query>
+    </entity>
+    
+     <entity id="get-helper-table-query">
+        <query>
+            <![CDATA[
+               select HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION = '?';
+            ]]>
+        </query>
+    </entity>
+    
+    
+</sql>

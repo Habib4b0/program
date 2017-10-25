@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout margin="true" spacing="true" >
+       
+        <Panel caption="System Logs" width="100%">
+            <VerticalLayout width="1240px" margin="true" spacing="true">
+                <GridLayout immediate="true" rows="2" columns="8" styleName = "minWidth50px" margin="false" >
+            
+                    <Label value="Log Destination" id ="logDestinationLabel" contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                    <TextField id="logDestination" enabled="true" immediate="true" />  
+                  
+                    <Label value="Messages  Selected" contentMode="HTML" id ="messagesSelectedLabel" immediate="true" width="173px" styleName ="lableright" />
+                    <TextField id="messagesSelected" enabled="true" immediate="true" />  
+                  
+                </GridLayout>
+                
+                <HorizontalLayout id="buttonLayout" spacing="true" margin="true" >
+                    <Button id="saveBtn" caption="SAVE" immediate="true" />
+                    <Button id="resetBtn" caption="RESET" immediate="true" />
+                </HorizontalLayout>
+                 
+                
+            </VerticalLayout>
+        </Panel>  
+        <Panel caption="Results" id="resultsTable">
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>  
+        </Panel>
+        <HorizontalLayout id="buttonLayout2" spacing="true" margin="true" >
+            <Button id="viewBtn" caption="VIEW" immediate="true" />
+            <Button id="deleteBtn" caption="REMOVE" immediate="true" />
+        </HorizontalLayout>
+                                                         
+    </VerticalLayout>
+</Panel>

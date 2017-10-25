@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui" id="calMainPanel" immediate="true">
+        <VerticalLayout margin="true" spacing = "true" width="100%" height="100%" id="calMainLayout" immediate="true">            
+                <Panel caption = "Selection Criteria" width="100%" height="100%" id="calSearchPanel">
+                    <VerticalLayout spacing="true" immediate="true" id="calSearchVLayout">
+                        <HorizontalLayout spacing="true" margin="true" immediate="true" id="calSearchHLayout">
+                            <GridLayout spacing="true" id="searchLayout" immediate="true" columns="8" rows="2">
+                                <Label id="labelCalendarName" value="Calendar Name" immediate="true" width="143px" styleName="label-margin-top-size" />
+                                <TextField id="calendarNameTB"  immediate="true" width="205px" />
+            
+                                <Label id="labelCalendarDesc" value="Calendar Description" immediate="true" width="143px" styleName="label-margin-top-size" />
+                                <TextField id="calendarDescTB"  immediate="true" width="205px" />
+            
+                                <Label id="labelCalendarYear" value="Calendar year" immediate="true"  width="143px" styleName="label-margin-top-size" />
+                                <ComboBox id="calendarYearDDLB" enabled="true" immediate="true" width="205px"/>
+            
+                                <Label id="labelCountry" value="Country" immediate="true" width="143px" styleName="label-margin-top-size" />
+                                <ComboBox id="countryDDLB" enable="true" immediate="true" width="205px"/>
+                            </GridLayout>
+                        </HorizontalLayout>
+                        <VerticalLayout  id="calendarLayout" width="100%" height="100%">
+                        </VerticalLayout>
+                    </VerticalLayout>
+                </Panel>
+            <HorizontalLayout id="searchActionLayout" spacing="true">
+                <Button id="searchBtnRes" caption="SEARCH" />
+                <Button id="resetBtnRes" caption="RESET" />  
+            </HorizontalLayout>
+            <Panel id="resultView" caption="Results"  width="100%" height="100%" immediate="true">
+                <VerticalLayout spacing="true"  width="100%" height="100%" id="resultsMainTableLayoutRes" immediate="true">
+                    <VerticalLayout  id="resultsTableLayoutRes"  width="100%" height="100%" immediate="true">
+                    </VerticalLayout>
+                </VerticalLayout>
+            </Panel>
+            <HorizontalLayout id="searchFormLayoutRes" spacing="true">
+                <Button id="addBtnRes" caption="ADD" />
+                <Button id="editBtnRes" caption="EDIT" />
+                <Button id="viewBtnRes" caption="VIEW" />
+                <Button id="deleteBtnRes" caption="DELETE" />
+                <Button id="copyBtnRes" caption="COPY" />
+                <Button id="excelExport" caption="" immediate="true" primaryStyleName="link" />
+            </HorizontalLayout>
+            <HorizontalLayout id="saveAcction" width="100%" spacing="true">
+                <Button id="saveCal" caption="SAVE" />
+                <Button id="resetCal" caption="RESET" />
+                <Button id="closeCal" caption="CLOSE" />  
+            </HorizontalLayout>
+        </VerticalLayout>
+</Panel>

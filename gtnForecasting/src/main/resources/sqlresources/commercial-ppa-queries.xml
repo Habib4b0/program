@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+        
+    <entity id="ppa-results-total-query">
+        <query> 
+            <![CDATA[  
+            
+                    DECLARE @FREQUENCY CHAR(1)='?'
+             
+                    IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                    DROP TABLE #PERIOD
+
+                    SELECT PERIOD_SID,
+                            YEAR,
+                           PERIOD = CASE
+                                      WHEN @FREQUENCY = 'M' THEN  MONTH
+                                      WHEN @FREQUENCY = 'Q' THEN  QUARTER
+                                      WHEN @FREQUENCY = 'S' THEN  SEMI_ANNUAL
+                                      ELSE YEAR 
+                                    END
+                    INTO   #PERIOD
+                    FROM   PERIOD
+            
+                    IF Object_id('TEMPDB..#NM_ACTUAL_SALES') IS NOT NULL
+                        DROP TABLE #NM_ACTUAL_SALES
+
+                    CREATE TABLE #NM_ACTUAL_SALES
+                      (
+                         PERIOD      INT,
+                         YEAR         INT,
+                         ACTUAL_SALES NUMERIC(22, 6),
+                         ACTUAL_UNITS NUMERIC(22, 6)
+                      )
+
+                    INSERT INTO #NM_ACTUAL_SALES
+                                (PERIOD,
+                                 YEAR,
+                                 ACTUAL_SALES,
+                                 ACTUAL_UNITS)
+                    SELECT PERIOD,
+                           YEAR,
+                           Sum(ACTUAL_SALES),
+                           Sum(ACTUAL_UNITS)
+                    FROM   ST_NM_ACTUAL_SALES STA
+                            ?
+                           JOIN #PERIOD P
+                             ON P.PERIOD_SID = STA.PERIOD_SID
+                    GROUP  BY PERIOD,
+                              YEAR
+
+                    IF Object_id('TEMPDB..#NM_SALES_PROJECTION') IS NOT NULL
+                      DROP TABLE #NM_SALES_PROJECTION
+
+                    CREATE TABLE #NM_SALES_PROJECTION
+                      (
+                         PERIOD          INT,
+                         YEAR             INT,
+                         PROJECTION_SALES NUMERIC(22, 6),
+                         PROJECTION_UNITS NUMERIC(22, 6)
+                      )
+
+                    INSERT INTO #NM_SALES_PROJECTION
+                                (PERIOD,
+                                 YEAR,
+                                 PROJECTION_SALES,
+                                 PROJECTION_UNITS)
+                    SELECT PERIOD,
+                           YEAR,
+                           Sum(PROJECTION_SALES),
+                           Sum(PROJECTION_UNITS)
+                    FROM   ST_NM_SALES_PROJECTION STA
+                            ?
+                           JOIN #PERIOD P
+                             ON P.PERIOD_SID = STA.PERIOD_SID
+                    GROUP  BY PERIOD,
+                              YEAR
+
+                    IF Object_id('TEMPDB..#NM_PPA_ACTUAL') IS NOT NULL
+                      DROP TABLE #NM_PPA_ACTUAL
+
+                    CREATE TABLE #NM_PPA_ACTUAL
+                      (
+                         PERIOD                INT,
+                         YEAR                   INT,
+                         ACTUAL_DISCOUNT_DOLLAR NUMERIC(22, 6)
+                      )
+
+                    INSERT INTO #NM_PPA_ACTUAL
+                                (PERIOD,
+                                 YEAR,
+                                 ACTUAL_DISCOUNT_DOLLAR)
+                    SELECT PERIOD,
+                           YEAR,
+                           Sum(ACTUAL_DISCOUNT_DOLLAR)
+                    FROM   ST_NM_ACTUAL_PPA STA
+                            ?
+                           JOIN #PERIOD P
+                             ON P.PERIOD_SID = STA.PERIOD_SID                    
+                    GROUP  BY PERIOD,
+                              YEAR
+
+                    IF Object_id('TEMPDB..#NM_PPA_PROJECTION')IS NOT NULL
+                      DROP TABLE #NM_PPA_PROJECTION
+
+                    CREATE TABLE #NM_PPA_PROJECTION
+                      (
+                         PERIOD                    INT,
+                         YEAR                       INT,
+                         PROJECTION_DISCOUNT_DOLLAR NUMERIC(22, 6)
+                      )
+
+                    INSERT INTO #NM_PPA_PROJECTION
+                                (PERIOD,
+                                 YEAR,
+                                 PROJECTION_DISCOUNT_DOLLAR)
+                    SELECT PERIOD,
+                           YEAR,
+                           Sum(PROJECTION_DISCOUNT_DOLLAR)
+                    FROM   ST_NM_PPA_PROJECTION STA
+                            ?
+                           JOIN #PERIOD P
+                             ON P.PERIOD_SID = STA.PERIOD_SID                    
+                    GROUP  BY PERIOD,
+                              YEAR
+
+                    SELECT  NA.PERIOD AS PERIOD_FINAL,
+                            NA.YEAR AS YEAR,
+                            NPA.ACTUAL_DISCOUNT_DOLLAR AS  DOLLAR,
+                            NPA.ACTUAL_DISCOUNT_DOLLAR/NULLIF(NA.ACTUAL_SALES,0) AS RATE,
+                            NA.ACTUAL_UNITS AS  UNITS,                            
+                            NPA.ACTUAL_DISCOUNT_DOLLAR/NULLIF(NA.ACTUAL_UNITS,0) AS RPU,                            
+                            0 AS ACTUALS_PROJECTION
+                    FROM   #NM_PPA_ACTUAL NPA
+                           JOIN #NM_ACTUAL_SALES NA
+                             ON NA.PERIOD = NPA.PERIOD
+                                AND NA.YEAR = NPA.YEAR
+                    UNION ALL
+                    SELECT  NA1.PERIOD AS PERIOD_FINAL,
+                            NA1.YEAR AS YEAR,
+                            NPA1.PROJECTION_DISCOUNT_DOLLAR AS DOLLAR,
+                            NPA1.PROJECTION_DISCOUNT_DOLLAR/NULLIF(NA1.PROJECTION_SALES,0) AS RATE,
+                            NA1.PROJECTION_UNITS AS UNIT,
+                            NPA1.PROJECTION_DISCOUNT_DOLLAR/NULLIF(NA1.PROJECTION_UNITS,0) AS RPU,                            
+                            1 AS ACTUALS_PROJECTION
+                    FROM   #NM_PPA_PROJECTION NPA1
+                           JOIN #NM_SALES_PROJECTION NA1
+                             ON NA1.PERIOD = NPA1.PERIOD
+                                AND NA1.YEAR = NPA1.YEAR
+                    ORDER BY PERIOD_FINAL,
+                             YEAR;
+            ]]>
+        </query>
+    </entity>    
+    <entity id="ppa-results-generate-update-statement1">
+        <query> 
+                      <![CDATA[  
+                            ;
+                WITH CTE
+                AS (SELECT
+                  PPA.*,
+                  ISNULL(LEFT(SALES.CALCULATION_PERIODS, 1), 'M') FREQUENCY
+                FROM ST_NM_SALES_PROJECTION_MASTER@dynamictableformat SALES
+                JOIN ST_NM_PPA_PROJECTION_MASTER@dynamictableformat PPA
+                  ON PPA.CCP_DETAILS_SID = SALES.CCP_DETAILS_SID),
+                WO_NETTING_V
+                AS (SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_VD_M@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY = 'M'
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_VD_Q@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY = 'Q'
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_VD_S@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY = 'S'
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_VD_A@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY NOT IN ('Q', 'M', 'S')
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_M@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY = 'M'
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_Q@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY = 'Q'
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_S@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY = 'S'
+
+                UNION ALL
+
+                SELECT
+                  PROJ.*
+                FROM ST_PPA_MAP_WO_NETTING_A@dynamictableformat PROJ
+                JOIN CTE C
+                  ON C.CCP_DETAILS_SID = PROJ.CCP_DETAILS_SID
+                  AND PROJ.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+                WHERE C.FREQUENCY NOT IN ('Q', 'M', 'S'))
+                UPDATE s
+                SET PROJECTION_MAP = M.NET_MAP,
+                    PROJECTION_RATE = COALESCE((
+                    (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ) * SP.PROJECTION_UNITS
+                    ) / NULLIF(SP.PROJECTION_SALES, 0), 0) * 100,
+                    PROJECTION_SALES = (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ),
+                    PROJECTION_DISCOUNT_DOLLAR = (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ) * SP.PROJECTION_UNITS,
+                    PROJECTION_DISCOUNT_UNITS = SP.PROJECTION_UNITS,
+                    PRICE = M.WAC,
+                    PRICECHANGE = M.PRICE_CHANGE,
+                    TOTALDEDUCTIONS = (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ) * SP.PROJECTION_UNITS,
+                    NETPRICE = M.NET_WAC,
+                    NETMAP = M.NET_MAP,
+                    PRICEPROTECTIONAMOUNTPERUNIT = (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ),
+                    PRICEPROTECTIONPERCENTAGE = COALESCE((
+                    (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ) * SP.PROJECTION_UNITS
+                    ) / NULLIF(SP.PROJECTION_SALES, 0), 0) * 100,
+                    TOTALPRICEPROTECTIONDEDUCTION = (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    ) * SP.PROJECTION_UNITS,
+                    DEDUCTION_PER_UNIT = (
+                    CASE
+                      WHEN M.NET_WAC > M.NET_MAP THEN M.NET_WAC - M.NET_MAP
+                      ELSE 0
+                    END
+                    )
+                FROM ST_NM_PPA_PROJECTION@dynamictableformat S
+                JOIN WO_NETTING_V M
+                  ON M.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                  AND S.RS_CONTRACT_SID = M.RS_CONTRACT_SID
+                  AND M.PERIOD_SID = S.PERIOD_SID
+                JOIN ST_NM_SALES_PROJECTION@dynamictableformat SP
+                  ON SP.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                  AND SP.PERIOD_SID = S.PERIOD_SID
+          ]]>
+        </query>
+    </entity>    
+    <entity id="ppa-results-generate-update-statement2">
+        <query> 
+                      <![CDATA[  
+                     ;
+
+                        WITH CTE
+                        AS (SELECT
+                          CCP_DETAILS_SID,
+                          RS_CONTRACT_SID,
+                          PERIOD_SID,
+                          PROJECTION_RATE,
+                          PROJECTION_SALES,
+                          PROJECTION_DISCOUNT_DOLLAR,
+                          PROJECTION_DISCOUNT_UNITS,
+                          PROJECTION_MAP,
+                          PRICE,
+                          TOTALDEDUCTIONS,
+                          NETPRICE,
+                          NETMAP,
+                          PRICEPROTECTIONAMOUNTPERUNIT,
+                          PRICEPROTECTIONPERCENTAGE,
+                          TOTALPRICEPROTECTIONDEDUCTION,
+                          DEDUCTION_PER_UNIT,
+                          RESET,
+                          PRICECHANGE
+                        FROM ST_PPA_MAP_NETTING@dynamictableformat
+
+                        UNION ALL
+
+                        SELECT
+                          CCP_DETAILS_SID,
+                          RS_CONTRACT_SID,
+                          PERIOD_SID,
+                          PROJECTION_RATE,
+                          PROJECTION_SALES,
+                          PROJECTION_DISCOUNT_DOLLAR,
+                          PROJECTION_DISCOUNT_UNITS,
+                          PROJECTION_MAP,
+                          PRICE,
+                          TOTALDEDUCTIONS,
+                          NETPRICE,
+                          NETMAP,
+                          PRICEPROTECTIONAMOUNTPERUNIT,
+                          PRICEPROTECTIONPERCENTAGE,
+                          TOTALPRICEPROTECTIONDEDUCTION,
+                          DEDUCTION_PER_UNIT,
+                          RESET,
+                          PRICECHANGE
+                        FROM ST_PPA_MAP_NETTING_VIOLATION@dynamictableformat)
+                        UPDATE ppa
+                        SET PROJECTION_RATE = c.PROJECTION_RATE,
+                            PROJECTION_SALES = c.PROJECTION_SALES,
+                            PROJECTION_DISCOUNT_DOLLAR = c.PROJECTION_DISCOUNT_DOLLAR,
+                            PROJECTION_DISCOUNT_UNITS = c.PROJECTION_DISCOUNT_UNITS,
+                            PROJECTION_MAP = c.PROJECTION_MAP,
+                            PRICE = c.PRICE,
+                            TOTALDEDUCTIONS = c.TOTALDEDUCTIONS,
+                            NETPRICE = c.NETPRICE,
+                            NETMAP = c.NETMAP,
+                            PRICEPROTECTIONAMOUNTPERUNIT = c.PRICEPROTECTIONAMOUNTPERUNIT,
+                            PRICEPROTECTIONPERCENTAGE = c.PRICEPROTECTIONPERCENTAGE,
+                            TOTALPRICEPROTECTIONDEDUCTION = c.TOTALPRICEPROTECTIONDEDUCTION,
+                            DEDUCTION_PER_UNIT = c.DEDUCTION_PER_UNIT,
+                            RESET = c.RESET,
+                            PRICECHANGE = c.PRICECHANGE
+                        FROM ST_NM_PPA_PROJECTION@dynamictableformat PPA
+                        JOIN CTE C
+                          ON C.CCP_DETAILS_SID = PPA.CCP_DETAILS_SID
+                          AND C.RS_CONTRACT_SID = PPA.RS_CONTRACT_SID
+                        AND C.PERIOD_SID = PPA.PERIOD_SID
+                     ]]>
+        </query>
+    </entity>    
+</sql>

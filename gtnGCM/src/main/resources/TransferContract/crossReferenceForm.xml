@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<VerticalLayout spacing="true">
+    <Panel caption="Search Criteria">
+        <HorizontalLayout spacing="true" margin = "true">
+            <GridLayout spacing="true" immediate="true" columns="10" rows="1">
+            <Label caption="Contract No: " contentMode="HTML" />
+            <TextField id="contractNo"/>
+            <Label caption="Contract Name: " contentMode="HTML" />
+            <TextField id="contractName"/>
+            <Label caption="Market Type: " contentMode="HTML" />
+            <ComboBox id="marketType"/>
+            <Label caption="Start Date: " contentMode="HTML" />
+            <PopupDateField id="startDate"/>
+            <Label caption="End Date: " contentMode="HTML" />
+            <PopupDateField id="endDate"/>
+            </GridLayout>
+        </HorizontalLayout>
+    </Panel>
+    <TabSheet id="crossRefTab" immediate="true"/>
+    <HorizontalLayout spacing="true" margin="true">
+        <Button id="closeBtn" caption="CLOSE" />
+        <Button id="previousBtn" caption="PREVIOUS" />
+        <Button id="nextBtn" caption="NEXT" />
+    </HorizontalLayout>
+</VerticalLayout>

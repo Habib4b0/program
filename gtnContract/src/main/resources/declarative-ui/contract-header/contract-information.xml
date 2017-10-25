@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout margin="true" spacing="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" >	
+	 <HorizontalLayout styleName="responsiveTabGrid" >
+	 	<CssLayout id="cssLayout" width="100%" height="100%">
+	 	
+	 	<Label id="insideOwnerLabel" value="Inside Owner" contentMode="HTML" />
+	 	<TextField id="insideOwner"  immediate="true" />
+	 	
+	 	<Label id="insidePhoneLabel" value="Inside Phone" contentMode="HTML" />
+	 	<TextField id="insidePhone"  immediate="true" />
+	 	
+	 	<Label id="insideAuthorLabel" value="Inside Author" contentMode="HTML" />
+	 	<TextField id="insideAuthor"  immediate="true" />
+	 	
+	 	<Label id="insideAdditionalLabel" value="Inside Additional" contentMode="HTML" />
+	 	<TextField id="insideAdditional"  immediate="true" />
+	 	
+	 	<Label id="insideAdditionalNameLabel" value="Inside Additional Name" contentMode="HTML" />
+	 	<TextField id="insideAdditionalName"  immediate="true" />
+	 	
+	 	<Label id="insideAdditionalPhoneLabel" value="Inside Additional Phone" contentMode="HTML" />
+	 	<TextField id="insideAdditionalPhone"  immediate="true" />
+	 	
+	 	<Label id="outsideOwnerLabel" value="Outside Owner" contentMode="HTML" />
+	 	<TextField id="outsideOwner"  immediate="true" />
+	 	
+	 	<Label id="outsidePhoneLabel" value="Outside Phone" contentMode="HTML" />
+	 	<TextField id="outsidePhone"  immediate="true" />
+	 	
+	 	<Label id="outsideAuthorLabel" value="Outside Author" contentMode="HTML" />
+	 	<TextField id="outsideAuthor"  immediate="true" />
+	 	
+	 	<Label id="outsideAdditionalLabel" value="Outside Additional" contentMode="HTML" />
+	 	<TextField id="outsideAdditional"  immediate="true" />
+	 	
+	 	<Label id="outsideAdditionalNameLabel" value="Outside Additional Name" contentMode="HTML" />
+	 	<TextField id="outsideAdditionalName"  immediate="true" />
+	 	
+	 	<Label id="outsideAdditionalPhoneLabel" value="Outside Additional Phone" contentMode="HTML" />
+	 	<TextField id="outsideAdditionalPhone"  immediate="true" />
+	 	
+	 	<Label id="advanceNoticeDaysLabel" value="Advance Notice Days" contentMode="HTML" />
+	 	<TextField id="advanceNoticeDays"  immediate="true" />
+	 	
+	 	<Label id="affiliatedContractInfoLabel" value="Affiliated Contract Info" contentMode="HTML" />
+	 	<TextField id="affiliatedContractInfo"  immediate="true" />
+	 	
+	 	<Label id="shippingTermsLabel" value="Shipping Terms" contentMode="HTML" />
+	 	<TextField id="shippingTerms"  immediate="true" />
+	 	
+	 	<Label id="proposalStartDateLabel" value="Proposal Start Date" contentMode="HTML" />
+	 	<PopupDateField id="proposalStartDate"  immediate="true" />
+	 	
+	 	<Label id="proposalEndDateLabel" value="Proposal End Date" contentMode="HTML" />
+	 	<PopupDateField id="proposalEndDate"  immediate="true" />
+	 	
+	 	<Label id="originalStartDateLabel" value="Original Start Date" contentMode="HTML" />
+	 	<PopupDateField id="originalStartDate"  immediate="true" />
+	 	
+	 	<Label id="originalEndDateLabel" value="Original End Date" contentMode="HTML" />
+	 	<PopupDateField id="originalEndDate"  immediate="true" />
+	 	
+	 	<Label id="awardStatusLabel" value="Award Status" contentMode="HTML" />
+	 	<ComboBox id="awardStatus"  immediate="true" />		
+	 	
+	 	<Label id="lastUpdatedDateLabel" value="Last Updated Date" contentMode="HTML" />
+	 	<PopupDateField id="lastUpdatedDate"  immediate="true" />
+	 	
+	 	<Label id="priceEscalationClauseLabel" value="Price Escalation Clause" contentMode="HTML" />
+	 	<TextField id="priceEscalationClause"  immediate="true" />
+	 	
+	 	<Label id="exemptFromLowPriceLabel" value="Exempt From Low Price" contentMode="HTML" />
+	 	<TextField id="exemptFromLowPrice"  immediate="true" />
+	 	
+	 	<Label id="priceResetIndicatorLabel" value="Price Reset Indicator" contentMode="HTML" />
+	 	<ComboBox id="priceResetIndicator"  immediate="true" />		
+	 	
+	 	<Label id="cancellationClauseLabel" value="Cancellation Clause" contentMode="HTML" />
+	 	<TextField id="cancellationClause"  immediate="true" />
+	 	
+	 	<Label id="mostFavoredNationLabel" value="Most Favored Nation" contentMode="HTML" />
+	 	<TextField id="mostFavoredNation"  immediate="true" />
+	 	
+	 	<Label id="categoryLabel" value="Category" contentMode="HTML" />
+	 	<TextField id="category"  immediate="true" />
+	 	
+	 	<Label id="currencyLabel" value="Currency" contentMode="HTML" />
+	 	<TextField id="currency"  immediate="true" />
+	 	
+	 	<Label id="minimumOrderLabel" value="Minimum Order" contentMode="HTML" />
+	 	<TextField id="minimumOrder"  immediate="true" />
+	 	
+	 	<Label id="paymentTermsLabel" value="Payment Terms" contentMode="HTML" />	 	
+	 	<ComboBox id="paymentTerms"  immediate="true" />		
+	 	
+	 	</CssLayout>
+	 </HorizontalLayout>
+</VerticalLayout>

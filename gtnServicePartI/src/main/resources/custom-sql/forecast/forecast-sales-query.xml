@@ -1,0 +1,636 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="mandated-sales-query">
+        
+        <![CDATA[
+            SELECT MAINQ.ACCOUNT_GROWTH,
+               MAINQ.product_growth,
+               MAINQ.projection_sales,
+               MAINQ.projection_units,
+               MAINQ.actualsales,
+               MAINQ.actualunits,
+               MAINQ.level_no,
+               MAINQ.rlv,
+               MAINQ.YEARS,
+               MAINQ.PERIODS,
+               MAINQ.calculation_periods,
+               MAINQ.methodology,
+               MAINQ.relationship_level_sid,
+               MAINQ.hierarchy_no,
+               MAINQ.rcount,
+               MAINQ.level_name,
+               MAINQ.actualproj,
+               MAINQ.historysales,
+               MAINQ.historyunits,
+               MAINQ.checkrec,
+               MAINQ.uncheck_count,
+               MAINQ.ccpcount,
+               MAINQ.hierarchy_indicator
+               
+FROM   (SELECT Q.account_growth,
+               Q.product_growth,
+               Q.projection_sales,
+               Q.projection_units,
+               Q.actualsales,
+               Q.actualunits,
+               Q.level_no,
+               Q.rlv,
+               Q.YEARS,
+               Q.PERIODS,
+               Q.calculation_periods,
+               Q.methodology,
+               Q.relationship_level_sid,
+               Q.hierarchy_no,
+               Q.rcount,
+               Q.level_name,
+               Q.actualproj,
+               Q.historysales,
+               Q.historyunits,
+               Q.checkrec,
+               Q.uncheck_count,
+               Q.ccpcount,
+               Q.hierarchy_indicator,
+              
+               Dense_rank()
+                 OVER (
+                   ORDER BY Q.rlv ASC) AS TEMP_INDEX
+        FROM   (SELECT
+                0.0 AS ACCOUNT_GROWTH,
+                0.0 AS PRODUCT_GROWTH,
+                NULL AS PROJECTION_SALES,
+                NULL AS PROJECTION_UNITS,
+                SUM(MAS.ACTUAL_SALES) AS actualSales,
+                SUM(MAS.ACTUAL_UNITS) AS actualUnits,
+                MAX(RLD.LEVEL_NO) AS level_no,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+                p."YEAR" as YEARS,
+                @FREQUENCY@ AS PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.CALCULATION_PERIODS) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.CALCULATION_PERIODS)
+                END AS CALCULATION_PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.METHODOLOGY) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.METHODOLOGY)
+                END AS METHODOLOGY,
+                RLD.RELATIONSHIP_LEVEL_SID,
+                CCP.HIERARCHY_NO,
+                COUNT(*) AS RCOUNT,
+                HLD.LEVEL_NAME,
+                1 AS actualProj,
+                SUM(MAS.ACTUAL_PROJECTION_SALES) AS historySales,
+                SUM(MAS.ACTUAL_PROJECTION_UNITS) AS historyUnits,
+                MIN(CASE(CHECK_RECORD) 
+                    WHEN 1
+                        THEN 1
+                        ELSE 0
+                    END) AS checkrec,
+                SUM(CASE(MSPM.CHECK_RECORD) WHEN 1
+                        THEN 0
+                        ELSE 1
+                    END) / @FREQDIVISION AS UNCHECK_COUNT,
+                COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+                '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR
+            FROM
+                PROJECTION_DETAILS PD
+            JOIN @CCP CCP
+                ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+            JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                ON CCP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+            JOIN ST_M_SALES_PROJECTION_MASTER MSPM
+                ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+            JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+            JOIN ST_M_ACTUAL_SALES MAS
+                ON MSPM.PROJECTION_DETAILS_SID = MAS.PROJECTION_DETAILS_SID 
+            JOIN PERIOD p
+                ON p.period_sid = MAS.PERIOD_SID
+            WHERE
+            PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND MSPM.USER_ID = @USER_ID
+            AND MSPM.SESSION_ID = @SESSION_ID
+            AND MAS.USER_ID = @USER_ID
+            AND MAS.SESSION_ID = @SESSION_ID
+            GROUP BY
+            RLD.RELATIONSHIP_LEVEL_VALUES,
+            @FREQUENCY_GROUP@,
+            RLD.RELATIONSHIP_LEVEL_SID,
+            RLD.LEVEL_NO,
+            p."YEAR",
+            RLD.RELATIONSHIP_LEVEL_SID,
+            CCP.HIERARCHY_NO,
+            HLD.LEVEL_NAME
+ 
+            UNION
+
+            SELECT
+               AVG(MSP.ACCOUNT_GROWTH),
+               AVG(MSP.PRODUCT_GROWTH),
+               SUM(MSP.PROJECTION_SALES),
+               SUM(MSP.PROJECTION_UNITS),
+               NULL AS ACTUAL_SALES,
+               NULL AS ACTUAL_UNITS,
+               MAX(RLD.LEVEL_NO) AS level_no,
+               RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+               p."YEAR" AS YEARS,
+               @FREQUENCY@ AS PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.CALCULATION_PERIODS
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.CALCULATION_PERIODS)
+               END AS CALCULATION_PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.METHODOLOGY
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.METHODOLOGY)
+               END AS METHODOLOGY,
+               RLD.RELATIONSHIP_LEVEL_SID,
+               CCP.HIERARCHY_NO,
+               COUNT(*) AS RCOUNT,
+               HLD.LEVEL_NAME,
+               0 AS actualProj,
+               NULL AS historySales,
+               NULL AS historyUnits,
+               MIN(
+                   CASE
+                       (CHECK_RECORD) WHEN 1
+                       THEN 1
+                       ELSE 0
+                   END
+               ) AS checkrec,
+               SUM(
+                   CASE
+                       (MSPM.CHECK_RECORD) WHEN 1
+                       THEN 0
+                       ELSE 1
+                   END
+               ) / @FREQDIVISION AS UNCHECK_COUNT,
+               COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+               '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR
+           FROM
+               PROJECTION_DETAILS PD
+           JOIN @CCP CCP
+               ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD 
+                   ON CCP.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID    
+           JOIN ST_M_SALES_PROJECTION_MASTER MSPM
+               ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+           JOIN HIERARCHY_LEVEL_DEFINITION HLD
+               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+           JOIN ST_M_SALES_PROJECTION MSP
+               ON MSPM.PROJECTION_DETAILS_SID = MSP.PROJECTION_DETAILS_SID 
+           JOIN PERIOD p
+               ON p.period_sid = MSP.PERIOD_SID
+           WHERE
+           PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           AND MSPM.USER_ID = @USER_ID
+           AND MSPM.SESSION_ID = @SESSION_ID
+           AND MSP.USER_ID = @USER_ID
+           AND MSP.SESSION_ID = @SESSION_ID
+           GROUP BY
+           RLD.RELATIONSHIP_LEVEL_VALUES,
+           @FREQUENCY_GROUP@,
+           RLD.LEVEL_NO,
+           p."YEAR",
+           RLD.RELATIONSHIP_LEVEL_SID,
+           CCP.HIERARCHY_NO,
+           HLD.LEVEL_NAME
+           ) Q) MAINQ
+WHERE  MAINQ.TEMP_INDEX > @START
+       AND MAINQ.TEMP_INDEX <= ( @START+@END )
+ORDER  BY MAINQ.RLV,
+          MAINQ.YEARS,
+          MAINQ.PERIODS;
+        ]]>
+        
+    </sql>
+    
+    <sql id="rows-per-level-item">
+        
+        <![CDATA[
+            DECLARE @STRING CHAR(1)='@FREQUENCY'
+
+            SELECT Count(*)
+            FROM   (SELECT DISTINCT PERIODS=CASE
+                                              WHEN @STRING = 'A' THEN PERIODS_ANNUAL
+                                              WHEN @STRING = 'S' THEN PERIODS_SEMI
+                                              WHEN @STRING = 'M' THEN PERIODS_MONTH
+                                              WHEN @STRING = 'Q' THEN PERIODS_QUARTER
+                                            END
+                    FROM   (SELECT 'Q' + CONVERT(VARCHAR(2), P.QUARTER) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_QUARTER,
+                                   'S' + CONVERT(VARCHAR(2), P.SEMI_ANNUAL) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_SEMI,
+                                   CONVERT(VARCHAR(4), P.YEAR)     AS PERIODS_ANNUAL,
+                                   'M' + CONVERT(VARCHAR(2), P.MONTH) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_MONTH
+                            FROM   "PERIOD" P
+                            JOIN   @ACTUAL_TABLE AC ON AC.PERIOD_SID = P.PERIOD_SID
+                            @USER_ID_ADDITION
+                            )A
+                    @UNION
+                    SELECT DISTINCT PERIODS=CASE
+                                              WHEN @STRING = 'A' THEN PERIODS_ANNUAL
+                                              WHEN @STRING = 'S' THEN PERIODS_SEMI
+                                              WHEN @STRING = 'M' THEN PERIODS_MONTH
+                                              WHEN @STRING = 'Q' THEN PERIODS_QUARTER
+                                            END
+                    FROM   (SELECT 'Q' + CONVERT(VARCHAR(2), P.QUARTER) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_QUARTER,
+                                   'S' + CONVERT(VARCHAR(2), P.SEMI_ANNUAL) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_SEMI,
+                                   CONVERT(VARCHAR(4), P.YEAR)     AS PERIODS_ANNUAL,
+                                   'M' + CONVERT(VARCHAR(2), P.MONTH) + ' '
+                                   + CONVERT(VARCHAR(4), P."YEAR") AS PERIODS_MONTH
+                            FROM   "PERIOD" P
+                            JOIN   @PROJECTION_TABLE AC ON AC.PERIOD_SID = P.PERIOD_SID
+                            @USER_ID_ADDITION
+                            )A)A ;
+        ]]>
+        
+    </sql>
+
+    <sql id="checkClearAll">
+        <![CDATA[ 
+                UPDATE 
+                    SPM  
+                SET 
+                    CHECK_RECORD = @CHECK_RECORD
+                FROM 
+                    ST_M_SALES_PROJECTION_MASTER SPM
+                INNER JOIN 
+                    PROJECTION_DETAILS PD
+                    ON PD.PROJECTION_DETAILS_SID = SPM.PROJECTION_DETAILS_SID
+                WHERE PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                    AND SPM.USER_ID = @USER_ID
+                    AND SPM.SESSION_ID = @SESSION_ID;
+        ]]>
+    </sql>
+    
+    <sql id="saveCalculationSelection">
+        <![CDATA[ 
+                UPDATE 
+                    SPM    
+                SET 
+                    METHODOLOGY='@METHODOLOGY' ,   
+                    CALCULATION_PERIODS='@CALCULATION_PERIODS',
+                    CALCULATION_BASED='@CALCULATION_BASED',
+                    FORECAST_START_PERIOD_SID=@startperiod ,
+                    FORECAST_END_PERIOD_SID=@endperiod ,
+                    ALLOCATION_BASIS= @allocationbasis
+                FROM    
+                    @MASTER_TABLE SPM
+                INNER JOIN 
+                    PROJECTION_DETAILS PD 
+                    ON PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                    AND PD.PROJECTION_DETAILS_SID = SPM.PROJECTION_DETAILS_SID
+                WHERE 
+                    @USERID_ADD
+                    CHECK_RECORD = 1;
+        ]]>
+    </sql>
+    
+    <sql id="massUpdate">
+        <![CDATA[ 
+                UPDATE 
+                    @TABLE_NAME
+                SET 
+                    @COLUMN_NAME = @VALUE
+                FROM 
+                    @PROJECTION_TABLE SP
+                JOIN 
+                    @MASTER_TABLE SPM 
+                    ON SPM.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID
+                JOIN 
+                    PERIOD P 
+                    ON P.PERIOD_SID = SP.PERIOD_SID
+                WHERE 
+                    @USERID_ADD
+                    SPM.CHECK_RECORD = 1
+                    AND P.PERIOD_SID IN (SELECT PERIOD_SID FROM "PERIOD" where "YEAR" >= @START_YEAR and "YEAR" <= @END_YEAR
+                    AND P.PERIOD_SID NOT IN(SELECT PERIOD_SID FROM "PERIOD" where "YEAR" = @START_YEAR @START_FREQUENCY)
+                    AND P.PERIOD_SID NOT IN(SELECT PERIOD_SID FROM "PERIOD" where "YEAR" = @END_YEAR  @END_FREQUENCY));    
+        ]]>
+    </sql>
+    
+    
+    <sql id="saveAdjustmentSelection">
+        <![CDATA[ 
+                UPDATE 
+                    SP
+                SET 
+                    ADJUSTMENT_TYPE = '@ADJUSTMENT_TYPE',
+                    ADJUSTMENT_VALUES = '@ADJUSTMENT_VALUES',
+                    ADJUSTMENT_BASIS = '@ADJUSTMENT_BASIS',
+                    ADJUSTMENT_VARIABLE = '@ADJUSTMENT_VARIABLE',
+                    ADJUSTMENT_METHODOLOGY = '@ADJUSTMENT_METHODOLOGY'
+                FROM 
+                    @PROJECTION_TABLE SP
+                JOIN 
+                    @MASTER_TABLE SPM 
+                    ON SPM.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID
+                JOIN 
+                    PERIOD P 
+                    ON P.PERIOD_SID = SP.PERIOD_SID
+                WHERE 
+                    @USERID_ADD
+                    SPM.CHECK_RECORD = 1;
+                    ]]>
+    </sql>
+
+    <sql id="non-mandated-sales-query">
+        
+        <![CDATA[
+            SELECT MAINQ.account_growth,
+               MAINQ.product_growth,
+               MAINQ.projection_sales,
+               MAINQ.projection_units,
+               MAINQ.actualsales,
+               MAINQ.actualunits,
+               MAINQ.level_no,
+               MAINQ.rlv,
+               MAINQ.YEARS,
+               MAINQ.PERIODS,
+               MAINQ.calculation_periods,
+               MAINQ.methodology,
+               MAINQ.relationship_level_sid,
+               MAINQ.hierarchy_no,
+               MAINQ.rcount,
+               MAINQ.level_name,
+               MAINQ.actualproj,
+               MAINQ.historysales,
+               MAINQ.historyunits,
+               MAINQ.checkrec,
+               MAINQ.uncheck_count,
+               MAINQ.ccpcount,
+               MAINQ.hierarchy_indicator,
+               MAINQ.user_group
+FROM   (SELECT Q.account_growth,
+               Q.product_growth,
+               Q.projection_sales,
+               Q.projection_units,
+               Q.actualsales,
+               Q.actualunits,
+               Q.level_no,
+               Q.rlv,
+               Q.YEARS,
+               Q.PERIODS,
+               Q.calculation_periods,
+               Q.methodology,
+               Q.relationship_level_sid,
+               Q.hierarchy_no,
+               Q.rcount,
+               Q.level_name,
+               Q.actualproj,
+               Q.historysales,
+               Q.historyunits,
+               Q.checkrec,
+               Q.uncheck_count,
+               Q.ccpcount,
+               Q.hierarchy_indicator,
+               Q.user_group,
+               Dense_rank()
+                 OVER (
+                   ORDER BY Q.rlv ASC) AS TEMP_INDEX
+        FROM   (SELECT
+                0.0 AS ACCOUNT_GROWTH,
+                0.0 AS PRODUCT_GROWTH,
+                NULL AS PROJECTION_SALES,
+                NULL AS PROJECTION_UNITS,
+                SUM(MAS.ACTUAL_SALES) AS actualSales,
+                SUM(MAS.ACTUAL_UNITS) AS actualUnits,
+                MAX(RLD.LEVEL_NO) AS level_no,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+                p."YEAR" as YEARS,
+                @FREQUENCY@ as PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.CALCULATION_PERIODS) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.CALCULATION_PERIODS)
+                END AS CALCULATION_PERIODS,
+                CASE
+                    WHEN COUNT(DISTINCT MSPM.METHODOLOGY) > 1
+                    THEN '-'
+                    ELSE MAX(MSPM.METHODOLOGY)
+                END AS METHODOLOGY,
+                RLD.RELATIONSHIP_LEVEL_SID,
+                CCP.HIERARCHY_NO,
+                COUNT(*) AS RCOUNT,
+                HLD.LEVEL_NAME,
+                1 AS actualProj,
+                SUM(MAS.HISTORY_PROJECTION_SALES) AS historySales,
+                SUM(MAS.HISTORY_PROJECTION_UNITS) AS historyUnits,
+                MIN(CASE(CHECK_RECORD) 
+                    WHEN 1
+                        THEN 1
+                        ELSE 0
+                    END) AS checkrec,
+                SUM(CASE(MSPM.CHECK_RECORD) WHEN 1
+                        THEN 0
+                        ELSE 1
+                    END) / @FREQDIVISION AS UNCHECK_COUNT,
+                COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+                '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
+                MIN(MSPM.USER_GROUP) AS USER_GROUP
+            FROM
+                PROJECTION_DETAILS PD
+            JOIN @CCP CCP
+                ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+            JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                ON CCP.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID 
+            LEFT JOIN ST_NM_SALES_PROJECTION_MASTER MSPM
+                ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+                AND (MSPM.USER_GROUP LIKE '@USER_GROUP' OR MSPM.USER_GROUP IS NULL)
+            JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+           LEFT JOIN ST_NM_ACTUAL_SALES MAS
+                ON MSPM.PROJECTION_DETAILS_SID = MAS.PROJECTION_DETAILS_SID 
+                 AND MAS.USER_ID = MSPM.USER_ID
+                 AND MAS.SESSION_ID = MSPM.SESSION_ID
+                  AND MSPM.USER_ID = @USER_ID
+            AND MSPM.SESSION_ID = @SESSION_ID
+            AND MAS.USER_ID = @USER_ID
+            AND MAS.SESSION_ID = @SESSION_ID 
+            JOIN PERIOD p
+                ON p.period_sid = MAS.PERIOD_SID
+            WHERE
+            PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            GROUP BY
+            RLD.RELATIONSHIP_LEVEL_VALUES,
+            @FREQUENCY_GROUP@,
+            RLD.RELATIONSHIP_LEVEL_SID,
+            RLD.LEVEL_NO,
+            p."YEAR",
+            RLD.RELATIONSHIP_LEVEL_SID,
+            CCP.HIERARCHY_NO,
+            HLD.LEVEL_NAME
+ 
+            UNION
+
+            SELECT
+               AVG(MSP.ACCOUNT_GROWTH),
+               AVG(MSP.PRODUCT_GROWTH),
+               SUM(MSP.PROJECTION_SALES),
+               SUM(MSP.PROJECTION_UNITS),
+               NULL AS ACTUAL_SALES,
+               NULL AS ACTUAL_UNITS,
+               MAX(RLD.LEVEL_NO) AS level_no,
+               RLD.RELATIONSHIP_LEVEL_VALUES AS rlv,
+               p."YEAR" as YEARS,
+               @FREQUENCY@ as PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.CALCULATION_PERIODS
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.CALCULATION_PERIODS)
+               END AS CALCULATION_PERIODS,
+               CASE
+                   WHEN COUNT(
+                       DISTINCT MSPM.METHODOLOGY
+                   ) > 1
+                   THEN '-'
+                   ELSE MAX(MSPM.METHODOLOGY)
+               END AS METHODOLOGY,
+               RLD.RELATIONSHIP_LEVEL_SID,
+               CCP.HIERARCHY_NO,
+               COUNT(*) AS RCOUNT,
+               HLD.LEVEL_NAME,
+               0 AS actualProj,
+               NULL AS historySales,
+               NULL AS historyUnits,
+               MIN(
+                   CASE
+                       (CHECK_RECORD) WHEN 1
+                       THEN 1
+                       ELSE 0
+                   END
+               ) AS checkrec,
+               SUM(
+                   CASE
+                       (MSPM.CHECK_RECORD) WHEN 1
+                       THEN 0
+                       ELSE 1
+                   END
+               ) / @FREQDIVISION AS UNCHECK_COUNT,
+               COUNT(MSPM.PROJECTION_DETAILS_SID) / @FREQDIVISION AS CCPCOUNT,
+               '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
+               MIN(MSPM.USER_GROUP) AS USER_GROUP
+           FROM
+               PROJECTION_DETAILS PD
+           JOIN @CCP CCP
+               ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD 
+                   ON CCP.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID    
+          LEFT JOIN ST_NM_SALES_PROJECTION_MASTER MSPM
+               ON PD.PROJECTION_DETAILS_SID = MSPM.PROJECTION_DETAILS_SID 
+               AND (MSPM.USER_GROUP LIKE '@USER_GROUP' OR MSPM.USER_GROUP IS NULL)
+           JOIN HIERARCHY_LEVEL_DEFINITION HLD
+               ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID 
+          LEFT JOIN ST_NM_SALES_PROJECTION MSP
+               ON MSPM.PROJECTION_DETAILS_SID = MSP.PROJECTION_DETAILS_SID 
+               AND MSPM.USER_ID = MSP.USER_ID
+                 AND MSPM.SESSION_ID = MSP.SESSION_ID
+           AND MSPM.USER_ID = @USER_ID
+           AND MSPM.SESSION_ID = @SESSION_ID
+           AND MSP.USER_ID = @USER_ID
+           AND MSP.SESSION_ID = @SESSION_ID
+           JOIN PERIOD p
+               ON p.period_sid = MSP.PERIOD_SID
+           WHERE
+           PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           
+           
+           GROUP BY
+           RLD.RELATIONSHIP_LEVEL_VALUES,
+           @FREQUENCY_GROUP@,
+           RLD.LEVEL_NO,
+           p."YEAR",
+           RLD.RELATIONSHIP_LEVEL_SID,
+           CCP.HIERARCHY_NO,
+           HLD.LEVEL_NAME
+           ) Q) MAINQ
+WHERE  MAINQ.TEMP_INDEX > @START
+       AND MAINQ.TEMP_INDEX <= ( @START+@END )
+ORDER  BY MAINQ.RLV,
+          MAINQ.YEARS,
+          MAINQ.PERIODS; 
+        ]]>
+        
+    </sql>
+    
+    <sql id="getPeriodSID">
+        <![CDATA[ 
+                DECLARE @frequency CHAR(1) = '@selectedfreq',
+        @year      INT = @selectedyear,
+        @period    INT = @selectedperiod
+
+SELECT Min(PERIOD_SID)
+FROM   PERIOD
+WHERE  year = @year
+       AND ( ( @FREQUENCY = 'Q'
+               AND QUARTER = @period )
+              OR ( @FREQUENCY = 'S'
+                   AND SEMI_ANNUAL = @period )
+              OR ( @FREQUENCY = 'M'
+                   AND month = @period )
+              OR @FREQUENCY = 'A')  ;
+        ]]>
+    </sql>
+    <sql id="saveCalculationSelectionForSP">
+        <![CDATA[ 
+     
+  DECLARE @frequency char(1) = '@selectedfreq',
+        @year int = @startyear,
+        @period int = @startperiodvalue,
+        @year1 int = @endyear,
+        @period1 int = @endPeriodvalue,
+        @startperiod int,
+        @endperiod int
+    SELECT
+    @startperiod = MIN(PERIOD_SID)
+    FROM PERIOD
+    WHERE year = @year
+    AND ((@FREQUENCY = 'Q'
+    AND QUARTER = @period)
+    OR (@FREQUENCY = 'S'
+    AND SEMI_ANNUAL = @period)
+    OR (@FREQUENCY = 'M'
+    AND month = @period)
+    OR @FREQUENCY = 'A')
+
+   SELECT
+   @endperiod = MIN(PERIOD_SID)
+   FROM PERIOD
+   WHERE year = @year1
+   AND ((@FREQUENCY = 'Q'
+   AND QUARTER = @period1)
+   OR (@FREQUENCY = 'S'
+   AND SEMI_ANNUAL = @period1)
+   OR (@FREQUENCY = 'M'
+  AND month = @period1)
+  OR @FREQUENCY = 'A')
+
+  UPDATE SPM
+  SET METHODOLOGY = '@METHODOLOGY',
+    CALCULATION_PERIODS = '@CALCULATION_PERIODS',
+    CALCULATION_BASED = '@CALCULATION_BASED',
+    FORECAST_START_PERIOD_SID = @startperiod,
+    FORECAST_END_PERIOD_SID = @endperiod,
+    ALLOCATION_BASIS = @allocationbasis
+    FROM @MASTER_TABLE SPM    
+    WHERE      
+     CHECK_RECORD = 1; 
+        ]]>
+    </sql>
+    
+
+     
+</custom-sql>

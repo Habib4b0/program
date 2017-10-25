@@ -1,0 +1,2291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>CUSTOMER_GTS_ACTUAL_INTERFACE_VALIDATIONS</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>&#47;</directory>
+    <parameters>
+    </parameters>
+    <log>
+<trans-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<perf-log-table><connection>BPI DB</connection>
+<schema/>
+<table/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>SEQ_NR</id><enabled>Y</enabled><name>SEQ_NR</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>INPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>INPUT_BUFFER_ROWS</name></field><field><id>OUTPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>OUTPUT_BUFFER_ROWS</name></field></perf-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+<step-log-table><connection>BPI DB</connection>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></step-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>Y</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <created_user>-</created_user>
+  <created_date>2013&#47;07&#47;05 16:15:11.374</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2013&#47;07&#47;05 16:15:11.374</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>BPI DB</name>
+    <server>${BPI_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_DB}</database>
+    <port>1433</port>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>STAGING DB</name>
+    <server>${STAGING_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${STAGING_DB}</database>
+    <port>1433</port>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>Switch &#47; Case</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>CONTRACT MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM_ID lookup</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_ID lookup</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 4</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP</from><to>Invalid Reason 3</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3</from><to>INVALID TABLE 5</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT MASTER LOOKUP</from><to>Invalid Reason 4</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 4</from><to>INVALID TABLE 6</to><enabled>N</enabled> </hop>  <hop> <from>REBATE SCHEDULE LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>CUSTOMER_GTS_ACTUAL</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>  <hop> <from>REBATE SCHEDULE LOOKUP</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>N</enabled> </hop>  <hop> <from>CUSTOMER_GTS_ACTUAL</from><to>Invalid Reason 6</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_ID lookup</from><to>COMPANY MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3 2</from><to>INVALID TABLE 5 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP 2</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>REBATE SCHEDULE LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY MASTER LOOKUP 2</from><to>Invalid Reason 3 2</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT MASTER LOOKUP</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>CUSTOMER_GTS_ACTUAL</to><enabled>Y</enabled> </hop>  </order>
+  <step>
+    <name>ADD Audit update</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>ADD_COUNT</name>
+        <rename>ADD_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>910</xloc>
+      <yloc>1672</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADD BATCH DUPLCIATION</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+      <reject_duplicate_row>Y</reject_duplicate_row>
+      <error_description>Duplicate record in Staging</error_description>
+    <fields>      <field>        <name>ITEM_ID</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>ORDER_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>INVOICE_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>INVOICE_LINE_NUMBER</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>INVOICE_DATE</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>ORGANIZATION_KEY</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>ACCOUNT_ID</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>907</xloc>
+      <yloc>492</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADD SORT</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>50000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>SALES_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>910</xloc>
+      <yloc>315</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>AUDIT INSERT WAIT</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>776</xloc>
+      <yloc>1513</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Inbound_Status</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>A</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ERROR_CODE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>909</xloc>
+      <yloc>397</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Audit Status</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>914</xloc>
+      <yloc>1596</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>COMPANY MASTER LOOKUP</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>COMPANY_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ORGANIZATION_KEY</name>
+        <field>COMPANY_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_MASTER_SID</name>
+        <rename>COMPANY_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>596</xloc>
+      <yloc>700</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>COMPANY MASTER LOOKUP 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>COMPANY_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ACCOUNT_ID</name>
+        <field>COMPANY_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_MASTER_SID</name>
+        <rename>COMPANY_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>605</xloc>
+      <yloc>912</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CONTRACT MASTER LOOKUP</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>CONTRACT_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CONTRACT_ID</name>
+        <field>CONTRACT_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>CONTRACT_MASTER_SID</name>
+        <rename>CONTRACT_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>594</xloc>
+      <yloc>797</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CUSTOMER_GTS_ACTUAL</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INBOUND_STATUS</column_name>
+          <stream_name>Inbound_Status</stream_name>
+        </field>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>913</xloc>
+      <yloc>1152</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Filter rows 2 2</send_true_to>
+<send_false_to>CONTRACT MASTER LOOKUP</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>CONTRACT_ID</leftvalue>
+ <function>IS NULL</function>
+ <rightvalue/>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>765</xloc>
+      <yloc>748</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>CUSTOMER_GTS_ACTUAL</send_true_to>
+<send_false_to>REBATE SCHEDULE LOOKUP</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>PARENT_ACCOUNT_ID</leftvalue>
+ <function>IS NULL</function>
+ <rightvalue/>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>761</xloc>
+      <yloc>912</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>593</xloc>
+      <yloc>504</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>622</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>620</xloc>
+      <yloc>1286</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 4</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>325</xloc>
+      <yloc>614</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 5</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>328</xloc>
+      <yloc>718</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 5 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>320</xloc>
+      <yloc>912</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 6</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>330</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 7</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CUSTOMER_GTS_ACTUAL</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>CUSTOMER_GTS_ACTUAL_INTF_ID</column_name>
+          <stream_name>CUSTOMER_GTS_ACTUAL_INTF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_ID</column_name>
+          <stream_name>SALES_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_UOM</column_name>
+          <stream_name>ITEM_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_NUMBER</column_name>
+          <stream_name>ORDER_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_NUMBER</column_name>
+          <stream_name>INVOICE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_DATE</column_name>
+          <stream_name>INVOICE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>LOT_NO</column_name>
+          <stream_name>LOT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ORDER_RECEIVED_DATE</column_name>
+          <stream_name>ORDER_RECEIVED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_ACCOUNT_ID</column_name>
+          <stream_name>PARENT_ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>323</xloc>
+      <yloc>1012</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ITEM_ID lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ITEM_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ITEM_MASTER_SID</name>
+        <rename>ITEM_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>591</xloc>
+      <yloc>598</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Indicator</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>730</xloc>
+      <yloc>255</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid ItemId</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>455</xloc>
+      <yloc>602</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Organization_Key</nullif>
+        <length>0</length>
+        <precision>0</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>461</xloc>
+      <yloc>712</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 3 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid AccountId</nullif>
+        <length>0</length>
+        <precision>0</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>458</xloc>
+      <yloc>900</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 4</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid ContractId</nullif>
+        <length>0</length>
+        <precision>0</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>452</xloc>
+      <yloc>796</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 5</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Parent_Account_Id</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>469</xloc>
+      <yloc>1014</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 6</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>error_code_name</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>744</xloc>
+      <yloc>1233</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>ADD_COUNT</aggregate>
+          <subject>CUSTOMER_GTS_ACTUAL_INTF_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>915</xloc>
+      <yloc>1426</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>REBATE SCHEDULE LOOKUP</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>COMPANY_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>PARENT_ACCOUNT_ID</name>
+        <field>COMPANY_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_MASTER_SID</name>
+        <rename>COMPANY_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>608</xloc>
+      <yloc>1009</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Switch &#47; Case</name>
+    <type>SwitchCase</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<fieldname>ADD_CHG_DEL_INDICATOR</fieldname>
+<use_contains>N</use_contains>
+<case_value_type>String</case_value_type>
+<case_value_format/>
+<case_value_decimal/>
+<case_value_group/>
+<default_target_step>Invalid Reason</default_target_step>
+<cases><case><value>A</value>
+<target_step>ADD SORT</target_step>
+</case></cases>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>905</xloc>
+      <yloc>204</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>TEMP</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <sql>
+
+
+
+
+
+IF OBJECT_ID(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
+DROP TABLE #ITEM
+	SELECT a.ITEM_ID,
+		    ITEM_MASTER_SID
+INTO   #ITEM
+	FROM   (SELECT DISTINCT ITEM_ID
+			FROM   STAG_CUSTOMER_GTS_ACTUAL) a
+		   JOIN ITEM_MASTER im
+			 ON im.ITEM_ID = a.ITEM_ID 
+
+
+IF OBJECT_ID(&apos;TEMPDB..#COMPANY&apos;) IS NOT NULL
+DROP TABLE #COMPANY
+	SELECT a.ORGANIZATION_KEY,
+		   COMPANY_MASTER_SID
+INTO   #COMPANY
+	FROM   (SELECT DISTINCT ORGANIZATION_KEY
+			FROM   STAG_CUSTOMER_GTS_ACTUAL) a
+		   JOIN COMPANY_MASTER im
+			 ON im.COMPANY_ID = a.ORGANIZATION_KEY
+
+
+IF Object_id(&apos;TEMPDB..#CONTRACT&apos;) IS NOT NULL
+  DROP TABLE #CONTRACT
+
+SELECT a.CONTRACT_ID,
+       CONTRACT_MASTER_SID
+INTO   #CONTRACT
+FROM   (SELECT DISTINCT CONTRACT_ID
+        FROM   STAG_CUSTOMER_GTS_ACTUAL) a
+       LEFT JOIN CONTRACT_MASTER im
+              ON im.CONTRACT_ID = a.CONTRACT_ID
+WHERE  im.CONTRACT_ID IS NOT NULL
+        OR a.CONTRACT_ID IS NULL 
+
+IF OBJECT_ID(&apos;TEMPDB..#ACCOUNT_ID&apos;) IS NOT NULL
+DROP TABLE #ACCOUNT_ID
+	SELECT a.ACCOUNT_ID,
+		   COMPANY_MASTER_SID
+INTO   #ACCOUNT_ID
+	FROM   (SELECT DISTINCT ACCOUNT_ID
+			FROM   STAG_CUSTOMER_GTS_ACTUAL) a
+		   JOIN COMPANY_MASTER im
+			 ON im.COMPANY_ID = a.ACCOUNT_ID
+
+
+IF OBJECT_ID(&apos;TEMPDB..#PARENT_ACCOUNT_ID&apos;) IS NOT NULL
+DROP TABLE #PARENT_ACCOUNT_ID
+	SELECT a.PARENT_ACCOUNT_ID,
+		   COMPANY_MASTER_SID
+INTO   #PARENT_ACCOUNT_ID
+	FROM   (SELECT DISTINCT PARENT_ACCOUNT_ID
+			FROM   STAG_CUSTOMER_GTS_ACTUAL) a
+		left   JOIN COMPANY_MASTER im
+			 ON im.COMPANY_ID = a.PARENT_ACCOUNT_ID		
+			 WHERE  im.COMPANY_ID IS NOT NULL
+        OR a.PARENT_ACCOUNT_ID IS NULL 
+
+SELECT
+  A.CUSTOMER_GTS_ACTUAL_INTF_ID
+, A.SALES_ID
+, A.ORGANIZATION_KEY
+, A.ITEM_ID
+, A.ITEM_UOM
+, A.ORDER_NUMBER
+, A.INVOICE_NUMBER
+, A.INVOICE_LINE_NUMBER
+, A.INVOICE_DATE
+, A.QUANTITY
+, A.LOT_NO
+, A.AMOUNT
+, A.CONTRACT_ID
+, A.ACCOUNT_ID
+, A.ORDER_RECEIVED_DATE
+, A.BATCH_ID
+, A.SOURCE
+, A.CREATED_BY
+, A.CREATED_DATE
+, A.MODIFIED_BY
+, A.MODIFIED_DATE
+, A.ADD_CHG_DEL_INDICATOR
+, A.PARENT_ACCOUNT_ID
+--,B.ITEM_MASTER_SID
+--,C.COMPANY_MASTER_SID
+--,D.CONTRACT_MASTER_SID
+--,E.COMPANY_MASTER_SID
+--,F.COMPANY_MASTER_SID
+
+FROM STAG_CUSTOMER_GTS_ACTUAL A
+inner join #ITEM  B 
+           ON A.ITEM_ID=B.ITEM_ID
+inner join #COMPANY  C 
+           ON A.ORGANIZATION_KEY=C.ORGANIZATION_KEY
+inner join #ACCOUNT_ID  E 
+           ON A.ACCOUNT_ID=E.ACCOUNT_ID
+inner join #CONTRACT  D 
+           ON A.CONTRACT_ID=D.CONTRACT_ID OR D.CONTRACT_ID IS NULL
+
+inner join #PARENT_ACCOUNT_ID  F
+           ON A.PARENT_ACCOUNT_ID=F.PARENT_ACCOUNT_ID OR F.PARENT_ACCOUNT_ID IS NULL
+
+
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>904</xloc>
+      <yloc>71</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+      <error>
+        <source_step>ADD BATCH DUPLCIATION</source_step>
+        <target_step>INVALID TABLE</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename>Reason_For_Failure</descriptions_valuename>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>COMPANY MASTER LOOKUP</source_step>
+        <target_step>Invalid Reason 3</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>COMPANY MASTER LOOKUP 2</source_step>
+        <target_step>Invalid Reason 3 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>CONTRACT MASTER LOOKUP</source_step>
+        <target_step>Invalid Reason 4</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>CUSTOMER_GTS_ACTUAL</source_step>
+        <target_step>Invalid Reason 6</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ITEM_ID lookup</source_step>
+        <target_step>Invalid Reason 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>REBATE SCHEDULE LOOKUP</source_step>
+        <target_step>Invalid Reason 5</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+</transformation>

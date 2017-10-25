@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="lookup" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent"> 
+    <VerticalLayout styleName="custom-margin" spacing="true" >
+<Panel>
+        <HorizontalLayout id="hlayout" spacing="false" margin="true" immediate="true">
+         
+            <VerticalLayout >
+		<GridLayout spacing="false" margin="false" immediate="true" columns="4" rows="2">
+                <Label id="contractLabel" value="Contract" contentMode="HTML" immediate="true" />
+                <ComboBox id="contract" enabled="true" immediate="true" />
+			
+                <Label id="customerLabel" value="Customer" contentMode="HTML" immediate="true" />
+                <ComboBox id="customer" enabled="true" immediate="true" />
+			
+                <Label id="BrandLabel" value="Brand" contentMode="HTML" immediate="true" />
+                <ComboBox id="brand" enabled="true" immediate="true" />    
+                
+                <Label id="itemNoLabel" value="Item No" contentMode="HTML" immediate="true" />
+                <ComboBox id="itemNo" enabled="true" immediate="true" />
+			
+                <Label id="itemNameLabel" value="Item Name" contentMode="HTML" immediate="true" />
+                <ComboBox id="itemName" enabled="true" immediate="true" />	
+            </GridLayout>
+	</VerticalLayout>
+			<Panel id="timeperiod" caption="Time Period" >
+                    <VerticalLayout  spacing = "true" width="580px">
+                        <GridLayout id="gridLayout" immediate="true" columns="4" rows="1" width="590px">
+                            <Label caption="From: " contentMode="HTML"  />
+                            <ComboBox id="fromDate" immediate="true"/>
+                            <Label caption="To: " contentMode="HTML" />
+                            <ComboBox id="toDate" immediate="true" />
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel>
+        
+			
+		
+            
+			
+        </HorizontalLayout>
+</Panel>
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="searchBtn" caption="POPULATE" immediate="true" width="85"/>
+            <Button id="resetBtn" caption="RESET" immediate="true" width="80" />
+        </HorizontalLayout>
+	
+        <VerticalLayout id="tablelayout" spacing="true" margin="true"/>        
+        
+        <HorizontalLayout immediate="true" spacing="true">
+            <Button id="excelBtn"></Button>
+        </HorizontalLayout>
+          
+        <HorizontalLayout spacing="false">
+                <Button id="closeBtn" caption="Close" immediate="true"></Button>
+            </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

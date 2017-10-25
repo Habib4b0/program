@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" height="100%" width="100%">
+    <VerticalLayout margin="true" spacing="true" >
+        <Panel caption="Search Criteria">
+            <VerticalLayout margin="true" spacing="true" >
+                <GridLayout id="gridVisisble1" rows="1" columns="4"  spacing="true">
+                    <Label caption="Customer Group Name:" contentMode="HTML" />
+                    <TextField id="customerGroupName" inputPrompt=""  />
+                    <Label caption="Customer Group:" contentMode="HTML" />
+                    <TextField id="customerGroup" inputPrompt=""  />
+                </GridLayout>
+            
+                <GridLayout id="gridVisisble" rows="1" columns="4" spacing="true" visible="false">
+                    <Label caption="Product Group Name:" contentMode="HTML" />
+                    <TextField id="productGroupName" inputPrompt=""  />
+                    <Label caption="Product Group:" contentMode="HTML" />
+                    <TextField id="productGroup" inputPrompt=""  />
+                </GridLayout>
+            
+            
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="searchBtnlookup" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET"  />
+        </HorizontalLayout>
+        <Panel caption="Results" >
+            <!--            <HorizontalLayout spacing = "true" margin = "true">
+            <table:ExtFilterTable id="resultsTable" styleName="table-header-normal" immediate="true"/>
+            </HorizontalLayout>-->
+            
+            <VerticalLayout id="resultsTableLayout"></VerticalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="selectBtn" caption="SELECT"  />
+            <Button id="cancelBtn" caption="CANCEL"  />
+            <Button id="resultResetBtn" caption="RESET"  />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

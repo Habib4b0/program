@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout margin="true" spacing="true" >
+       
+        <Panel caption="View Logs" width="100%">
+            <VerticalLayout width="1240px" margin="true" spacing="true">
+                 <HorizontalLayout id="fieldLayout1" spacing="true" margin="true" >
+            
+                    <Label value="Last :" id ="llinesFromLabel" contentMode="HTML" immediate="true" width="80px"   />
+                    <TextField id="linesFrom" width="40px" enabled="true" immediate="true" />  
+                    <Label value="Lines Of:" contentMode="HTML" id ="fileNameLabel" immediate="true" width="80px"  />
+                    <ComboBox id="fileName" enabled="true" immediate="true" />  
+                    <Label value="Filter text:" contentMode="HTML" id ="filterTextLabel" immediate="true" width="80px"  />
+                    <TextField id="filterText" enabled="true" immediate="true" />  
+                   </HorizontalLayout>
+                  <HorizontalLayout id="fieldLayout2" spacing="true" margin="true" >
+                    <Label value="Use Custom Command:" contentMode="HTML" id ="customCommandLabel" immediate="true" width="173px"  />
+                    <TextField id="customCommand" enabled="true" immediate="true" />  
+                </HorizontalLayout>
+                
+                <HorizontalLayout id="buttonLayout" spacing="true" margin="true" >
+                    <Button id="refreshBtn" caption="REFRESH" immediate="true" />
+                    <Button id="resetBtn" caption="RESET" immediate="true" />
+                </HorizontalLayout>
+                 
+                
+            </VerticalLayout>
+        </Panel>  
+        <Panel caption="" id="resultsTable">
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>  
+        </Panel>
+        <HorizontalLayout id="buttonLayout2" spacing="true" margin="true" >
+            <Button id="backBtn" caption="BACK" immediate="true" />
+        </HorizontalLayout>
+                                                         
+    </VerticalLayout>
+</Panel>

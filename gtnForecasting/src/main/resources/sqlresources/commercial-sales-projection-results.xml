@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="non-mandated-sales-projections-query-new">
+        <query>
+        <![CDATA[
+            IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION') IS NOT NULL
+            DROP TABLE #ST_NM_SALES_PROJECTION
+
+             ;with cte as ( SELECT SHN.HIERARCHY_NO,
+                    SHN.INSTR,
+                    P."YEAR",@FRE@ period,
+                    SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES ,
+                    SUM(NMSP.PROJECTION_UNITS) AS PROJECTION_UNITS ,
+                    AVG(NMSP.ACCOUNT_GROWTH) AS ACCOUNT_GROWTH ,
+                    AVG(NMSP.PRODUCT_GROWTH) AS PRODUCT_GROWTH ,
+                 
+                    COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT 
+                                  
+                                  
+                           
+             FROM #SELECTED_HIERARCHY_NO SHN
+             JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+             JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
+                     GROUP BY SHN.HIERARCHY_NO,
+                      SHN.INSTR,
+                      P."YEAR",@FRE@
+                     )
+,cte2 as (SELECT distinct HIERARCHY_NO,@FRE@ period
+               ,p."YEAR"
+                       
+               ,sum(coalesce(pf.EXFACTORY_FORECAST_SALES,pf.EXFACTORY_ACTUAL_SALES)) EXFACTORY_FORECAST_SALES
+        FROM ST_PRODUCT_FILE PF
+        JOIN period p ON p.period_sid = pf.period_Sid
+       join (select distinct SH.HIERARCHY_NO,item_master_sid from #SELECTED_HIERARCHY_NO sh join CCP_DETAILS cd on cd.CCP_DETAILS_SID=sh.CCP_DETAILS_SID) x on x.item_master_sid=pf.item_master_sid
+          group by HIERARCHY_NO,@FRE@
+               ,p."YEAR"
+
+
+        )  
+
+              select c2.HIERARCHY_NO,c2.period,c2.YEAR,c2.INSTR,c2.PROJECTION_SALES,c2.PROJECTION_UNITS,c2.PRODUCT_GROWTH,c2.ACCOUNT_GROWTH,isnull(c2.PROJECTION_SALES/nullif(c1.EXFACTORY_FORECAST_SALES,0),0)* 100 as EXFACT_PROJECTION_SALES,c2.ROW_COUNT
+              
+              into  #ST_NM_SALES_PROJECTION
+              from cte c2 join cte2 c1 on c2.period=c1.period and c2.YEAR=c1.YEAR and c2.HIERARCHY_NO=c1.HIERARCHY_NO
+ 
+
+            IF Object_id('TEMPDB..#ST_NM_ACTUAL_SALES') IS NOT NULL
+            DROP TABLE #ST_NM_ACTUAL_SALES
+            ;with cte as (SELECT SHN.HIERARCHY_NO,
+                    SHN.INSTR,
+                    P."YEAR",@FRE@ period,
+                    Sum(NMSP.ACTUAL_SALES) AS ACTUAL_SALES,
+                    Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS
+                    
+                   
+             FROM #SELECTED_HIERARCHY_NO SHN
+             JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+             JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
+			 GROUP BY SHN.HIERARCHY_NO,
+                      SHN.INSTR,
+                      P."YEAR",@FRE@
+			 )
+             ,cte2 as (SELECT HIERARCHY_NO,@FRE@ period
+               ,p."YEAR"
+               ,sum(pf.EXFACTORY_ACTUAL_SALES) EXFACTORY_ACTUAL_SALES
+        FROM ST_PRODUCT_FILE PF
+        JOIN period p ON p.period_sid = pf.period_Sid
+         join (select distinct SH.HIERARCHY_NO,item_master_sid from #SELECTED_HIERARCHY_NO sh join CCP_DETAILS cd on cd.CCP_DETAILS_SID=sh.CCP_DETAILS_SID) x on x.item_master_sid=pf.item_master_sid
+		 group by HIERARCHY_NO,@FRE@
+                ,p."YEAR"
+        ) select c1.HIERARCHY_NO,c1.YEAR,c1.period,c1.ACTUAL_SALES,c1.ACTUAL_UNITS,c1.INSTR,isnull(c1.ACTUAL_SALES/nullif(c2.EXFACTORY_ACTUAL_SALES,0),0)*100 EXFACT_ACTUAL_SALES 
+		into #ST_NM_ACTUAL_SALES
+		from cte c1 join cte2 c2 on c1.HIERARCHY_NO=c2.HIERARCHY_NO and c1.period=c2.period and c1.YEAR=c2.YEAR
+
+
+
+            SELECT MAINQ.YEARS,
+	           MAINQ.PERIODS,
+	           isnull(MAINQ.actualsales,0) actualsales,
+	           isnull(MAINQ.projection_sales,0) projection_sales,
+	           isnull(MAINQ.actualunits,0) actualunits,
+                   isnull(MAINQ.projection_units,0) projection_units,
+                   isnull(MAINQ.EXFACT_PROJECTION_SALES,0) EXFACT_PROJECTION_SALES,
+                   isnull(MAINQ.EXFACT_ACTUAL_SALES,0) EXFACT_ACTUAL_SALES,
+                   MAINQ.ap_indicator,
+                   MAINQ.HIERARCHY_NO
+            FROM
+              (SELECT Q.projection_sales,
+			Q.projection_units,
+			Q.actualsales,
+			Q.actualunits,
+                        Q.EXFACT_PROJECTION_SALES,
+			Q.EXFACT_ACTUAL_SALES,
+			Q.YEARS,
+			Q.PERIODS,
+                        Q.ap_indicator,
+                        Q.HIERARCHY_NO,
+                        Q.INSTR,
+                      Dense_rank() OVER(
+                                        ORDER BY Q.HIERARCHY_NO ASC) AS TEMP_INDEX
+               FROM
+                 (SELECT NULL AS PROJECTION_SALES,
+					NULL AS PROJECTION_UNITS,
+					MAS.ACTUAL_SALES AS actualSales,
+					MAS.ACTUAL_UNITS AS actualUnits,
+                                        NULL AS EXFACT_PROJECTION_SALES,
+                                        MAS.EXFACT_ACTUAL_SALES,
+					"YEAR" AS YEARS,
+					period AS PERIODS,
+					MAS.HIERARCHY_NO,
+                                        MAS.INSTR,
+                                        0 as ap_indicator
+                  FROM #ST_NM_ACTUAL_SALES MAS
+                  UNION ALL SELECT MSP.PROJECTION_SALES,
+					MSP.PROJECTION_UNITS,
+					NULL AS ACTUAL_SALES,
+					NULL AS ACTUAL_UNITS,
+                                        MSP.EXFACT_PROJECTION_SALES,
+                                        NULL AS EXFACT_ACTUAL_SALES,
+					"YEAR" AS YEARS,
+					period AS PERIODS,
+					MSP.HIERARCHY_NO,
+                                        MSP.INSTR,
+                                        1 as ap_indicator
+                  FROM #ST_NM_SALES_PROJECTION MSP
+                  ) Q) MAINQ
+            ORDER BY 
+                    MAINQ.INSTR,
+                    MAINQ.HIERARCHY_NO,
+                    MAINQ.YEARS,
+                    MAINQ.PERIODS;
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="non-mandated-sales-projections-query-new-custom">
+        <query>
+        <![CDATA[
+            IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION') IS NOT NULL
+            DROP TABLE #ST_NM_SALES_PROJECTION
+
+                          ;with cte as ( SELECT SHN.HIERARCHY_NO,SHN.SEC_HIERARCHYNO,
+                    SHN.INSTTR,
+                    P."YEAR",P.@FRE@ period,
+                    SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES ,
+                    SUM(NMSP.PROJECTION_UNITS) AS PROJECTION_UNITS ,
+                    AVG(NMSP.ACCOUNT_GROWTH) AS ACCOUNT_GROWTH ,
+                    AVG(NMSP.PRODUCT_GROWTH) AS PRODUCT_GROWTH ,
+                 
+                    COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT 
+                                  
+                                  
+                           
+             FROM #SELECTED_HIERARCHY_NO SHN
+             JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+             JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
+                     GROUP BY SHN.HIERARCHY_NO,SHN.SEC_HIERARCHYNO,
+                      SHN.INSTtR,
+                      P."YEAR",P.@FRE@
+                     )
+,cte2 as (SELECT distinct HIERARCHY_NO,p.@FRE@ period
+               ,p."YEAR"
+                       
+               ,sum(coalesce(pf.EXFACTORY_FORECAST_SALES,pf.EXFACTORY_ACTUAL_SALES)) EXFACTORY_FORECAST_SALES
+        FROM ST_PRODUCT_FILE PF
+        JOIN period p ON p.period_sid = pf.period_Sid
+       join (select distinct SH.HIERARCHY_NO,item_master_sid from #SELECTED_HIERARCHY_NO sh join CCP_DETAILS cd on cd.CCP_DETAILS_SID=sh.CCP_DETAILS_SID) x on x.item_master_sid=pf.item_master_sid
+          group by HIERARCHY_NO,p.@FRE@
+               ,p."YEAR"
+
+
+        )  
+
+              select c2.HIERARCHY_NO,c2.SEC_HIERARCHYNO,c2.period,c2.YEAR,c2.INStTR,c2.PROJECTION_SALES,c2.PROJECTION_UNITS,c2.PRODUCT_GROWTH,c2.ACCOUNT_GROWTH,isnull(c2.PROJECTION_SALES/nullif(c1.EXFACTORY_FORECAST_SALES,0),0)* 100 as EXFACT_PROJECTION_SALES,c2.ROW_COUNT
+              
+              into  #ST_NM_SALES_PROJECTION
+              from cte c2 join cte2 c1 on c2.period=c1.period and c2.YEAR=c1.YEAR and c2.HIERARCHY_NO=c1.HIERARCHY_NO 
+
+
+            IF Object_id('TEMPDB..#ST_NM_ACTUAL_SALES') IS NOT NULL
+            DROP TABLE #ST_NM_ACTUAL_SALES
+            ;with cte as (
+             SELECT SHN.HIERARCHY_NO,
+                    SHN.SEC_HIERARCHYNO,
+                    SHN.INSTTR,
+                    P."YEAR",
+                    P.@FRE@ period,
+                    Sum(NMSP.ACTUAL_SALES) AS ACTUAL_SALES,
+                    Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS
+                   
+
+             FROM #SELECTED_HIERARCHY_NO SHN
+             JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+             JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
+			   GROUP BY SHN.HIERARCHY_NO,
+                      SHN.SEC_HIERARCHYNO,
+                      SHN.INSTTR,
+                      P."YEAR",
+                      P.@FRE@
+            )
+			,cte2 as (SELECT distinct HIERARCHY_NO,p.@FRE@ period
+                ,p."YEAR"
+
+                ,sum(pf.EXFACTORY_ACTUAL_SALES) EXFACTORY_ACTUAL_SALES
+         FROM ST_PRODUCT_FILE PF
+         JOIN period p ON p.period_sid = pf.period_Sid
+        join (select distinct SH.HIERARCHY_NO,item_master_sid from #SELECTED_HIERARCHY_NO sh join CCP_DETAILS cd on cd.CCP_DETAILS_SID=sh.CCP_DETAILS_SID) x on x.item_master_sid=pf.item_master_sid
+           group by HIERARCHY_NO,p.@FRE@
+                ,p."YEAR"
+
+
+         )
+			 
+			 select c.HIERARCHY_NO,c.SEC_HIERARCHYNO,c.period,c.YEAR,c.INSTTR,c.ACTUAL_SALES,c.ACTUAL_UNITS,isnull(ACTUAL_SALES /nullif(EXFACTORY_ACTUAL_SALES,0),0)*100 as EXFACT_ACTUAL_SALES 
+			 into #ST_NM_ACTUAL_SALES
+			 from cte c join cte2 c2   
+			 
+			  ON c.period= c2.period
+        AND c."YEAR" = c2."YEAR"
+        and c.HIERARCHY_NO=c2.HIERARCHY_NO 
+
+
+
+            SELECT MAINQ.YEARS,
+	           MAINQ.PERIODS,
+	           isnull(MAINQ.actualsales,0) actualsales,
+	           isnull(MAINQ.projection_sales,0) projection_sales,
+	           isnull(MAINQ.actualunits,0) actualunits,
+                   isnull(MAINQ.projection_units,0) projection_units,
+                  isnull(MAINQ.EXFACT_PROJECTION_SALES,0) EXFACT_PROJECTION_SALES,
+                  isnull(MAINQ.EXFACT_ACTUAL_SALES,0) EXFACT_ACTUAL_SALES,  
+                   MAINQ.ap_indicator,
+                   MAINQ.HIERARCHY_NO
+            FROM
+              (SELECT Q.projection_sales,
+			Q.projection_units,
+			Q.actualsales,
+			Q.actualunits,
+                        Q.EXFACT_PROJECTION_SALES,
+                        Q.EXFACT_ACTUAL_SALES, 
+			Q.YEARS,
+			Q.PERIODS,
+                        Q.ap_indicator,
+                        Q.HIERARCHY_NO,
+                        Q.SEC_HIERARCHYNO,
+                        Q.INSTTR,
+                      Dense_rank() OVER(
+                                        ORDER BY Q.HIERARCHY_NO ASC) AS TEMP_INDEX
+               FROM
+                 (SELECT NULL AS PROJECTION_SALES,
+					NULL AS PROJECTION_UNITS,
+					MAS.ACTUAL_SALES AS actualSales,
+					MAS.ACTUAL_UNITS AS actualUnits,
+                                        NULL AS EXFACT_PROJECTION_SALES,
+                                        MAS.EXFACT_ACTUAL_SALES,
+					"YEAR" AS YEARS,
+					period AS PERIODS,
+					MAS.HIERARCHY_NO,
+                                        MAS.SEC_HIERARCHYNO,
+                                        MAS.INSTTR,
+                                        0 as ap_indicator
+                  FROM #ST_NM_ACTUAL_SALES MAS
+                  UNION ALL SELECT MSP.PROJECTION_SALES,
+					MSP.PROJECTION_UNITS,
+					NULL AS ACTUAL_SALES,
+					NULL AS ACTUAL_UNITS,
+                                        MSP.EXFACT_PROJECTION_SALES,
+                                        NULL AS EXFACT_ACTUAL_SALES, 
+					"YEAR" AS YEARS,
+					period AS PERIODS,
+					MSP.HIERARCHY_NO,
+                                        MSP.SEC_HIERARCHYNO,
+                                        MSP.INSTTR,
+                                        1 as ap_indicator
+                  FROM #ST_NM_SALES_PROJECTION MSP
+                  ) Q) MAINQ
+            ORDER BY 
+                    MAINQ.INSTTR,
+                    MAINQ.HIERARCHY_NO,
+                    MAINQ.SEC_HIERARCHYNO,
+                    MAINQ.YEARS,
+                    MAINQ.PERIODS;
+            ]]>
+        </query>
+    </entity>
+
+    
+    <entity id="non-mandated-sales-projections-query-new-annual">
+        <query>
+        <![CDATA[
+            IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION') IS NOT NULL
+            DROP TABLE #ST_NM_SALES_PROJECTION
+
+            SELECT SHN.HIERARCHY_NO ,P."YEAR" ,
+	P.year @FRE@ ,
+	SUM(NMSP.PROJECTION_SALES) AS CONTRACT_PROJECTION_SALES ,
+	SUM(NMSP.PROJECTION_UNITS) AS CONTRACT_PROJECTION_UNITS ,
+                   AVG(NMSP.ACCOUNT_GROWTH) AS ACCOUNT_GROWTH ,
+                   AVG(NMSP.PRODUCT_GROWTH) AS PRODUCT_GROWTH ,
+        COALESCE(SUM(NMSP.PROJECTION_SALES) / NULLIF(SUM(ST.EXFACTORY_FORECAST_SALES),0),0) *100 AS EXFACT_PROJECTION_SALES ,
+	COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT
+         INTO #ST_NM_SALES_PROJECTION
+            FROM #SELECTED_HIERARCHY_NO SHN
+            JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+            JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = NMSP.CCP_DETAILS_SID
+            LEFT JOIN ST_PRODUCT_FILE ST ON CD.ITEM_MASTER_SID = ST.ITEM_MASTER_SID
+	AND ST.PERIOD_SID = NMSP.PERIOD_SID
+            JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID    
+            GROUP BY SHN.HIERARCHY_NO,P."YEAR",
+                     P.year;
+
+            IF Object_id('TEMPDB..#ST_NM_ACTUAL_SALES') IS NOT NULL
+            DROP TABLE #ST_NM_ACTUAL_SALES
+            SELECT SHN.HIERARCHY_NO,P."YEAR",
+                   P.year @FRE@,
+                   Sum(NMSP.ACTUAL_SALES) AS CONTRACT_ACTUAL_SALES,
+                   Sum(NMSP.ACTUAL_UNITS) AS CONTRACT_ACTUAL_UNITS, 
+                  COALESCE(SUM(NMSP.ACTUAL_SALES) / NuLLIF(SUM(ST.EXFACTORY_ACTUAL_SALES),0),0) *100 AS EXFACT_ACTUAL_SALES
+	            INTO #ST_NM_ACTUAL_SALES
+            FROM #SELECTED_HIERARCHY_NO SHN
+            JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+            JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = NMSP.CCP_DETAILS_SID
+          LEFT JOIN ST_PRODUCT_FILE ST ON CD.ITEM_MASTER_SID = ST.ITEM_MASTER_SID
+	   AND ST.PERIOD_SID = NMSP.PERIOD_SID
+            JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID    
+            GROUP BY SHN.HIERARCHY_NO,P."YEAR",
+                     P.year;
+
+
+
+            SELECT MAINQ.YEARS,
+	           MAINQ.PERIODS,
+	MAINQ.CONTRACT_PROJECTION_SALES,
+			MAINQ.CONTRACT_PROJECTION_UNITS,
+			MAINQ.CONTRACT_ACTUAL_SALES,  
+			MAINQ.CONTRACT_ACTUAL_UNITS,
+			MAINQ.ap_indicator,
+                        MAINQ.EXFACT_PROJECTION_SALES,
+            MAINQ.EXFACT_ACTUAL_SALES
+           FROM (
+	SELECT Q.CONTRACT_PROJECTION_SALES,
+			Q.CONTRACT_PROJECTION_UNITS,
+			Q.CONTRACT_ACTUAL_SALES , 
+			Q.CONTRACT_ACTUAL_UNITS ,
+			Q.EXFACT_PROJECTION_SALES,
+			Q.EXFACT_ACTUAL_SALES,
+			
+			Q.YEARS,
+			Q.PERIODS,
+                        Q.ap_indicator,
+		Dense_rank() OVER (
+			ORDER BY Q.HIERARCHY_NO ASC
+			) AS TEMP_INDEX
+              FROM (
+		SELECT NULL AS CONTRACT_PROJECTION_SALES,
+			NULL AS CONTRACT_PROJECTION_UNITS,
+			MAS.CONTRACT_ACTUAL_SALES,  
+			MAS.CONTRACT_ACTUAL_UNITS, 
+			NULL AS EXFACT_PROJECTION_SALES,
+			MAS.EXFACT_ACTUAL_SALES,
+					"YEAR" AS YEARS,
+					@FRE@ AS PERIODS,
+					MAS.HIERARCHY_NO,
+			0 AS ap_indicator
+                  FROM #ST_NM_ACTUAL_SALES MAS
+                  UNION ALL
+		
+		SELECT MSP.CONTRACT_PROJECTION_SALES,
+			MSP.CONTRACT_PROJECTION_UNITS,
+		    NULL AS CONTRACT_ACTUAL_SALES,  
+			NULL AS CONTRACT_ACTUAL_UNITS,  
+			MSP.EXFACT_PROJECTION_SALES,
+			NULL AS EXFACT_ACTUAL_SALES,
+					"YEAR" AS YEARS,
+					@FRE@ AS PERIODS,
+					MSP.HIERARCHY_NO,
+                                        1 as ap_indicator
+                  FROM #ST_NM_SALES_PROJECTION MSP
+                  ) Q) MAINQ
+            ORDER BY 
+                    MAINQ.YEARS,
+                    MAINQ.PERIODS;
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="salesgroup-relation-query">
+        <query>
+        <![CDATA[
+            Select
+	distinct CP.CUST_HIERARCHY_NO,
+	PM.USER_GROUP
+        from
+	ST_NM_SALES_PROJECTION_MASTER PM join ST_CCP_HIERARCHY CP on
+	Cp.CCP_DETAILS_SID = PM.CCP_DETAILS_SID;
+            ]]>
+        </query>
+    </entity>
+</sql>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-stpl:build-service</actionName>
+            <displayName>stpl:build-service</displayName>
+            <goals>
+                <goal>stpl:build-service</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-clean compile package -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true</actionName>
+            <displayName>clean compile package -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>compile</goal>
+                <goal>package</goal>
+                <goal>-Dmaven.wagon.http.ssl.insecure=true</goal>
+                <goal>-Dmaven.wagon.http.ssl.allowall=true</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-instal</actionName>
+            <displayName>instal</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>-Dmaven.wagon.http.ssl.insecure=true</goal>
+                <goal>-Dmaven.wagon.http.ssl.allowall=true</goal>
+            </goals>
+        </action>
+    </actions>

@@ -1,0 +1,36 @@
+<VerticalLayout id="mainLayout"  margin="true"  spacing="false" width="100%" height="100%" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+<VerticalLayout margin="false"  id="hLayout" width="100%" height="100%" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+    <HorizontalLayout id="hLayout1" caption="Mass Update">
+        <CssLayout id="cssLayout" width="100%" height="100%">
+            <OptionGroup multiSelect="false" id="massCheck"
+                             immediate="true" enable="true" styleName = "horizontal"/>
+            <ComboBox id="massField" nullSelectionAllowed="false"
+                           inputPrompt="-Select One" immediate="true" /> 
+             <Label id="valueforddlb" value="Value"  contentMode="HTML" immediate="true" width="80px" />                 
+            <PopupDateField id="massDate" />  
+            <ComboBox id="massValue"  nullSelectionAllowed="false"
+                                        inputPrompt="-Select One" immediate="true" />   
+              <HorizontalLayout spacing="true" margin="false">                
+            <Button id="btnPopulate" caption="Populate" />
+            <Button id="btnAllPopulate" caption="Populate All" />
+              </HorizontalLayout>
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout id="hLayout2">
+        <Label value="Record "  contentMode="HTML" immediate="true"  />
+        <OptionGroup multiSelect="true" id="record" immediate="true" enable="true" styleName = "horizontal"/>
+    </HorizontalLayout>
+    <Panel id="resultPanel" caption="Results" >
+        <ef:CustomePagedFilterTable id="itemDetailsTable" immediate="true" /> 
+    </Panel> 
+    
+    <HorizontalLayout id="pageCreater"  />
+</VerticalLayout>
+          
+       <VerticalLayout id="viewLayout" >    
+        <ef:CustomePagedFilterTable id="viewResultsTable"  width="100%" />
+        <Button id="excel" immediate="true" primaryStyleName="link" />
+    </VerticalLayout> 
+
+</VerticalLayout>

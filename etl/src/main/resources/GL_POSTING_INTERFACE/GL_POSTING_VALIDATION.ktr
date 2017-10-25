@@ -1,0 +1,2689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>GL_POSTING_VALIDATION</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>&#47;</directory>
+    <parameters>
+    </parameters>
+    <log>
+<trans-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<perf-log-table><connection/>
+<schema/>
+<table/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>SEQ_NR</id><enabled>Y</enabled><name>SEQ_NR</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>INPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>INPUT_BUFFER_ROWS</name></field><field><id>OUTPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>OUTPUT_BUFFER_ROWS</name></field></perf-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+<step-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <created_user>-</created_user>
+  <created_date>2013&#47;07&#47;05 14:17:49.123</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2013&#47;07&#47;05 14:17:49.123</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>BPI DB</name>
+    <server>${BPI_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_DB}</database>
+    <port>1433</port>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>STAGING DB</name>
+    <server>${STAGING_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${STAGING_DB}</database>
+    <port>1433</port>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>D</from><to>A</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 2</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 2</from><to>Delete Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 3</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 3</from><to>Delete Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL 4</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Add constants 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2 2</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>ADJUSTMENT_GTN_DETAIL</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_GTN_DETAIL</from><to>D</to><enabled>N</enabled> </hop>  <hop> <from>D</from><to>LATEST_DATE 3</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 3</from><to>ADJUSTMENT_GTN_DETAIL 2</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>LATEST_DATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 2</from><to>ADJUSTMENT_GTN_DETAIL 3</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>LATEST_DATE</to><enabled>N</enabled> </hop>  <hop> <from>LATEST_DATE</from><to>ADJUSTMENT_GTN_DETAIL 4</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD Audit update 2</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status 3</from><to>Delete Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2 2</from><to>Change Audit update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 2</from><to>Memory Group by 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 3</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 4</from><to>Memory Group by 3</to><enabled>N</enabled> </hop>  <hop> <from>Delete Reason 3</from><to>D-INVALID2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2 2</from><to>D-INVALID2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 3</from><to>Add constants 3</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by 2 3</from><to>Audit Status 3</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Audit Status 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 4</from><to>ADJUSTMENT_RESERVE_DETAIL 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 3 2 3</from><to>ADJUSTMENT_RESERVE_DETAIL 3</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_DATE 5</from><to>ADJUSTMENT_RESERVE_DETAIL 4</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 3</from><to>ADJUSTMENT_RESERVE_DETAIL</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL</from><to>Invalid Reason 5 2</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 2</from><to>Delete Reason 3</to><enabled>Y</enabled> </hop>  <hop> <from>D 2</from><to>LATEST_DATE 4</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL</from><to>D 2</to><enabled>N</enabled> </hop>  <hop> <from>D 2</from><to>A 2</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>INVALID COUNT 3 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>LATEST_DATE 5</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 3</from><to>Delete Reason 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>D 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>D</to><enabled>Y</enabled> </hop>  <hop> <from>A</from><to>ADJUSTMENT_GTN_DETAIL 4</to><enabled>Y</enabled> </hop>  <hop> <from>A 2</from><to>ADJUSTMENT_RESERVE_DETAIL 4</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTMENT_RESERVE_DETAIL 4</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  </order>
+  <step>
+    <name>A</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>LATEST_DATE 2</send_true_to>
+<send_false_to>ADJUSTMENT_GTN_DETAIL 4</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>C</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1604</xloc>
+      <yloc>1013</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>A 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>INVALID COUNT 3 2 3</send_true_to>
+<send_false_to>ADJUSTMENT_RESERVE_DETAIL 4</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>C</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>703</xloc>
+      <yloc>1081</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADD Audit update</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>ADD_COUNT</name>
+        <rename>ADD_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1612</xloc>
+      <yloc>1579</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADD Audit update 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>ADD_COUNT</name>
+        <rename>ADD_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>711</xloc>
+      <yloc>1647</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADD BATCH DUPLCIATION</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+      <reject_duplicate_row>Y</reject_duplicate_row>
+      <error_description>Duplicate record in Staging</error_description>
+    <fields>      <field>        <name>ADJUSTMENT_DETAIL_ID</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>TRANSACTION_LEVEL</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1113</xloc>
+      <yloc>385</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_GTN_DETAIL</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_GTN_DETAIL</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ADJUSTMENT_DETAIL_ID</name>
+        <field>ADJUSTMENT_GTN_DETAIL_SID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ADJUSTMENT_GTN_DETAIL_SID</name>
+        <rename>ADJUSTMENT_GTN_DETAIL_SID_NEW</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1538</xloc>
+      <yloc>434</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_GTN_DETAIL 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_GTN_DETAIL</table>
+      <key>
+        <name>ADJUSTMENT_GTN_DETAIL_SID_NEW</name>
+        <field>ADJUSTMENT_GTN_DETAIL_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>LATEST_DATE</rename>
+        </value>
+      <value>
+        <name>OUTBOUND_STATUS</name>
+        <rename>STATUS</rename>
+        </value>
+      <value>
+        <name>POSTING_INDICATOR</name>
+        <rename>STATUS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1366</xloc>
+      <yloc>758</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_GTN_DETAIL 3</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_GTN_DETAIL</table>
+      <key>
+        <name>ADJUSTMENT_GTN_DETAIL_SID_NEW</name>
+        <field>ADJUSTMENT_GTN_DETAIL_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>LATEST_DATE</rename>
+        </value>
+      <value>
+        <name>OUTBOUND_STATUS</name>
+        <rename>STATUS</rename>
+        </value>
+      <value>
+        <name>POSTING_INDICATOR</name>
+        <rename>STATUS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1393</xloc>
+      <yloc>1019</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_GTN_DETAIL 4</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_GTN_DETAIL</table>
+      <key>
+        <name>ADJUSTMENT_GTN_DETAIL_SID_NEW</name>
+        <field>ADJUSTMENT_GTN_DETAIL_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>LATEST_DATE</rename>
+        </value>
+      <value>
+        <name>OUTBOUND_STATUS</name>
+        <rename>STATUS</rename>
+        </value>
+      <value>
+        <name>POSTING_INDICATOR</name>
+        <rename>STATUS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1611</xloc>
+      <yloc>1265</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_RESERVE_DETAIL</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_RESERVE_DETAIL</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ADJUSTMENT_DETAIL_ID</name>
+        <field>ADJUSTMENT_RESERVE_DETAIL_SID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ADJUSTMENT_RESERVE_DETAIL_SID</name>
+        <rename>ADJUSTMENT_RESERVE_DETAIL_SID_NEW</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>547</xloc>
+      <yloc>558</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_RESERVE_DETAIL 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_RESERVE_DETAIL</table>
+      <key>
+        <name>ADJUSTMENT_RESERVE_DETAIL_SID_NEW</name>
+        <field>ADJUSTMENT_RESERVE_DETAIL_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>OUTBOUND_STATUS</name>
+        <rename>STATUS</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>LATEST_DATE</rename>
+        </value>
+      <value>
+        <name>POSTING_INDICATOR</name>
+        <rename>STATUS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>435</xloc>
+      <yloc>828</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_RESERVE_DETAIL 3</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_RESERVE_DETAIL</table>
+      <key>
+        <name>ADJUSTMENT_RESERVE_DETAIL_SID_NEW</name>
+        <field>ADJUSTMENT_RESERVE_DETAIL_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>LATEST_DATE</rename>
+        </value>
+      <value>
+        <name>OUTBOUND_STATUS</name>
+        <rename>STATUS</rename>
+        </value>
+      <value>
+        <name>POSTING_INDICATOR</name>
+        <rename>STATUS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>452</xloc>
+      <yloc>1083</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ADJUSTMENT_RESERVE_DETAIL 4</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>ADJUSTMENT_RESERVE_DETAIL</table>
+      <key>
+        <name>ADJUSTMENT_RESERVE_DETAIL_SID_NEW</name>
+        <field>ADJUSTMENT_RESERVE_DETAIL_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>LATEST_DATE</rename>
+        </value>
+      <value>
+        <name>OUTBOUND_STATUS</name>
+        <rename>STATUS</rename>
+        </value>
+      <value>
+        <name>POSTING_INDICATOR</name>
+        <rename>STATUS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>710</xloc>
+      <yloc>1333</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1612</xloc>
+      <yloc>1482</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>711</xloc>
+      <yloc>1550</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 3 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Inbound_Status</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>A</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Inbound_Status_C</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>A</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Inbound_Status_D</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>A</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INDICATOR_Y</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Y</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INDICATOR_N</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>N</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1111</xloc>
+      <yloc>329</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 3 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>ERROR_CODE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>982</xloc>
+      <yloc>385</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Audit Status</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1407</xloc>
+      <yloc>863</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Audit Status 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1393</xloc>
+      <yloc>1112</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Audit Status 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>492</xloc>
+      <yloc>1180</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Audit Status 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>431</xloc>
+      <yloc>942</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Change Audit update 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>CHANGE_COUNT</name>
+        <rename>CHANGE_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1276</xloc>
+      <yloc>1115</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Change Audit update 2 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>CHANGE_COUNT</name>
+        <rename>CHANGE_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>375</xloc>
+      <yloc>1183</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>LATEST_DATE 3</send_true_to>
+<send_false_to>A</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>D</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1601</xloc>
+      <yloc>757</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>LATEST_DATE 4</send_true_to>
+<send_false_to>A 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>D</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>702</xloc>
+      <yloc>821</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D-INVALID2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1167</xloc>
+      <yloc>767</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D-INVALID2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1185</xloc>
+      <yloc>1026</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D-INVALID2 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>164</xloc>
+      <yloc>1094</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D-INVALID2 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>158</xloc>
+      <yloc>837</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Audit update</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>DELETE_COUNT</name>
+        <rename>DELETE_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1317</xloc>
+      <yloc>872</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Audit update 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>DELETE_COUNT</name>
+        <rename>DELETE_COUNT</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>289</xloc>
+      <yloc>930</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Reason</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No record exist to delete</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1257</xloc>
+      <yloc>767</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Reason 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No record exist to Update</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1280</xloc>
+      <yloc>1023</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Reason 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No record exist to Update</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>283</xloc>
+      <yloc>1096</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Reason 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No record exist to delete</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>266</xloc>
+      <yloc>841</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>965</xloc>
+      <yloc>292</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing) 3</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1241</xloc>
+      <yloc>279</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>D</send_true_to>
+<send_false_to>D 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>TRANSACTION_LEVEL</leftvalue>
+   <function>=</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>GTN</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>TRANSACTION_LEVEL</leftvalue>
+   <function>=</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>gtn</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1128</xloc>
+      <yloc>523</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID COUNT 3 2 3</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS LATEST_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>620</xloc>
+      <yloc>1085</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>697</xloc>
+      <yloc>139</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>847</xloc>
+      <yloc>387</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 7</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1962</xloc>
+      <yloc>467</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 7 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_GL_POSTING</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>GL_POSTING_INTERFACE_ID</column_name>
+          <stream_name>GL_POSTING_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADJUSTMENT_DETAIL_ID</column_name>
+          <stream_name>ADJUSTMENT_DETAIL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRANSACTION_LEVEL</column_name>
+          <stream_name>TRANSACTION_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>291</xloc>
+      <yloc>581</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Indicator</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>828</xloc>
+      <yloc>120</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 5</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Adjustment_Gtn_Id</nullif>
+        <length>0</length>
+        <precision>0</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1858</xloc>
+      <yloc>410</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 5 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Adjustment_Reserve_Id</nullif>
+        <length>0</length>
+        <precision>0</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>411</xloc>
+      <yloc>568</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>LATEST_DATE</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS LATEST_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1843</xloc>
+      <yloc>1125</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>LATEST_DATE 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS LATEST_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1521</xloc>
+      <yloc>1017</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>LATEST_DATE 3</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS LATEST_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1489</xloc>
+      <yloc>763</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>LATEST_DATE 4</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS LATEST_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>597</xloc>
+      <yloc>831</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>LATEST_DATE 5</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS LATEST_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>848</xloc>
+      <yloc>1243</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>ADD_COUNT</aggregate>
+          <subject>GL_POSTING_INTERFACE_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1611</xloc>
+      <yloc>1393</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 2</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>DELETE_COUNT</aggregate>
+          <subject>GL_POSTING_INTERFACE_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1509</xloc>
+      <yloc>863</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 2 2</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>CHANGE_COUNT</aggregate>
+          <subject>GL_POSTING_INTERFACE_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1522</xloc>
+      <yloc>1110</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 2 2 2</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>CHANGE_COUNT</aggregate>
+          <subject>GL_POSTING_INTERFACE_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>621</xloc>
+      <yloc>1178</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 2 3</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>DELETE_COUNT</aggregate>
+          <subject>GL_POSTING_INTERFACE_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>567</xloc>
+      <yloc>947</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 3</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>ADD_COUNT</aggregate>
+          <subject>GL_POSTING_INTERFACE_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>710</xloc>
+      <yloc>1461</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Switch &#47; Case</name>
+    <type>SwitchCase</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<fieldname>ADD_CHG_DEL_INDICATOR</fieldname>
+<use_contains>N</use_contains>
+<case_value_type>String</case_value_type>
+<case_value_format/>
+<case_value_decimal/>
+<case_value_group/>
+<default_target_step>Invalid Reason</default_target_step>
+<cases><case><value>A</value>
+<target_step>Add constants 3 2</target_step>
+</case><case><value>D</value>
+<target_step>Dummy (do nothing)</target_step>
+</case><case><value>C</value>
+<target_step>Dummy (do nothing) 3</target_step>
+</case></cases>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1113</xloc>
+      <yloc>203</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>TEMP</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <sql>
+
+ 
+
+
+SELECT
+  A.GL_POSTING_INTERFACE_ID
+, A.ADJUSTMENT_DETAIL_ID
+, A.TRANSACTION_LEVEL
+, A.STATUS
+, A.BATCH_ID
+, A.SOURCE
+, A.CREATED_BY
+, A.CREATED_DATE
+, A.MODIFIED_BY
+, A.MODIFIED_DATE
+, A.ADD_CHG_DEL_INDICATOR
+
+,B.ADJUSTMENT_RESERVE_DETAIL_SID AS ADJUSTMENT_RESERVE_DETAIL_SID_NEW
+
+,NULL AS ADJUSTMENT_GTN_DETAIL_SID_NEW 
+,GETDATE() AS LATEST_DATE
+
+FROM STAG_GL_POSTING A
+
+JOIN ADJUSTMENT_RESERVE_DETAIL  B 
+           ON  A.ADJUSTMENT_DETAIL_ID=B.ADJUSTMENT_RESERVE_DETAIL_SID
+		   WHERE A.TRANSACTION_LEVEL=&apos;RESERVE&apos;
+
+UNION ALL
+
+
+
+SELECT
+  A.GL_POSTING_INTERFACE_ID
+, A.ADJUSTMENT_DETAIL_ID
+, A.TRANSACTION_LEVEL
+, A.STATUS
+, A.BATCH_ID
+, A.SOURCE
+, A.CREATED_BY
+, A.CREATED_DATE
+, A.MODIFIED_BY
+, A.MODIFIED_DATE
+, A.ADD_CHG_DEL_INDICATOR
+
+,NULL AS ADJUSTMENT_RESERVE_DETAIL_SID_NEW
+
+,D.ADJUSTMENT_GTN_DETAIL_SID AS ADJUSTMENT_GTN_DETAIL_SID_NEW 
+,GETDATE() AS LATEST_DATE
+
+FROM STAG_GL_POSTING A 
+JOIN ADJUSTMENT_GTN_DETAIL  D
+           ON A.ADJUSTMENT_DETAIL_ID=D.ADJUSTMENT_GTN_DETAIL_SID
+		    WHERE A.TRANSACTION_LEVEL=&apos;GTN&apos;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1116</xloc>
+      <yloc>93</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+      <error>
+        <source_step>ADD BATCH DUPLCIATION</source_step>
+        <target_step>Add constants 3 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename>Reason_For_Failure</descriptions_valuename>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ADJUSTMENT_GTN_DETAIL</source_step>
+        <target_step>Invalid Reason 5</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ADJUSTMENT_GTN_DETAIL 2</source_step>
+        <target_step>Delete Reason</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ADJUSTMENT_GTN_DETAIL 3</source_step>
+        <target_step>Delete Reason 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ADJUSTMENT_RESERVE_DETAIL</source_step>
+        <target_step>Invalid Reason 5 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ADJUSTMENT_RESERVE_DETAIL 2</source_step>
+        <target_step>Delete Reason 3</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>ADJUSTMENT_RESERVE_DETAIL 3</source_step>
+        <target_step>Delete Reason 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+</transformation>

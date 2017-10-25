@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui" xmlns:ct="urn:import:org.asi.ui.customtextfield"
+       xmlns:eft="urn:import:org.asi.ui.extfilteringtable">
+    <VerticalLayout margin = "true" spacing = "true" width="100%" height="100%">
+        <Panel caption = "View"  spacing="true" width="100%" height="100%">
+            <VerticalLayout spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true" immediate="true" columns="4" rows="1">
+                    <Label  value="Private View" immediate="true" styleName="label-margin-top-size" />
+                    <ct:CustomTextField id="privateView" enable="true" immediate="true" width="205px"/>
+            
+                    <Label  value="Public View" immediate="true" styleName="label-margin-top-size" />
+                    <ct:CustomTextField id="publicView" enable="true" immediate="true" width="205px"/>
+                </GridLayout>
+            </VerticalLayout>            
+        </Panel>
+        <Panel caption = "Inventory Calculation">
+            <VerticalLayout id="inventoryTableLayout"  width="100%" height="50%" immediate="true" >
+               
+            </VerticalLayout >
+        </Panel>
+        <HorizontalLayout id="buttonLay" spacing="true" margin="false">
+            <Button id="submitBtn" caption="SUBMIT" />
+            <Button id="resetBtn" caption="RESET" />
+            <Button id="closeBtn" caption="CLOSE" />
+            <Button id="saveViewBtn" caption="SAVE VIEW" />
+            <Button id="deleteViewBtn" caption="DELETE VIEW " />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

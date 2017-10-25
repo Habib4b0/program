@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+    <entity id="get-companies">
+        <query>
+            <![CDATA[
+                SELECT
+                    CM.COMPANY_MASTER_SID, 
+                    CM.COMPANY_ID, 
+                    CM.COMPANY_NO, 
+                    CM.COMPANY_NAME 
+                FROM
+                    COMPANY_MASTER CM 
+                JOIN HELPER_TABLE HT ON 
+                    HT.HELPER_TABLE_SID = CM.COMPANY_TYPE 
+                WHERE 
+                    HT.LIST_NAME LIKE 'COMPANY_TYPE' 
+                    AND HT.DESCRIPTION LIKE 'GLCOMP' 
+                    AND CM.INBOUND_STATUS <> 'D' 
+                    AND CM.COMPANY_MASTER_SID = @GLCOMP 
+                ORDER BY COMPANY_NO;
+        ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="ex-factory-search-query">
+        <query>
+            <![CDATA[
+                    SELECT FORECAST_NAME,
+                           FORECAST_VER,
+                           "SOURCE",
+                           COUNTRY,
+                           FT_MIN_DATE,
+                           FT_MAX_DATE,
+                           Month(FT_MIN_DATE) AS MIN_MONTH,
+                           Year(FT_MIN_DATE)  AS MIN_YEAR,
+                           MAX_MONTH,
+                           MAX_YEAR,
+                           BUSINESS_UNIT,
+                           COMPANY_MASTER_SID
+                    FROM   (SELECT FM.FORECAST_NAME,
+                                   FM.FORECAST_VER,
+                                   FM."SOURCE",
+                                   FM.COUNTRY,
+                                   FM.BUSINESS_UNIT,
+                                   CM.COMPANY_MASTER_SID,
+                                   Min(CASE
+                                         WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(FORECAST_YEAR , FORECAST_MONTH ,1 ))
+                                       END)
+                                     OVER(
+                                       partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                                   Max(Datefromparts(fm.FORECAST_YEAR, fm.FORECAST_MONTH, 1)) AS FT_MAX_DATE,
+                                   Max(Cast(fm.FORECAST_MONTH AS INT))                        AS MAX_MONTH,
+                                   Max(Cast(fm.FORECAST_YEAR AS INT))                         AS MAX_YEAR
+                            FROM   FORECASTING_MASTER FM
+                                    JOIN ITEM_MASTER IM
+                                        ON IM.ITEM_ID = FM.NDC
+                                    AND IM.INBOUND_STATUS <> 'D' 
+                                    JOIN GL_COST_CENTER_MASTER GLC
+                                        ON IM.NDC8 = GLC.NDC8
+                                    AND GLC.INBOUND_STATUS <> 'D' 
+                                    JOIN COMPANY_MASTER CM
+                                        ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                                    AND CM.INBOUND_STATUS <> 'D'
+                                    AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+                            WHERE  FM.[SOURCE] IN( [?SOURCE] )
+                                   AND FM.COUNTRY = '[?COUNTRY]'
+                                   AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                                   AND FM.FORECAST_VER LIKE '%'
+                                   [?CONDITION]
+                            GROUP  BY FM.FORECAST_NAME,
+                                      FM.FORECAST_VER,
+                                      FM.SOURCE,
+                                      FM.COUNTRY,
+                                      FM.BUSINESS_UNIT,
+                                      CM.COMPANY_MASTER_SID) A
+                    ORDER BY [?ORDER_BY_COLUMN] 
+                    OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;     
+     ]]>
+        </query>
+    </entity>
+    
+    <entity id="ex-factory-count-query">
+        <query>
+            <![CDATA[
+                    SELECT COUNT(*)
+                    FROM   (SELECT FM.FORECAST_NAME,
+                                   FM.FORECAST_VER,
+                                   FM."SOURCE",
+                                   FM.COUNTRY,
+                                   FM.BUSINESS_UNIT,
+                                   CM.COMPANY_MASTER_SID,
+                                   Min(CASE
+                                         WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(FORECAST_YEAR , FORECAST_MONTH ,1 ))
+                                       END)
+                                     OVER(
+                                       partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                                   Max(Datefromparts(fm.FORECAST_YEAR, fm.FORECAST_MONTH, 1)) AS FT_MAX_DATE,
+                                   Max(Cast(fm.FORECAST_MONTH AS INT))                        AS MAX_MONTH,
+                                   Max(Cast(fm.FORECAST_YEAR AS INT))                         AS MAX_YEAR
+                            FROM   FORECASTING_MASTER FM
+                                    JOIN ITEM_MASTER IM
+                                        ON IM.ITEM_ID = FM.NDC
+                                    AND IM.INBOUND_STATUS <> 'D' 
+                                    JOIN GL_COST_CENTER_MASTER GLC
+                                        ON IM.NDC8 = GLC.NDC8
+                                    AND GLC.INBOUND_STATUS <> 'D' 
+                                    JOIN COMPANY_MASTER CM
+                                        ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                                    AND CM.INBOUND_STATUS <> 'D'
+                                    AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+                            WHERE  FM.[SOURCE] IN( [?SOURCE] )
+                                   AND FM.COUNTRY = '[?COUNTRY]'
+                                   AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                                   AND FM.FORECAST_VER LIKE '%'
+                                   [?CONDITION]
+                            GROUP  BY FM.FORECAST_NAME,
+                                      FM.FORECAST_VER,
+                                      FM.SOURCE,
+                                      FM.COUNTRY,
+                                      FM.BUSINESS_UNIT,
+                                      CM.COMPANY_MASTER_SID) A;     
+     ]]>
+        </query>
+    </entity>
+    
+    <entity id="demand-search-query">
+        <query>
+            <![CDATA[
+    
+                SELECT FORECAST_NAME,
+                   FORECAST_VER,
+                   "SOURCE",
+                   COUNTRY,
+                   FT_MIN_DATE,
+                   FT_MAX_DATE,
+                   Month(FT_MIN_DATE) AS MIN_MONTH,
+                   Year(FT_MIN_DATE)  AS MIN_YEAR,
+                   MAX_MONTH,
+                   MAX_YEAR,
+                   BUSINESS_UNIT,
+                   COMPANY_MASTER_SID
+                FROM   (SELECT FM.FORECAST_NAME,
+                           FM.FORECAST_VER,
+                           FM."SOURCE",
+                           FM.COUNTRY,
+                           FM.BUSINESS_UNIT,
+                           CM.COMPANY_MASTER_SID,
+                           Min(CASE
+                                 WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(FORECAST_YEAR , FORECAST_MONTH ,1 ))
+                               END)
+                             OVER(
+                               partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                           Max(Datefromparts(fm.FORECAST_YEAR, fm.FORECAST_MONTH, 1)) AS FT_MAX_DATE,
+                           Max(Cast(fm.FORECAST_MONTH AS INT))                        AS MAX_MONTH,
+                           Max(Cast(fm.FORECAST_YEAR AS INT))                         AS MAX_YEAR
+                    FROM DEMAND_FORECAST FM
+                            JOIN ITEM_MASTER IM
+                                ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                            AND IM.INBOUND_STATUS <> 'D' 
+                            JOIN GL_COST_CENTER_MASTER GLC
+                                ON IM.NDC8 = GLC.NDC8
+                            AND GLC.INBOUND_STATUS <> 'D' 
+                            JOIN COMPANY_MASTER CM
+                                ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                            AND CM.INBOUND_STATUS <> 'D'
+                            AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+                    WHERE  FM.COUNTRY = '[?COUNTRY]'
+                           AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                           AND FM.FORECAST_VER LIKE '%'
+                           [?CONDITION]
+                    GROUP  BY FM.FORECAST_NAME,
+                              FM.FORECAST_VER,
+                              FM.SOURCE,
+                              FM.COUNTRY,
+                              FM.BUSINESS_UNIT,
+                              CM.COMPANY_MASTER_SID
+                              ) A
+                    ORDER BY [?ORDER_BY_COLUMN] 
+                        OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
+            
+                 ]]>
+        </query>
+    </entity>
+    
+    <entity id="demand-count-query">
+        <query>
+            <![CDATA[
+    
+                SELECT COUNT(*)
+                FROM   (SELECT FM.FORECAST_NAME,
+                           FM.FORECAST_VER,
+                           FM."SOURCE",
+                           FM.COUNTRY,
+                           FM.BUSINESS_UNIT,
+                           CM.COMPANY_MASTER_SID,
+                           Min(CASE
+                                 WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(FORECAST_YEAR , FORECAST_MONTH ,1 ))
+                               END)
+                             OVER(
+                               partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                           Max(Datefromparts(fm.FORECAST_YEAR, fm.FORECAST_MONTH, 1)) AS FT_MAX_DATE,
+                           Max(Cast(fm.FORECAST_MONTH AS INT))                        AS MAX_MONTH,
+                           Max(Cast(fm.FORECAST_YEAR AS INT))                         AS MAX_YEAR
+                    FROM DEMAND_FORECAST FM
+                            JOIN ITEM_MASTER IM
+                                ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                            AND IM.INBOUND_STATUS <> 'D' 
+                            JOIN GL_COST_CENTER_MASTER GLC
+                                ON IM.NDC8 = GLC.NDC8
+                            AND GLC.INBOUND_STATUS <> 'D' 
+                            JOIN COMPANY_MASTER CM
+                                ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                            AND CM.INBOUND_STATUS <> 'D'
+                            AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+                    WHERE  FM.COUNTRY = '[?COUNTRY]'
+                           AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                           AND FM.FORECAST_VER LIKE '%'
+                           [?CONDITION]
+                    GROUP  BY FM.FORECAST_NAME,
+                              FM.FORECAST_VER,
+                              FM.SOURCE,
+                              FM.COUNTRY,
+                              FM.BUSINESS_UNIT,
+                              CM.COMPANY_MASTER_SID
+                              ) A            
+                 ]]>
+        </query>
+    </entity>
+    
+    
+        
+    <entity id="adjusted-demand-search-query">
+        <query>
+            <![CDATA[
+                SELECT FORECAST_NAME,
+                     FORECAST_VER,
+                     "SOURCE",
+                     COUNTRY,
+                     FT_MIN_DATE,
+                     FT_MAX_DATE,
+                     Month(FT_MIN_DATE) AS MIN_MONTH,
+                     Year(FT_MIN_DATE)  AS MIN_YEAR,
+                     MAX_MONTH,
+                     MAX_YEAR,
+                     BUSINESS_UNIT,
+                     COMPANY_MASTER_SID
+                FROM   (SELECT FM.FORECAST_NAME,
+                             FM.FORECAST_VER,
+                             FM."SOURCE",
+                             FM.COUNTRY,
+                             FM.BUSINESS_UNIT,
+                             CM.COMPANY_MASTER_SID,
+                             Min(CASE
+                                   WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(YEAR , MONTH ,1 ))
+                                 END)
+                               OVER(
+                                 partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                             Max(Datefromparts(fm.YEAR, fm.MONTH, 1)) AS FT_MAX_DATE,
+                             Max(Cast(fm.MONTH AS INT))                        AS MAX_MONTH,
+                             Max(Cast(fm.YEAR AS INT))                         AS MAX_YEAR
+                      FROM ADJUSTED_DEMAND_FORECAST FM
+                              JOIN ITEM_MASTER IM
+                                  ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                              AND IM.INBOUND_STATUS <> 'D'
+                              JOIN GL_COST_CENTER_MASTER GLC
+                                  ON IM.NDC8 = GLC.NDC8
+                              AND GLC.INBOUND_STATUS <> 'D'
+                              JOIN COMPANY_MASTER CM
+                                  ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                              AND CM.INBOUND_STATUS <> 'D'
+                              AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+                      WHERE  FM.COUNTRY = '[?COUNTRY]'
+                             AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                             AND FM.FORECAST_VER LIKE '%'
+                             [?CONDITION]
+                      GROUP  BY FM.FORECAST_NAME,
+                                FM.FORECAST_VER,
+                                FM.SOURCE,
+                                FM.COUNTRY,
+                                FM.BUSINESS_UNIT,
+                                CM.COMPANY_MASTER_SID) A
+                    ORDER BY [?ORDER_BY_COLUMN] 
+                        OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
+                ]]>
+        </query>
+    </entity>
+    
+    
+     <entity id="adjusted-demand-count-query">
+        <query>
+            <![CDATA[
+                SELECT COUNT(*)
+                FROM   (SELECT FM.FORECAST_NAME,
+                             FM.FORECAST_VER,
+                             FM."SOURCE",
+                             FM.COUNTRY,
+                             FM.BUSINESS_UNIT,
+                             CM.COMPANY_MASTER_SID,
+                             Min(CASE
+                                   WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(YEAR , MONTH ,1 ))
+                                 END)
+                               OVER(
+                                 partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                             Max(Datefromparts(fm.YEAR, fm.MONTH, 1)) AS FT_MAX_DATE,
+                             Max(Cast(fm.MONTH AS INT))                        AS MAX_MONTH,
+                             Max(Cast(fm.YEAR AS INT))                         AS MAX_YEAR
+                      FROM ADJUSTED_DEMAND_FORECAST FM
+                              JOIN ITEM_MASTER IM
+                                  ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                              AND IM.INBOUND_STATUS <> 'D'
+                              JOIN GL_COST_CENTER_MASTER GLC
+                                  ON IM.NDC8 = GLC.NDC8
+                              AND GLC.INBOUND_STATUS <> 'D'
+                              JOIN COMPANY_MASTER CM
+                                  ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                              AND CM.INBOUND_STATUS <> 'D'
+                              AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+                      WHERE  FM.COUNTRY = '[?COUNTRY]'
+                             AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                             AND FM.FORECAST_VER LIKE '%'
+                             [?CONDITION]
+                      GROUP  BY FM.FORECAST_NAME,
+                                FM.FORECAST_VER,
+                                FM.SOURCE,
+                                FM.COUNTRY,
+                                FM.BUSINESS_UNIT,
+                                CM.COMPANY_MASTER_SID) A;
+                ]]>
+        </query>
+    </entity>
+    
+    <entity id="customer-gts-search-query">
+        <query>
+            <![CDATA[
+             SELECT FORECAST_NAME,
+             FORECAST_VER,
+             "SOURCE",
+             COUNTRY,
+             FT_MIN_DATE,
+             FT_MAX_DATE,
+             Month(FT_MIN_DATE) AS MIN_MONTH,
+             Year(FT_MIN_DATE)  AS MIN_YEAR,
+             MAX_MONTH,
+             MAX_YEAR,
+             BUSINESS_UNIT,
+             COMPANY_MASTER_SID
+          FROM   (SELECT FM.FORECAST_NAME,
+                     FM.FORECAST_VER,
+                     FM."SOURCE",
+                     FM.COUNTRY,
+                     FM.BUSINESS_UNIT,
+                     CM.COMPANY_MASTER_SID,
+                     Min(CASE
+                           WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(FORECAST_YEAR , FORECAST_MONTH ,1 ))
+                         END)
+                       OVER(
+                         partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                     Max(Datefromparts(fm.FORECAST_YEAR, fm.FORECAST_MONTH, 1)) AS FT_MAX_DATE,
+                     Max(Cast(fm.FORECAST_MONTH AS INT))                        AS MAX_MONTH,
+                     Max(Cast(fm.FORECAST_YEAR AS INT))                         AS MAX_YEAR
+              FROM CUSTOMER_GTS_FORECAST FM
+                      JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                      AND IM.INBOUND_STATUS <> 'D'
+                      JOIN GL_COST_CENTER_MASTER GLC
+                          ON IM.NDC8 = GLC.NDC8
+                      AND GLC.INBOUND_STATUS <> 'D'
+                      JOIN COMPANY_MASTER CM
+                          ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                      AND CM.INBOUND_STATUS <> 'D'
+                      AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+              WHERE  FM.COUNTRY = '[?COUNTRY]'
+                     AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                     AND FM.FORECAST_VER LIKE '%'
+                     [?CONDITION]
+              GROUP  BY FM.FORECAST_NAME,
+                        FM.FORECAST_VER,
+                        FM.SOURCE,
+                        FM.COUNTRY,
+                        FM.BUSINESS_UNIT,
+                        CM.COMPANY_MASTER_SID
+                        ) A
+                    ORDER BY [?ORDER_BY_COLUMN] 
+                        OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
+                  
+                                  ]]>
+        </query>
+    </entity>
+    
+    <entity id="customer-gts-count-query">
+        <query>
+            <![CDATA[
+             SELECT COUNT(*)
+          FROM   (SELECT FM.FORECAST_NAME,
+                     FM.FORECAST_VER,
+                     FM."SOURCE",
+                     FM.COUNTRY,
+                     FM.BUSINESS_UNIT,
+                     CM.COMPANY_MASTER_SID,
+                     Min(CASE
+                           WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(FORECAST_YEAR , FORECAST_MONTH ,1 ))
+                         END)
+                       OVER(
+                         partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                     Max(Datefromparts(fm.FORECAST_YEAR, fm.FORECAST_MONTH, 1)) AS FT_MAX_DATE,
+                     Max(Cast(fm.FORECAST_MONTH AS INT))                        AS MAX_MONTH,
+                     Max(Cast(fm.FORECAST_YEAR AS INT))                         AS MAX_YEAR
+              FROM CUSTOMER_GTS_FORECAST FM
+                      JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                      AND IM.INBOUND_STATUS <> 'D'
+                      JOIN GL_COST_CENTER_MASTER GLC
+                          ON IM.NDC8 = GLC.NDC8
+                      AND GLC.INBOUND_STATUS <> 'D'
+                      JOIN COMPANY_MASTER CM
+                          ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                      AND CM.INBOUND_STATUS <> 'D'
+                      AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+              WHERE  FM.COUNTRY = '[?COUNTRY]'
+                     AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                     AND FM.FORECAST_VER LIKE '%'
+                     [?CONDITION]
+              GROUP  BY FM.FORECAST_NAME,
+                        FM.FORECAST_VER,
+                        FM.SOURCE,
+                        FM.COUNTRY,
+                        FM.BUSINESS_UNIT,
+                        CM.COMPANY_MASTER_SID
+                        ) A;  ]]>
+        </query>
+    </entity>
+    
+        <entity id="inventory-with-det-search-query">
+        <query>
+            <![CDATA[    
+             SELECT FORECAST_NAME,
+             FORECAST_VER,
+             "SOURCE",
+             COUNTRY,
+             FT_MIN_DATE,
+             FT_MAX_DATE,
+             Month(FT_MIN_DATE) AS MIN_MONTH,
+             Year(FT_MIN_DATE)  AS MIN_YEAR,
+             MAX_MONTH,
+             MAX_YEAR,
+             BUSINESS_UNIT,
+             COMPANY_MASTER_SID
+          FROM   (SELECT FM.FORECAST_NAME,
+                     FM.FORECAST_VER,
+                     FM."SOURCE",
+                     FM.COUNTRY,
+                     FM.BUSINESS_UNIT,
+                     CM.COMPANY_MASTER_SID,
+                     Min(CASE
+                           WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(YEAR , MONTH ,1 ))
+                         END)
+                       OVER(
+                         partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                     Max(Datefromparts(fm.YEAR, fm.MONTH, 1)) AS FT_MAX_DATE,
+                     Max(Cast(fm.MONTH AS INT))                        AS MAX_MONTH,
+                     Max(Cast(fm.YEAR AS INT))                         AS MAX_YEAR
+              FROM INVENTORY_WD_PROJ_DT FM
+                      JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                      AND IM.INBOUND_STATUS <> 'D'
+                      JOIN GL_COST_CENTER_MASTER GLC
+                          ON IM.NDC8 = GLC.NDC8
+                      AND GLC.INBOUND_STATUS <> 'D'
+                      JOIN COMPANY_MASTER CM
+                          ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                      AND CM.INBOUND_STATUS <> 'D'
+                      AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+              WHERE  FM.COUNTRY = '[?COUNTRY]'
+                     AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                     AND FM.FORECAST_VER LIKE '%'
+                     [?CONDITION]
+              GROUP  BY FM.FORECAST_NAME,
+                        FM.FORECAST_VER,
+                        FM.SOURCE,
+                        FM.COUNTRY,
+                        FM.BUSINESS_UNIT,
+                        CM.COMPANY_MASTER_SID
+                        ) A
+                    ORDER BY [?ORDER_BY_COLUMN] 
+                        OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
+                  ]]>
+        </query>
+    </entity>
+    
+      <entity id="inventory-with-det-count-query">
+        <query>
+            <![CDATA[    
+             SELECT COUNT(*)
+          FROM   (SELECT FM.FORECAST_NAME,
+                     FM.FORECAST_VER,
+                     FM."SOURCE",
+                     FM.COUNTRY,
+                     FM.BUSINESS_UNIT,
+                     CM.COMPANY_MASTER_SID,
+                     Min(CASE
+                           WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(YEAR , MONTH ,1 ))
+                         END)
+                       OVER(
+                         partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                     Max(Datefromparts(fm.YEAR, fm.MONTH, 1)) AS FT_MAX_DATE,
+                     Max(Cast(fm.MONTH AS INT))                        AS MAX_MONTH,
+                     Max(Cast(fm.YEAR AS INT))                         AS MAX_YEAR
+              FROM INVENTORY_WD_PROJ_DT FM
+                      JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                      AND IM.INBOUND_STATUS <> 'D'
+                      JOIN GL_COST_CENTER_MASTER GLC
+                          ON IM.NDC8 = GLC.NDC8
+                      AND GLC.INBOUND_STATUS <> 'D'
+                      JOIN COMPANY_MASTER CM
+                          ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                      AND CM.INBOUND_STATUS <> 'D'
+                      AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+              WHERE  FM.COUNTRY = '[?COUNTRY]'
+                     AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                     AND FM.FORECAST_VER LIKE '%'
+                     [?CONDITION]
+              GROUP  BY FM.FORECAST_NAME,
+                        FM.FORECAST_VER,
+                        FM.SOURCE,
+                        FM.COUNTRY,
+                        FM.BUSINESS_UNIT,
+                        CM.COMPANY_MASTER_SID
+                        ) A;
+                  ]]>
+        </query>
+    </entity>
+    
+    <entity id="inventory-withdrawl-summary-search-query">
+        <query>
+            <![CDATA[    
+             SELECT FORECAST_NAME,
+             FORECAST_VER,
+             "SOURCE",
+             COUNTRY,
+             FT_MIN_DATE,
+             FT_MAX_DATE,
+             Month(FT_MIN_DATE) AS MIN_MONTH,
+             Year(FT_MIN_DATE)  AS MIN_YEAR,
+             MAX_MONTH,
+             MAX_YEAR,
+             BUSINESS_UNIT,
+             COMPANY_MASTER_SID
+          FROM   (SELECT FM.FORECAST_NAME,
+                     FM.FORECAST_VER,
+                     FM."SOURCE",
+                     FM.COUNTRY,
+                     FM.BUSINESS_UNIT,
+                     CM.COMPANY_MASTER_SID,
+                     Min(CASE
+                           WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(YEAR , MONTH ,1 ))
+                         END)
+                       OVER(
+                         partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                     Max(Datefromparts(fm.YEAR, fm.MONTH, 1)) AS FT_MAX_DATE,
+                     Max(Cast(fm.MONTH AS INT))                        AS MAX_MONTH,
+                     Max(Cast(fm.YEAR AS INT))                         AS MAX_YEAR
+              FROM INVENTORY_WD_PROJ_MAS FM
+                      JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                      AND IM.INBOUND_STATUS <> 'D'
+                      JOIN GL_COST_CENTER_MASTER GLC
+                          ON IM.NDC8 = GLC.NDC8
+                      AND GLC.INBOUND_STATUS <> 'D'
+                      JOIN COMPANY_MASTER CM
+                          ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                      AND CM.INBOUND_STATUS <> 'D'
+                      AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+              WHERE  FM.COUNTRY = '[?COUNTRY]'
+                     AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                     AND FM.FORECAST_VER LIKE '%'
+                     [?CONDITION]
+              GROUP  BY FM.FORECAST_NAME,
+                        FM.FORECAST_VER,
+                        FM.SOURCE,
+                        FM.COUNTRY,
+                        FM.BUSINESS_UNIT,
+                        CM.COMPANY_MASTER_SID
+                        ) A
+                    ORDER BY [?ORDER_BY_COLUMN] 
+                        OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
+                  ]]>
+        </query>
+    </entity>
+    
+      <entity id="inventory-withdrawl-summary-count-query">
+        <query>
+            <![CDATA[    
+             SELECT COUNT(*)
+          FROM   (SELECT FM.FORECAST_NAME,
+                     FM.FORECAST_VER,
+                     FM."SOURCE",
+                     FM.COUNTRY,
+                     FM.BUSINESS_UNIT,
+                     CM.COMPANY_MASTER_SID,
+                     Min(CASE
+                           WHEN FORECAST_VER = Floor(FM.FORECAST_VER) THEN Min(Datefromparts(YEAR , MONTH ,1 ))
+                         END)
+                       OVER(
+                         partition BY FORECAST_NAME)                            FT_MIN_DATE,
+                     Max(Datefromparts(fm.YEAR, fm.MONTH, 1)) AS FT_MAX_DATE,
+                     Max(Cast(fm.MONTH AS INT))                        AS MAX_MONTH,
+                     Max(Cast(fm.YEAR AS INT))                         AS MAX_YEAR
+              FROM INVENTORY_WD_PROJ_MAS FM
+                      JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = FM.ITEM_MASTER_SID
+                      AND IM.INBOUND_STATUS <> 'D'
+                      JOIN GL_COST_CENTER_MASTER GLC
+                          ON IM.NDC8 = GLC.NDC8
+                      AND GLC.INBOUND_STATUS <> 'D'
+                      JOIN COMPANY_MASTER CM
+                          ON CM.COMPANY_ID = GLC.COMPANY_CODE
+                      AND CM.INBOUND_STATUS <> 'D'
+                      AND CM.COMPANY_MASTER_SID = [?COMPANY_MASTER_SID]
+              WHERE  FM.COUNTRY = '[?COUNTRY]'
+                     AND FM.BUSINESS_UNIT = [?BUSINESS_UNIT]
+                     AND FM.FORECAST_VER LIKE '%'
+                     [?CONDITION]
+              GROUP  BY FM.FORECAST_NAME,
+                        FM.FORECAST_VER,
+                        FM.SOURCE,
+                        FM.COUNTRY,
+                        FM.BUSINESS_UNIT,
+                        CM.COMPANY_MASTER_SID
+                        ) A;
+                  ]]>
+        </query>
+    </entity>
+     
+</sql>

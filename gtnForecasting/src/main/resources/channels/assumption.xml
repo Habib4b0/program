@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable">
+
+    <VerticalLayout spacing="true" margin="true" immediate="true">>
+
+     
+
+        <Panel caption="Projection Variance Snapshot">
+            <VerticalLayout spacing="true" margin="true"
+                immediate="true">
+         
+                <Panel caption = "Mass Update">
+                
+                   <!-- <HorizontalLayout spacing="true" margin="true"
+                                   immediate="true">
+                    
+                        <OptionGroup id="massCheck" enabled="true"  immediate="true" styleName = "horizontal"/>
+                        <Label caption="Field: " contentMode="HTML" />
+                        <ComboBox id="fieldDdlb" enabled="true" immediate="true" nullSelectionAllowed="true" styleName="comboxsize"/>
+                        <Label caption="Value: " contentMode="HTML" />
+                        <ComboBox id="valueDdlb" enabled="true" immediate="true"  nullSelectionAllowed="true"  styleName="comboxsize"/>
+                        <Button id="populate" caption="POPULATE" />
+                    </HorizontalLayout> -->
+                    <VerticalLayout styleName = "width-auto"  margin="true"  >
+                        <GridLayout rows="1" columns="7" margin="false" spacing="true" styleName="adjustCaption">                        
+                            <OptionGroup id="massCheck" enable="true" immediate="true"  styleName="horizontal" />
+                            <Label value="Field:" contentMode="HTML" />
+                            <ComboBox id="fieldDdlb" nullSelectionAllowed="true" immediate="true" styleName="comboxsize" />
+                            <Label value="Value:" contentMode="HTML" />
+                            <ComboBox id="valueDdlb" nullSelectionAllowed="true" immediate="true" styleName="comboxsize" />
+                            <TextField id="populateCommentry" visible="false"  />   
+                            <Button id="populate" caption="POPULATE" />
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel>
+                
+                <!--  <Table styleName="table-header-normal" id="resultsTable" height="400px" width="1474px" immediate="true" />-->
+                <VerticalLayout spacing="false" margin="false"
+                                  immediate="true" id="pvsTableLayout"  styleName="projectionTable">
+                </VerticalLayout>    
+                  
+                <HorizontalLayout spacing="true" styleName = "nmAssumptionsDivider" margin="false">
+                    <Button id="pvsExcel" immediate="true" primaryStyleName="link"  />
+                    <Button id="addLine" caption="ADD LINE" />
+                    <Button id="removeLine" caption="REMOVE LINE" />
+                </HorizontalLayout>                    
+                                      
+                
+            </VerticalLayout>
+
+        </Panel>
+
+    </VerticalLayout>
+
+
+</Panel>

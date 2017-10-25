@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:p="urn:import:com.stpl.ifs.ui.errorhandling">
+    <VerticalLayout  id="mainPanel" spacing="true" margin="true" >
+        <p:ErrorLabel id="errorMsg"/>
+        <Panel id="panel1" caption="Relationship :" >
+            <VerticalLayout spacing="true" >
+                <HorizontalLayout spacing="true" margin="true" styleName="responsiveTabGrid" >
+                    <CssLayout id="cssLayout" immediate="true" width="100%" height="100%">
+                        <Label id="relationshipNameLB" value="Relationship Name" styleName="mandatory" contentMode="HTML"/>
+                        <TextField id="relationshipName" contentMode="HTML" />
+                        <Label id="relationDescLB" value="Relationship Description" styleName="mandatory" contentMode="HTML"/>
+                        <TextField id="relationshipDesc" contentMode="HTML" />
+                        <Label id="hierarchyNameDdlbLB" value="Hierarchy Name" styleName="mandatory" contentMode="HTML"/>
+                        <ComboBox id="hierarchyNameDdlb" immediate="true" contentMode="HTML" />
+                        <Label id="relationshipTypeLB" value="Relationship Type" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="relationshipType" immediate="true" enable="true" styleName = "horizontal"/>
+                        <Label id="versionNoLB" value="Hierarchy Version No" contentMode="HTML" styleName="mandatory"/>
+                        <ComboBox id="versionNo" immediate="true" contentMode="HTML" />
+                        <Label id="startDateLB" value="Start Date" styleName="mandatory" contentMode="HTML"/>
+                        <PopupDateField id="startDate" dateFormat="dd/mm/yyyy" />
+                        <Label id="buildTypeLB" value="Build Type" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="buildType" immediate="true" styleName = "horizontal"/>
+                    </CssLayout>
+                </HorizontalLayout>
+            </VerticalLayout>    
+    
+        </Panel>
+   
+    <Panel id="relationshipBuilderPanel" caption="Relationship Builder :" margin="true">
+        <CssLayout id="cssLayout2" immediate="true" >
+        <VerticalLayout>
+        	<HorizontalLayout>
+                <Panel id="levelPanel" caption="Relationship Levels">
+                </Panel>
+                <Panel id="treePanel" caption="Relationship Tree:"  height="2000px">
+                    <VerticalLayout id="layout2" styleName = "width-auto"  >              
+ 
+                    </VerticalLayout>
+                </Panel>     
+            </HorizontalLayout>
+    </VerticalLayout>
+</CssLayout>
+</Panel>
+
+<HorizontalLayout margin="true">
+    <Button id="backButton" caption="BACK" />
+    <Button id="save" caption="SAVE" />
+    <Button id="resetAll" caption="RESET" />
+</HorizontalLayout>
+
+</VerticalLayout>
+</Panel>

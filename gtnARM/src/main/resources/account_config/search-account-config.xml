@@ -1,0 +1,40 @@
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+    <VerticalLayout margin="true" spacing = "true" width="100%" height="100%">
+        <Panel caption = "Selection Criteria" width="100%" height="100%">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true" id="searchLayout" immediate="true" columns="10" rows="1">
+                    <Label id="labelCompanyRes" value="Company" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="companyDdlb" enable="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelBusinessRes" value="Business Unit" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="businessDdlb" enable="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelAccount" value="Account" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="accountDdlb" enabled="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelbrandDdlb" value="Brand" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="brandDdlb" enable="true" immediate="true" width="205px"/>
+          
+                    <Label id="labelcostCentre" value="Cost Center" immediate="true" styleName="label-margin-top-size" />
+                    <TextField id="costCentre" enable="true" immediate="true" width="205px"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="resetBtn" caption="RESET" />
+            <Button id="searchBtn" caption="SEARCH" />
+        </HorizontalLayout>
+        <Panel caption="Results" width="100%" height="100%">
+                <VerticalLayout  id="resultsTableLayoutRes" width="100%" height="100%">
+                </VerticalLayout>
+        </Panel>
+        <HorizontalLayout id="searchFormLayout" spacing="true">
+            <Button id="addBtn" caption="ADD" />
+            <Button id="editBtn" caption="EDIT" />
+            <Button id="viewBtn" caption="VIEW" />
+            <Button id="copyBtn" caption="COPY" />
+            <Button id="deleteBtn" caption="DELETE" />
+            <Button id="excelBtn" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

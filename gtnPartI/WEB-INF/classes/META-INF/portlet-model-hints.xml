@@ -1,0 +1,3563 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.stpl.app.model.AccrualMaster">
+		<field name="companyNo" type="String" />
+		<field name="categoryId" type="String" />
+		<field name="itemNo" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="accountId" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="subLedger" type="String" />
+		<field name="accrualId" type="String" />
+		<field name="contractNo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="accrualType" type="String" />
+		<field name="brandId" type="String" />
+		<field name="accountName" type="String" />
+		<field name="accrualPeriodEndDate" type="Date" />
+		<field name="postingDate" type="Date" />
+		<field name="compIdentCodeQualifier" type="String" />
+		<field name="amount" type="double" />
+		<field name="salesMasterId" type="String" />
+		<field name="subLedgerType" type="String" />
+		<field name="documentType" type="String" />
+		<field name="itemIdentCodeQualifier" type="String" />
+		<field name="recordCreatedDate" type="Date" />
+		<field name="companyId" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="glAmount" type="double" />
+		<field name="acctIdentCodeQualifier" type="String" />
+		<field name="itemId" type="String" />
+		<field name="accrualMasterSid" type="int" />
+		<field name="glCompanyName" type="String" />
+		<field name="contractId" type="String" />
+		<field name="contractName" type="String" />
+		<field name="glAccount" type="String" />
+		<field name="glDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="provisionId" type="String" />
+		<field name="recordLockStatus" type="String" />
+		<field name="source" type="String" />
+		<field name="accrualPeriodStartDate" type="Date" />
+		<field name="accountNo" type="String" />
+		<field name="companyCostCenter" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ActualsMaster">
+		<field name="quantityInclusion" type="String" />
+		<field name="mandatedDiscountAmount" type="double" />
+		<field name="itemNo" type="String" />
+		<field name="analysisCode" type="String" />
+		<field name="recordSequence" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="settlementMethodNo" type="String" />
+		<field name="quantity" type="double" />
+		<field name="accountId" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="provisionClaimIndicator" type="String" />
+		<field name="dispensedDate" type="Date" />
+		<field name="isActive" type="String" />
+		<field name="batchId" type="String" />
+		<field name="accrualActualEndDate" type="Date" />
+		<field name="marketId" type="String" />
+		<field name="brandId" type="String" />
+		<field name="accountName" type="String" />
+		<field name="amount" type="double" />
+		<field name="actualsMasterSid" type="int" />
+		<field name="acctIdentifierCodeQualifier" type="String" />
+		<field name="organizationKey" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="accrualProcessed" type="String" />
+		<field name="parentcomDivmktBrandProdkey" type="String" />
+		<field name="cashPaidDate" type="Date" />
+		<field name="salesAmount" type="double" />
+		<field name="accrualActualStartDate" type="Date" />
+		<field name="settlementNo" type="String" />
+		<field name="price" type="double" />
+		<field name="uploadDate" type="Date" />
+		<field name="claimIndicator" type="String" />
+		<field name="itemId" type="String" />
+		<field name="priceAdjustmentName" type="String" />
+		<field name="contractId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="actualId" type="String" />
+		<field name="provisionId" type="String" />
+		<field name="sentOut" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="divisionId" type="String" />
+		<field name="itemIdentifierCodeQualifier" type="String" />
+		<field name="programStateCode" type="String" />
+		<field name="source" type="String" />
+		<field name="invoiceLineNo" type="String" />
+		<field name="accountNo" type="String" />
+		<field name="comDivMktBrandProdKey" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.AdditionalNotes">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="forecastType" type="String" />
+		<field name="additionalNotesId" type="int" />
+		<field name="projectionId" type="int" />
+		<field name="notes" type="String" />
+	</model>
+	<model name="com.stpl.app.model.AuditMasterInbound">
+		<field name="receivedRecordAmountAttr" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="interfaceRunEndDate" type="Date" />
+		<field name="applicationProcess" type="String" />
+		<field name="discrepancyAmount" type="double" />
+		<field name="batchId" type="String" />
+		<field name="fileName" type="String" />
+		<field name="sentRecordAmountAttribute" type="String" />
+		<field name="status" type="String" />
+		<field name="receivedRecordAmount" type="double" />
+		<field name="validRecordAmount" type="double" />
+		<field name="invalidRecordCount" type="int" />
+		<field name="receivedRecordCount" type="int" />
+		<field name="createdBy" type="int" />
+		<field name="changeCount" type="int" />
+		<field name="unprocessedRecords" type="String" />
+		<field name="deleteCount" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="auditInboundSid" type="int" />
+		<field name="sentRecordAmount" type="double" />
+		<field name="sentRecordCount" type="int" />
+		<field name="addCount" type="int" />
+		<field name="source" type="String" />
+		<field name="invalidRecordAmount" type="double" />
+		<field name="interfaceRunStartDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.AverageShelfLifeMaster">
+		<field name="createdBy" type="int" />
+		<field name="averageShelfLifeMasterSid" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="itemIdType" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="itemId" type="String" />
+		<field name="avgShelfLife" type="String" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.BestPriceMaster">
+		<field name="initialBestPrice" type="double" />
+		<field name="createdBy" type="int" />
+		<field name="itemNo" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="accountId" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="itemId" type="String" />
+		<field name="itemDesc" type="String" />
+		<field name="sellingPrice" type="double" />
+		<field name="contractId" type="String" />
+		<field name="contractNo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="bestPriceMasterSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="beginningWacPackage" type="double" />
+		<field name="initialDiscount" type="double" />
+		<field name="period" type="String" />
+		<field name="source" type="String" />
+		<field name="contractStartDate" type="Date" />
+		<field name="contractEndDate" type="Date" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.BrandMaster">
+		<field name="createdBy" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="brandMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="brandId" type="String" />
+		<field name="displayBrand" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="brandName" type="String" />
+		<field name="brandDesc" type="String" />
+		<field name="source" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.BusinessroleMaster">
+		<field name="businessroleMasterSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="hierarchyLevel" type="int" />
+		<field name="processed" type="String" />
+		<field name="businessroleName" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="businessroleDesc" type="String" />
+		<field name="isActive" type="String" />
+	</model>
+	<model name="com.stpl.app.model.BusinessroleModule">
+		<field name="createdBy" type="int" />
+		<field name="businessroleModuleSid" type="int" />
+		<field name="businessroleMasterSid" type="int" />
+		<field name="addFlag" type="String" />
+		<field name="viewFlag" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="submodulePropertyId" type="int" />
+		<field name="editFlag" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="accessModule" type="String" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.CcpDetails">
+		<field name="itemMasterSid" type="int" />
+		<field name="contractMasterSid" type="int" />
+		<field name="ccpDetailsSid" type="int" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.CcpMap">
+		<field name="ccpDetailsSid" type="int" />
+		<field name="relationshipLevelSid" type="int" />
+		<field name="ccpMapSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.CfpContract">
+		<field name="createdBy" type="int" />
+		<field name="cfpContractSid" type="int" />
+		<field name="cfpType" type="int" />
+		<field name="cfpTradeClass" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="contractMasterSid" type="int" />
+		<field name="cfpContractAttachedDate" type="Date" />
+		<field name="cfpModelSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="cfpDesignation" type="String" />
+		<field name="cfpName" type="String" />
+		<field name="cfpCategory" type="int" />
+		<field name="source" type="String" />
+		<field name="cfpStatus" type="int" />
+		<field name="parentCfpId" type="int" />
+		<field name="cfpContractAttachedStatus" type="int" />
+		<field name="cfpStartDate" type="Date" />
+		<field name="cfpEndDate" type="Date" />
+		<field name="parentCfpName" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CfpContractDetails">
+		<field name="createdBy" type="int" />
+		<field name="tradeClass" type="int" />
+		<field name="tradeClassEndDate" type="Date" />
+		<field name="cfpContractSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="companyStartDate" type="Date" />
+		<field name="tradeClassStartDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="cfpContractAttachedDate" type="Date" />
+		<field name="companyEndDate" type="Date" />
+		<field name="companyMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="cfpContractDetailsSid" type="int" />
+		<field name="cfpContractAttachedStatus" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CfpDetails">
+		<field name="createdBy" type="int" />
+		<field name="companyCfpAttachedStatus" type="int" />
+		<field name="tradeClass" type="int" />
+		<field name="tradeClassEndDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="companyStartDate" type="Date" />
+		<field name="tradeClassStartDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="companyEndDate" type="Date" />
+		<field name="companyMasterSid" type="int" />
+		<field name="companyCfpAttachedDate" type="Date" />
+		<field name="cfpModelSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="cfpDetailsSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CfpModel">
+		<field name="createdBy" type="int" />
+		<field name="cfpType" type="int" />
+		<field name="cfpTradeClass" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="cfpNo" type="String" />
+		<field name="cfpModelSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="internalNotes" type="String" />
+		<field name="cfpDesignation" type="String" />
+		<field name="cfpName" type="String" />
+		<field name="cfpCategory" type="int" />
+		<field name="source" type="String" />
+		<field name="cfpId" type="String" />
+		<field name="cfpStatus" type="int" />
+		<field name="parentCfpId" type="int" />
+		<field name="cfpStartDate" type="Date" />
+		<field name="cfpEndDate" type="Date" />
+		<field name="parentCfpName" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ChActualDiscount">
+		<field name="actualRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="actualSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.ChActualSales">
+		<field name="contractUnits" type="double" />
+		<field name="perOfBusiness" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="contractSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="gtsSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.ChAssumptions">
+		<field name="parent" type="boolean" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="commentary" type="String" />
+		<field name="quarter" type="int" />
+		<field name="totalDiscountPercentChange" type="double" />
+		<field name="reasonCodes" type="String" />
+		<field name="year" type="int" />
+		<field name="totalDiscountPercentProjected" type="double" />
+		<field name="totalDiscountPercentPrior" type="double" />
+		<field name="chAssumptionsSid" type="int" />
+		<field name="totalDiscountChange" type="double" />
+		<field name="totalDiscountProjected" type="double" />
+		<field name="camId" type="int" />
+		<field name="grossTradeSales" type="double" />
+		<field name="totalDiscountPrior" type="double" />
+	</model>
+	<model name="com.stpl.app.model.ChDiscountProjMaster">
+		<field name="selectedPeriods" type="String" />
+		<field name="checkRecord" type="boolean" />
+		<field name="priceGroupType" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="baselinePeriods" type="String" />
+		<field name="netFlag" type="String" />
+		<field name="methodology" type="String" />
+		<field name="rsModelSid" type="int" />
+		<field name="discountType" type="String" />
+		<field name="projectedType" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ChProjectionDiscount">
+		<field name="adjustmentMethodology" type="String" />
+		<field name="productGrowth" type="double" />
+		<field name="projectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="accountGrowth" type="double" />
+		<field name="discountAmount" type="double" />
+		<field name="discountRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="adjustmentValue" type="double" />
+		<field name="adjustmentType" type="String" />
+		<field name="rsModelSid" type="int" />
+		<field name="projectionSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.ChProjectionSelection">
+		<field name="screenName" type="String" />
+		<field name="fieldName" type="String" />
+		<field name="chProjectionSelectionSid" type="int" />
+		<field name="fieldValues" type="String" />
+		<field name="projectionMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ChSalesProjection">
+		<field name="contractUnits" type="double" />
+		<field name="perOfBusiness" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="contractSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="gtsSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.ChSalesProjectionMaster">
+		<field name="checkRecord" type="boolean" />
+		<field name="calculationPeriods" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="methodology" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CompanyGroup">
+		<field name="companyGroupNo" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="companyFilter" type="String" />
+		<field name="companyGroupSid" type="int" />
+		<field name="companyGroupDescription" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="companyGroupName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CompanyGroupDetails">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="companyParentDetailsSid" type="String" />
+		<field name="companyTradeclassSid" type="int" />
+		<field name="companyGroupSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="companyGroupDetailsSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.CompanyIdentifier">
+		<field name="endDate" type="Date" />
+		<field name="companyIdentifierSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="identifierStatus" type="int" />
+		<field name="entityCode" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="companyIdentifierValue" type="String" />
+		<field name="batchId" type="String" />
+		<field name="companyQualifierSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.CompanyMaster">
+		<field name="state" type="int" />
+		<field name="financialSystem" type="String" />
+		<field name="companyGroup" type="String" />
+		<field name="companyName" type="String" />
+		<field name="companyCategory" type="int" />
+		<field name="lastUpdatedDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lives" type="int" />
+		<field name="address2" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="address1" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="companyMasterSid" type="int" />
+		<field name="zipCode" type="String" />
+		<field name="companyId" type="String" />
+		<field name="country" type="int" />
+		<field name="internalNotes" type="String" />
+		<field name="orgKey" type="String" />
+		<field name="companyType" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="companyStartDate" type="Date" />
+		<field name="companyNo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="companyStatus" type="int" />
+		<field name="companyEndDate" type="Date" />
+		<field name="city" type="String" />
+		<field name="regionCode" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CompanyParentDetails">
+		<field name="lastUpdatedDate" type="Date" />
+		<field name="parentEndDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="parentCompanyMasterSid" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="priorParentStartDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="companyParentDetailsSid" type="int" />
+		<field name="priorParentCmpyMasterSid" type="String" />
+		<field name="batchId" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="companyMasterSid" type="int" />
+		<field name="parentStartDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.CompanyQualifier">
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="companyQualifierValue" type="String" />
+		<field name="batchId" type="String" />
+		<field name="companyQualifierSid" type="int" />
+		<field name="companyQualifierName" type="String" />
+		<field name="effectiveDates" type="String" />
+		<field name="notes" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.CompanyTradeClass">
+		<field name="priorTradeClass" type="int" />
+		<field name="companyTradeClassSid" type="int" />
+		<field name="lastUpdatedDate" type="Date" />
+		<field name="priorTradeClassStartDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="tradeClassEndDate" type="Date" />
+		<field name="tradeClassStartDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="batchId" type="String" />
+		<field name="companyTradeClass" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ContractAliasMaster">
+		<field name="contractAliasType" type="int" />
+		<field name="tpCompanyMasterSid" type="int" />
+		<field name="endDate" type="Date" />
+		<field name="contractAliasMasterSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="contractAliasNo" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="contractMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="contractAliasName" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ContractMaster">
+		<field name="proposalEndDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="renegotiationEndDate" type="Date" />
+		<field name="outsideAdditionalName" type="String" />
+		<field name="endDate" type="Date" />
+		<field name="manfCompanyMasterSid" type="String" />
+		<field name="renegotiationStartDate" type="Date" />
+		<field name="insideAuthor" type="String" />
+		<field name="advanceNoticeDays" type="double" />
+		<field name="outsideOwner" type="String" />
+		<field name="mostFavoredNation" type="String" />
+		<field name="insideAdditionalPhone" type="String" />
+		<field name="originalStartDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="proposalStartDate" type="Date" />
+		<field name="contractTradeClass" type="int" />
+		<field name="outsideAdditional" type="String" />
+		<field name="processStatus" type="boolean" />
+		<field name="insideAdditionalName" type="String" />
+		<field name="contractMasterSid" type="int" />
+		<field name="contractStatus" type="int" />
+		<field name="contractId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="contractType" type="int" />
+		<field name="awardStatus" type="int" />
+		<field name="insideOwner" type="String" />
+		<field name="source" type="String" />
+		<field name="shippingTerms" type="String" />
+		<field name="priceEscalationClause" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="outsideAdditionalPhone" type="String" />
+		<field name="term" type="int" />
+		<field name="contractNo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="documentClass" type="int" />
+		<field name="originalEndDate" type="Date" />
+		<field name="paymentTerms" type="int" />
+		<field name="insideAdditional" type="String" />
+		<field name="affiliatedContractInfo" type="String" />
+		<field name="category" type="String" />
+		<field name="outsidePhone" type="String" />
+		<field name="priceprotectionStartDate" type="Date" />
+		<field name="priceprotectionEndDate" type="Date" />
+		<field name="documentType" type="int" />
+		<field name="exemptFromLowPrice" type="String" />
+		<field name="organizationKey" type="String" />
+		<field name="currency" type="String" />
+		<field name="insidePhone" type="String" />
+		<field name="bunitCompanyMasterSid" type="String" />
+		<field name="outsideAuthor" type="String" />
+		<field name="contHoldCompanyMasterSid" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="contractName" type="String" />
+		<field name="lastUpdatedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="priceResetIndicator" type="String" />
+		<field name="minimumOrder" type="String" />
+		<field name="cancellationClause" type="String" />
+		<field name="inboundStatus" type="String" />
+		<field name="internalNotes" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CpiIndexMaster">
+		<field name="effectiveDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="cpiIndexMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="String" />
+		<field name="indexType" type="String" />
+		<field name="indexId" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="indexValue" type="String" />
+		<field name="source" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.CustomViewDetails">
+		<field name="hierarchyId" type="int" />
+		<field name="hierarchyIndicator" type="String" />
+		<field name="customViewMasterSid" type="int" />
+		<field name="customViewDetailsSid" type="int" />
+		<field name="levelNo" type="int" />
+	</model>
+	<model name="com.stpl.app.model.CustomViewMaster">
+		<field name="customViewMasterSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="projectionMasterSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="viewName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.DeductionGroup">
+		<field name="deductionFilter" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="deductionGroupSid" type="int" />
+		<field name="deductionGroupName" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="deductionGroupDescription" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="deductionGroupNo" type="String" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.DeductionGroupDetails">
+		<field name="deductionGroupDetailsSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="deductionGroupSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.DocDetails">
+		<field name="fileName" type="String" />
+		<field name="fileType" type="String" />
+		<field name="uploadedBy" type="String" />
+		<field name="forecastType" type="String" />
+		<field name="projectionId" type="int" />
+		<field name="docDetailsId" type="int" />
+		<field name="uploadedDate" type="Date" />
+		<field name="fileSize" type="String" />
+	</model>
+	<model name="com.stpl.app.model.DomainDetails">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="domainMasterSid" type="int" />
+		<field name="companyId" type="int" />
+		<field name="processed" type="String" />
+		<field name="domainDetailSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="marketId" type="int" />
+		<field name="divisionId" type="int" />
+		<field name="isActive" type="String" />
+	</model>
+	<model name="com.stpl.app.model.DomainMaster">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="domainDescription" type="String" />
+		<field name="domainName" type="String" />
+		<field name="domainMasterSid" type="int" />
+		<field name="processed" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="isActive" type="String" />
+	</model>
+	<model name="com.stpl.app.model.FcpActuals">
+		<field name="periodSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="actualPrice" type="double" />
+		<field name="notes" type="String" />
+		<field name="naProjDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.FcpProj">
+		<field name="adjustment" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="projectionPrice" type="double" />
+		<field name="notes" type="String" />
+		<field name="naProjDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.FederalNewNdc">
+		<field name="fss" type="double" />
+		<field name="itemMasterSid" type="int" />
+		<field name="wacPrice" type="double" />
+		<field name="nonFamp" type="double" />
+	</model>
+	<model name="com.stpl.app.model.FileManagement">
+		<field name="country" type="int" />
+		<field name="fromPeriod" type="Date" />
+		<field name="versionNo" type="int" />
+		<field name="forecastSource" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="version" type="String" />
+		<field name="fileType" type="String" />
+		<field name="toPeriod" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="fileManagementSid" type="int" />
+		<field name="forecastName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ForecastConfig">
+		<field name="processType" type="boolean" />
+		<field name="toDate" type="Date" />
+		<field name="versionNo" type="int" />
+		<field name="forecastConfigSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="fromDate" type="Date" />
+		<field name="projValue" type="int" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="projFreq" type="String" />
+		<field name="histValue" type="int" />
+		<field name="businessProcessType" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="histFreq" type="String" />
+		<field name="activeStartDate" type="Date" />
+		<field name="activeEndDate" type="Date" />
+		<field name="processMode" type="boolean" />
+	</model>
+	<model name="com.stpl.app.model.ForecastingFormula">
+		<field name="createdDate" type="Date" />
+		<field name="formulaType" type="int" />
+		<field name="forecastingFormulaSid" type="int" />
+		<field name="formula" type="String" />
+		<field name="formulaNo" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="isActive" type="boolean" />
+		<field name="formulaName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ForecastingMaster">
+		<field name="forecastValueType" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="percentageEstimate" type="String" />
+		<field name="actualSalesPercentageMonth" type="int" />
+		<field name="ndc" type="String" />
+		<field name="batchId" type="String" />
+		<field name="forecastVer" type="String" />
+		<field name="country" type="String" />
+		<field name="product" type="String" />
+		<field name="forecastStartDate" type="Date" />
+		<field name="forecastedSalesPercentage" type="String" />
+		<field name="units" type="double" />
+		<field name="dollars" type="double" />
+		<field name="forecastMonth" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="segment" type="String" />
+		<field name="price" type="double" />
+		<field name="actualSalesPercentage" type="String" />
+		<field name="forecastYear" type="String" />
+		<field name="forecastName" type="String" />
+		<field name="forecastDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="brand" type="String" />
+		<field name="forecastValue" type="String" />
+		<field name="percentageEstimateYear" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="forecastMasterSid" type="int" />
+		<field name="forecastedSalesPercentMonth" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ForecastingViewMaster">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="viewType" type="String" />
+		<field name="viewId" type="int" />
+		<field name="projectionId" type="int" />
+		<field name="modifiedBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="viewName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.FormulaDetailsMaster">
+		<field name="companyId" type="String" />
+		<field name="contractPrice1" type="double" />
+		<field name="contractPrice2" type="double" />
+		<field name="endDate" type="Date" />
+		<field name="formulaNo" type="String" />
+		<field name="formulaDetailsMasterSid" type="int" />
+		<field name="itemId" type="String" />
+		<field name="rebatePercent1" type="double" />
+		<field name="modifiedDate" type="Date" />
+		<field name="formulaDesc" type="String" />
+		<field name="rebatePercent2" type="double" />
+		<field name="rebatePercent3" type="double" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="batchId" type="String" />
+		<field name="contractPrice3" type="double" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="formulaId" type="String" />
+	</model>
+	<model name="com.stpl.app.model.GlBalanceMaster">
+		<field name="createdBy" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="accountId" type="String" />
+		<field name="uploadDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="glBalanceMasterSid" type="int" />
+		<field name="isActive" type="String" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="balance" type="String" />
+		<field name="closeIndicator" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="year" type="String" />
+		<field name="period" type="String" />
+		<field name="source" type="String" />
+		<field name="insertedDate" type="Date" />
+		<field name="accountNo" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.GlCostCenterMaster">
+		<field name="createdBy" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="uploadDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="glCostCenterMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="ndc8" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="companyCode" type="String" />
+		<field name="source" type="String" />
+		<field name="companyCostCenter" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.HelperTable">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="description" type="String" />
+		<field name="refCount" type="int" />
+		<field name="listName" type="String" />
+		<field name="helperTableSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.HierarchyDefinition">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="noOfLevels" type="int" />
+		<field name="hierarchyType" type="int" />
+		<field name="hierarchyName" type="String" />
+		<field name="hierarchyDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="hierarchyCategory" type="int" />
+	</model>
+	<model name="com.stpl.app.model.HierarchyLevelDefinition">
+		<field name="tableName" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="levelValueReference" type="String" />
+		<field name="fieldName" type="String" />
+		<field name="levelNo" type="int" />
+		<field name="hierarchyLevelDefinitionSid" type="int" />
+		<field name="hierarchyDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="levelName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.HierarchyLevelValues">
+		<field name="levelValues" type="String" />
+		<field name="hierarchyLevelValuesSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="hierarchyLevelDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.HistCompanyGroup">
+		<field name="companyGroupNo" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="actionDate" type="Date" />
+		<field name="actionFlag" type="String" />
+		<field name="companyGroupSid" type="int" />
+		<field name="companyGroupDescription" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="companyGroupName" type="String" />
+		<field name="companyFilter" type="String" />
+	</model>
+	<model name="com.stpl.app.model.HistCompanyGroupDetails">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="actionDate" type="Date" />
+		<field name="companyParentDetailsSid" type="String" />
+		<field name="companyTradeclassSid" type="int" />
+		<field name="actionFlag" type="String" />
+		<field name="companyGroupSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="companyGroupDetailsSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.HistHierarchyDefinition">
+		<field name="noOfLevels" type="int" />
+		<field name="createdBy" type="int" />
+		<field name="actionDate" type="Date" />
+		<field name="actionFlag" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="hierarchyDefinitionSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="hierarchyType" type="int" />
+		<field name="hierarchyCategory" type="int" />
+		<field name="hierarchyName" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.HistHierarchyLevelDefn">
+		<field name="tableName" type="String" />
+		<field name="actionDate" type="Date" />
+		<field name="fieldName" type="String" />
+		<field name="hierarchyLevelDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="levelValueReference" type="String" />
+		<field name="levelNo" type="int" />
+		<field name="actionFlag" type="String" />
+		<field name="hierarchyDefinitionSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="levelName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.HistHierarchyLevelValues">
+		<field name="levelValues" type="String" />
+		<field name="hierarchyLevelValuesSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="actionDate" type="Date" />
+		<field name="actionFlag" type="String" />
+		<field name="hierarchyLevelDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.HistItemGroup">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="actionFlag" type="String" />
+		<field name="itemGroupNo" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="itemGroupDescription" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="itemGroupName" type="String" />
+		<field name="itemGroupSid" type="int" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.HistItemGroupDetails">
+		<field name="itemGroupDetailsSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="actionDate" type="Date" />
+		<field name="itemMasterSid" type="int" />
+		<field name="actionFlag" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="itemGroupSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.HistRelationshipBuilder">
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="relationshipDescription" type="String" />
+		<field name="actionDate" type="Date" />
+		<field name="actionFlag" type="String" />
+		<field name="hierarchyDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="relationshipName" type="String" />
+		<field name="relationshipBuilderSid" type="int" />
+		<field name="hierarchyVersion" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="relationshipType" type="int" />
+		<field name="buildType" type="String" />
+	</model>
+	<model name="com.stpl.app.model.HistRelationshipLevelDefn">
+		<field name="relationshipLevelValues" type="String" />
+		<field name="actionDate" type="Date" />
+		<field name="hierarchyLevelDefinitionSid" type="int" />
+		<field name="parentNode" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="relationshipBuilderSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="levelNo" type="String" />
+		<field name="actionFlag" type="String" />
+		<field name="hierarchyNo" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="relationshipLevelSid" type="int" />
+		<field name="flag" type="String" />
+		<field name="levelName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IfpContract">
+		<field name="cfpContractSid" type="String" />
+		<field name="parentIfpName" type="String" />
+		<field name="ifpContractAttachedDate" type="Date" />
+		<field name="ifpStatus" type="int" />
+		<field name="ifpStartDate" type="Date" />
+		<field name="ifpContractAttachedStatus" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="ifpCategory" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="ifpEndDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="ifpDesignation" type="String" />
+		<field name="parentIfpId" type="String" />
+		<field name="batchId" type="String" />
+		<field name="contractMasterSid" type="int" />
+		<field name="ifpType" type="int" />
+		<field name="ifpName" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="ifpContractSid" type="int" />
+		<field name="ifpModelSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.IfpContractDetails">
+		<field name="itemMasterSid" type="int" />
+		<field name="ifpContractAttachedDate" type="Date" />
+		<field name="itemEndDate" type="Date" />
+		<field name="totalVolumeCommitment" type="String" />
+		<field name="totalDollarCommitment" type="String" />
+		<field name="ifpContractAttachedStatus" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="totalMarketshareCommitment" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="itemStartDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="ifpContractDetailsSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="ifpContractSid" type="int" />
+		<field name="commitmentPeriod" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IfpDetails">
+		<field name="itemMasterSid" type="int" />
+		<field name="endDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="itemIfpAttachedDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="ifpDetailsSid" type="int" />
+		<field name="ifpModelSid" type="int" />
+		<field name="itemIfpAttachedStatus" type="int" />
+	</model>
+	<model name="com.stpl.app.model.IfpModel">
+		<field name="modifiedBy" type="int" />
+		<field name="totalDollarCommitment" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="ifpStatus" type="int" />
+		<field name="totalVolumeCommitment" type="String" />
+		<field name="batchId" type="String" />
+		<field name="internalNotes" type="String" />
+		<field name="ifpId" type="String" />
+		<field name="totalMarketshareCommitment" type="String" />
+		<field name="ifpCategory" type="int" />
+		<field name="parentIfpName" type="String" />
+		<field name="ifpEndDate" type="Date" />
+		<field name="ifpDesignation" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="ifpStartDate" type="Date" />
+		<field name="parentIfpId" type="String" />
+		<field name="commitmentPeriod" type="String" />
+		<field name="ifpType" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="ifpModelSid" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="ifpName" type="String" />
+		<field name="ifpNo" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ImtdCfpDetails">
+		<field name="companyNo" type="String" />
+		<field name="imtdCfpDetailsSid" type="int" />
+		<field name="cfpDetailsStartDate" type="Date" />
+		<field name="companyType" type="String" />
+		<field name="cfpDetailsTcStartDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="cfpDetailsTcEndDate" type="Date" />
+		<field name="cfpDetailsCreatedDate" type="Date" />
+		<field name="imtdCreatedDate" type="Date" />
+		<field name="cfpDetailsModifiedDate" type="Date" />
+		<field name="cfpDetailsAttachedStatus" type="int" />
+		<field name="checkRecord" type="boolean" />
+		<field name="cfpDetailsAttachedDate" type="Date" />
+		<field name="cfpDetailsEndDate" type="Date" />
+		<field name="companyId" type="String" />
+		<field name="cfpDetailsTradeClass" type="String" />
+		<field name="tradingPartnerContractNo" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="String" />
+		<field name="companyStartDate" type="Date" />
+		<field name="cfpDetailsModifiedBy" type="String" />
+		<field name="companyEndDate" type="Date" />
+		<field name="companyMasterSid" type="int" />
+		<field name="cfpModelSid" type="int" />
+		<field name="cfpDetailsSid" type="int" />
+		<field name="companyStatus" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="companyName" type="String" />
+		<field name="operation" type="String" />
+		<field name="cfpDetailsCreatedBy" type="String" />
+		<field name="sessionId" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ImtdIfpDetails">
+		<field name="itemStatus" type="int" />
+		<field name="ifpDetailsEndDate" type="Date" />
+		<field name="itemMasterSid" type="int" />
+		<field name="imtdCreateddate" type="Date" />
+		<field name="itemPackageSize" type="String" />
+		<field name="ifpDetailsCreatedDate" type="Date" />
+		<field name="totalDollarCommitment" type="String" />
+		<field name="ifpDetailsCreatedBy" type="String" />
+		<field name="itemId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="ifpDetailsModifiedBy" type="String" />
+		<field name="ifpDetailsModifiedDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="itemDesc" type="String" />
+		<field name="itemStartDate" type="Date" />
+		<field name="itemStrength" type="String" />
+		<field name="contractMasterSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="commitmentPeriod" type="String" />
+		<field name="itemNo" type="String" />
+		<field name="ifpDetailsSid" type="int" />
+		<field name="ifpModelSid" type="int" />
+		<field name="itemTherapeuticClass" type="String" />
+		<field name="ifpDetailsStartDate" type="Date" />
+		<field name="itemForm" type="String" />
+		<field name="totalVolumeCommitment" type="String" />
+		<field name="itemEndDate" type="Date" />
+		<field name="checkBox" type="boolean" />
+		<field name="ifpDetailsAttachedStatus" type="int" />
+		<field name="totalMarketshareCommitment" type="String" />
+		<field name="ifpDetailsAttachedDate" type="Date" />
+		<field name="imtdIfpDetailsSid" type="int" />
+		<field name="sessionId" type="String" />
+		<field name="itemName" type="String" />
+		<field name="itemPrimaryUom" type="String" />
+		<field name="operation" type="String" />
+		<field name="itemBrand" type="String" />
+		<field name="cfpModelSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ImtdItemPriceRebateDetails">
+		<field name="formulaMethodId" type="String" />
+		<field name="endDate" type="Date" />
+		<field name="priceProtectionStartDate" type="Date" />
+		<field name="itemPriceRevisionDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsCheckRecord" type="boolean" />
+		<field name="rebateRevisionDate" type="Date" />
+		<field name="contractMasterSid" type="int" />
+		<field name="imtdCreatedDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="udc6" type="String" />
+		<field name="udc5" type="String" />
+		<field name="udc4" type="String" />
+		<field name="checkRecord" type="boolean" />
+		<field name="udc1" type="String" />
+		<field name="udc2" type="String" />
+		<field name="udc3" type="String" />
+		<field name="contractPriceEndDate" type="Date" />
+		<field name="totalVolumeCommitment" type="String" />
+		<field name="priceProtectionEndDate" type="Date" />
+		<field name="recordLockStatus" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="rebateProgramType" type="String" />
+		<field name="sessionId" type="String" />
+		<field name="itemName" type="String" />
+		<field name="priceRevision" type="double" />
+		<field name="rsModelSid" type="int" />
+		<field name="price" type="double" />
+		<field name="rsAttachedStatus" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="totalDollarCommitment" type="String" />
+		<field name="itemType" type="String" />
+		<field name="totalMarketShareCommitmnet" type="String" />
+		<field name="itemId" type="String" />
+		<field name="basePrice" type="double" />
+		<field name="bundleNo" type="String" />
+		<field name="formulaName" type="String" />
+		<field name="psStatus" type="int" />
+		<field name="priceTolerance" type="double" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="psDetailsSid" type="int" />
+		<field name="suggestedPrice" type="double" />
+		<field name="psModelSid" type="int" />
+		<field name="formulaId" type="String" />
+		<field name="commitmentPeriod" type="String" />
+		<field name="itemNo" type="String" />
+		<field name="contractPrice" type="double" />
+		<field name="ifpDetailsSid" type="int" />
+		<field name="ifpModelSid" type="int" />
+		<field name="priceToleranceType" type="String" />
+		<field name="rebateAmount" type="double" />
+		<field name="contractPriceStartDate" type="Date" />
+		<field name="rebateScheduleType" type="String" />
+		<field name="priceToleranceFrequency" type="String" />
+		<field name="imtdItemPriceRebateSid" type="int" />
+		<field name="rebatePlanSystemId" type="String" />
+		<field name="attachedDate" type="Date" />
+		<field name="pricePlanId" type="String" />
+		<field name="itemRebateEndDate" type="Date" />
+		<field name="priceType" type="String" />
+		<field name="priceToleranceInterval" type="int" />
+		<field name="rsAttachedDate" type="Date" />
+		<field name="itemRebateStartDate" type="Date" />
+		<field name="operation" type="String" />
+		<field name="cfpModelSid" type="int" />
+		<field name="rsDetailsSid" type="int" />
+		<field name="attachedStatus" type="int" />
+		<field name="primaryUom" type="int" />
+		<field name="packageSize" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ImtdLevelValues">
+		<field name="levelValues" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="imtdLevelValuesSid" type="int" />
+		<field name="levelNo" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="levelName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ImtdPsDetails">
+		<field name="psDetailsModifiedDate" type="Date" />
+		<field name="psDetailsSuggestedPrice" type="double" />
+		<field name="psDetailsContractPrice" type="double" />
+		<field name="resetDate" type="Date" />
+		<field name="psDetailsAttachedStatus" type="int" />
+		<field name="imtdPsDetailsSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="psDetailsCreatedBy" type="String" />
+		<field name="contractMasterSid" type="int" />
+		<field name="psDtlsContPriceEnddate" type="Date" />
+		<field name="psDetailsPricPrtcnStdate" type="Date" />
+		<field name="imtdCreatedDate" type="Date" />
+		<field name="netPriceTypeFormula" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="maxIncrementalChange" type="double" />
+		<field name="psDetailsPricePlanId" type="String" />
+		<field name="checkRecord" type="boolean" />
+		<field name="psDtlsPriceToleranceFreq" type="String" />
+		<field name="itemName" type="String" />
+		<field name="sessionId" type="String" />
+		<field name="resetFrequency" type="int" />
+		<field name="psDtlsPriceToleranceType" type="String" />
+		<field name="psDetailsPricetype" type="String" />
+		<field name="psDetailsPriceRevision" type="double" />
+		<field name="resetInterval" type="int" />
+		<field name="ifpNo" type="String" />
+		<field name="psDetailsAttachedDate" type="Date" />
+		<field name="nepFormula" type="String" />
+		<field name="psDetailsModifiedBy" type="String" />
+		<field name="psDtlsPriceToleranceIntrvl" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="resetType" type="int" />
+		<field name="itemId" type="String" />
+		<field name="status" type="int" />
+		<field name="brandMasterSid" type="int" />
+		<field name="psDetailsPrice" type="double" />
+		<field name="psDetailsCreatedDate" type="Date" />
+		<field name="usersSid" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="psDetailsSid" type="int" />
+		<field name="psModelSid" type="int" />
+		<field name="priceProtectionPriceType" type="int" />
+		<field name="psDetailsBasePrice" type="double" />
+		<field name="itemNo" type="String" />
+		<field name="ifpModelSid" type="int" />
+		<field name="psDetailsRevisionDate" type="Date" />
+		<field name="nep" type="double" />
+		<field name="psDetailsPriceTolerance" type="double" />
+		<field name="priceProtectionStatus" type="int" />
+		<field name="psDtlsContPriceStartdate" type="Date" />
+		<field name="resetEligible" type="String" />
+		<field name="netPriceType" type="String" />
+		<field name="operation" type="String" />
+		<field name="cfpModelSid" type="int" />
+		<field name="psDetailsPricPrtcnEddate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.ImtdRsContractDetailsFr">
+		<field name="imtdRsContractDetailsFrSid" type="int" />
+		<field name="formulaMethodId" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="rsContractDetailsFrSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsContractDetailsSid" type="int" />
+		<field name="imtdItemPriceRebateDetailsSid" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="batchId" type="String" />
+		<field name="imtdCreatedDate" type="Date" />
+		<field name="sessionId" type="String" />
+		<field name="usersId" type="String" />
+		<field name="operation" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="formulaId" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ImtdRsDetails">
+		<field name="rsDetailsModifiedDate" type="Date" />
+		<field name="rsDetailsBundleNo" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="imtdRsDetailsSid" type="int" />
+		<field name="itemId" type="String" />
+		<field name="rsDetailsFormulaMethodId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="String" />
+		<field name="contractMasterSid" type="int" />
+		<field name="rsDetailsFormulaId" type="String" />
+		<field name="imtdCreatedDate" type="Date" />
+		<field name="psModelSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="rsDetailsCreatedDate" type="Date" />
+		<field name="itemNo" type="String" />
+		<field name="rsDetailsFormulaName" type="String" />
+		<field name="udc6" type="String" />
+		<field name="rsDetailsCreatedBy" type="String" />
+		<field name="udc5" type="String" />
+		<field name="ifpModelSid" type="int" />
+		<field name="udc4" type="String" />
+		<field name="rsDetailsFormulaNo" type="String" />
+		<field name="checkRecord" type="boolean" />
+		<field name="rsId" type="String" />
+		<field name="udc1" type="String" />
+		<field name="rsDetailsRebateAmount" type="double" />
+		<field name="udc2" type="String" />
+		<field name="rsDetailsModifiedBy" type="String" />
+		<field name="udc3" type="String" />
+		<field name="rebatePlanMasterSid" type="String" />
+		<field name="rsDetailsAttachedDate" type="Date" />
+		<field name="itemRebateEndDate" type="Date" />
+		<field name="rsDetailsRebatePlanName" type="String" />
+		<field name="itemRebateStartDate" type="Date" />
+		<field name="rsDetailsFormulaType" type="String" />
+		<field name="sessionId" type="String" />
+		<field name="itemName" type="String" />
+		<field name="operation" type="String" />
+		<field name="cfpModelSid" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="rsDetailsSid" type="int" />
+		<field name="rsDetailsAttachedStatus" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ImtdRsDetailsFr">
+		<field name="formulaMethodId" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="imtdRsDetailsSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsDetailsFrSid" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="imtdRsDetailsFrSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="imtdCreatedDate" type="Date" />
+		<field name="sessionId" type="String" />
+		<field name="usersId" type="String" />
+		<field name="operation" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="rsDetailsSid" type="int" />
+		<field name="formulaId" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ItemGroup">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="itemGroupNo" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="itemFilter" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="itemGroupDescription" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="itemGroupName" type="String" />
+		<field name="itemGroupSid" type="int" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ItemGroupDetails">
+		<field name="itemGroupDetailsSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="itemGroupSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ItemHierarchyDefMaster">
+		<field name="itemHierarchyDefMasterSid" type="int" />
+		<field name="createdBy" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="alias" type="String" />
+		<field name="source" type="String" />
+		<field name="batchId" type="String" />
+		<field name="bpiLvl" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="member" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ItemHierarchyMaster">
+		<field name="level1Alias" type="String" />
+		<field name="level11Alias" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="level8Alias" type="String" />
+		<field name="level14Alias" type="String" />
+		<field name="level5Alias" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="level10Alias" type="String" />
+		<field name="itemHierarchyMasterSid" type="int" />
+		<field name="level17Alias" type="String" />
+		<field name="level9Alias" type="String" />
+		<field name="level0Alias" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="level13Alias" type="String" />
+		<field name="source" type="String" />
+		<field name="level6Alias" type="String" />
+		<field name="gtnBrand" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="level3Alias" type="String" />
+		<field name="level16Alias" type="String" />
+		<field name="batchId" type="String" />
+		<field name="level19Alias" type="String" />
+		<field name="level20" type="String" />
+		<field name="level2Alias" type="String" />
+		<field name="level20Alias" type="String" />
+		<field name="gtnTherapeuticClass" type="String" />
+		<field name="level7Alias" type="String" />
+		<field name="level0" type="String" />
+		<field name="level1" type="String" />
+		<field name="level2" type="String" />
+		<field name="level3" type="String" />
+		<field name="level12Alias" type="String" />
+		<field name="level8" type="String" />
+		<field name="level11" type="String" />
+		<field name="level4Alias" type="String" />
+		<field name="level9" type="String" />
+		<field name="level12" type="String" />
+		<field name="level13" type="String" />
+		<field name="level14" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="level0Tag" type="String" />
+		<field name="level4" type="String" />
+		<field name="level5" type="String" />
+		<field name="level6" type="String" />
+		<field name="level15Alias" type="String" />
+		<field name="level7" type="String" />
+		<field name="level10" type="String" />
+		<field name="level19" type="String" />
+		<field name="level15" type="String" />
+		<field name="level16" type="String" />
+		<field name="gtnCompany" type="String" />
+		<field name="level17" type="String" />
+		<field name="level18Alias" type="String" />
+		<field name="level18" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ItemIdentifier">
+		<field name="itemIdentifierSid" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="endDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="identifierStatus" type="int" />
+		<field name="entityCode" type="String" />
+		<field name="itemIdentifierValue" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="itemQualifierSid" type="int" />
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="batchId" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ItemMaster">
+		<field name="itemStatus" type="int" />
+		<field name="itemDesc" type="String" />
+		<field name="authorizedGenericStartDate" type="Date" />
+		<field name="acquiredAmp" type="double" />
+		<field name="newFormulationStartDate" type="Date" />
+		<field name="marketTerminationDate" type="Date" />
+		<field name="obraBamp" type="double" />
+		<field name="modifiedDate" type="Date" />
+		<field name="therapeuticClass" type="int" />
+		<field name="organizationKey" type="String" />
+		<field name="acquiredBamp" type="double" />
+		<field name="pediatricExclusiveEndDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="newFormulation" type="String" />
+		<field name="divestitureDate" type="Date" />
+		<field name="primaryUom" type="int" />
+		<field name="newFormulationEndDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="packageSizeCode" type="String" />
+		<field name="secondaryUom" type="int" />
+		<field name="discontinuationDate" type="Date" />
+		<field name="packageSizeIntroDate" type="Date" />
+		<field name="manufacturerId" type="String" />
+		<field name="itemEndDate" type="Date" />
+		<field name="itemFamilyId" type="String" />
+		<field name="strength" type="int" />
+		<field name="itemCategory" type="int" />
+		<field name="upps" type="double" />
+		<field name="shelfLifeType" type="int" />
+		<field name="pediatricExclusiveIndicator" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="itemTypeIndication" type="String" />
+		<field name="acquisitionDate" type="Date" />
+		<field name="clottingFactorIndicator" type="String" />
+		<field name="form" type="int" />
+		<field name="itemName" type="String" />
+		<field name="shelfLife" type="String" />
+		<field name="pediatricExclusiveStartDate" type="Date" />
+		<field name="firstSaleDate" type="Date" />
+		<field name="itemMasterSid" type="int" />
+		<field name="itemType" type="int" />
+		<field name="itemId" type="String" />
+		<field name="brandMasterSid" type="int" />
+		<field name="baselineAmp" type="double" />
+		<field name="dualPricingIndicator" type="String" />
+		<field name="dosesPerUnit" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="authorizedGeneric" type="String" />
+		<field name="itemStartDate" type="Date" />
+		<field name="ndc9" type="String" />
+		<field name="authorizedGenericEndDate" type="Date" />
+		<field name="itemNo" type="String" />
+		<field name="packageSize" type="String" />
+		<field name="ndc8" type="String" />
+		<field name="baseCpi" type="double" />
+		<field name="labelerCode" type="String" />
+		<field name="itemClass" type="int" />
+		<field name="clottingFactorEndDate" type="Date" />
+		<field name="dra" type="double" />
+		<field name="baseCpiPeriod" type="Date" />
+		<field name="newFormulationIndicator" type="String" />
+		<field name="lastLotExpirationDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="itemCode" type="String" />
+		<field name="clottingFactorStartDate" type="Date" />
+		<field name="nonFederalExpirationDate" type="Date" />
+		<field name="internalNotes" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ItemPricing">
+		<field name="itemMasterSid" type="int" />
+		<field name="itemPricingQualifierSid" type="int" />
+		<field name="itemPrice" type="double" />
+		<field name="endDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="entityCode" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="batchId" type="String" />
+		<field name="itemUom" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="itemPricingSid" type="int" />
+		<field name="pricingCodeStatus" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ItemPricingQualifier">
+		<field name="createdBy" type="int" />
+		<field name="itemPricingQualifierSid" type="int" />
+		<field name="specificEntityCode" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="effectiveDates" type="String" />
+		<field name="notes" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="pricingQualifier" type="String" />
+		<field name="itemPricingQualifierName" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ItemQualifier">
+		<field name="createdBy" type="int" />
+		<field name="itemQualifierSid" type="int" />
+		<field name="specificEntityCode" type="String" />
+		<field name="itemQualifierName" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="effectiveDates" type="String" />
+		<field name="notes" type="String" />
+		<field name="itemQualifierValue" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldActualMaster">
+		<field name="actualIntfid" type="String" />
+		<field name="accountId" type="String" />
+		<field name="programStateCode" type="String" />
+		<field name="settlementNo" type="String" />
+		<field name="accrualActualEndDate" type="String" />
+		<field name="actualId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="divisionId" type="String" />
+		<field name="organizationKey" type="String" />
+		<field name="quantityInclusion" type="String" />
+		<field name="cashPaidDate" type="String" />
+		<field name="source" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="analysisCode" type="String" />
+		<field name="accrualActualStartDate" type="String" />
+		<field name="modifiedBy" type="String" />
+		<field name="salesAmount" type="String" />
+		<field name="quantity" type="String" />
+		<field name="sentOut" type="String" />
+		<field name="accountNo" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="accountName" type="String" />
+		<field name="provisionId" type="String" />
+		<field name="amount" type="String" />
+		<field name="marketId" type="String" />
+		<field name="isActive" type="String" />
+		<field name="settlementMethodNo" type="String" />
+		<field name="itemIdentifierCodeQualifier" type="String" />
+		<field name="priceAdjustmentName" type="String" />
+		<field name="errorField" type="String" />
+		<field name="recordSequence" type="String" />
+		<field name="mandatedDiscountAmount" type="String" />
+		<field name="parentcomDivmktBrandProdkey" type="String" />
+		<field name="price" type="String" />
+		<field name="dispensedDate" type="String" />
+		<field name="itemId" type="String" />
+		<field name="accrualProcessed" type="String" />
+		<field name="uploadDate" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="invoiceLineNo" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="itemNo" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="acctIdentifierCodeQualifier" type="String" />
+		<field name="contractId" type="String" />
+		<field name="brandId" type="String" />
+		<field name="comDivMktBrandProdKey" type="String" />
+		<field name="claimIndicator" type="String" />
+		<field name="ivldActualMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="provisionClaimIndicator" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldAverageShelfLife">
+		<field name="reasonForFailure" type="String" />
+		<field name="ivldAverageShelfLifeSid" type="int" />
+		<field name="itemId" type="String" />
+		<field name="avgShelfLife" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="itemIdType" type="String" />
+		<field name="batchId" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="averageShelfLifeIntfid" type="String" />
+		<field name="errorField" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="reprocessedFlag" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldBestPrice">
+		<field name="itemDesc" type="String" />
+		<field name="bestPriceIntfid" type="String" />
+		<field name="accountId" type="String" />
+		<field name="sellingPrice" type="String" />
+		<field name="period" type="String" />
+		<field name="itemId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="initialDiscount" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="modifiedBy" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="itemNo" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="contractEndDate" type="String" />
+		<field name="ivldBestPriceSid" type="int" />
+		<field name="contractId" type="String" />
+		<field name="beginningWacPackage" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="contractStartDate" type="String" />
+		<field name="batchId" type="String" />
+		<field name="errorField" type="String" />
+		<field name="initialBestPrice" type="String" />
+		<field name="contractNo" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldCpi">
+		<field name="effectiveDate" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="indexType" type="String" />
+		<field name="status" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="cpiIntfid" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="indexValue" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="batchId" type="String" />
+		<field name="ivldCpiSid" type="int" />
+		<field name="errorField" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="indexId" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldForecastSales">
+		<field name="price" type="String" />
+		<field name="forecastYear" type="String" />
+		<field name="forecastDate" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="forecastValue" type="String" />
+		<field name="forecastIntfid" type="String" />
+		<field name="dollars" type="String" />
+		<field name="ndc" type="String" />
+		<field name="actualSalesPercentage" type="String" />
+		<field name="source" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="actualSalesPercentageMonth" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="percentageEstimate" type="String" />
+		<field name="percentageEstimateYear" type="String" />
+		<field name="units" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="forecastStartDate" type="String" />
+		<field name="forecastValueType" type="String" />
+		<field name="forecastedSalesPercentMonth" type="String" />
+		<field name="country" type="String" />
+		<field name="product" type="String" />
+		<field name="batchId" type="String" />
+		<field name="forecastVer" type="String" />
+		<field name="forecastMonth" type="String" />
+		<field name="ivldForecastSalesSid" type="int" />
+		<field name="errorField" type="String" />
+		<field name="segment" type="String" />
+		<field name="brand" type="String" />
+		<field name="forecastedSalesPercentage" type="String" />
+		<field name="forecastName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldFormulaDetails">
+		<field name="endDate" type="String" />
+		<field name="rebatePercent1" type="String" />
+		<field name="itemId" type="String" />
+		<field name="rebatePercent2" type="String" />
+		<field name="formulaDesc" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rebatePercent3" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="formulaId" type="String" />
+		<field name="modifiedBy" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="formulaDetailsIntfid" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="contractPrice1" type="String" />
+		<field name="companyId" type="String" />
+		<field name="contractPrice2" type="String" />
+		<field name="formulaNo" type="String" />
+		<field name="startDate" type="String" />
+		<field name="batchId" type="String" />
+		<field name="errorField" type="String" />
+		<field name="contractPrice3" type="String" />
+		<field name="ivldFormulaDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.IvldGlBalance">
+		<field name="balance" type="String" />
+		<field name="accountNo" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="accountId" type="String" />
+		<field name="year" type="String" />
+		<field name="period" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="isActive" type="String" />
+		<field name="source" type="String" />
+		<field name="uploadDate" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="batchId" type="String" />
+		<field name="closeIndicator" type="String" />
+		<field name="insertedDate" type="String" />
+		<field name="errorField" type="String" />
+		<field name="ivldGlBalanceSid" type="int" />
+		<field name="errorCode" type="String" />
+		<field name="glBalanceIntfid" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="reprocessedFlag" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldGlCostCenter">
+		<field name="reasonForFailure" type="String" />
+		<field name="glCostCenterIntfid" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="companyCostCenter" type="String" />
+		<field name="uploadDate" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="batchId" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="ivldGlCostCenterSid" type="int" />
+		<field name="errorField" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="companyCode" type="String" />
+		<field name="modifiedBy" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="ndc8" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldItemHierarchy">
+		<field name="level1Alias" type="String" />
+		<field name="level9Alias" type="String" />
+		<field name="level3Alias" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="level13Alias" type="String" />
+		<field name="gtnCompany" type="String" />
+		<field name="source" type="String" />
+		<field name="level15Alias" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="ivldItemHierarchySid" type="int" />
+		<field name="modifiedBy" type="String" />
+		<field name="level6Alias" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="level10Alias" type="String" />
+		<field name="itemHierarchyIntfid" type="String" />
+		<field name="level5Alias" type="String" />
+		<field name="level18Alias" type="String" />
+		<field name="errorField" type="String" />
+		<field name="gtnTherapeuticClass" type="String" />
+		<field name="level8" type="String" />
+		<field name="level9" type="String" />
+		<field name="level11Alias" type="String" />
+		<field name="level20" type="String" />
+		<field name="level4" type="String" />
+		<field name="level5" type="String" />
+		<field name="level6" type="String" />
+		<field name="level7" type="String" />
+		<field name="level16Alias" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="gtnBrand" type="String" />
+		<field name="level2Alias" type="String" />
+		<field name="level1" type="String" />
+		<field name="level0" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="level3" type="String" />
+		<field name="level17Alias" type="String" />
+		<field name="level20Alias" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="level7Alias" type="String" />
+		<field name="level2" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="level8Alias" type="String" />
+		<field name="level10" type="String" />
+		<field name="level4Alias" type="String" />
+		<field name="level12" type="String" />
+		<field name="level11" type="String" />
+		<field name="level14" type="String" />
+		<field name="level0Tag" type="String" />
+		<field name="level13" type="String" />
+		<field name="level16" type="String" />
+		<field name="level15" type="String" />
+		<field name="level18" type="String" />
+		<field name="level17" type="String" />
+		<field name="level19" type="String" />
+		<field name="level12Alias" type="String" />
+		<field name="level19Alias" type="String" />
+		<field name="batchId" type="String" />
+		<field name="level0Alias" type="String" />
+		<field name="level14Alias" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldItemHierarchyDefinition">
+		<field name="member" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="itemHierarchyDefnIntfid" type="String" />
+		<field name="bpiLvl" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="alias" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="batchId" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="ivldItemHierarchyDefinitionSid" type="int" />
+		<field name="errorField" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="reprocessedFlag" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldLotMaster">
+		<field name="reasonForFailure" type="String" />
+		<field name="itemId" type="String" />
+		<field name="ivldLotMasterSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="lastLotSoldDate" type="String" />
+		<field name="lotExpirationDate" type="String" />
+		<field name="batchId" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="errorField" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="lotNo" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="lotMasterIntfid" type="String" />
+	</model>
+	<model name="com.stpl.app.model.IvldMasterDataAttribute">
+		<field name="column19" type="String" />
+		<field name="column18" type="String" />
+		<field name="masterAttribute" type="String" />
+		<field name="masterType" type="String" />
+		<field name="dataAttributeIntfid" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="masterId" type="String" />
+		<field name="column10" type="String" />
+		<field name="column11" type="String" />
+		<field name="errorCode" type="String" />
+		<field name="column12" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+		<field name="column13" type="String" />
+		<field name="column14" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="column15" type="String" />
+		<field name="column16" type="String" />
+		<field name="column17" type="String" />
+		<field name="column4" type="String" />
+		<field name="column3" type="String" />
+		<field name="column2" type="String" />
+		<field name="column1" type="String" />
+		<field name="column8" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="column7" type="String" />
+		<field name="column6" type="String" />
+		<field name="column5" type="String" />
+		<field name="column20" type="String" />
+		<field name="batchId" type="String" />
+		<field name="errorField" type="String" />
+		<field name="column9" type="String" />
+		<field name="ivldMasterDataAtbteSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.IvldSalesMaster">
+		<field name="accountId" type="String" />
+		<field name="salesIntfid" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="organizationKey" type="String" />
+		<field name="divisionId" type="String" />
+		<field name="source" type="String" />
+		<field name="addChgDelIndicator" type="String" />
+		<field name="analysisCode" type="String" />
+		<field name="ivldSalesMasterSid" type="int" />
+		<field name="docType" type="String" />
+		<field name="modifiedBy" type="String" />
+		<field name="lotNo" type="String" />
+		<field name="quantity" type="String" />
+		<field name="invoiceLineNumber" type="String" />
+		<field name="identifierCodeQualifier" type="String" />
+		<field name="accountCodeQualifier" type="String" />
+		<field name="parentItemId" type="String" />
+		<field name="accountNo" type="String" />
+		<field name="reasonForFailure" type="String" />
+		<field name="accountName" type="String" />
+		<field name="provisionId" type="String" />
+		<field name="amount" type="String" />
+		<field name="marketId" type="String" />
+		<field name="isActive" type="String" />
+		<field name="wholesaleOwnerId" type="String" />
+		<field name="priceAdjustmentName" type="String" />
+		<field name="salesId" type="String" />
+		<field name="errorField" type="String" />
+		<field name="recordSequence" type="String" />
+		<field name="price" type="String" />
+		<field name="customerSubtype" type="String" />
+		<field name="parentItemNo" type="String" />
+		<field name="itemId" type="String" />
+		<field name="orderReceivedDate" type="String" />
+		<field name="orderNumber" type="String" />
+		<field name="accountType" type="String" />
+		<field name="uploadDate" type="String" />
+		<field name="createdBy" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="errorCode" type="String" />
+		<field name="itemUom" type="String" />
+		<field name="intfInsertedDate" type="Date" />
+		<field name="invoiceNumber" type="String" />
+		<field name="orderSubtype" type="String" />
+		<field name="itemNo" type="String" />
+		<field name="reprocessedFlag" type="String" />
+		<field name="contractId" type="String" />
+		<field name="customerCompanyCode" type="String" />
+		<field name="orderType" type="String" />
+		<field name="companyId" type="String" />
+		<field name="brandId" type="String" />
+		<field name="invoiceDate" type="String" />
+		<field name="batchId" type="String" />
+		<field name="contractNo" type="String" />
+	</model>
+	<model name="com.stpl.app.model.LotMaster">
+		<field name="createdBy" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="itemId" type="String" />
+		<field name="batchId" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="lastLotSoldDate" type="Date" />
+		<field name="lotExpirationDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="lotMasterSid" type="int" />
+		<field name="lotNo" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.MActualSales">
+		<field name="actualSales" type="double" />
+		<field name="actualUnits" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualProjectionUnits" type="double" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.MailNotificationMaster">
+		<field name="subject" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="toMailIds" type="String" />
+		<field name="notificationCategoryId" type="int" />
+		<field name="notificationModule" type="String" />
+		<field name="body" type="String" />
+		<field name="fromMailId" type="String" />
+		<field name="ccMailIds" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="mailNotificationSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.MAssumptions">
+		<field name="grossSalesPercentChange" type="double" />
+		<field name="grossSalesPrior" type="double" />
+		<field name="projYear" type="int" />
+		<field name="totalDiscountPercentProjected" type="double" />
+		<field name="camId" type="int" />
+		<field name="commentary" type="String" />
+		<field name="grossSalesProjected" type="double" />
+		<field name="totalDiscountPercentChange" type="double" />
+		<field name="totalDiscountPercentPrior" type="double" />
+		<field name="netSalesPercentChange" type="double" />
+		<field name="parent" type="boolean" />
+		<field name="projectionPeriod" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="netSalesPrior" type="double" />
+		<field name="netSalesProjected" type="double" />
+		<field name="reasonCodes" type="String" />
+		<field name="mAssumptionsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.MasterDataAttribute">
+		<field name="column15" type="String" />
+		<field name="column14" type="String" />
+		<field name="column17" type="String" />
+		<field name="column16" type="String" />
+		<field name="column11" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="column10" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="column13" type="String" />
+		<field name="column12" type="String" />
+		<field name="batchId" type="String" />
+		<field name="column19" type="String" />
+		<field name="column18" type="String" />
+		<field name="masterAttribute" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="masterType" type="String" />
+		<field name="masterId" type="String" />
+		<field name="column20" type="String" />
+		<field name="column9" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="column6" type="String" />
+		<field name="masterDataAttributeSid" type="int" />
+		<field name="column5" type="String" />
+		<field name="column8" type="String" />
+		<field name="column7" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="column2" type="String" />
+		<field name="column1" type="String" />
+		<field name="column4" type="String" />
+		<field name="column3" type="String" />
+		<field name="source" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.MasterDataFiles">
+		<field name="masterTableSid" type="int" />
+		<field name="masterDataFilesSid" type="int" />
+		<field name="masterTableName" type="String" />
+		<field name="filePath" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+	</model>
+	<model name="com.stpl.app.model.MedicaidNewNdc">
+		<field name="forecastAmp" type="double" />
+		<field name="forecastBestprice" type="double" />
+		<field name="baseYearCpi" type="double" />
+		<field name="ndc9" type="String" />
+		<field name="wacPrice" type="double" />
+		<field name="baseYearAmp" type="double" />
+	</model>
+	<model name="com.stpl.app.model.MedicaidUraActuals">
+		<field name="periodSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="actualPrice" type="double" />
+		<field name="notes" type="String" />
+		<field name="naProjDetailsSid" type="int" />
+		<field name="baseYear" type="double" />
+	</model>
+	<model name="com.stpl.app.model.MedicaidUraProj">
+		<field name="adjustment" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="projectionPrice" type="double" />
+		<field name="notes" type="String" />
+		<field name="naProjDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ModuleProperties">
+		<field name="modulePropertySid" type="int" />
+		<field name="createdBy" type="int" />
+		<field name="moduleName" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="nullFlag" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="moduleSubmoduleSid" type="int" />
+		<field name="categoryName" type="String" />
+		<field name="propertyName" type="String" />
+		<field name="displayName" type="String" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.ModuleSubmoduleMaster">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="category" type="String" />
+		<field name="moduleSubmoduleSid" type="int" />
+		<field name="submoduleName" type="String" />
+		<field name="moduleName" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.MParityLookup">
+		<field name="contractMasterSid" type="int" />
+		<field name="marketType" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="mParityLookupSid" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.MProjectionSelection">
+		<field name="mProjectionSelectionSid" type="int" />
+		<field name="projectionMasterSid" type="int" />
+		<field name="fieldValues" type="String" />
+		<field name="fieldName" type="String" />
+		<field name="screenName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.MSalesProjection">
+		<field name="productGrowth" type="double" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="adjustmentValues" type="double" />
+		<field name="accountGrowth" type="double" />
+		<field name="projectionUnits" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="adjustmentVariable" type="boolean" />
+		<field name="adjustmentMethodology" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="projectionSales" type="double" />
+		<field name="adjustmentType" type="String" />
+	</model>
+	<model name="com.stpl.app.model.MSalesProjectionMaster">
+		<field name="methodology" type="String" />
+		<field name="calculationPeriods" type="String" />
+		<field name="calculationBased" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="checkRecord" type="boolean" />
+	</model>
+	<model name="com.stpl.app.model.MSupplementalDiscActuals">
+		<field name="actualSales" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualRate" type="double" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="actualProjectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.MSupplementalDiscMaster">
+		<field name="actualDiscountRate2" type="double" />
+		<field name="actualDiscountRate1" type="double" />
+		<field name="marketType" type="String" />
+		<field name="actualMethodology" type="String" />
+		<field name="actualContractPrice" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="actualDiscount" type="double" />
+		<field name="checkRecord" type="int" />
+		<field name="contractEndDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.MSupplementalDiscProj">
+		<field name="methodology" type="String" />
+		<field name="projectionRate" type="double" />
+		<field name="parity" type="boolean" />
+		<field name="periodSid" type="int" />
+		<field name="discountRate1" type="double" />
+		<field name="parityReference" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="discountRate2" type="double" />
+		<field name="parityDiscount" type="double" />
+		<field name="projectionSales" type="double" />
+		<field name="contractPrice" type="double" />
+		<field name="access" type="String" />
+	</model>
+	<model name="com.stpl.app.model.NaProjDetails">
+		<field name="itemMasterSid" type="int" />
+		<field name="naProjMasterSid" type="int" />
+		<field name="naProjDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.NaProjectionSelection">
+		<field name="screenName" type="String" />
+		<field name="fieldName" type="String" />
+		<field name="fieldValues" type="String" />
+		<field name="naProjectionSelectionSid" type="int" />
+		<field name="naProjMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.NaProjMaster">
+		<field name="naProjName" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="saveFlag" type="boolean" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="naProjMasterSid" type="int" />
+		<field name="itemGroupSid" type="int" />
+		<field name="therapeuticClass" type="int" />
+		<field name="companyMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.NationalAssumptions">
+		<field name="baselinePeriod" type="String" />
+		<field name="frequency" type="String" />
+		<field name="startPeriod" type="String" />
+		<field name="forecastMethodology" type="String" />
+		<field name="priceType" type="String" />
+		<field name="endPeriod" type="String" />
+		<field name="priceBasis" type="String" />
+		<field name="naProjMasterSid" type="int" />
+		<field name="rollingPeriod" type="String" />
+		<field name="baselineMethodology" type="String" />
+		<field name="growthRate" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NationalAssumptionsActuals">
+		<field name="periodSid" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="actualPrice" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NationalAssumptionsProj">
+		<field name="periodSid" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="projectionPrice" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmActualDiscount">
+		<field name="actualRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="actualProjectionRate" type="double" />
+		<field name="actualSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmActualPpa">
+		<field name="actualRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualProjDiscountDollar" type="double" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="actualProjectionRate" type="double" />
+		<field name="actualProjDiscountUnits" type="double" />
+		<field name="actualDiscountDollar" type="double" />
+		<field name="actualDiscountUnits" type="double" />
+		<field name="actualSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmActualSales">
+		<field name="periodSid" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="actualUnits" type="double" />
+		<field name="historyProjectionSales" type="double" />
+		<field name="actualSales" type="double" />
+		<field name="historyProjectionUnits" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmDiscountProjection">
+		<field name="adjustmentMethodology" type="String" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="periodSid" type="int" />
+		<field name="projectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="adjustmentVariable" type="boolean" />
+		<field name="adjustmentValue" type="double" />
+		<field name="adjustmentType" type="String" />
+		<field name="projectionSales" type="double" />
+		<field name="discountRate" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmDiscountProjMaster">
+		<field name="checkRecord" type="boolean" />
+		<field name="discountId" type="String" />
+		<field name="userGroup" type="String" />
+		<field name="priceGroupType" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="netFlag" type="String" />
+		<field name="methodology" type="String" />
+		<field name="discountName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.NmPpaProjection">
+		<field name="periodSid" type="int" />
+		<field name="projectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="priceCap" type="double" />
+		<field name="projectionDiscountUnits" type="double" />
+		<field name="projectionDiscountDollar" type="double" />
+		<field name="reset" type="boolean" />
+		<field name="projectionSales" type="double" />
+		<field name="projectionMap" type="double" />
+		<field name="resetPriceCap" type="boolean" />
+	</model>
+	<model name="com.stpl.app.model.NmPpaProjectionMaster">
+		<field name="checkRecord" type="boolean" />
+		<field name="userGroup" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="priceBasis" type="String" />
+		<field name="priceProtectionEndDate" type="Date" />
+		<field name="priceProtectionStartDate" type="Date" />
+		<field name="actualPriceCap" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmProjectionSelection">
+		<field name="screenName" type="String" />
+		<field name="nmProjectionSelectionSid" type="int" />
+		<field name="fieldName" type="String" />
+		<field name="fieldValues" type="String" />
+		<field name="projectionMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.NmSalesProjection">
+		<field name="adjustmentMethodology" type="String" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="periodSid" type="int" />
+		<field name="productGrowth" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="adjustmentValues" type="double" />
+		<field name="adjustmentVariable" type="boolean" />
+		<field name="accountGrowth" type="double" />
+		<field name="projectionUnits" type="double" />
+		<field name="adjustmentType" type="String" />
+		<field name="projectionSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.NmSalesProjectionMaster">
+		<field name="checkRecord" type="boolean" />
+		<field name="calculationPeriods" type="String" />
+		<field name="userGroup" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="methodology" type="String" />
+		<field name="calculationBased" type="String" />
+	</model>
+	<model name="com.stpl.app.model.Period">
+		<field name="periodSid" type="int" />
+		<field name="periodDate" type="Date" />
+		<field name="quarter" type="int" />
+		<field name="year" type="int" />
+		<field name="semiAnnual" type="int" />
+		<field name="month" type="int" />
+	</model>
+	<model name="com.stpl.app.model.PhsActuals">
+		<field name="periodSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="actualPrice" type="double" />
+		<field name="notes" type="String" />
+		<field name="naProjDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.PhsProj">
+		<field name="adjustment" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="priceType" type="String" />
+		<field name="projectionPrice" type="double" />
+		<field name="notes" type="String" />
+		<field name="naProjDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionCustDetails">
+		<field name="contractName" type="String" />
+		<field name="customerName" type="String" />
+		<field name="customerDetailsId" type="int" />
+		<field name="costCenter" type="String" />
+		<field name="customerAlias" type="String" />
+		<field name="subLedgerCode" type="String" />
+		<field name="projectionId" type="int" />
+		<field name="marketType" type="String" />
+		<field name="contractNo" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionCustHierarchy">
+		<field name="projectionMasterSid" type="int" />
+		<field name="projectionCustHierarchySid" type="int" />
+		<field name="relationshipLevelSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionDetails">
+		<field name="projectionDetailsSid" type="int" />
+		<field name="ccpDetailsSid" type="int" />
+		<field name="projectionMasterSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionMaster">
+		<field name="productHierarchyLevel" type="int" />
+		<field name="saveFlag" type="boolean" />
+		<field name="projectionName" type="String" />
+		<field name="toDate" type="Date" />
+		<field name="projectionMasterSid" type="int" />
+		<field name="forecastingType" type="String" />
+		<field name="productHierVersionNo" type="int" />
+		<field name="customerHierVersionNo" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerHierarchyLevel" type="int" />
+		<field name="fromDate" type="Date" />
+		<field name="productHierarchySid" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="customerHierarchySid" type="String" />
+		<field name="companyGroupSid" type="String" />
+		<field name="brandType" type="boolean" />
+		<field name="modifiedBy" type="int" />
+		<field name="projectionDescription" type="String" />
+		<field name="isApproved" type="String" />
+		<field name="itemGroupSid" type="String" />
+		<field name="companyMasterSid" type="String" />
+		<field name="customerHierarchyInnerLevel" type="int" />
+		<field name="productHierarchyInnerLevel" type="int" />
+		<field name="custRelationshipBuilderSid" type="String" />
+		<field name="prodRelationshipBuilderSid" type="String" />
+		<field name="discountType" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionNameConfig">
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="businessProcessType" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="projectionNameConfigSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="selectedAttributes" type="String" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionProdDetails">
+		<field name="productName" type="String" />
+		<field name="costCenter" type="String" />
+		<field name="productNo" type="String" />
+		<field name="subLedgerCode" type="String" />
+		<field name="productDetailsId" type="int" />
+		<field name="brandName" type="String" />
+		<field name="projectionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.ProjectionProdHierarchy">
+		<field name="projectionMasterSid" type="int" />
+		<field name="projectionProdHierarchySid" type="int" />
+		<field name="relationshipLevelSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.PsContract">
+		<field name="psName" type="String" />
+		<field name="cfpContractSid" type="String" />
+		<field name="psContractSid" type="int" />
+		<field name="psType" type="int" />
+		<field name="psContractAttachedStatus" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="psCategory" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="psStatus" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="parentPsId" type="String" />
+		<field name="psDesignation" type="String" />
+		<field name="batchId" type="String" />
+		<field name="contractMasterSid" type="int" />
+		<field name="psModelSid" type="int" />
+		<field name="psContractAttachedDate" type="Date" />
+		<field name="psEndDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="parentPsName" type="String" />
+		<field name="psStartDate" type="Date" />
+		<field name="ifpContractSid" type="String" />
+	</model>
+	<model name="com.stpl.app.model.PsContractDetails">
+		<field name="price" type="double" />
+		<field name="itemMasterSid" type="int" />
+		<field name="priceProtectionStartDate" type="Date" />
+		<field name="basePrice" type="double" />
+		<field name="modifiedDate" type="Date" />
+		<field name="revisionDate" type="Date" />
+		<field name="priceTolerance" type="double" />
+		<field name="createdDate" type="Date" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="suggestedPrice" type="double" />
+		<field name="psContractAttachedDate" type="Date" />
+		<field name="psContractDetailsSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="contractPrice" type="double" />
+		<field name="priceToleranceType" type="int" />
+		<field name="itemPricingQualifierSid" type="int" />
+		<field name="contractPriceEndDate" type="Date" />
+		<field name="priceToleranceFrequency" type="int" />
+		<field name="contractPriceStartDate" type="Date" />
+		<field name="psContractSid" type="int" />
+		<field name="priceProtectionEndDate" type="Date" />
+		<field name="psContractAttachedStatus" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="batchId" type="String" />
+		<field name="priceToleranceInterval" type="int" />
+		<field name="priceRevision" type="double" />
+	</model>
+	<model name="com.stpl.app.model.PsDetails">
+		<field name="nepFormula" type="String" />
+		<field name="price" type="double" />
+		<field name="itemMasterSid" type="int" />
+		<field name="resetType" type="int" />
+		<field name="priceProtectionStartDate" type="Date" />
+		<field name="resetDate" type="Date" />
+		<field name="basePrice" type="double" />
+		<field name="itemPsAttachedDate" type="Date" />
+		<field name="brandMasterSid" type="int" />
+		<field name="status" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="itemPsAttachedStatus" type="int" />
+		<field name="revisionDate" type="Date" />
+		<field name="priceTolerance" type="double" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="psDetailsSid" type="int" />
+		<field name="psModelSid" type="int" />
+		<field name="suggestedPrice" type="double" />
+		<field name="netPriceTypeFormula" type="String" />
+		<field name="priceProtectionPriceType" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="contractPrice" type="double" />
+		<field name="ifpModelSid" type="int" />
+		<field name="priceToleranceType" type="int" />
+		<field name="maxIncrementalChange" type="double" />
+		<field name="itemPricingQualifierSid" type="String" />
+		<field name="contractPriceEndDate" type="Date" />
+		<field name="nep" type="double" />
+		<field name="contractPriceStartDate" type="Date" />
+		<field name="priceToleranceFrequency" type="int" />
+		<field name="priceProtectionEndDate" type="Date" />
+		<field name="priceProtectionStatus" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="resetEligible" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="priceToleranceInterval" type="int" />
+		<field name="netPriceType" type="int" />
+		<field name="priceRevision" type="double" />
+		<field name="resetFrequency" type="int" />
+		<field name="resetInterval" type="int" />
+	</model>
+	<model name="com.stpl.app.model.PsModel">
+		<field name="psId" type="String" />
+		<field name="psName" type="String" />
+		<field name="psType" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="psCategory" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="psStatus" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="psNo" type="String" />
+		<field name="psDesignation" type="String" />
+		<field name="parentPsId" type="String" />
+		<field name="batchId" type="String" />
+		<field name="psModelSid" type="int" />
+		<field name="psEndDate" type="Date" />
+		<field name="psTradeClass" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="psStartDate" type="Date" />
+		<field name="parentPsName" type="String" />
+		<field name="internalNotes" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RebatePlanMaster">
+		<field name="selfGrowthIndicator" type="String" />
+		<field name="rebateStructure" type="String" />
+		<field name="marketShareFrom" type="Date" />
+		<field name="secondaryRebatePlanNo" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rebateRangeBasedOn" type="int" />
+		<field name="rebateRule" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="rebateBasedOn" type="int" />
+		<field name="rebatePlanType" type="int" />
+		<field name="rebatePlanId" type="String" />
+		<field name="manfCompanyMasterSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="secondaryRebatePlanId" type="String" />
+		<field name="marketShareIndicator" type="String" />
+		<field name="bogoEligible" type="String" />
+		<field name="marketShareTo" type="Date" />
+		<field name="rebatePlanStatus" type="int" />
+		<field name="rebatePlanMasterSid" type="int" />
+		<field name="marketShareReference" type="String" />
+		<field name="selfGrowthFrom" type="Date" />
+		<field name="internalNotes" type="String" />
+		<field name="secondaryRebatePlanName" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="rebatePlanName" type="String" />
+		<field name="selfGrowthReference" type="String" />
+		<field name="batchId" type="String" />
+		<field name="formulaType" type="int" />
+		<field name="selfGrowthTo" type="Date" />
+		<field name="rebatePlanNo" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RebatePlanTier">
+		<field name="tierValue" type="double" />
+		<field name="rebatePlanMasterSid" type="int" />
+		<field name="rebatePlanTierSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="tierTolerance" type="double" />
+		<field name="tierFrom" type="String" />
+		<field name="tierOperator" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="tierTo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="rebatePlanTierId" type="String" />
+		<field name="freeAmount" type="double" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="tierLevel" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RebateTierFormula">
+		<field name="rebateTierFormulaNo" type="String" />
+		<field name="rebateTierFormulaName" type="String" />
+		<field name="rebatePlanMasterSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="source" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="rebateTierFormulaId" type="String" />
+		<field name="inboundStatus" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="rebateTierFormulaSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.RelationshipBuilder">
+		<field name="startDate" type="Date" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="relationshipDescription" type="String" />
+		<field name="hierarchyDefinitionSid" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="relationshipName" type="String" />
+		<field name="relationshipBuilderSid" type="int" />
+		<field name="hierarchyVersion" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="relationshipType" type="int" />
+		<field name="buildType" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RelationshipLevelDefinition">
+		<field name="relationshipLevelValues" type="String" />
+		<field name="hierarchyLevelDefinitionSid" type="int" />
+		<field name="parentNode" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="relationshipBuilderSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="levelNo" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="hierarchyNo" type="String" />
+		<field name="relationshipLevelSid" type="int" />
+		<field name="flag" type="String" />
+		<field name="levelName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RoleAssociate">
+		<field name="roleAssociateSid" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="sessionId" type="String" />
+		<field name="versionNo" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="businessroleMasterId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.RsContract">
+		<field name="cfpContractSid" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="psContractSid" type="String" />
+		<field name="rsName" type="String" />
+		<field name="rsStatus" type="int" />
+		<field name="rsStartDate" type="Date" />
+		<field name="rsTransRefId" type="String" />
+		<field name="makePayableTo" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="rsCategory" type="int" />
+		<field name="rsTradeClass" type="int" />
+		<field name="contractMasterSid" type="int" />
+		<field name="rebateRuleType" type="int" />
+		<field name="paymentMethod" type="int" />
+		<field name="rsContractAttachedDate" type="Date" />
+		<field name="rsAlias" type="String" />
+		<field name="formulaMethodId" type="String" />
+		<field name="rebateProcessingType" type="int" />
+		<field name="rsContractAttachedStatus" type="int" />
+		<field name="interestBearingBasis" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsTransRefName" type="String" />
+		<field name="rebateProgramType" type="int" />
+		<field name="rebatePlanLevel" type="String" />
+		<field name="source" type="String" />
+		<field name="rsCalendar" type="String" />
+		<field name="rsType" type="int" />
+		<field name="address1" type="String" />
+		<field name="address2" type="String" />
+		<field name="rsEndDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="rsTransRefNo" type="String" />
+		<field name="zipCode" type="String" />
+		<field name="rebateRuleAssociation" type="String" />
+		<field name="state" type="int" />
+		<field name="rebateFrequency" type="int" />
+		<field name="rsDesignation" type="String" />
+		<field name="batchId" type="String" />
+		<field name="ifpContractSid" type="String" />
+		<field name="rsContractSid" type="int" />
+		<field name="paymentTerms" type="int" />
+		<field name="rsNo" type="String" />
+		<field name="rsModelSid" type="int" />
+		<field name="rsValidationProfile" type="int" />
+		<field name="paymentGracePeriod" type="String" />
+		<field name="paymentFrequency" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="rsId" type="String" />
+		<field name="city" type="String" />
+		<field name="parentRsName" type="String" />
+		<field name="interestBearingIndicator" type="String" />
+		<field name="parentRsId" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RsContractDetails">
+		<field name="rebateAmount" type="double" />
+		<field name="formulaMethodId" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="rebatePlanMasterSid" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsContractDetailsSid" type="int" />
+		<field name="bundleNo" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="rsContractSid" type="int" />
+		<field name="itemRebateEndDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="itemRebateStartDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="formulaId" type="int" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.RsContractDetailsFr">
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="formulaMethodId" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="batchId" type="String" />
+		<field name="rsContractDetailsFrSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="formulaId" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsContractDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.RsDetails">
+		<field name="rebateAmount" type="double" />
+		<field name="itemRsAttachedStatus" type="int" />
+		<field name="formulaMethodId" type="String" />
+		<field name="itemMasterSid" type="int" />
+		<field name="rebatePlanMasterSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="bundleNo" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="itemRebateEndDate" type="Date" />
+		<field name="batchId" type="String" />
+		<field name="itemRebateStartDate" type="Date" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="rsDetailsSid" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="formulaId" type="int" />
+		<field name="itemRsAttachedDate" type="Date" />
+		<field name="ifpModelSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.RsDetailsFr">
+		<field name="recordLockStatus" type="boolean" />
+		<field name="createdDate" type="Date" />
+		<field name="createdBy" type="int" />
+		<field name="source" type="String" />
+		<field name="formulaMethodId" type="String" />
+		<field name="batchId" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="formulaId" type="int" />
+		<field name="itemMasterSid" type="int" />
+		<field name="rsDetailsSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="rsDetailsFrSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.RsModel">
+		<field name="formulaMethodId" type="String" />
+		<field name="calculationType" type="int" />
+		<field name="rsStatus" type="int" />
+		<field name="rsEndDate" type="Date" />
+		<field name="rsTransRefNo" type="String" />
+		<field name="paymentFrequency" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="calculationLevel" type="int" />
+		<field name="rsName" type="String" />
+		<field name="source" type="String" />
+		<field name="rebatePlanLevel" type="String" />
+		<field name="rebateRuleType" type="int" />
+		<field name="inboundStatus" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="rsAlias" type="String" />
+		<field name="rsId" type="String" />
+		<field name="paymentMethod" type="int" />
+		<field name="zipCode" type="String" />
+		<field name="rebateRuleAssociation" type="String" />
+		<field name="parentRsName" type="String" />
+		<field name="internalNotes" type="String" />
+		<field name="paymentLevel" type="int" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="rsCalendar" type="int" />
+		<field name="rebateProgramType" type="int" />
+		<field name="interestBearingBasis" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="city" type="String" />
+		<field name="rebateProcessingType" type="int" />
+		<field name="rsNo" type="String" />
+		<field name="state" type="int" />
+		<field name="rebateFrequency" type="int" />
+		<field name="parentRsId" type="String" />
+		<field name="rsType" type="int" />
+		<field name="rsStartDate" type="Date" />
+		<field name="makePayableTo" type="String" />
+		<field name="rsDesignation" type="int" />
+		<field name="rsTransRefName" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="rsTransRefId" type="String" />
+		<field name="rsCategory" type="int" />
+		<field name="rsTradeClass" type="int" />
+		<field name="interestBearingIndicator" type="int" />
+		<field name="manfCompanyMasterSid" type="int" />
+		<field name="paymentTerms" type="int" />
+		<field name="address1" type="String" />
+		<field name="address2" type="String" />
+		<field name="rsValidationProfile" type="int" />
+		<field name="paymentGracePeriod" type="String" />
+		<field name="batchId" type="String" />
+	</model>
+	<model name="com.stpl.app.model.SalesMaster">
+		<field name="itemNo" type="String" />
+		<field name="recordSequence" type="int" />
+		<field name="quantity" type="double" />
+		<field name="accountId" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="identifierCodeQualifier" type="String" />
+		<field name="isActive" type="String" />
+		<field name="marketId" type="String" />
+		<field name="invoiceDate" type="Date" />
+		<field name="accountName" type="String" />
+		<field name="docType" type="String" />
+		<field name="orderReceivedDate" type="Date" />
+		<field name="amount" type="double" />
+		<field name="salesMasterSid" type="int" />
+		<field name="orderSubtype" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="price" type="double" />
+		<field name="uploadDate" type="Date" />
+		<field name="itemId" type="String" />
+		<field name="priceAdjustmentName" type="String" />
+		<field name="itemCodeQualifier" type="String" />
+		<field name="contractId" type="String" />
+		<field name="itemUom" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerSubtype" type="String" />
+		<field name="provisionId" type="int" />
+		<field name="wholesaleOwnerId" type="String" />
+		<field name="source" type="String" />
+		<field name="accountNo" type="String" />
+		<field name="lotNo" type="String" />
+		<field name="parentItemId" type="String" />
+		<field name="customerCompanyCode" type="String" />
+		<field name="analysisCode" type="String" />
+		<field name="accountType" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="contractNo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="brandId" type="String" />
+		<field name="salesId" type="String" />
+		<field name="companyId" type="String" />
+		<field name="organizationKey" type="String" />
+		<field name="itemParentNo" type="String" />
+		<field name="invoiceNumber" type="String" />
+		<field name="orderType" type="String" />
+		<field name="recordLockStatus" type="boolean" />
+		<field name="divisionId" type="String" />
+		<field name="invoiceLineNumber" type="String" />
+		<field name="orderNumber" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.StChActualDiscount">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="actualRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="sessionId" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="actualSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StChAssumptions">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="parent" type="boolean" />
+		<field name="commentary" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="quarter" type="int" />
+		<field name="totalDiscountPercentChange" type="double" />
+		<field name="reasonCodes" type="String" />
+		<field name="year" type="int" />
+		<field name="totalDiscountPercentProjected" type="double" />
+		<field name="totalDiscountPercentPrior" type="double" />
+		<field name="stChAssumptionsSid" type="String" />
+		<field name="chAssumptionsSid" type="int" />
+		<field name="totalDiscountChange" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="totalDiscountProjected" type="double" />
+		<field name="isChecked" type="boolean" />
+		<field name="camId" type="int" />
+		<field name="grossTradeSales" type="double" />
+		<field name="totalDiscountPrior" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StChDiscountProjMaster">
+		<field name="checkRecord" type="boolean" />
+		<field name="selectedPeriods" type="String" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="priceGroupType" type="String" />
+		<field name="userId" type="int" />
+		<field name="netFlag" type="String" />
+		<field name="projectedType" type="String" />
+		<field name="baselinePeriods" type="String" />
+		<field name="sessionId" type="int" />
+		<field name="methodology" type="String" />
+		<field name="rsModelSid" type="int" />
+		<field name="discountType" type="String" />
+	</model>
+	<model name="com.stpl.app.model.StChProjectionDiscount">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="adjustmentMethodology" type="String" />
+		<field name="productGrowth" type="double" />
+		<field name="projectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="accountGrowth" type="double" />
+		<field name="discountAmount" type="double" />
+		<field name="discountRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="sessionId" type="int" />
+		<field name="adjustmentValue" type="double" />
+		<field name="adjustmentType" type="String" />
+		<field name="rsModelSid" type="int" />
+		<field name="projectionSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StChSalesProjectionMaster">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="checkRecord" type="boolean" />
+		<field name="calculationPeriods" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="sessionId" type="int" />
+		<field name="methodology" type="String" />
+	</model>
+	<model name="com.stpl.app.model.StFederalNewNdc">
+		<field name="fss" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="itemMasterSid" type="int" />
+		<field name="wacPrice" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="nonFamp" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StMActualSales">
+		<field name="actualSales" type="double" />
+		<field name="actualUnits" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualProjectionUnits" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StMAssumptions">
+		<field name="grossSalesPercentChange" type="double" />
+		<field name="grossSalesPrior" type="double" />
+		<field name="projYear" type="int" />
+		<field name="totalDiscountPercentProjected" type="double" />
+		<field name="camId" type="int" />
+		<field name="commentary" type="String" />
+		<field name="isChecked" type="boolean" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="grossSalesProjected" type="double" />
+		<field name="totalDiscountPercentChange" type="double" />
+		<field name="totalDiscountPercentPrior" type="double" />
+		<field name="netSalesPercentChange" type="double" />
+		<field name="parent" type="boolean" />
+		<field name="stMAssumptionsSid" type="String" />
+		<field name="projectionPeriod" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="netSalesPrior" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="netSalesProjected" type="double" />
+		<field name="reasonCodes" type="String" />
+		<field name="mAssumptionsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StMedicaidNewNdc">
+		<field name="forecastAmp" type="double" />
+		<field name="forecastBestprice" type="double" />
+		<field name="baseYearCpi" type="double" />
+		<field name="ndc9" type="String" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="wacPrice" type="double" />
+		<field name="baseYearAmp" type="double" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StMSalesProjection">
+		<field name="adjustmentValues" type="double" />
+		<field name="projectionUnits" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="projectionSales" type="double" />
+		<field name="adjustmentType" type="String" />
+		<field name="productGrowth" type="double" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="accountGrowth" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="adjustmentVariable" type="boolean" />
+		<field name="adjustmentMethodology" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StMSalesProjectionMaster">
+		<field name="methodology" type="String" />
+		<field name="calculationPeriods" type="String" />
+		<field name="calculationBased" type="String" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="sessionId" type="int" />
+		<field name="checkRecord" type="boolean" />
+	</model>
+	<model name="com.stpl.app.model.StMSupplementalDiscActuals">
+		<field name="actualSales" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualRate" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="actualProjectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StMSupplementalDiscMaster">
+		<field name="actualDiscountRate2" type="double" />
+		<field name="actualDiscountRate1" type="double" />
+		<field name="marketType" type="String" />
+		<field name="actualMethodology" type="String" />
+		<field name="actualContractPrice" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="actualDiscount" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="checkRecord" type="int" />
+		<field name="contractEndDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.StMSupplementalDiscProj">
+		<field name="projectionRate" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="parityReference" type="String" />
+		<field name="projectionSales" type="double" />
+		<field name="contractPrice" type="double" />
+		<field name="methodology" type="String" />
+		<field name="parity" type="boolean" />
+		<field name="periodSid" type="int" />
+		<field name="discountRate1" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="discountRate2" type="double" />
+		<field name="parityDiscount" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="access" type="String" />
+	</model>
+	<model name="com.stpl.app.model.StNationalAssumptions">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="baselinePeriod" type="String" />
+		<field name="startPeriod" type="String" />
+		<field name="frequency" type="String" />
+		<field name="userId" type="int" />
+		<field name="endPeriod" type="String" />
+		<field name="naProjMasterSid" type="int" />
+		<field name="rollingPeriod" type="String" />
+		<field name="forecastMethodology" type="String" />
+		<field name="priceType" type="String" />
+		<field name="priceBasis" type="String" />
+		<field name="sessionId" type="int" />
+		<field name="baselineMethodology" type="String" />
+		<field name="growthRate" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StNewNdc">
+		<field name="forecastAmp" type="double" />
+		<field name="forecastBestprice" type="double" />
+		<field name="naProjDetailsSid" type="int" />
+		<field name="baseYearCpi" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="itemMasterSid" type="int" />
+		<field name="wacPrice" type="double" />
+		<field name="baseYearAmp" type="double" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StNmActualDiscount">
+		<field name="actualSales" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualRate" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="actualProjectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StNmActualPpa">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="actualRate" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="actualProjDiscountDollar" type="double" />
+		<field name="actualProjectionSales" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="actualProjectionRate" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="actualProjDiscountUnits" type="double" />
+		<field name="actualDiscountDollar" type="double" />
+		<field name="actualDiscountUnits" type="double" />
+		<field name="actualSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StNmActualSales">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="periodSid" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="actualUnits" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="historyProjectionSales" type="double" />
+		<field name="actualSales" type="double" />
+		<field name="historyProjectionUnits" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StNmAssumptions">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="parent" type="boolean" />
+		<field name="projectionPeriod" type="int" />
+		<field name="commentary" type="String" />
+		<field name="nmAssumptionsSid" type="int" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="netSalesPrior" type="double" />
+		<field name="userId" type="int" />
+		<field name="grossSalesPercentChange" type="double" />
+		<field name="totalDiscountPercentChange" type="double" />
+		<field name="reasonCodes" type="String" />
+		<field name="totalDiscountPercentProjected" type="double" />
+		<field name="totalDiscountPercentPrior" type="double" />
+		<field name="netSalesProjected" type="double" />
+		<field name="stNmAssumptionsSid" type="String" />
+		<field name="grossSalesProjected" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="grossSalesPrior" type="double" />
+		<field name="isChecked" type="boolean" />
+		<field name="camId" type="int" />
+		<field name="netSalesPercentChange" type="double" />
+		<field name="segment" type="String" />
+	</model>
+	<model name="com.stpl.app.model.StNmDiscountProjection">
+		<field name="projectionRate" type="double" />
+		<field name="adjustmentValue" type="double" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="discountRate" type="double" />
+		<field name="projectionSales" type="double" />
+		<field name="adjustmentType" type="String" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="periodSid" type="int" />
+		<field name="adjustmentMethodology" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="sessionId" type="int" />
+	</model>
+	<model name="com.stpl.app.model.StNmDiscountProjMaster">
+		<field name="selectedPeriods" type="String" />
+		<field name="methodology" type="String" />
+		<field name="netFlag" type="String" />
+		<field name="priceGroupType" type="String" />
+		<field name="userGroup" type="String" />
+		<field name="userId" type="int" />
+		<field name="lastModifiedDate" type="Date" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="rsModelSid" type="int" />
+		<field name="sessionId" type="int" />
+		<field name="checkRecord" type="boolean" />
+		<field name="baselinePeriods" type="String" />
+	</model>
+	<model name="com.stpl.app.model.StNmPpaProjection">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="periodSid" type="int" />
+		<field name="projectionRate" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="priceCap" type="double" />
+		<field name="projectionDiscountUnits" type="double" />
+		<field name="sessionId" type="int" />
+		<field name="projectionDiscountDollar" type="double" />
+		<field name="reset" type="boolean" />
+		<field name="projectionSales" type="double" />
+		<field name="projectionMap" type="double" />
+		<field name="resetPriceCap" type="boolean" />
+	</model>
+	<model name="com.stpl.app.model.StNmPpaProjectionMaster">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="checkRecord" type="boolean" />
+		<field name="userGroup" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="sessionId" type="int" />
+		<field name="priceBasis" type="String" />
+		<field name="priceProtectionEndDate" type="Date" />
+		<field name="priceProtectionStartDate" type="Date" />
+		<field name="actualPriceCap" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StNmSalesProjection">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="adjustmentMethodology" type="String" />
+		<field name="productGrowth" type="double" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="accountGrowth" type="double" />
+		<field name="projectionUnits" type="double" />
+		<field name="periodSid" type="int" />
+		<field name="adjustmentBasis" type="String" />
+		<field name="adjustmentValues" type="double" />
+		<field name="adjustmentVariable" type="boolean" />
+		<field name="sessionId" type="int" />
+		<field name="adjustmentType" type="String" />
+		<field name="projectionSales" type="double" />
+	</model>
+	<model name="com.stpl.app.model.StNmSalesProjectionMaster">
+		<field name="lastModifiedDate" type="Date" />
+		<field name="checkRecord" type="boolean" />
+		<field name="calculationPeriods" type="String" />
+		<field name="userGroup" type="String" />
+		<field name="projectionDetailsSid" type="int" />
+		<field name="userId" type="int" />
+		<field name="sessionId" type="int" />
+		<field name="methodology" type="String" />
+		<field name="calculationBased" type="String" />
+	</model>
+	<model name="com.stpl.app.model.TransactionModuleDetails">
+		<field name="propertyIndex" type="double" />
+		<field name="displayName" type="String" />
+		<field name="transactionModuleMasterSid" type="int" />
+		<field name="categoryName" type="String" />
+		<field name="validation" type="String" />
+		<field name="propertyName" type="String" />
+		<field name="flag" type="String" />
+		<field name="transactionModuleDetailsSid" type="int" />
+	</model>
+	<model name="com.stpl.app.model.TransactionModuleMaster">
+		<field name="transactionModuleMasterSid" type="int" />
+		<field name="invalidTableName" type="String" />
+		<field name="tableName" type="String" />
+		<field name="moduleName" type="String" />
+		<field name="tabName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.Udcs">
+		<field name="udc1" type="int" />
+		<field name="udc2" type="int" />
+		<field name="masterType" type="String" />
+		<field name="udc3" type="int" />
+		<field name="udc12" type="int" />
+		<field name="udc11" type="int" />
+		<field name="udcsSid" type="int" />
+		<field name="masterSid" type="int" />
+		<field name="udc10" type="int" />
+		<field name="udc9" type="int" />
+		<field name="udc8" type="int" />
+		<field name="udc7" type="int" />
+		<field name="udc6" type="int" />
+		<field name="udc5" type="int" />
+		<field name="udc4" type="int" />
+	</model>
+	<model name="com.stpl.app.model.UsergroupBusinessrole">
+		<field name="createdBy" type="int" />
+		<field name="businessroleMasterSid" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="processed" type="String" />
+		<field name="usergroupId" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="isActive" type="String" />
+		<field name="usergroupBusinessroleSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.UsergroupDomainMaster">
+		<field name="createdBy" type="int" />
+		<field name="usergroupDomainSid" type="int" />
+		<field name="usersSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="domainId" type="int" />
+		<field name="processed" type="String" />
+		<field name="usergroupId" type="int" />
+		<field name="versionNo" type="int" />
+		<field name="isActive" type="String" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.VwAccrualMaster">
+		<field name="itemQualifier" type="String" />
+		<field name="businessUnitQualifier" type="String" />
+		<field name="itemNo" type="String" />
+		<field name="postingIndicator" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="costCenter" type="String" />
+		<field name="subLedger" type="String" />
+		<field name="accrualPeriodEd" type="Date" />
+		<field name="accrualId" type="String" />
+		<field name="companyQualifier" type="String" />
+		<field name="contractNo" type="String" />
+		<field name="batchId" type="String" />
+		<field name="itemName" type="String" />
+		<field name="brandId" type="String" />
+		<field name="postingDate" type="Date" />
+		<field name="businessUnitName" type="String" />
+		<field name="salesId" type="String" />
+		<field name="amount" type="double" />
+		<field name="businessUnitNo" type="String" />
+		<field name="subLedgerType" type="String" />
+		<field name="documentType" type="String" />
+		<field name="accuralType" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="programNo" type="String" />
+		<field name="customerId" type="String" />
+		<field name="itemId" type="String" />
+		<field name="accrualMasterSid" type="int" />
+		<field name="contractId" type="String" />
+		<field name="contractName" type="String" />
+		<field name="glAccount" type="String" />
+		<field name="glDate" type="Date" />
+		<field name="businessUnitId" type="String" />
+		<field name="programType" type="String" />
+		<field name="customerName" type="String" />
+		<field name="customerNo" type="String" />
+		<field name="source" type="String" />
+		<field name="accrualPeriodSd" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.VwHelperList">
+		<field name="uniqueId" type="int" />
+		<field name="actualColumnName" type="String" />
+		<field name="mappingColumnName" type="String" />
+		<field name="descColumnName" type="String" />
+		<field name="actualTableName" type="String" />
+		<field name="listName" type="String" />
+		<field name="referenceColumnName" type="String" />
+		<field name="referenceTableName" type="String" />
+		<field name="primaryKeyColumnName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.VwUserTables">
+		<field name="uniqueId" type="int" />
+		<field name="tableName" type="String" />
+		<field name="columnName" type="String" />
+	</model>
+	<model name="com.stpl.app.model.WfMailConfig">
+		<field name="smtpFlag" type="String" />
+		<field name="createdBy" type="int" />
+		<field name="emailAddress" type="String" />
+		<field name="password" type="String" />
+		<field name="modifiedBy" type="int" />
+		<field name="wfMailConfigSid" type="int" />
+		<field name="hostName" type="String" />
+		<field name="createdDate" type="Date" />
+		<field name="portNumber" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="inboundStatus" type="String" />
+	</model>
+	<model name="com.stpl.app.model.WorkflowMaster">
+		<field name="createdBy" type="int" />
+		<field name="workflowStatusId" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="workflowMasterSid" type="int" />
+		<field name="workflowId" type="String" />
+		<field name="projectionMasterSid" type="int" />
+		<field name="approvedBy" type="int" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.stpl.app.model.WorkflowProfile">
+		<field name="workflowProfileSid" type="int" />
+		<field name="modifiedBy" type="int" />
+		<field name="createdDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="startHour4" type="int" />
+		<field name="startHour3" type="int" />
+		<field name="startHour2" type="int" />
+		<field name="profileName" type="String" />
+		<field name="startHour1" type="int" />
+		<field name="frequency" type="String" />
+		<field name="startMinutes3" type="int" />
+		<field name="createdBy" type="int" />
+		<field name="startMinutes2" type="int" />
+		<field name="startHour" type="int" />
+		<field name="activeFlag" type="String" />
+		<field name="startMinutes4" type="int" />
+		<field name="startMinutes" type="int" />
+		<field name="startDate" type="Date" />
+		<field name="userSid" type="int" />
+		<field name="modifiedDate" type="Date" />
+		<field name="schemaName" type="String" />
+		<field name="slaCalendarMasterSid" type="int" />
+		<field name="startDay" type="int" />
+		<field name="startMinutes1" type="int" />
+		<field name="lastRun" type="Date" />
+		<field name="notificationType" type="String" />
+		<field name="inboundStatus" type="String" />
+	</model>
+</model-hints>

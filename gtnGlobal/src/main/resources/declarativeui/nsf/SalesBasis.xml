@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling">
+<VerticalLayout margin="true"  spacing="true" immediate="true" width="100%" height="100%"  
+                xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.customcombobox"      
+                xmlns:a="urn:import:com.stpl.ifs.ui" >
+    <p:ErrorLabel id="errorMsg"/>
+    <Panel caption="Sales Basis Options">
+        <VerticalLayout margin="true" immediate="true">
+            <HorizontalLayout immediate="true" styleName="responsiveTabGrid">
+                <CssLayout id="cssLayout" immediate="true" width="100%" height="100%">
+                    <Label id="contractSelectionLB" styleName="mandatory" value="Contract Selection" contentMode="HTML" immediate="true" />
+                    <OptionGroup id="contractSelection"  immediate="true" styleName = "horizontal" />
+                    <Label id="netSalesRuleLB" value="Net Sales Rule" contentMode="HTML" />
+                    <b:CustomTextField id="netSalesRule" enable="true" styleName="searchicon" immediate="true" />
+                </CssLayout>
+            </HorizontalLayout>
+        </VerticalLayout>
+                        
+    </Panel>
+    <Panel caption="Search Criteria" id ="searchPanel" >
+        <VerticalLayout margin="true" immediate="true">
+            <HorizontalLayout immediate="true" styleName="responsiveTabGrid">
+                <CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
+                    <Label id="contractNoLB"  value="Contract No" contentMode="HTML" immediate="true" />
+                    <TextField id="contractNo" enable="true" immediate="true" />
+                    <Label id="contractNameLB" value="Contract Name" contentMode="HTML" />
+                    <TextField id="contractName" enable="true" immediate="true" />
+                    <Label id="contractHolderLB" value="Contract Holder" contentMode="HTML" />
+                    <TextField id="contractHolder" enable="true" immediate="true" />
+                    <Label id="marketTypeLB" value="Market Type" contentMode="HTML" />
+                    <ComboBox id="marketType" enable="true"  immediate="true" />
+                    <Label id="companyFamilyPlanNoLB" value="Company Family Plan No" contentMode="HTML" />
+                    <TextField id="companyFamilyPlanNo" enable="true" immediate="true" />
+                    <Label id="CompanyFamilyPlanNameLB" value="Company Family Plan Name" contentMode="HTML" />
+                    <TextField id="companyFamilyPlanName" enable="true" immediate="true" />
+                    <Label id="itemFamilyPlanNoLB" value="Item Family Plan No" contentMode="HTML" />
+                    <TextField id="itemFamilyPlanNo" enable="true" immediate="true" />
+                    <Label id="itemFamilyPlanNameLB" value="Item Family Plan Name" contentMode="HTML" />
+                    <TextField id="itemFamilyPlanName" enable="true"  immediate="true" />
+                    <Label id="companyNoLB" value="Company No" contentMode="HTML" />
+                    <TextField id="companyNo" enable="true"  immediate="true" />
+                    <Label id="companyNameLB" value="Company Name" contentMode="HTML" />
+                    <TextField id="companyName" enable="true" immediate="true" />
+                    <Label id="itemNoLB" value="Item No" contentMode="HTML" />
+                    <TextField id="itemNo" enable="true"  immediate="true" />
+                    <Label id="itemNameLB" value="Item Name" contentMode="HTML" />
+                    <TextField id="itemName" enable="true"  immediate="true" />
+                </CssLayout>
+            </HorizontalLayout>
+        </VerticalLayout>                       
+    </Panel>
+    <HorizontalLayout spacing="true" margin="false" styleName="responsiveTabGrid" id ="searchHLayout" >
+        <CssLayout immediate="true" width="100%" height="100%">
+            <Button id="resetBtn" caption="RESET" immediate="true" />
+            <Button id="searchBtn" caption="SEARCH" immediate="true"/>         
+        </CssLayout>
+    </HorizontalLayout>
+    <Panel caption="Available Contracts" spacing="true" id ="contractPanel" >
+          <VerticalLayout spacing="true" margin="true">
+                <VerticalLayout id="tableLayout">
+                <HorizontalLayout id="controlLayout"/>
+                </VerticalLayout> 
+                <HorizontalLayout id="includeButtonLayout"  margin="false" styleName="responsiveTabGrid" >     
+                    <Button id="displayBtn" caption="DISPLAY" immediate="true"/>        
+                </HorizontalLayout>
+          </VerticalLayout>
+    </Panel>
+    <Panel caption="Available Customers" spacing="true" id ="custPanel" >
+        <VerticalLayout spacing="true" margin="true">
+            <VerticalLayout id="customerTableLayout">
+                <HorizontalLayout id="customerControlLayout"/>
+                </VerticalLayout> 
+            <HorizontalLayout id="includeButtonLayout1"  margin="false" styleName="responsiveTabGrid" >     
+                <Button id="addBtn" caption="ADD" immediate="true"/>        
+            </HorizontalLayout>
+        </VerticalLayout>
+    </Panel>
+    <Panel caption="Selected Customers" spacing="true" >
+        <VerticalLayout spacing="true" margin="true">
+            <Panel caption="Mass Update" spacing="true" id ="massUpdatePanel" >
+             <VerticalLayout spacing="true" margin="true">
+              <HorizontalLayout id="massUpdateLayout"  styleName="responsiveTabGrid">
+                    <CssLayout id="cssLayout3" spacing="true" width="100%" height="100%">
+                        <OptionGroup multiSelect="false" id="massCheck" immediate="true" enable="true" styleName = "horizontal"/>
+                        <ComboBox id="massField" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" /> 
+                        <b:CustomTextField id="massValue" enable="true" styleName="searchicon" immediate="true" />                           
+                        <Button id="btnPopulate" caption="POPULATE" />
+                    </CssLayout>
+              </HorizontalLayout>   
+              </VerticalLayout>    
+          </Panel>
+          <VerticalLayout id="selectedCusTableLayout">
+           <HorizontalLayout id="selectedCusControlLayout"/>
+           </VerticalLayout> 
+        <HorizontalLayout id="excludeButtonLayout"  margin="false" styleName="responsiveTabGrid" >       
+            <Button id="reset" caption="RESET" immediate="true"/>
+            <Button id="removeBtn" caption="REMOVE" immediate="true" />
+            <Button id="excelExport" immediate="true" />                
+        </HorizontalLayout>
+        </VerticalLayout>
+    </Panel>
+</VerticalLayout>
+</Panel>

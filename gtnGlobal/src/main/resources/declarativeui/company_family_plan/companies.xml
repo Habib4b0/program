@@ -1,0 +1,29 @@
+<VerticalLayout margin="true"  width="100%" height="100%" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+    <HorizontalLayout id="massUpdateLayout" immediate="true" caption="Mass Update" styleName="responsiveTabGrid" spacing="true">
+        <CssLayout id="cssLayout" width="100%" height="100%">
+            <OptionGroup multiSelect="false" id="massCheck"
+                             immediate="true" enable="true" styleName = "horizontal"/>
+            <ComboBox id="massField" nullSelectionAllowed="false"
+                           inputPrompt="-Select One" immediate="true" /> 
+             <Label id="valueforddlb" value="Value"  contentMode="HTML" immediate="true" width="80px" />                 
+            <PopupDateField id="massDate"  />  
+            <ComboBox id="massValue" nullSelectionAllowed="false"
+                                        inputPrompt="-Select One" immediate="true" />   
+            <Button id="btnPopulate" caption="Populate" />
+            <Button id="btnAllPopulate" caption="Populate All" />
+        </CssLayout>
+    </HorizontalLayout>
+    <HorizontalLayout>
+        <Label value="Record: "  contentMode="HTML" immediate="true"  />
+        <OptionGroup multiSelect="true" id="record" immediate="true" enable="true" styleName = "horizontal"/>
+    </HorizontalLayout>            
+    <Panel caption="Results" >
+        <VerticalLayout id="companyDetailsTableLayout">
+            <ef:CustomePagedFilterTable id="companyDetailsTable" immediate="true" /> 
+            <Button id="excel" immediate="true" primaryStyleName="link" />
+        </VerticalLayout>
+    </Panel> 
+    
+    <HorizontalLayout id="pageCreater"  />      
+
+</VerticalLayout>

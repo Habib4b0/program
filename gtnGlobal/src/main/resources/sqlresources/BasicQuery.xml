@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="getStatus">
+        <query>
+    		<![CDATA[
+  SELECT
+    COMPANY_MASTER_SID,HT.DESCRIPTION AS STATUS
+FROM
+    COMPANY_FINANCIAL_CLOSE CFC 
+    JOIN PERIOD P
+        ON CFC.PERIOD_SID = P.PERIOD_SID
+        JOIN dbo.HELPER_TABLE HT
+        ON HT.HELPER_TABLE_SID=CFC.STATUS
+WHERE
+    P.YEAR = ?
+    AND P."MONTH" = ?
+    AND COMPANY_MASTER_SID= ?
+		]]>
+        </query>
+    </entity>
+    <entity id="getFinanicalCloseCount">
+        <query>
+    		<![CDATA[
+  SELECT count(*) from ( SELECT cfc.COMPANY_MASTER_SID as comp,
+    CFC.MODE AS MODE_ID,
+    HT_MODE.DESCRIPTION AS MODE_DESC,
+    CFC.CALENDAR AS CAL_ID,
+    HT_CAL.DESCRIPTION AS CALENDAR,
+    CFC.STATUS AS STATUS_ID,
+    HT_STATUS.DESCRIPTION AS STATUS,
+    PD."YEAR" AS YEAR,
+    PD."MONTH" AS MONTH,
+    cfc.STATUS_PERIOD_DATE AS datetim,
+    cfc.CREATED_DATE,
+    cfc.CREATED_BY
+FROM
+    HIST_COMPANY_FINANCIAL_CLOSE CFC 
+    JOIN PERIOD PD
+    ON PD.PERIOD_SID=CFC.PERIOD_SID
+    LEFT JOIN CALENDAR_CONFIG_MASTER CCG
+    ON CCG.CALENDAR_CONFIG_MASTER_SID = CFC.CALENDAR
+    JOIN HELPER_TABLE HT_MODE
+        ON HT_MODE.HELPER_TABLE_SID = CFC.MODE JOIN HELPER_TABLE HT_CAL
+        ON HT_CAL.HELPER_TABLE_SID = CFC.CALENDAR JOIN HELPER_TABLE HT_STATUS
+        ON HT_STATUS.HELPER_TABLE_SID = CFC.STATUS 
+        LEFT JOIN ?.dbo.User_ us
+        on us.userId=cfc.CREATED_BY
+where cfc.COMPANY_MASTER_SID = ?
+? ) c
+		]]>
+        </query>
+    </entity>
+    <entity id="getFinanicalCloseData">
+        <query>
+    		<![CDATA[
+  SELECT cfc.COMPANY_MASTER_SID as comp,
+    CFC.MODE AS MODE_ID,
+    HT_MODE.DESCRIPTION AS MODE_DESC,
+    CFC.CALENDAR AS CAL_ID,
+    CCG.CALENDAR_NAME AS CALENDAR,
+    CFC.STATUS AS STATUS_ID,
+    HT_STATUS.DESCRIPTION AS STATUS,
+    PD."YEAR" AS YEAR,
+    PD."MONTH" AS MONTH,
+    cfc.STATUS_PERIOD_DATE AS datetim,
+    cfc.CREATED_DATE,
+    cfc.CREATED_BY,
+    cfc."HOUR",
+    cfc."MINUTE",
+    HTM.DESCRIPTION AS MIN,
+    cfc.BUSINESS_DAY,
+    us.firstName+' '+us.lastName as cre
+FROM
+    HIST_COMPANY_FINANCIAL_CLOSE CFC 
+    JOIN PERIOD PD
+    ON PD.PERIOD_SID=CFC.PERIOD_SID
+    LEFT JOIN CALENDAR_CONFIG_MASTER CCG
+    ON CCG.CALENDAR_CONFIG_MASTER_SID = CFC.CALENDAR
+    JOIN HELPER_TABLE HT_MODE
+        ON HT_MODE.HELPER_TABLE_SID = CFC.MODE  JOIN HELPER_TABLE HT_STATUS
+        ON HT_STATUS.HELPER_TABLE_SID = CFC.STATUS
+        JOIN dbo.HELPER_TABLE HTM ON HTM.HELPER_TABLE_SID=CFC."MINUTE"
+        LEFT JOIN ?.dbo.User_ us
+        on us.userId=cfc.CREATED_BY
+        where cfc.COMPANY_MASTER_SID= ? 
+        ? 
+        ORDER BY ?;  
+		]]>
+        </query>
+    </entity>
+    <entity id="setManualOpenClose">
+        <query>
+    		<![CDATA[
+  MERGE COMPANY_FINANCIAL_CLOSE AS Target
+    USING(
+    select 
+  	
+  '?' AS COMPANY_MASTER_SID,
+    '?' AS MODE ,
+    '?' AS CALENDAR,
+    PERIOD_SID AS PERIOD_SID,
+    '' AS BUSINESS_DAY,
+    '' AS HOUR,
+    '' AS MINUTE,
+    '?' AS STATUS,
+    '?' AS STATUS_PERIOD_DATE,
+    '?' AS CREATED_BY,
+    '?' AS CREATED_DATE
+  	from PERIOD WHERE 
+         "YEAR"=?
+        AND "MONTH"=?
+) SOURCE ON Target.COMPANY_MASTER_SID =SOURCE.COMPANY_MASTER_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+
+
+WHEN MATCHED THEN 
+UPDATE
+SET
+    COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID,
+    MODE = SOURCE.MODE,
+    CALENDAR = SOURCE.CALENDAR,
+    PERIOD_SID = SOURCE.PERIOD_SID,
+    BUSINESS_DAY =SOURCE.BUSINESS_DAY,
+    HOUR =SOURCE.HOUR,
+    MINUTE =SOURCE.MINUTE,
+    STATUS = SOURCE.STATUS,
+    STATUS_PERIOD_DATE =SOURCE.STATUS_PERIOD_DATE,
+    CREATED_BY = SOURCE.CREATED_BY,
+    CREATED_DATE =SOURCE.CREATED_DATE
+    WHEN NOT MATCHED
+    THEN INSERT
+        (
+        COMPANY_MASTER_SID,
+        MODE,
+        CALENDAR,
+        PERIOD_SID,
+        BUSINESS_DAY,
+        HOUR,
+        MINUTE,
+        STATUS,
+        STATUS_PERIOD_DATE,
+        CREATED_BY,
+        CREATED_DATE
+        )
+	VALUES(SOURCE.COMPANY_MASTER_SID,
+  		   SOURCE.  MODE,
+			SOURCE.  CALENDAR,
+			SOURCE.  PERIOD_SID,
+			SOURCE.  BUSINESS_DAY,
+			SOURCE.  HOUR,
+			SOURCE.  MINUTE,
+			SOURCE.  STATUS,
+			SOURCE.  STATUS_PERIOD_DATE,
+			SOURCE.  CREATED_BY,
+			SOURCE.  CREATED_DATE);
+		]]>
+        </query>
+    </entity>
+    <entity id="setCompanyAuto">
+        <query>
+    		<![CDATA[
+  Declare @COMP int = ?
+  DECLARE @BUSINESS_DAY varchar(50) = '?'
+DECLARE @HOURVALUE varchar(50) = '?'
+DECLARE @MINU varchar(50) = '?'
+DECLARE @CAL int = ?
+if exists(select 1 from dbo.COMPANY_FINANCIAL_CLOSE_AUTO where COMPANY_MASTER_SID=@COMP)
+BEGIN
+	update dbo.COMPANY_FINANCIAL_CLOSE_AUTO SET BUSINESS_DAY=@BUSINESS_DAY,"HOUR"=@HOURVALUE,"MINUTE"=@MINU,CALENDAR=@CAL
+END 
+ELSE
+BEGIN
+	INSERT INTO COMPANY_FINANCIAL_CLOSE_AUTO (COMPANY_MASTER_SID,BUSINESS_DAY,"HOUR","MINUTE",CALENDAR) VALUES(@COMP,@BUSINESS_DAY,@HOURVALUE,@MINU,@CAL)
+END 
+		]]>
+        </query>
+    </entity>
+    <entity id="getCompanyAuto">
+        <query>
+    		<![CDATA[
+select CFAC.COMPANY_MASTER_SID, CFAC.BUSINESS_DAY, CFAC."HOUR", CFAC."MINUTE", CFAC.CALENDAR, cm.CREATED_BY from dbo.COMPANY_FINANCIAL_CLOSE_AUTO CFAC
+join COMPANY_MASTER cm on cm.COMPANY_MASTER_SID = CFAC.COMPANY_MASTER_SID
+		]]>
+        </query>
+    </entity>
+    <entity id="updateCompanyFinancial">
+        <query>
+    		<![CDATA[
+  INSERT
+    INTO
+        dbo.COMPANY_FINANCIAL_CLOSE(
+            COMPANY_MASTER_SID,
+            MODE,
+            CALENDAR,
+            PERIOD_SID,
+            BUSINESS_DAY,
+            HOUR,
+            MINUTE,
+            STATUS,
+            STATUS_PERIOD_DATE,
+            CREATED_BY,
+            CREATED_DATE
+        ) SELECT
+            CMA.COMPANY_MASTER_SID,
+            HT1.HELPER_TABLE_SID AS MODE,
+            CCG.CALENDAR_CONFIG_MASTER_SID AS CALENDAR,
+            PD.PERIOD_SID AS PERIOD,
+            cma.BUSINESS_DAY,
+            cma."HOUR",
+            cma."MINUTE",
+            HT3.HELPER_TABLE_SID AS STATUS,
+            getdate() AS crea,
+            ?,
+            getdate()
+        FROM
+            dbo.COMPANY_FINANCIAL_CLOSE_AUTO CMA,
+            dbo.HELPER_TABLE HT1,
+            dbo.CALENDAR_CONFIG_MASTER CCG,
+            dbo.HELPER_TABLE HT3,
+            PERIOD PD
+        WHERE
+            HT1.DESCRIPTION = 'AUTO'
+            AND HT1.LIST_NAME = 'ARM_MODE'
+            AND CCG.CALENDAR_CONFIG_MASTER_SID = ?
+            AND HT3.DESCRIPTION = 'CLOSED'
+            AND HT3.LIST_NAME = 'ARM_STATUS'
+            AND PD."MONTH" = ?
+            AND PD."YEAR" = ?
+            AND  CMA.COMPANY_MASTER_SID= ?
+		]]>
+        </query>
+    </entity>
+    <entity id="swapAutoToManualUpdate">
+        <query>
+    		<![CDATA[
+DELETE
+FROM
+    dbo.COMPANY_FINANCIAL_CLOSE_AUTO
+WHERE
+    COMPANY_MASTER_SID = ?
+		]]>
+        </query>
+    </entity>
+    <entity id="getDdlbOnEdit">
+        <query>
+    		<![CDATA[
+  SELECT top 1 cfc.COMPANY_MASTER_SID as comp,
+    CFC.MODE AS MODE_ID,
+    HT_MODE.DESCRIPTION AS MODE_DESC,
+    CFC.CALENDAR AS CAL_ID,
+    HT_CAL.DESCRIPTION AS CALENDAR,
+    CFC.STATUS AS STATUS_ID,
+    HT_STATUS.DESCRIPTION AS STATUS,
+    PD."YEAR" AS YEAR,
+    PD."MONTH" AS MONTH,
+    cfc.STATUS_PERIOD_DATE AS datetim,
+    cfc.CREATED_DATE,
+    cfc.CREATED_BY,
+    cfc."HOUR",
+    cfc."MINUTE",
+    HTM.DESCRIPTION AS MIN,
+    cfc.BUSINESS_DAY,
+    us.firstName+' '+us.lastName as cre
+FROM
+    COMPANY_FINANCIAL_CLOSE CFC 
+    JOIN PERIOD PD
+    ON PD.PERIOD_SID=CFC.PERIOD_SID
+    JOIN HELPER_TABLE HT_MODE
+        ON HT_MODE.HELPER_TABLE_SID = CFC.MODE JOIN HELPER_TABLE HT_CAL
+        ON HT_CAL.HELPER_TABLE_SID = CFC.CALENDAR JOIN HELPER_TABLE HT_STATUS
+        ON HT_STATUS.HELPER_TABLE_SID = CFC.STATUS
+        JOIN dbo.HELPER_TABLE HTM ON HTM.HELPER_TABLE_SID=CFC."MINUTE"
+        LEFT JOIN ?.dbo.User_ us
+        on us.userId=cfc.CREATED_BY
+        where cfc.COMPANY_MASTER_SID=  ?
+        order by cfc.CREATED_DATE desc
+		]]>
+        </query>
+    </entity>
+    <entity id="getCalendarDDLB">
+        <query>
+            <![CDATA[
+    SELECT 
+        CALENDAR_CONFIG_MASTER_SID,CALENDAR_NAME 
+    FROM 
+        CALENDAR_CONFIG_MASTER
+]]>
+        </query>
+    </entity>
+    <entity id="getHolidaysForMonth">
+        <query>
+            <![CDATA[
+   SELECT HOLIDAYS_PERIOD_DATE FROM CALENDAR_CONFIG_DETAILS where CALENDAR_CONFIG_MASTER_SID = ? and MONTH(HOLIDAYS_PERIOD_DATE)=?
+]]>
+        </query>
+    </entity>
+    <entity id="getHolidaysMonthWise">
+        <query>
+            <![CDATA[
+   SELECT (MONTH(HOLIDAYS_PERIOD_DATE) - 1) MONTH, COUNT(*) COUNT FROM CALENDAR_CONFIG_DETAILS where CALENDAR_CONFIG_MASTER_SID=? GROUP BY  MONTH(HOLIDAYS_PERIOD_DATE)
+]]>
+        </query>
+    </entity>
+    <entity id="getDdlbValues">
+        <query>
+    		<![CDATA[
+  SELECT
+    CMA.COMPANY_MASTER_SID,
+    HT1.HELPER_TABLE_SID AS MODE,
+    HT1.DESCRIPTION as modeD,
+    CCG.CALENDAR_CONFIG_MASTER_SID,
+    cma.BUSINESS_DAY,
+    cma."HOUR",
+    cma."MINUTE",
+    HT4.DESCRIPTION AS MIND,
+    HT3.HELPER_TABLE_SID AS STATUS,
+    HT3.DESCRIPTION as STD,
+    getdate() AS crea,
+    getdate()
+
+FROM
+    dbo.COMPANY_FINANCIAL_CLOSE_AUTO CMA
+    JOIN CALENDAR_CONFIG_MASTER CCG
+    ON CCG.CALENDAR_CONFIG_MASTER_SID = CMA.CALENDAR,
+    dbo.HELPER_TABLE HT1,
+    dbo.HELPER_TABLE HT3,
+    dbo.HELPER_TABLE HT4
+WHERE
+    HT1.DESCRIPTION = 'AUTO'
+    AND HT1.LIST_NAME = 'ARM_MODE'
+    AND HT3.DESCRIPTION = 'CLOSED'
+    AND HT3.LIST_NAME = 'ARM_STATUS'
+    AND HT4.HELPER_TABLE_SID=cma."MINUTE"
+    AND CMA.COMPANY_MASTER_SID = ?
+		]]>
+        </query>
+    </entity>
+
+    <entity id="get-organization-key">
+        <query>
+    		<![CDATA[
+                    SELECT
+                            CM.COMPANY_MASTER_SID,
+                            CM.COMPANY_ID,
+                            CM.COMPANY_NO,
+                            CM.COMPANY_NAME
+                    FROM
+                            COMPANY_MASTER CM
+                    JOIN HELPER_TABLE HT ON
+                            HT.HELPER_TABLE_SID = CM.COMPANY_TYPE
+                    WHERE
+                            HT.LIST_NAME LIKE 'COMPANY_TYPE'
+                            AND HT.DESCRIPTION LIKE 'BUSINESS UNIT'
+                            AND CM.COMPANY_MASTER_SID = @ORGANIZATION_KEY;
+		]]>
+        </query>
+    </entity>
+    <entity id="com.rsModel.rebatePlanLookUpCount">
+        <query>
+    		<![CDATA[
+            SELECT 
+                COUNT(RP.REBATE_PLAN_MASTER_SID)
+                FROM REBATE_PLAN_MASTER RP
+                LEFT JOIN CDR_MODEL CDR
+                ON CDR.CDR_MODEL_SID = RP.CDR_MODEL_SID
+                LEFT JOIN NET_SALES_FORMULA_MASTER NSF
+                ON NSF.NET_SALES_FORMULA_MASTER_SID = RP.NET_SALES_FORMULA_MASTER_SID
+                LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RP.REBATE_PLAN_TYPE
+                WHERE 
+                RP.REBATE_PLAN_ID LIKE '@REBATE_PLAN_ID'
+                AND RP.REBATE_PLAN_NO LIKE '@REBATE_PLAN_NO'
+                AND RP.REBATE_PLAN_NAME LIKE '@REBATE_PLAN_NAME'
+                AND RP.INBOUND_STATUS <> 'D' 
+         ]]>
+        </query>
+    </entity>
+    <entity id="com.rsModel.rebatePlanLookUpResults">
+        <query>
+    	<![CDATA[
+                    SELECT
+                  RP.REBATE_PLAN_MASTER_SID,
+                  RP.REBATE_PLAN_ID,
+                  RP.REBATE_PLAN_NO,
+                  RP.REBATE_PLAN_NAME,
+                  RP.REBATE_PLAN_STATUS,
+                  RP.REBATE_PLAN_TYPE,
+                  RP.REBATE_STRUCTURE,
+                  RP.REBATE_RANGE_BASED_ON,
+                  NSF.NET_SALES_FORMULA_NAME,
+                  CDR.RULE_NAME,
+                  RP.REBATE_BASED_ON,
+                  RP.CREATED_DATE,
+                  RP.CREATED_BY,
+                  RP.MODIFIED_DATE,
+                  RP.MODIFIED_BY
+                FROM REBATE_PLAN_MASTER RP
+                LEFT JOIN CDR_MODEL CDR
+                  ON CDR.CDR_MODEL_SID = RP.CDR_MODEL_SID
+                LEFT JOIN NET_SALES_FORMULA_MASTER NSF
+                  ON NSF.NET_SALES_FORMULA_MASTER_SID = RP.NET_SALES_FORMULA_MASTER_SID
+                LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RP.REBATE_PLAN_TYPE
+                WHERE RP.REBATE_PLAN_ID LIKE '@REBATE_PLAN_ID'
+                AND RP.REBATE_PLAN_NO LIKE '@REBATE_PLAN_NO'
+                AND RP.REBATE_PLAN_NAME LIKE '@REBATE_PLAN_NAME'
+                AND RP.INBOUND_STATUS <> 'D'             
+             ]]>
+        </query>
+    </entity>
+</sql>

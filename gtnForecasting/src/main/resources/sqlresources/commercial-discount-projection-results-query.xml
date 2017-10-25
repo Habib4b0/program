@@ -1,0 +1,2611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+    
+    <entity id="insert-selected-rs-model">
+        <query> 
+            <![CDATA[  
+            
+                IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                DROP TABLE #SELECTED_REBATE
+
+                CREATE TABLE #SELECTED_REBATE
+                  (
+                     RS_CONTRACT_SID INT
+                  )
+
+                INSERT INTO #SELECTED_REBATE
+                            (RS_CONTRACT_SID)
+                SELECT RS_CONTRACT_SID
+                FROM   (VALUES [?RS_CONTRACT_SID])A(RS_CONTRACT_SID); 
+                                                                        
+         ]]>
+        </query>
+    </entity>   
+    
+    <entity id="insert-selected-hierarchy-no-dpr">
+        <query> 
+            <![CDATA[     
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+
+                CREATE TABLE #SELECTED_HIERARCHY_NO
+                  (
+                     HIERARCHY_NO    VARCHAR(50),
+                     CCP_DETAILS_SID INT
+                  )
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                            (HIERARCHY_NO,
+                             CCP_DETAILS_SID)
+                SELECT HIERARCHY_NO,
+                       CH.CCP_DETAILS_SID
+                FROM   (
+                SELECT HIERARCHY_NO
+                        FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                WHERE  EXISTS (SELECT 1
+                               FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
+                                      JOIN ST_CCP_HIERARCHY CH
+                                        ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                                      JOIN #SELECTED_REBATE SR
+                                        ON SR.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID
+                               WHERE  CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
+                                    [?USER_GROUP_JOIN]))A					  
+                [?SELECTED_HIERARCHY_JOIN];                 
+            ]]>
+        </query>
+    </entity>   
+    
+        <entity id="insert-selected-hierarchy-no-dpr-custom-view">
+        <query> 
+            <![CDATA[ 
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+
+                CREATE TABLE #SELECTED_HIERARCHY_NO
+                (
+                    HIERARCHY_NO    VARCHAR(50),
+                    CCP_DETAILS_SID INT
+                )
+
+               INSERT INTO #SELECTED_HIERARCHY_NO
+                           (HIERARCHY_NO,
+                            CCP_DETAILS_SID)
+               SELECT HIERARCHY_NO,
+                      CH.CCP_DETAILS_SID
+               FROM   (
+               SELECT HIERARCHY_NO
+                       FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+               WHERE  EXISTS (SELECT 1
+                              FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
+                                     JOIN ST_CCP_HIERARCHY CH
+                                       ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                                     JOIN #SELECTED_REBATE SR
+                                       ON SR.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID
+                            WHERE  CH.[?CURRENT_HIERARCHY_NO] LIKE A.HIERARCHY_NO+'%' [?PREVIOUS_HIERARCHY_NO]))A
+                JOIN ST_CCP_HIERARCHY CH ON CH.[?CURRENT_HIERARCHY_NO] LIKE A.HIERARCHY_NO + '%' [?PREVIOUS_HIERARCHY_NO];
+            ]]>
+        </query>
+    </entity> 
+    
+    <entity id="get-count-dpr">
+        <query> 
+            <![CDATA[             
+                SELECT COUNT(DISTINCT HIERARCHY_NO)
+                FROM #SELECTED_HIERARCHY_NO;                                                                        
+         ]]>
+        </query>
+    </entity>   
+    
+    <entity id="get-count-rebate">
+        <query> 
+            <![CDATA[  
+                SELECT
+                    COUNT(DISTINCT SR.RS_CONTRACT_SID)
+                FROM
+                    ST_NM_DISCOUNT_PROJ_MASTER MAS
+                JOIN #SELECTED_REBATE SR ON
+                    SR.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID
+                JOIN ST_CCP_HIERARCHY CH ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                AND CH.[?HIERARCHY_COLUMN] LIKE '[?HIERARCHY_NO]%';
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="get-custom-count-rebate">
+        <query> 
+            <![CDATA[  
+                SELECT
+                    COUNT(DISTINCT SR.RS_CONTRACT_SID)
+                FROM
+                    ST_NM_DISCOUNT_PROJ_MASTER MAS
+                JOIN #SELECTED_REBATE SR ON
+                    SR.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID
+                JOIN ST_CCP_HIERARCHY CH ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                AND [?HIERARCHY_COLUMN] LIKE '[?HIERARCHY_NO]%'
+                [?PREVIOUS_HIERARCHY_NO];
+            ]]>
+        </query>
+    </entity>
+    
+   <entity id="dpr-total-query">
+        <query> 
+            <![CDATA[                  
+                DECLARE @VAR CHAR(1) = 'R' DECLARE @FREQUENCY CHAR(1) = '[?FREQUENCY]' IF Object_id(
+	'TEMPDB.DBO.#PERIOD',
+	'U'
+) IS NOT NULL DROP
+	TABLE
+		#PERIOD SELECT
+			PERIOD_SID,
+			YEAR,
+			PERIOD = CASE
+				WHEN @FREQUENCY = 'M' THEN MONTH
+				WHEN @FREQUENCY = 'Q' THEN QUARTER
+				WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+				ELSE YEAR
+			END INTO
+				#PERIOD
+			FROM
+				PERIOD;
+
+IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL DROP
+	TABLE
+		#SELECTED_REBATE CREATE
+			TABLE
+				#SELECTED_REBATE(
+					RS_CONTRACT_SID int
+				) INSERT
+					INTO
+						#SELECTED_REBATE(RS_CONTRACT_SID) SELECT
+							RS_CONTRACT_SID
+						FROM
+							(
+							VALUES [?RS_CONTRACT_SID]
+							) A(RS_CONTRACT_SID);
+
+IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL DROP
+	TABLE
+		#SELECTED_HIERARCHY_NO CREATE
+			TABLE
+				#SELECTED_HIERARCHY_NO(
+					HIERARCHY_NO VARCHAR(50),
+					CCP_DETAILS_SID INT,
+					DISCOUNT VARCHAR(500),
+					RS_CONTRACT_SID INT
+				) INSERT
+					INTO
+						#SELECTED_HIERARCHY_NO(
+							CCP_DETAILS_SID,
+							DISCOUNT,
+							RS_CONTRACT_SID
+						) SELECT
+							DISTINCT S.CCP_DETAILS_SID,
+							CASE
+								WHEN @VAR = 'R' THEN RS_NAME
+								ELSE PRICE_GROUP_TYPE
+							END,
+							S.RS_CONTRACT_SID
+						FROM
+							ST_NM_DISCOUNT_PROJ_MASTER S
+						JOIN #SELECTED_REBATE R ON
+							S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+						JOIN RS_CONTRACT RS ON
+							RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+						JOIN CCP_DETAILS CD ON
+							CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID;
+
+IF OBJECT_ID('TEMPDB..#EXFACTORY') IS NOT NULL DROP
+	TABLE
+		#EXFACTORY SELECT
+			SUM( EXFACTORY_ACTUAL_SALES ) EXFACTORY_ACTUAL_SALES,
+			SUM( EXFACTORY_FORECAST_SALES ) EXFACTORY_FORECAST_SALES,
+			PERIOD,
+			YEAR INTO
+				#EXFACTORY
+			FROM
+				ST_PRODUCT_FILE A
+			JOIN(
+					SELECT
+						DISTINCT ITEM_MASTER_SID
+                                                
+					FROM
+						ST_NM_DISCOUNT_PROJ_MASTER S
+					JOIN #SELECTED_REBATE R ON
+						S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+					JOIN RS_CONTRACT RS ON
+						RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+					JOIN CCP_DETAILS CD ON
+						CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+				) B ON
+				A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+			JOIN #PERIOD P ON
+				P.PERIOD_SID = A.PERIOD_SID
+			GROUP BY
+				PERIOD,
+				YEAR IF OBJECT_ID('TEMPDB..#ACTUAL_SALES') IS NOT NULL DROP
+					TABLE
+						#ACTUAL_SALES SELECT
+							I.PERIOD,
+							I.YEAR,
+							ACTUAL_SALES = SUM( ACTUAL_SALES ),
+							ACTUAL_UNITS = SUM( ACTUAL_UNITS ) INTO
+								#ACTUAL_SALES
+							FROM
+								ST_NM_ACTUAL_SALES S
+							INNER JOIN (select distinct ccp_details_sid from #SELECTED_HIERARCHY_NO) C ON
+								C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+							INNER JOIN #PERIOD I ON
+								I.PERIOD_SID = S.PERIOD_SID
+							GROUP BY
+								I.PERIOD,
+								I.YEAR IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL DROP
+									TABLE
+										#ACTUAL_DISCOUNT SELECT
+											I.PERIOD,
+											I.YEAR,
+											DISCOUNT_ACTUALS = Sum( ACTUAL_SALES ) INTO
+												#ACTUAL_DISCOUNT
+											FROM
+												ST_NM_ACTUAL_DISCOUNT S
+											JOIN RS_CONTRACT rs ON
+												rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+											INNER JOIN #PERIOD I ON
+												I.PERIOD_SID = S.PERIOD_SID
+											JOIN ST_NM_DISCOUNT_PROJ_MASTER m ON
+												m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+												AND m.ccp_details_sid = s.ccp_details_sid
+											WHERE
+												EXISTS(
+													SELECT
+														1
+													FROM
+														#SELECTED_REBATE sr
+													WHERE
+														sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+												)
+											GROUP BY
+												I.PERIOD,
+												I.YEAR IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL DROP
+													TABLE
+														#PROJECTION_SALES SELECT
+															I.PERIOD,
+															I.YEAR,
+															PROJECTION_SALES = Sum( PROJECTION_SALES ),
+															PROJECTION_UNITS = Sum( PROJECTION_UNITS ) INTO
+																#PROJECTION_SALES
+															FROM
+																ST_NM_SALES_PROJECTION S
+															INNER JOIN (select distinct ccp_details_sid from #SELECTED_HIERARCHY_NO) C ON
+																C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+															INNER JOIN #PERIOD I ON
+																I.PERIOD_SID = S.PERIOD_SID
+															GROUP BY
+																I.PERIOD,
+																I.YEAR IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL DROP
+																	TABLE
+																		#DISCOUNT_PROJECTION SELECT
+																			I.PERIOD,
+																			I.YEAR,
+																			PROJECTED_DISCOUNT = Sum( PROJECTION_SALES ) INTO
+																				#DISCOUNT_PROJECTION
+																			FROM
+																				ST_NM_DISCOUNT_PROJECTION S
+																			JOIN RS_CONTRACT rs ON
+																				rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+																			INNER JOIN #PERIOD I ON
+																				I.PERIOD_SID = S.PERIOD_SID
+																			JOIN ST_NM_DISCOUNT_PROJ_MASTER m ON
+																				m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+																				AND m.ccp_details_sid = s.ccp_details_sid
+																			WHERE
+																				EXISTS(
+																					SELECT
+																						1
+																					FROM
+																						#SELECTED_REBATE sr
+																					WHERE
+																						sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+																				)
+																			GROUP BY
+																				I.PERIOD,
+																				I.YEAR SELECT
+																					'Projection Total' AS CHANGE_VALUE,
+																					AD.YEAR,
+																					AD.PERIOD,
+																					COALESCE(
+																						DISCOUNT_ACTUALS / NULLIF(
+																							ACTUAL_SALES,
+																							0
+																						),
+																						0
+																					) * 100 AS ACTUAL_RATE,
+																					DISCOUNT_ACTUALS AS ACTUAL_SALES,
+																					COALESCE(
+																						DISCOUNT_ACTUALS / NULLIF(
+																							ACTUAL_UNITS,
+																							0
+																						),
+																						0
+																					) AS ACTUAL_RPU,
+																					NULL AS PROJECTION_RATE,
+																					null AS PROJECTION_SALES,
+																					NULL AS PROJECTION_RPU,
+																					0 AS AP_TABLE_INDICATOR,
+																					'Projection Total' AS PROJECTION_TOTAL,
+																					COALESCE(
+																						DISCOUNT_ACTUALS / NULLIF(
+																							EXFACTORY_ACTUAL_SALES,
+																							0
+																						),
+																						0
+																					) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+																					NULL AS EXFACT_DOLLAR_FORE_PERCENT
+																				FROM
+																					#ACTUAL_DISCOUNT AD
+																				INNER JOIN #ACTUAL_SALES SA ON
+																					SA.YEAR = AD.YEAR
+																					AND SA.PERIOD = AD.PERIOD
+																				JOIN #EXFACTORY E ON
+																					E.PERIOD = SA.PERIOD
+																					AND E.YEAR = SA.YEAR
+																			UNION ALL SELECT
+																					'Projection Total' AS CHANGE_VALUE,
+																					AD.YEAR,
+																					AD.PERIOD,
+																					NULL AS ACTUAL_RATE,
+																					NULL AS ACTUAL_SALES,
+																					NULL AS ACTUAL_RPU,
+																					COALESCE(
+																						PROJECTED_DISCOUNT / NULLIF(
+																							PROJECTION_SALES,
+																							0
+																						),
+																						0
+																					) * 100 AS PROJECTION_RATE,
+																					PROJECTED_DISCOUNT AS PROJECTION_SALES,
+																					COALESCE(
+																						PROJECTED_DISCOUNT / NULLIF(
+																							PROJECTION_UNITS,
+																							0
+																						),
+																						0
+																					) AS PROJECTION_RPU,
+																					1 AS AP_TABLE_INDICATOR,
+																					'Projection Total' AS PROJECTION_TOTAL,
+																					NULL AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+																					COALESCE(
+																						PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT
+																				FROM
+																					#DISCOUNT_PROJECTION AD
+																				INNER JOIN #PROJECTION_SALES SA ON
+																					SA.YEAR = AD.YEAR
+																					AND SA.PERIOD = AD.PERIOD
+																				JOIN #EXFACTORY E ON
+																					E.PERIOD = SA.PERIOD
+																					AND E.YEAR = SA.YEAR
+																				ORDER BY
+																					YEAR,
+																					PERIOD,
+																					AP_TABLE_INDICATOR;
+            ]]>
+        </query>
+    </entity>
+    
+   <entity id="dpr-total-discount-query">
+        <query> 
+            <![CDATA[  
+                DECLARE @VAR CHAR(1)='R'
+                DECLARE @FREQUENCY CHAR(1)='[?FREQUENCY]'
+
+                IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                  DROP TABLE #PERIOD
+
+                SELECT PERIOD_SID,
+                       YEAR,
+                       PERIOD = CASE
+                                  WHEN @FREQUENCY = 'M' THEN MONTH
+                                  WHEN @FREQUENCY = 'Q' THEN QUARTER
+                                  WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                                  ELSE YEAR
+                                END
+                INTO   #PERIOD
+                FROM   PERIOD;
+
+                IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                  DROP TABLE #SELECTED_REBATE
+
+                CREATE TABLE #SELECTED_REBATE
+                  (
+                     RS_CONTRACT_SID int
+                  )
+
+                INSERT INTO #SELECTED_REBATE
+                            (RS_CONTRACT_SID)
+                SELECT RS_CONTRACT_SID
+                FROM   (VALUES [?RS_CONTRACT_SID])A(RS_CONTRACT_SID);
+
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                  DROP TABLE #SELECTED_HIERARCHY_NO
+
+                CREATE TABLE #SELECTED_HIERARCHY_NO
+                  (
+                     HIERARCHY_NO    VARCHAR(50),
+                     CCP_DETAILS_SID INT,
+                      discount VARCHAR(500),
+                         RS_CONTRACT_SID int
+                  )
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                            (CCP_DETAILS_SID,
+                             discount,
+                            RS_CONTRACT_SID)
+                SELECT DISTINCT s.CCP_DETAILS_SID,
+                CASE
+                  WHEN @VAR = 'R' THEN rs_name
+                  ELSE price_group_type
+                END,
+                s.rs_contract_sid
+                FROM   ST_NM_DISCOUNT_PROJ_MASTER s
+                        JOIN #SELECTED_REBATE r
+                        ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID 
+                        
+                         JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN CCP_DETAILS cd
+         ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+         
+         
+         IF Object_id('TEMPDB..#EXFACTORY') IS NOT NULL
+  DROP TABLE #EXFACTORY
+
+SELECT RS_CONTRACT_SID,
+       discount,
+       Sum(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+       Sum(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+       period,
+       year
+INTO   #EXFACTORY
+FROM   ST_PRODUCT_FILE a
+       JOIN (SELECT DISTINCT item_master_sid,
+                             CASE
+                               WHEN @VAR = 'R' THEN rs_name
+                               ELSE price_group_type
+                             END discount,
+                             s.rs_contract_sid
+             FROM   ST_NM_DISCOUNT_PROJ_MASTER s
+                    JOIN #SELECTED_REBATE r
+                      ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                    JOIN RS_CONTRACT rs
+                      ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                    JOIN CCP_DETAILS cd
+                      ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID) b
+         ON a.item_master_sid = b.ITEM_MASTER_SID
+       JOIN #period p
+         ON p.PERIOD_SID = a.period_sid
+GROUP  BY RS_CONTRACT_SID,
+          discount,
+          period,
+          year
+
+                IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+                  DROP TABLE #ACTUAL_SALES
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       ACTUAL_SALES=Sum(ACTUAL_SALES),
+                       ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+                        discount,
+       rs_contract_sid
+                INTO   #ACTUAL_SALES
+                FROM   ST_NM_ACTUAL_SALES S
+                       INNER JOIN  #SELECTED_HIERARCHY_NO C
+                               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                               
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+          discount,
+          rs_contract_sid
+
+                IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+                  DROP TABLE #ACTUAL_DISCOUNT
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
+                       CASE
+         WHEN @VAR = 'R' THEN rs.rs_name
+         ELSE m.price_group_type
+       END AS discount,
+       s.rs_contract_sid
+                INTO   #ACTUAL_DISCOUNT
+                FROM   ST_NM_ACTUAL_DISCOUNT S
+                       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                       JOIN ST_NM_DISCOUNT_PROJ_MASTER m
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+           AND m.ccp_details_sid = s.ccp_details_sid
+WHERE  EXISTS (SELECT 1
+               FROM   #SELECTED_REBATE sr
+               WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                          CASE
+                             WHEN @VAR = 'R' THEN rs.rs_name
+            ELSE m.price_group_type
+          END,
+          s.rs_contract_sid
+
+                IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+                  DROP TABLE #PROJECTION_SALES
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       PROJECTION_SALES=Sum(PROJECTION_SALES),
+                       PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+                       discount,
+       rs_contract_sid
+                INTO   #PROJECTION_SALES
+                FROM   ST_NM_SALES_PROJECTION S
+                       INNER JOIN #SELECTED_HIERARCHY_NO  C
+                               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                                
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                           discount,
+          rs_contract_sid
+
+                IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+                  DROP TABLE #DISCOUNT_PROJECTION
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
+                       CASE
+         WHEN @VAR = 'R' THEN rs.rs_name
+         ELSE m.price_group_type
+       END AS discount,
+       s.rs_contract_sid
+                INTO   #DISCOUNT_PROJECTION
+                FROM   ST_NM_DISCOUNT_PROJECTION S
+                       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                      JOIN ST_NM_DISCOUNT_PROJ_MASTER m
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+            AND m.ccp_details_sid = s.ccp_details_sid
+WHERE  EXISTS (SELECT 1
+               FROM   #SELECTED_REBATE sr
+               WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                          CASE
+                           WHEN @VAR = 'R' THEN rs.rs_name
+            ELSE m.price_group_type
+                               END,
+                        s.rs_contract_sid
+
+                SELECT ad.rs_contract_sid,
+                       AD.YEAR,
+                       AD.PERIOD,       
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                       DISCOUNT_ACTUALS                                              AS ACTUAL_SALES,
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                       NULL                                                          AS PROJECTION_RATE,
+                       NULL                                       AS PROJECTION_SALES,
+                       NULL                                                          AS PROJECTION_RPU,
+                       0                                                             AS AP_TABLE_INDICATOR,
+                       ad.discount,
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                       NULL                                                                    AS EXFACT_DOLLAR_FORE_PERCENT
+FROM   #ACTUAL_DISCOUNT AD
+                       INNER JOIN #ACTUAL_SALES SA
+                               ON SA.YEAR = AD.YEAR
+                                  AND SA.PERIOD = AD.PERIOD
+                                  AND sa.rs_contract_sid = ad.rs_contract_sid
+       JOIN #EXFACTORY e
+         ON e.rs_contract_sid = sa.rs_contract_sid
+            AND e.PERIOD = sa.PERIOD
+            AND e.YEAR = sa.YEAR
+                UNION ALL
+                SELECT ad.rs_contract_sid,
+                       AD.YEAR,
+                       AD.PERIOD,       
+                       NULL                                                                   AS ACTUAL_RATE,
+                       NULL                                                                   AS ACTUAL_SALES,
+                       NULL                                                                   AS ACTUAL_RPU,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,      
+                       PROJECTED_DISCOUNT                                                     AS PROJECTION_SALES,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)          AS PROJECTION_RPU,
+                       1                                                                      AS AP_TABLE_INDICATOR,
+                       ad.discount,
+                       NULL                                                                        AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT
+                      
+               FROM   #DISCOUNT_PROJECTION AD
+                       INNER JOIN #PROJECTION_SALES SA
+                               ON SA.YEAR = AD.YEAR
+                                  AND SA.PERIOD = AD.PERIOD
+                                    AND sa.rs_contract_sid = ad.rs_contract_sid
+       JOIN #EXFACTORY e
+         ON e.rs_contract_sid = sa.rs_contract_sid
+            AND e.PERIOD = sa.PERIOD
+            AND e.YEAR = sa.YEAR
+ORDER  BY discount,
+          rs_contract_sid,
+                          YEAR,
+                          PERIOD,
+                          AP_TABLE_INDICATOR; 
+
+       ]]>
+        </query>
+    </entity>
+    
+    <entity id="dpr-hierarchy-query">
+        <query> 
+            <![CDATA[  
+
+                DECLARE @VAR CHAR(1)='R'
+                DECLARE @FREQUENCY CHAR(1)='[?FREQUENCY]'
+
+                IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                  DROP TABLE #PERIOD
+
+                SELECT PERIOD_SID,
+                       YEAR,
+                       PERIOD = CASE
+                                  WHEN @FREQUENCY = 'M' THEN MONTH
+                                  WHEN @FREQUENCY = 'Q' THEN QUARTER
+                                  WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                                  ELSE YEAR
+                                END
+                INTO   #PERIOD
+                FROM   PERIOD;
+
+                IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                  DROP TABLE #SELECTED_REBATE
+
+                CREATE TABLE #SELECTED_REBATE
+                  (
+                     RS_CONTRACT_SID int
+                  )
+
+                INSERT INTO #SELECTED_REBATE
+                            (RS_CONTRACT_SID)
+                SELECT RS_CONTRACT_SID
+                FROM   (VALUES [?RS_CONTRACT_SID])A(RS_CONTRACT_SID);
+                
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                  DROP TABLE #SELECTED_HIERARCHY_NO
+
+                CREATE TABLE #SELECTED_HIERARCHY_NO
+                  (
+                    HIERARCHY_NO    VARCHAR(50),
+                    CCP_DETAILS_SID INT,
+                    RS_CONTRACT_SID int
+                  )
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                            (HIERARCHY_NO,
+                             CCP_DETAILS_SID,
+RS_CONTRACT_SID)
+                SELECT HIERARCHY_NO,
+                       CH.CCP_DETAILS_SID,
+                       st.RS_CONTRACT_SID
+                FROM   (SELECT HIERARCHY_NO
+                        FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
+                                              JOIN ST_CCP_HIERARCHY CH
+                                                ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                                              JOIN #SELECTED_REBATE SR
+                                                ON SR.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID 
+                                       WHERE  CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO + '%' [?PREVIOUS_HIERARCHY_NO]
+                                        [?USER_GROUP_JOIN])
+                        ORDER  BY HIERARCHY_NO
+                       OFFSET [?START] ROWS FETCH NEXT [?OFFSET] ROWS ONLY
+                       ) a
+                       JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO + '%' [?PREVIOUS_HIERARCHY_NO]
+                        inner join ST_NM_DISCOUNT_PROJ_MASTER st
+                        on st.ccp_details_sid=ch.ccp_details_sid
+                        INNER JOIN #SELECTED_REBATE SR
+                                                ON SR.RS_CONTRACT_SID = ST.RS_CONTRACT_SID
+IF Object_id('TEMPDB..#EXFACTORY') IS NOT NULL
+  DROP TABLE #EXFACTORY
+
+SELECT HIERARCHY_NO,
+       Sum(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+       Sum(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+       period,
+       year
+INTO   #EXFACTORY
+FROM   ST_PRODUCT_FILE a
+       JOIN (SELECT DISTINCT item_master_sid,
+                              SH.HIERARCHY_NO
+             FROM   ST_NM_DISCOUNT_PROJ_MASTER s
+                    JOIN #SELECTED_REBATE r
+                      ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                     JOIN CCP_DETAILS cd
+                      ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+JOIN  #SELECTED_HIERARCHY_NO SH
+ON SH.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+and s.RS_CONTRACT_SID = SH.RS_CONTRACT_SID
+ ) b
+         ON a.item_master_sid = b.ITEM_MASTER_SID
+       JOIN #period p
+         ON p.PERIOD_SID = a.period_sid
+GROUP  BY HIERARCHY_NO,
+          period,
+          year
+
+
+
+
+;
+
+                IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+                  DROP TABLE #ACTUAL_SALES
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       ACTUAL_SALES=Sum(ACTUAL_SALES),
+                       ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+                       C.HIERARCHY_NO
+                INTO   #ACTUAL_SALES
+                FROM   ST_NM_ACTUAL_SALES S
+                       INNER JOIN (SELECT DISTINCT CCP_DETAILS_SID,
+                                   HIERARCHY_NO
+                   FROM   #SELECTED_HIERARCHY_NO) C
+                               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                              INNER JOIN CCP_DETAILS CD
+               ON CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                        HIERARCHY_NO
+
+                IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+                  DROP TABLE #ACTUAL_DISCOUNT
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
+                       
+                                           HIERARCHY_NO
+                INTO   #ACTUAL_DISCOUNT
+                FROM   ST_NM_ACTUAL_DISCOUNT S
+                       INNER JOIN #SELECTED_HIERARCHY_NO C
+                               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                               AND C.RS_CONTRACT_SID=S.RS_CONTRACT_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                      INNER JOIN #SELECTED_REBATE SR
+               ON SR.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                                  HIERARCHY_NO
+
+                IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+                  DROP TABLE #PROJECTION_SALES
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       PROJECTION_SALES=Sum(PROJECTION_SALES),
+                       PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+                       HIERARCHY_NO
+                INTO   #PROJECTION_SALES
+                FROM   ST_NM_SALES_PROJECTION S
+                       INNER JOIN (SELECT DISTINCT CCP_DETAILS_SID,
+                                   HIERARCHY_NO
+                   FROM   #SELECTED_HIERARCHY_NO) C
+                               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                               
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                          HIERARCHY_NO
+
+                IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+                  DROP TABLE #DISCOUNT_PROJECTION
+
+                SELECT I.PERIOD,
+                       I.YEAR,
+                       PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
+                       GROWTH=Avg(GROWTH),
+                                           HIERARCHY_NO
+                INTO   #DISCOUNT_PROJECTION
+                FROM   ST_NM_DISCOUNT_PROJECTION S
+                       INNER JOIN #SELECTED_HIERARCHY_NO C
+                               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                               AND C.RS_CONTRACT_SID=S.RS_CONTRACT_SID
+                       INNER JOIN #PERIOD I
+                               ON I.PERIOD_SID = S.PERIOD_SID
+                       INNER JOIN #SELECTED_REBATE SR
+               ON SR.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                GROUP  BY I.PERIOD,
+                          I.YEAR,
+                                  HIERARCHY_NO
+
+                IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+                  DROP TABLE #DISCOUNT_PROJECTION_MASTER
+
+                SELECT 
+                       USER_GROUP=Max(DM.USER_GROUP),
+                           HIERARCHY_NO
+                INTO   #DISCOUNT_PROJECTION_MASTER
+                FROM   #SELECTED_HIERARCHY_NO P
+                       INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER DM
+                               ON P.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
+                       
+                GROUP  BY 
+                    HIERARCHY_NO
+
+                SELECT DPM.HIERARCHY_NO,
+                       AD.YEAR,
+                       AD.PERIOD,
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                       DISCOUNT_ACTUALS                                              AS ACTUAL_SALES,
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                       NULL 							     AS PROJECTION_RATE,
+                       NULL                                       		     AS PROJECTION_SALES,
+                       NULL                                                          AS PROJECTION_RPU,
+                       0                                                             AS AP_TABLE_INDICATOR,
+                      'PROJECTION TOTAL'                                             AS PROJECTION_TOTAL,
+                      COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+	              NULL  AS EXFACT_DOLLAR_FORE_PERCENT
+                FROM   #DISCOUNT_PROJECTION_MASTER DPM
+                       INNER JOIN #ACTUAL_DISCOUNT AD
+                                           on dpm.HIERARCHY_NO = ad.HIERARCHY_NO
+                       INNER JOIN #ACTUAL_SALES SA
+                               ON SA.YEAR = AD.YEAR
+                                  AND SA.PERIOD = AD.PERIOD
+                                                    AND SA.HIERARCHY_NO = ad.HIERARCHY_NO
+	   INNER JOIN #EXFACTORY EX ON 
+	      EX.HIERARCHY_NO=SA.HIERARCHY_NO
+		   AND EX.PERIOD=SA.PERIOD AND EX.YEAR=SA.YEAR
+                UNION ALL
+                SELECT DPM.HIERARCHY_NO,
+                                AD.YEAR,
+                       AD.PERIOD,
+                       NULL                                                                   AS ACTUAL_RATE,
+                       NULL                                                                   AS ACTUAL_SALES,
+                       NULL                                                                   AS ACTUAL_RPU,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(SA.PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                       PROJECTED_DISCOUNT                                                     AS PROJECTION_SALES,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)          AS PROJECTION_RPU,
+                       1                                                                      AS AP_TABLE_INDICATOR,
+                       'PROJECTION TOTAL'                                                     AS PROJECTION_TOTAL ,
+                       NULL AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+		       COALESCE(PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100  AS EXFACT_DOLLAR_FORE_PERCENT       
+                FROM   #DISCOUNT_PROJECTION_MASTER DPM
+                       INNER JOIN #DISCOUNT_PROJECTION AD
+                               ON  dpm.HIERARCHY_NO = ad.HIERARCHY_NO
+                       INNER JOIN #PROJECTION_SALES SA
+                               ON SA.YEAR = AD.YEAR
+                                  AND SA.PERIOD = AD.PERIOD
+                                                  and sa.HIERARCHY_NO = ad.HIERARCHY_NO
+                       
+		  INNER JOIN #EXFACTORY EX ON 
+	      EX.HIERARCHY_NO=SA.HIERARCHY_NO
+		   AND EX.PERIOD=SA.PERIOD AND EX.YEAR=SA.YEAR
+                ORDER  BY DPM.HIERARCHY_NO,
+                          YEAR,
+                          PERIOD,
+                          AP_TABLE_INDICATOR; 
+
+            ]]>
+        </query>
+    </entity>
+    
+        
+   <entity id="dpr-hierarchy-discount-query">
+        <query> 
+            <![CDATA[  
+            DECLARE @VAR CHAR(1)='R'
+                    DECLARE @FREQUENCY CHAR(1)='[?FREQUENCY]'
+
+            IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+              DROP TABLE #PERIOD
+
+            SELECT PERIOD_SID,
+                   YEAR,
+                   PERIOD = CASE
+                              WHEN @FREQUENCY = 'M' THEN MONTH
+                              WHEN @FREQUENCY = 'Q' THEN QUARTER
+                              WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                              ELSE YEAR
+                            END
+            INTO   #PERIOD
+            FROM   PERIOD;
+
+            IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+              DROP TABLE #SELECTED_REBATE
+
+            CREATE TABLE #SELECTED_REBATE
+              (
+                 RS_CONTRACT_SID INT
+              )
+
+            INSERT INTO #SELECTED_REBATE
+                        (RS_CONTRACT_SID)
+            SELECT RS_CONTRACT_SID
+                    FROM   (VALUES [?RS_CONTRACT_SID])A(RS_CONTRACT_SID);
+
+
+            IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+              DROP TABLE #SELECTED_HIERARCHY_NO
+
+            CREATE TABLE #SELECTED_HIERARCHY_NO
+              (
+                 HIERARCHY_NO    VARCHAR(50),
+                 CCP_DETAILS_SID INT,
+                 DISCOUNT        VARCHAR(500),
+                 RS_CONTRACT_SID INT
+              )
+
+            INSERT INTO #SELECTED_HIERARCHY_NO
+                        (CCP_DETAILS_SID,
+                         DISCOUNT,
+                         RS_CONTRACT_SID)
+            SELECT DISTINCT S.CCP_DETAILS_SID,
+                            CASE
+                              WHEN @VAR = 'R' THEN RS_NAME
+                              ELSE PRICE_GROUP_TYPE
+                            END,
+                            S.RS_CONTRACT_SID
+            FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+                   JOIN #SELECTED_REBATE R
+                     ON S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+                   JOIN RS_CONTRACT RS
+                     ON RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+                   JOIN CCP_DETAILS CD
+                     ON CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                   JOIN ST_CCP_HIERARCHY C
+                     ON C.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+            WHERE  EXISTS(SELECT 1
+                          FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
+                                 JOIN ST_CCP_HIERARCHY CH
+                                   ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                                      AND MAS.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+                                 JOIN (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                                  ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO + '%'
+                          WHERE  R.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID)
+
+            IF Object_id('TEMPDB..#EXFACTORY') IS NOT NULL
+              DROP TABLE #EXFACTORY
+
+            SELECT RS_CONTRACT_SID,
+                   DISCOUNT,
+                   Sum(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+                   Sum(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+                   PERIOD,
+                   YEAR
+            INTO   #EXFACTORY
+            FROM   ST_PRODUCT_FILE A
+                   JOIN (SELECT DISTINCT ITEM_MASTER_SID,
+                                         CASE
+                                           WHEN @VAR = 'R' THEN RS_NAME
+                                           ELSE PRICE_GROUP_TYPE
+                                         END DISCOUNT,
+                                         S.RS_CONTRACT_SID
+                         FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+                                JOIN #SELECTED_REBATE R
+                                  ON S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+                                JOIN RS_CONTRACT RS
+                                  ON RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+                                JOIN CCP_DETAILS CD
+                                  ON CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                                where exists (select 1 from #SELECTED_HIERARCHY_NO sh where sh.CCP_DETAILS_SID = s.CCP_DETAILS_SID 
+								   and s.RS_CONTRACT_SID = sh.RS_CONTRACT_SID) ) B
+                     ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                   JOIN #PERIOD P
+                     ON P.PERIOD_SID = A.PERIOD_SID
+            GROUP  BY RS_CONTRACT_SID,
+                      DISCOUNT,
+                      PERIOD,
+                      YEAR
+
+            IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+              DROP TABLE #ACTUAL_SALES
+
+            SELECT I.PERIOD,
+                   I.YEAR,
+                   ACTUAL_SALES=Sum(ACTUAL_SALES),
+                   ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+                   DISCOUNT,
+                   RS_CONTRACT_SID
+            INTO   #ACTUAL_SALES
+            FROM   ST_NM_ACTUAL_SALES S
+                   INNER JOIN #SELECTED_HIERARCHY_NO C
+                           ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                   INNER JOIN #PERIOD I
+                           ON I.PERIOD_SID = S.PERIOD_SID
+            GROUP  BY I.PERIOD,
+                      I.YEAR,
+                      DISCOUNT,
+                      RS_CONTRACT_SID
+
+            IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+              DROP TABLE #ACTUAL_DISCOUNT
+
+            SELECT I.PERIOD,
+                   I.YEAR,
+                   DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
+                   CASE
+                     WHEN @VAR = 'R' THEN RS.RS_NAME
+                     ELSE M.PRICE_GROUP_TYPE
+                   END AS DISCOUNT,
+                   S.RS_CONTRACT_SID
+            INTO   #ACTUAL_DISCOUNT
+            FROM   ST_NM_ACTUAL_DISCOUNT S
+                   JOIN RS_CONTRACT RS
+                     ON RS.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                   INNER JOIN #PERIOD I
+                           ON I.PERIOD_SID = S.PERIOD_SID
+                   JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+                     ON M.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                        AND M.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                        join #SELECTED_HIERARCHY_NO sh on sh.ccp_details_sid = S.ccp_details_sid and sh.RS_CONTRACT_SID = s.RS_CONTRACT_SID 
+            WHERE  EXISTS (SELECT 1
+                           FROM   #SELECTED_REBATE SR
+                           WHERE  SR.RS_CONTRACT_SID = S.RS_CONTRACT_SID)
+            GROUP  BY I.PERIOD,
+                      I.YEAR,
+                      CASE
+                        WHEN @VAR = 'R' THEN RS.RS_NAME
+                        ELSE M.PRICE_GROUP_TYPE
+                      END,
+                      S.RS_CONTRACT_SID
+
+            IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+              DROP TABLE #PROJECTION_SALES
+
+            SELECT I.PERIOD,
+                   I.YEAR,
+                   PROJECTION_SALES=Sum(PROJECTION_SALES),
+                   PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+                   DISCOUNT,
+                   RS_CONTRACT_SID
+            INTO   #PROJECTION_SALES
+            FROM   ST_NM_SALES_PROJECTION S
+                   INNER JOIN #SELECTED_HIERARCHY_NO C
+                           ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                   INNER JOIN #PERIOD I
+                           ON I.PERIOD_SID = S.PERIOD_SID
+            GROUP  BY I.PERIOD,
+                      I.YEAR,
+                      DISCOUNT,
+                      RS_CONTRACT_SID
+
+            IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+              DROP TABLE #DISCOUNT_PROJECTION
+
+            SELECT I.PERIOD,
+                   I.YEAR,
+                   PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
+                   CASE
+                     WHEN @VAR = 'R' THEN RS.RS_NAME
+                     ELSE M.PRICE_GROUP_TYPE
+                   END AS DISCOUNT,
+                   S.RS_CONTRACT_SID
+            INTO   #DISCOUNT_PROJECTION
+            FROM   ST_NM_DISCOUNT_PROJECTION S
+                   JOIN RS_CONTRACT RS
+                     ON RS.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                   INNER JOIN #PERIOD I
+                           ON I.PERIOD_SID = S.PERIOD_SID
+                   JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+                     ON M.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                        AND M.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                        join #SELECTED_HIERARCHY_NO sh on sh.ccp_details_sid = S.ccp_details_sid and sh.RS_CONTRACT_SID = s.RS_CONTRACT_SID 
+            WHERE  EXISTS (SELECT 1
+                           FROM   #SELECTED_REBATE SR
+                           WHERE  SR.RS_CONTRACT_SID = S.RS_CONTRACT_SID)
+            GROUP  BY I.PERIOD,
+                      I.YEAR,
+                      CASE
+                        WHEN @VAR = 'R' THEN RS.RS_NAME
+                        ELSE M.PRICE_GROUP_TYPE
+                      END,
+                      S.RS_CONTRACT_SID
+
+            SELECT AD.RS_CONTRACT_SID,
+                   AD.YEAR,
+                   AD.PERIOD,
+                   COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100           AS ACTUAL_RATE,
+                   DISCOUNT_ACTUALS                                                        AS ACTUAL_SALES,
+                   COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)                 AS ACTUAL_RPU,
+                   NULL                                                                    AS PROJECTION_RATE,
+                   NULL                                                                    AS PROJECTION_SALES,
+                   NULL                                                                    AS PROJECTION_RPU,
+                   0                                                                       AS AP_TABLE_INDICATOR,
+                   AD.DISCOUNT,
+                   COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                   NULL                                                                    AS EXFACT_DOLLAR_FORE_PERCENT
+            FROM   #ACTUAL_DISCOUNT AD
+                   INNER JOIN #ACTUAL_SALES SA
+                           ON SA.YEAR = AD.YEAR
+                              AND SA.PERIOD = AD.PERIOD
+                              AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+                   JOIN #EXFACTORY E
+                     ON E.RS_CONTRACT_SID = SA.RS_CONTRACT_SID
+                        AND E.PERIOD = SA.PERIOD
+                        AND E.YEAR = SA.YEAR
+            UNION ALL
+            SELECT AD.RS_CONTRACT_SID,
+                   AD.YEAR,
+                   AD.PERIOD,
+                   NULL                                                                        AS ACTUAL_RATE,
+                   NULL                                                                        AS ACTUAL_SALES,
+                   NULL                                                                        AS ACTUAL_RPU,
+                   COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_SALES, 0), 0) * 100         AS PROJECTION_RATE,
+                   PROJECTED_DISCOUNT                                                          AS PROJECTION_SALES,
+                   COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)               AS PROJECTION_RPU,
+                   1                                                                           AS AP_TABLE_INDICATOR,
+                   AD.DISCOUNT,
+                   NULL                                                                        AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                   COALESCE(PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT
+            FROM   #DISCOUNT_PROJECTION AD
+                   INNER JOIN #PROJECTION_SALES SA
+                           ON SA.YEAR = AD.YEAR
+                              AND SA.PERIOD = AD.PERIOD
+                              AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+                   JOIN #EXFACTORY E
+                     ON E.RS_CONTRACT_SID = SA.RS_CONTRACT_SID
+                        AND E.PERIOD = SA.PERIOD
+                        AND E.YEAR = SA.YEAR
+            ORDER  BY DISCOUNT,
+                      RS_CONTRACT_SID,
+                      YEAR,
+                      PERIOD,
+                      AP_TABLE_INDICATOR; 
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="dpr-custom-hierarchy-discount-query">
+        <query> 
+            <![CDATA[  
+                        DECLARE @VAR CHAR(1)='R'
+                         DECLARE @FREQUENCY CHAR(1)='[?FREQUENCY]'
+
+                    IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                      DROP TABLE #PERIOD
+
+                    SELECT PERIOD_SID,
+                           YEAR,
+                           PERIOD = CASE
+                                      WHEN @FREQUENCY = 'M' THEN MONTH
+                                      WHEN @FREQUENCY = 'Q' THEN QUARTER
+                                      WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                                      ELSE YEAR
+                                    END
+                    INTO   #PERIOD
+                    FROM   PERIOD;
+
+                    IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                      DROP TABLE #SELECTED_REBATE
+
+                    CREATE TABLE #SELECTED_REBATE
+                      (
+                         RS_CONTRACT_SID int
+                      )
+
+                    INSERT INTO #SELECTED_REBATE
+                                (RS_CONTRACT_SID)
+                    SELECT RS_CONTRACT_SID
+                    FROM   (VALUES [?RS_CONTRACT_SID])A(RS_CONTRACT_SID);
+                    
+
+                    IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                      DROP TABLE #SELECTED_HIERARCHY_NO
+
+                    CREATE TABLE #SELECTED_HIERARCHY_NO
+                      (
+                         HIERARCHY_NO    VARCHAR(50),
+                         CCP_DETAILS_SID INT,
+                         DISCOUNT        VARCHAR(500),
+                         RS_CONTRACT_SID INT
+                      )                    
+
+                    INSERT INTO #SELECTED_HIERARCHY_NO
+                    (CCP_DETAILS_SID,
+                    DISCOUNT,
+                    RS_CONTRACT_SID)
+                     SELECT DISTINCT S.CCP_DETAILS_SID,
+                CASE
+                  WHEN @VAR = 'R' THEN RS_NAME
+                  ELSE PRICE_GROUP_TYPE
+                END,
+                S.RS_CONTRACT_SID FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+       JOIN #SELECTED_REBATE R
+        ON S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+       JOIN RS_CONTRACT RS
+         ON RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+       JOIN CCP_DETAILS CD
+         ON CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+          JOIN ST_CCP_HIERARCHY C
+        ON C.CCP_DETAILS_SID=s.CCP_DETAILS_SID
+       WHERE  EXISTS(SELECT 1 FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
+                                                                     JOIN ST_CCP_HIERARCHY CH
+                                                                        ON MAS.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                                                                        AND MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                                                     JOIN (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                                                                        ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO + '%' [?PREVIOUS_HIERARCHY_NO]
+                                                         WHERE  R.RS_CONTRACT_SID = MAS.RS_CONTRACT_SID)
+                                [?PAGINATION_PARAMETERS]  
+
+
+              
+IF OBJECT_ID('TEMPDB..#EXFACTORY') IS NOT NULL
+  DROP TABLE #EXFACTORY
+  SELECT RS_CONTRACT_SID,
+       DISCOUNT,
+       SUM(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+       SUM(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+       PERIOD,
+       YEAR
+INTO   #EXFACTORY
+FROM   ST_PRODUCT_FILE A
+       JOIN (SELECT DISTINCT ITEM_MASTER_SID,
+                             CASE
+                               WHEN @VAR = 'R' THEN RS_NAME
+                               ELSE PRICE_GROUP_TYPE
+                             END DISCOUNT,
+                             S.RS_CONTRACT_SID
+             FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+                    JOIN #SELECTED_REBATE R
+                      ON S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+                    JOIN RS_CONTRACT RS
+                      ON RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+                    JOIN CCP_DETAILS CD
+                      ON CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+where exists (select 1 from #SELECTED_HIERARCHY_NO sh where sh.CCP_DETAILS_SID = s.CCP_DETAILS_SID 
+								   and s.RS_CONTRACT_SID = sh.RS_CONTRACT_SID) ) B
+         ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+       JOIN #PERIOD P
+         ON P.PERIOD_SID = A.PERIOD_SID
+GROUP  BY RS_CONTRACT_SID,
+          DISCOUNT,
+          PERIOD,
+          YEAR
+
+                    IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+                      DROP TABLE #ACTUAL_SALES
+
+                    SELECT I.PERIOD,
+                           I.YEAR,
+                           ACTUAL_SALES=Sum(ACTUAL_SALES),
+                           ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+                           DISCOUNT,
+                           RS_CONTRACT_SID
+                INTO   #ACTUAL_SALES
+                FROM   ST_NM_ACTUAL_SALES S
+                       INNER JOIN #SELECTED_HIERARCHY_NO C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID 
+                    GROUP  BY I.PERIOD,
+                              I.YEAR,
+                              DISCOUNT,
+                              RS_CONTRACT_SID
+
+                    IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+                      DROP TABLE #ACTUAL_DISCOUNT
+
+                    SELECT I.PERIOD,
+                           I.YEAR,
+                            DISCOUNT_ACTUALS=SUM(ACTUAL_SALES),
+       CASE
+         WHEN @VAR = 'R' THEN RS.RS_NAME
+         ELSE M.PRICE_GROUP_TYPE
+       END AS DISCOUNT,
+       S.RS_CONTRACT_SID
+                    INTO   #ACTUAL_DISCOUNT
+                    FROM   ST_NM_ACTUAL_DISCOUNT S
+                           JOIN RS_CONTRACT RS
+         ON RS.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                           INNER JOIN #PERIOD I
+                                   ON I.PERIOD_SID = S.PERIOD_SID
+                           JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+         ON M.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+           AND M.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+           join #SELECTED_HIERARCHY_NO sh on sh.ccp_details_sid = S.ccp_details_sid and sh.RS_CONTRACT_SID = s.RS_CONTRACT_SID 
+WHERE  EXISTS (SELECT 1
+               FROM   #SELECTED_REBATE SR
+               WHERE  SR.RS_CONTRACT_SID = S.RS_CONTRACT_SID)
+                    GROUP  BY I.PERIOD,
+                              I.YEAR,
+                              CASE
+                                  WHEN @VAR = 'R' THEN RS.RS_NAME
+            ELSE M.PRICE_GROUP_TYPE
+          END,
+          S.RS_CONTRACT_SID
+
+                    IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+                      DROP TABLE #PROJECTION_SALES
+
+                    SELECT I.PERIOD,
+                           I.YEAR,
+                           PROJECTION_SALES=Sum(PROJECTION_SALES),
+                           PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+                             DISCOUNT,
+       RS_CONTRACT_SID
+                    INTO   #PROJECTION_SALES
+                    FROM   ST_NM_SALES_PROJECTION S
+                           INNER JOIN #SELECTED_HIERARCHY_NO C
+                                   ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                           INNER JOIN #PERIOD I
+                                   ON I.PERIOD_SID = S.PERIOD_SID
+                       
+                    GROUP  BY I.PERIOD,
+                              I.YEAR,
+                              DISCOUNT,
+                              RS_CONTRACT_SID
+
+                    IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+                      DROP TABLE #DISCOUNT_PROJECTION
+
+                    SELECT I.PERIOD,
+                           I.YEAR,
+                           PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
+                           CASE
+         WHEN @VAR = 'R' THEN RS.RS_NAME
+         ELSE M.PRICE_GROUP_TYPE
+       END AS DISCOUNT,
+       S.RS_CONTRACT_SID
+                    INTO   #DISCOUNT_PROJECTION
+                    FROM   ST_NM_DISCOUNT_PROJECTION S
+       JOIN RS_CONTRACT RS
+         ON RS.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+                           INNER JOIN #PERIOD I
+                                   ON I.PERIOD_SID = S.PERIOD_SID
+                          JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+         ON M.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+            AND M.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+            join #SELECTED_HIERARCHY_NO sh on sh.ccp_details_sid = S.ccp_details_sid and sh.RS_CONTRACT_SID = s.RS_CONTRACT_SID 
+WHERE  EXISTS (SELECT 1
+               FROM   #SELECTED_REBATE SR
+               WHERE  SR.RS_CONTRACT_SID = S.RS_CONTRACT_SID)
+                    GROUP  BY I.PERIOD,
+                              I.YEAR,
+                              CASE
+                               WHEN @VAR = 'R' THEN RS.RS_NAME
+            ELSE M.PRICE_GROUP_TYPE
+          END,
+          S.RS_CONTRACT_SID
+
+                    IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+                      DROP TABLE #DISCOUNT_PROJECTION_MASTER
+
+                    SELECT RS_NAME=CASE
+                                     WHEN @VAR = 'R' THEN R.RS_NAME
+                                     ELSE DM.PRICE_GROUP_TYPE
+                                   END,
+                           USER_GROUP=Max(DM.USER_GROUP),DM.rs_contract_sid 
+                    INTO   #DISCOUNT_PROJECTION_MASTER
+                    FROM   #SELECTED_HIERARCHY_NO P
+                           INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER DM
+                                   ON P.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
+                                               and p.RS_CONTRACT_SID = dm.RS_CONTRACT_SID
+                                               INNER JOIN RS_CONTRACT R ON R.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+
+                    GROUP  BY CASE
+                                WHEN @VAR = 'R' THEN R.RS_NAME
+                                ELSE DM.PRICE_GROUP_TYPE
+                              END,DM.rs_contract_sid 
+
+                    SELECT AD.rs_contract_sid ,
+                            AD.YEAR,
+                           AD.PERIOD,
+                           
+                           COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                           DISCOUNT_ACTUALS                                              AS ACTUAL_SALES,
+                           COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                           NULL                                                          AS PROJECTION_RATE,
+                           NULL                                                          AS PROJECTION_SALES,
+                           NULL                                                          AS PROJECTION_RPU,
+                           0                                                             AS AP_TABLE_INDICATOR,
+                           ad.DISCOUNT,
+                           COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                       NULL  AS EXFACT_DOLLAR_FORE_PERCENT
+                    FROM   #ACTUAL_DISCOUNT AD
+                           INNER JOIN #ACTUAL_SALES SA
+                                   ON SA.YEAR = AD.YEAR
+                                      AND SA.PERIOD = AD.PERIOD
+                                         AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+       JOIN #EXFACTORY E
+         ON E.RS_CONTRACT_SID = SA.RS_CONTRACT_SID
+            AND E.PERIOD = SA.PERIOD
+            AND E.YEAR = SA.YEAR
+                    UNION ALL
+                    SELECT 
+                           AD.rs_contract_sid ,
+                            AD.YEAR,
+                           AD.PERIOD,       
+                           NULL                                                                   AS ACTUAL_RATE,
+                           NULL                                                                   AS ACTUAL_SALES,
+                           NULL                                                                   AS ACTUAL_RPU,
+                           COALESCE(PROJECTED_DISCOUNT / NULLIF(SA.PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                           PROJECTED_DISCOUNT                                                     AS PROJECTION_SALES,
+                           COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)          AS PROJECTION_RPU,
+                           1                                                                      AS AP_TABLE_INDICATOR,
+                           AD.DISCOUNT,
+                            NULL                                                                        AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT     
+                   FROM   #DISCOUNT_PROJECTION AD
+                           INNER JOIN #PROJECTION_SALES SA
+                                   ON SA.YEAR = AD.YEAR
+                                      AND SA.PERIOD = AD.PERIOD
+                           AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+       JOIN #EXFACTORY E
+         ON E.RS_CONTRACT_SID = SA.RS_CONTRACT_SID
+            AND E.PERIOD = SA.PERIOD
+            AND E.YEAR = SA.YEAR
+       ORDER  BY DISCOUNT,
+          RS_CONTRACT_SID,
+                              YEAR,
+                              PERIOD,
+                              AP_TABLE_INDICATOR; 
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="dpr-hierarchy-discount-excel-query">
+        <query>
+            <![CDATA[  
+                                DECLARE @VAR CHAR(1)='R'
+                    DECLARE @FREQUENCY CHAR(1)='[?FREQUENCY]'
+ 
+                     IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                       DROP TABLE #PERIOD
+ 
+                     SELECT PERIOD_SID,
+                            YEAR,
+                            PERIOD = CASE
+                                       WHEN @FREQUENCY = 'M' THEN MONTH
+                                       WHEN @FREQUENCY = 'Q' THEN QUARTER
+                                       WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                                       ELSE YEAR
+                                     END
+                     INTO   #PERIOD
+                     FROM   PERIOD;
+ 
+                     IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                       DROP TABLE #SELECTED_REBATE
+ 
+                     CREATE TABLE #SELECTED_REBATE
+                       (
+                          RS_CONTRACT_SID int
+                       )
+ 
+                     INSERT INTO #SELECTED_REBATE
+                                 (RS_CONTRACT_SID)
+                      SELECT RS_CONTRACT_SID
+                     FROM   RS_CONTRACT where RS_CONTRACT_SID in ([?RS_MODEL_SID]);
+ 
+ 
+  IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                  DROP TABLE #SELECTED_HIERARCHY_NO
+ 
+                CREATE TABLE #SELECTED_HIERARCHY_NO
+  (
+     HIERARCHY_NO    VARCHAR(50),
+     CCP_DETAILS_SID INT,
+     DISCOUNT        VARCHAR(500),
+     RS_CONTRACT_SID INT
+  )
+
+              INSERT INTO #SELECTED_HIERARCHY_NO
+            (HIERARCHY_NO,CCP_DETAILS_SID,
+             DISCOUNT,
+             RS_CONTRACT_SID)
+ 
+  SELECT DISTINCT HIERARCHY_NO,S.CCP_DETAILS_SID,
+                CASE
+                  WHEN @VAR = 'R' THEN RS_NAME
+                  ELSE PRICE_GROUP_TYPE
+                END,
+                S.RS_CONTRACT_SID
+FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+       JOIN #SELECTED_REBATE R
+         ON S.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+       JOIN RS_CONTRACT RS
+         ON RS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+       JOIN CCP_DETAILS CD
+         ON CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+		JOIN ST_CCP_HIERARCHY   CH
+                                                                         ON s.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                                                                         JOIN (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                                                                        ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO + '%' 
+ 
+
+
+		  IF Object_id('TEMPDB..#EXFACTORY') IS NOT NULL
+  DROP TABLE #EXFACTORY
+ 
+SELECT HIERARCHY_NO,RS_CONTRACT_SID,
+       discount,
+       Sum(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+       Sum(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+       period,
+       year
+INTO   #EXFACTORY
+FROM   ST_PRODUCT_FILE a
+       JOIN (SELECT DISTINCT item_master_sid,
+                             CASE
+                               WHEN @VAR = 'R' THEN rs_name
+                               ELSE price_group_type
+                             END discount,
+                             s.rs_contract_sid,HIERARCHY_NO
+             FROM   ST_NM_DISCOUNT_PROJ_MASTER s
+                    JOIN #SELECTED_REBATE r
+                      ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                    JOIN RS_CONTRACT rs
+                      ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                    JOIN CCP_DETAILS cd
+                      ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+					  JOIN  #SELECTED_HIERARCHY_NO SH
+					ON SH.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+					and s.RS_CONTRACT_SID = SH.RS_CONTRACT_SID) b
+         ON a.item_master_sid = b.ITEM_MASTER_SID
+       JOIN #period p
+         ON p.PERIOD_SID = a.period_sid
+GROUP  BY HIERARCHY_NO,RS_CONTRACT_SID,
+          discount,
+          period,
+          year
+                     IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+  DROP TABLE #ACTUAL_SALES
+ 
+SELECT I.PERIOD,
+       I.YEAR,
+       ACTUAL_SALES=Sum(ACTUAL_SALES),
+       ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+       discount,
+       rs_contract_sid,HIERARCHY_NO
+INTO   #ACTUAL_SALES
+FROM   ST_NM_ACTUAL_SALES S
+       INNER JOIN #SELECTED_HIERARCHY_NO C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+GROUP  BY I.PERIOD,
+          I.YEAR,
+          discount,
+          rs_contract_sid,HIERARCHY_NO
+ 
+                    IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+  DROP TABLE #ACTUAL_DISCOUNT
+ 
+SELECT I.PERIOD,
+       I.YEAR,
+       DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
+       CASE
+         WHEN @VAR = 'R' THEN rs.rs_name
+         ELSE m.price_group_type
+       END AS discount,
+       s.rs_contract_sid,HIERARCHY_NO
+INTO   #ACTUAL_DISCOUNT
+FROM   ST_NM_ACTUAL_DISCOUNT S
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+       JOIN ST_NM_DISCOUNT_PROJ_MASTER m
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+           AND m.ccp_details_sid = s.ccp_details_sid
+		    INNER JOIN #SELECTED_HIERARCHY_NO C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+			   and c.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+WHERE  EXISTS (SELECT 1
+               FROM   #SELECTED_REBATE sr
+               WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+GROUP  BY I.PERIOD,
+          I.YEAR,
+          CASE
+            WHEN @VAR = 'R' THEN rs.rs_name
+            ELSE m.price_group_type
+          END,
+          s.rs_contract_sid,HIERARCHY_NO
+ 
+                     IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+  DROP TABLE #PROJECTION_SALES
+ 
+SELECT I.PERIOD,
+       I.YEAR,
+       PROJECTION_SALES=Sum(PROJECTION_SALES),
+       PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+       discount,
+       rs_contract_sid,HIERARCHY_NO
+INTO   #PROJECTION_SALES
+FROM   ST_NM_SALES_PROJECTION S
+       INNER JOIN #SELECTED_HIERARCHY_NO C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+GROUP  BY I.PERIOD,
+          I.YEAR,
+          discount,
+          rs_contract_sid,HIERARCHY_NO
+ 
+                   IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+  DROP TABLE #DISCOUNT_PROJECTION
+ 
+SELECT I.PERIOD,
+       I.YEAR,
+       PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
+       CASE
+         WHEN @VAR = 'R' THEN rs.rs_name
+         ELSE m.price_group_type
+       END AS discount,
+       s.rs_contract_sid,HIERARCHY_NO
+INTO   #DISCOUNT_PROJECTION
+FROM   ST_NM_DISCOUNT_PROJECTION S
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+       JOIN ST_NM_DISCOUNT_PROJ_MASTER m
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+            AND m.ccp_details_sid = s.ccp_details_sid
+			INNER JOIN #SELECTED_HIERARCHY_NO C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+			   and c.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+WHERE  EXISTS (SELECT 1
+               FROM   #SELECTED_REBATE sr
+               WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+GROUP  BY I.PERIOD,
+          I.YEAR,
+          CASE
+            WHEN @VAR = 'R' THEN rs.rs_name
+            ELSE m.price_group_type
+          END,
+          s.rs_contract_sid,HIERARCHY_NO
+ 
+                     IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+                       DROP TABLE #DISCOUNT_PROJECTION_MASTER
+ 
+                     SELECT DISCOUNT,
+                       USER_GROUP=Max(DM.USER_GROUP),
+                                     HIERARCHY_NO,DM.RS_CONTRACT_SID
+                     INTO   #DISCOUNT_PROJECTION_MASTER
+                     FROM   #SELECTED_HIERARCHY_NO P
+                          INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER DM
+                                    ON p.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
+                                       AND DM.RS_CONTRACT_SID = p.RS_CONTRACT_SID
+                                       INNER JOIN #SELECTED_REBATE SR ON SR.RS_CONTRACT_SID = p.RS_CONTRACT_SID
+                                       INNER JOIN RS_CONTRACT R ON R.RS_CONTRACT_SID = SR.RS_CONTRACT_SID
+ 
+                     GROUP  BY DISCOUNT,
+                                          HIERARCHY_NO,DM.RS_CONTRACT_SID
+ 
+                SELECT ad.HIERARCHY_NO,
+                             AD.YEAR,
+                            AD.PERIOD,
+ 
+                            COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                            DISCOUNT_ACTUALS                                              AS ACTUAL_SALES,
+                            COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                            NULL                                                          AS PROJECTION_RATE,
+                            NULL                                                          AS PROJECTION_SALES,
+                            NULL                                                          AS PROJECTION_RPU,
+                            0                                                             AS AP_TABLE_INDICATOR,
+                            DPM.discount AS RS_NAME,
+                            COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+                            NULL                                                                    AS EXFACT_DOLLAR_FORE_PERCENT,DPM.RS_CONTRACT_SID
+                     FROM   #DISCOUNT_PROJECTION_MASTER DPM
+                            INNER JOIN #ACTUAL_DISCOUNT AD
+                                    ON DPM.rs_contract_sid = AD.rs_contract_sid
+                                    and dpm.HIERARCHY_NO = ad.HIERARCHY_NO
+									AND DPM.discount=AD.discount
+                            INNER JOIN #ACTUAL_SALES SA
+                                    ON SA.YEAR = AD.YEAR
+                                       AND SA.PERIOD = AD.PERIOD
+									   AND SA.discount=AD.discount
+                                       and ad.HIERARCHY_NO = sa.HIERARCHY_NO
+									    JOIN #EXFACTORY e
+         ON e.YEAR = AD.YEAR
+                                       AND e.PERIOD = AD.PERIOD
+									   AND e.discount=AD.discount
+                                       and e.HIERARCHY_NO = AD.HIERARCHY_NO
+                     UNION ALL
+              SELECT  DPM.HIERARCHY_NO,
+                             AD.YEAR,
+                            AD.PERIOD,
+                            NULL                                                                   AS ACTUAL_RATE,
+                            NULL                                                                   AS ACTUAL_SALES,
+                            NULL                                                                   AS ACTUAL_RPU,
+                            COALESCE(PROJECTED_DISCOUNT / NULLIF(SA.PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                            PROJECTED_DISCOUNT                                                     AS PROJECTION_SALES,
+                            COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)          AS PROJECTION_RPU,
+                            1                                                                      AS AP_TABLE_INDICATOR,
+                             DPM.discount,
+                             NULL                                                                  AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+        COALESCE(PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT,DPM.RS_CONTRACT_SID
+                     FROM   #DISCOUNT_PROJECTION_MASTER DPM
+                            INNER JOIN #DISCOUNT_PROJECTION AD
+                                    ON DPM.rs_contract_sid = AD.rs_contract_sid
+                                    and dpm.HIERARCHY_NO = ad.HIERARCHY_NO
+									AND DPM.discount=AD.discount
+                            INNER JOIN #PROJECTION_SALES SA
+                                    ON SA.YEAR = AD.YEAR
+                                       AND SA.PERIOD = AD.PERIOD
+									   AND SA.discount=AD.discount
+                                       and ad.HIERARCHY_NO = sa.HIERARCHY_NO
+									   JOIN #EXFACTORY e
+         ON e.YEAR = AD.YEAR
+                                       AND e.PERIOD = AD.PERIOD
+									   AND e.discount=AD.discount
+                                       and e.HIERARCHY_NO = AD.HIERARCHY_NO
+			ORDER  BY [?ORDER_BY] ; 
+            ]]>
+        </query>
+    </entity>
+    
+      <entity id="dpr-hierarchy-query-custom-query">
+        <query>
+            <![CDATA[   
+                           DECLARE @VAR CHAR(1)='R'
+                         DECLARE @FREQUENCY                     CHAR(1)='[?FREQUENCY]'
+                        DECLARE @CUST_RELATIONSHIP_BUILDER_SID INT=[?CUST_RELATIONSHIP_BUILDER_SID]
+                         DECLARE @PROD_RELATIONSHIP_BUILDER_SID INT=[?PROD_RELATIONSHIP_BUILDER_SID]
+                        DECLARE @CUSTOM_VIEW_MASTER_SID        INT=[?CUSTOM_VIEW_MASTER_SID]
+
+                IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                  DROP TABLE #PERIOD
+
+                SELECT PERIOD_SID,
+                       YEAR,
+                       PERIOD = CASE
+                                  WHEN @FREQUENCY = 'M' THEN MONTH
+                                  WHEN @FREQUENCY = 'Q' THEN QUARTER
+                                  WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                                  ELSE YEAR
+                                END
+                INTO   #PERIOD
+                FROM   PERIOD;
+
+                IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                  DROP TABLE #SELECTED_REBATE
+
+                CREATE TABLE #SELECTED_REBATE
+                  (
+                     RS_CONTRACT_SID INT
+                  )
+
+                INSERT INTO #SELECTED_REBATE
+                            (RS_CONTRACT_SID)
+                 SELECT RS_CONTRACT_SID
+                     FROM   RS_CONTRACT where RS_CONTRACT_SID in ([?RS_MODEL_SID]);
+
+                IF Object_id('TEMPDB..#PARENT_HIERARCHY') IS NOT NULL
+                  DROP TABLE #PARENT_HIERARCHY
+
+                CREATE TABLE #PARENT_HIERARCHY
+                  (
+                     CCP_DETAILS_SID           INT,
+                     HIERARCHY_NO              VARCHAR(50),
+                     LEVEL_NAME                VARCHAR(75),
+                     LEVEL_NO                  SMALLINT,
+                     RELATIONSHIP_LEVEL_VALUES VARCHAR(50)
+                  )
+
+                INSERT INTO #PARENT_HIERARCHY
+                            (CCP_DETAILS_SID,
+                             HIERARCHY_NO,
+                             LEVEL_NAME,
+                             LEVEL_NO,
+                             RELATIONSHIP_LEVEL_VALUES)
+                SELECT DISTINCT CH.ccp_details_sid,
+                                RLD.HIERARCHY_NO,
+                                RLD.LEVEL_NAME,
+                                C.LEVEL_NO,
+                                RLD.RELATIONSHIP_LEVEL_VALUES
+                FROM   CUSTOM_VIEW_DETAILS C
+                       JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                         ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                            AND RELATIONSHIP_BUILDER_SID IN ( @CUST_RELATIONSHIP_BUILDER_SID, @PROD_RELATIONSHIP_BUILDER_SID )
+                       JOIN ST_CCP_HIERARCHY  CH
+                         ON CH.CUST_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+                             OR CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+                       JOIN ST_NM_DISCOUNT_PROJ_MASTER  PPA
+                         ON PPA.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                WHERE  CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID
+
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                  DROP TABLE #SELECTED_HIERARCHY_NO
+
+                CREATE TABLE #SELECTED_HIERARCHY_NO
+                  (
+                     HIERARCHY_NO        VARCHAR(50),
+                     CCP_DETAILS_SID     INT,
+                     RS_CONTRACT_SID        INT,
+                     PARENT_HIERARCHY_NO VARCHAR(1000),
+                     LEVEL_NO            INT
+                  )
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                            (HIERARCHY_NO,
+                             CCP_DETAILS_SID,
+                             PARENT_HIERARCHY_NO,
+                             LEVEL_NO
+,RS_CONTRACT_SID)
+                SELECT HIERARCHY_NO,
+                       A.CCP_DETAILS_SID,
+                       LEFT(PARENT_HIERARCHY_NO, Len(PARENT_HIERARCHY_NO) - 1),
+                       LEVEL_NO,
+                 s.rs_contract_sid
+                 FROM   #PARENT_HIERARCHY A
+                        CROSS APPLY (SELECT HIERARCHY_NO + '~'
+                                     FROM   #PARENT_HIERARCHY B
+                                     WHERE  A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                                            AND A.LEVEL_NO > B.LEVEL_NO
+                                     ORDER  BY LEVEL_NO
+                                     FOR XML PATH ('')) CS (PARENT_HIERARCHY_NO)
+									INNER JOIN   ST_NM_DISCOUNT_PROJ_MASTER S
+									ON S.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+        JOIN #SELECTED_REBATE r
+          ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+        JOIN RS_CONTRACT rs
+          ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+        JOIN CCP_DETAILS cd
+          ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+ORDER  BY LEVEL_NO
+
+
+IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO1') IS NOT NULL
+  DROP TABLE #SELECTED_HIERARCHY_NO1
+CREATE TABLE #SELECTED_HIERARCHY_NO1
+  (
+     HIERARCHY_NO    VARCHAR(50),
+     CCP_DETAILS_SID INT,
+     discount        VARCHAR(500),
+     RS_CONTRACT_SID INT
+  )
+INSERT INTO #SELECTED_HIERARCHY_NO1
+            (CCP_DETAILS_SID,
+             discount,
+             RS_CONTRACT_SID,
+             HIERARCHY_NO)
+SELECT DISTINCT s.CCP_DETAILS_SID,
+                CASE
+                  WHEN @VAR = 'R' THEN rs_name
+                  ELSE price_group_type
+                END,
+                s.rs_contract_sid,
+                HIERARCHY_NO
+FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+       JOIN #SELECTED_REBATE r
+         ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN CCP_DETAILS cd
+         ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+       JOIN (SELECT DISTINCT HIERARCHY_NO,
+                             CCP_DETAILS_SID
+             FROM   #SELECTED_HIERARCHY_NO) A
+         ON A.CCP_DETAILS_SID = S.CCP_DETAILS_SID 
+
+
+                IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER ') IS NOT NULL
+                  DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER 
+
+                SELECT DISTINCT DPM.CCP_DETAILS_SID,
+                                PRICE_GROUP_TYPE,
+                                RC.RS_NAME,
+                                RC.RS_CONTRACT_SID,
+                                USER_GROUP,
+                                CHECK_RECORD
+                INTO   #ST_NM_DISCOUNT_PROJ_MASTER 
+                FROM   ST_NM_DISCOUNT_PROJ_MASTER  DPM
+                       INNER JOIN #SELECTED_REBATE SRE
+                               ON SRE.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID
+                       INNER JOIN RS_CONTRACT RC
+                               ON RC.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID
+                                  AND RC.INBOUND_STATUS <> 'D'
+                       INNER JOIN #SELECTED_HIERARCHY_NO SH
+                               ON SH.CCP_DETAILS_SID = DPM.CCP_DETAILS_SID
+                       INNER JOIN CCP_DETAILS CCP
+                               ON CCP.CCP_DETAILS_SID = SH.CCP_DETAILS_SID
+                                  AND RC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                WHERE  EXISTS(SELECT 1
+                              FROM   CFP_CONTRACT CC
+                                     INNER JOIN IFP_CONTRACT IC
+                                             ON CC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
+                                                AND CC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
+                                     INNER JOIN PS_CONTRACT PC
+                                             ON PC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
+                                                AND PC.IFP_CONTRACT_SID = IC.IFP_CONTRACT_SID
+                                                AND PC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
+                              WHERE  RC.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
+                                     AND CC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                                     AND CC.CFP_CONTRACT_SID = RC.CFP_CONTRACT_SID
+                                     AND IC.IFP_CONTRACT_SID = RC.IFP_CONTRACT_SID
+                                     AND PC.PS_CONTRACT_SID = RC.PS_CONTRACT_SID
+                                     AND CC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
+                                     AND IC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
+                                     AND PC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
+                                     AND CC.INBOUND_STATUS <> 'D'
+                                     AND IC.INBOUND_STATUS <> 'D'
+                                     AND PC.INBOUND_STATUS <> 'D')
+                                     
+                                     
+                                
+                                      IF Object_id('TEMPDB..#EXFACTORY') IS NOT NULL
+   DROP TABLE #EXFACTORY
+ SELECT b.HIERARCHY_NO,
+        Sum(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+        Sum(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+        period,
+        year,
+		parent_hierarchy_no
+ INTO   #EXFACTORY
+ FROM   ST_PRODUCT_FILE A
+        JOIN (SELECT DISTINCT item_master_sid,
+                              sh.HIERARCHY_NO,
+							  parent_hierarchy_no
+              FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+                     JOIN #SELECTED_REBATE r
+                       ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                     JOIN RS_CONTRACT rs
+                       ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                     JOIN CCP_DETAILS cd
+                       ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+                     JOIN #SELECTED_HIERARCHY_NO1 SH
+                       ON SH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+                          AND s.RS_CONTRACT_SID = SH.RS_CONTRACT_SID
+						  INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=sh.HIERARCHY_NO
+				  AND sh.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND sh.RS_CONTRACT_SID = P.RS_CONTRACT_SID) b
+          ON a.item_master_sid = b.ITEM_MASTER_SID
+        JOIN #period p
+          ON p.PERIOD_SID = a.period_sid
+ GROUP  BY b.HIERARCHY_NO,
+           period,
+           year,
+		   parent_hierarchy_no
+                                     
+                                     
+                                     
+IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+   DROP TABLE #ACTUAL_SALES
+ SELECT I.PERIOD,
+        I.YEAR,
+        ACTUAL_SALES=Sum(ACTUAL_SALES),
+        ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+        c.HIERARCHY_NO,p.parent_hierarchy_no
+ INTO   #ACTUAL_SALES
+ FROM   ST_NM_ACTUAL_SALES S
+        INNER JOIN( select distinct ccp_details_sid,HIERARCHY_NO from #SELECTED_HIERARCHY_NO1) C
+                ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+				INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=c.HIERARCHY_NO
+				  AND c.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+        INNER JOIN #PERIOD I
+                ON I.PERIOD_SID = S.PERIOD_SID
+ GROUP  BY I.PERIOD,
+           I.YEAR,
+           c.HIERARCHY_NO,
+		   p.parent_hierarchy_no
+              
+IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+  DROP TABLE #ACTUAL_DISCOUNT
+SELECT I.PERIOD,
+       I.YEAR,
+       DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
+       C.HIERARCHY_NO,
+        P.PARENT_HIERARCHY_NO
+INTO   #ACTUAL_DISCOUNT
+FROM   ST_NM_ACTUAL_DISCOUNT S
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+       JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+            AND m.ccp_details_sid = s.ccp_details_sid
+ INNER JOIN #SELECTED_HIERARCHY_NO1 C
+                ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+				   INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=C.HIERARCHY_NO
+				  AND C.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = P.RS_CONTRACT_SID
+ WHERE  EXISTS (SELECT 1
+                FROM   #SELECTED_REBATE sr
+                WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+ GROUP  BY I.PERIOD,
+           I.YEAR,
+           C.HIERARCHY_NO,
+		      P.PARENT_HIERARCHY_NO
+IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+   DROP TABLE #PROJECTION_SALES
+ SELECT I.PERIOD,
+        I.YEAR,
+        PROJECTION_SALES=Sum(PROJECTION_SALES),
+        PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+        c.HIERARCHY_NO,
+		 P.PARENT_HIERARCHY_NO
+ INTO   #PROJECTION_SALES
+ FROM   ST_NM_SALES_PROJECTION S
+        INNER JOIN ( SELECT DISTINCT CCP_DETAILS_SID,HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO1) C
+                ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+				INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=c.HIERARCHY_NO
+				  AND c.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+        INNER JOIN #PERIOD I
+                ON I.PERIOD_SID = S.PERIOD_SID
+ GROUP  BY I.PERIOD,
+           I.YEAR,
+           c.HIERARCHY_NO,
+		    P.PARENT_HIERARCHY_NO
+IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+  DROP TABLE #DISCOUNT_PROJECTION
+SELECT I.PERIOD,
+       I.YEAR,
+       PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
+       C.HIERARCHY_NO,
+        P.PARENT_HIERARCHY_NO
+INTO   #DISCOUNT_PROJECTION
+FROM   ST_NM_DISCOUNT_PROJECTION S
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+       JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+            AND m.ccp_details_sid = s.ccp_details_sid
+      INNER JOIN #SELECTED_HIERARCHY_NO1 C
+                ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+				   INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=C.HIERARCHY_NO
+				  AND C.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = P.RS_CONTRACT_SID
+		
+				   
+ WHERE  EXISTS (SELECT 1
+                FROM   #SELECTED_REBATE sr
+                WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+ GROUP  BY I.PERIOD,
+           I.YEAR,
+           C.HIERARCHY_NO,
+		   P.PARENT_HIERARCHY_NO
+                IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+                  DROP TABLE #DISCOUNT_PROJECTION_MASTER
+                SELECT DISTINCT USER_GROUP=Max(DM.USER_GROUP),
+                                HIERARCHY_NO
+                INTO   #DISCOUNT_PROJECTION_MASTER
+                FROM   #SELECTED_HIERARCHY_NO P
+                       INNER JOIN #ST_NM_DISCOUNT_PROJ_MASTER DM
+                               ON P.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
+                       INNER JOIN #SELECTED_REBATE SR
+                               ON SR.RS_CONTRACT_SID = DM.RS_CONTRACT_SID
+                GROUP  BY HIERARCHY_NO
+                SELECT DPM.HIERARCHY_NO,
+                       AD.YEAR,
+                       AD.PERIOD,
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                       DISCOUNT_ACTUALS                                              AS ACTUAL_SALES,
+                       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                       NULL                                                          AS PROJECTION_RATE,
+                       NULL                                                          AS PROJECTION_SALES,
+                       NULL                                                          AS PROJECTION_RPU,
+                       0                                                             AS AP_TABLE_INDICATOR,
+                       ad.PARENT_HIERARCHY_NO,
+                       LEVEL_NO,
+       COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+       NULL                                                                    AS EXFACT_DOLLAR_FORE_PERCENT
+                FROM   #DISCOUNT_PROJECTION_MASTER DPM
+                       INNER JOIN #ACTUAL_DISCOUNT AD
+                               ON DPM.HIERARCHY_NO = AD.HIERARCHY_NO
+                       INNER JOIN #ACTUAL_SALES SA
+                               ON SA.YEAR = AD.YEAR
+                                  AND SA.PERIOD = AD.PERIOD
+                                  AND SA.HIERARCHY_NO = AD.HIERARCHY_NO
+								   and coalesce(sa.PARENT_HIERARCHY_NO,sa.HIERARCHY_NO)=coalesce(ad.PARENT_HIERARCHY_NO,ad.HIERARCHY_NO)
+  JOIN #EXFACTORY e
+          ON e.YEAR = AD.YEAR
+             AND e.PERIOD = AD.PERIOD
+             AND e.HIERARCHY_NO = AD.HIERARCHY_NO
+			 and coalesce(e.PARENT_HIERARCHY_NO,e.HIERARCHY_NO) = coalesce(AD.PARENT_HIERARCHY_NO,AD.HIERARCHY_NO) 
+                        INNER JOIN (SELECT DISTINCT HIERARCHY_NO,
+                                                    PARENT_HIERARCHY_NO,
+                                                    LEVEL_NO
+                                    FROM   #SELECTED_HIERARCHY_NO) SH
+                                ON DPM.HIERARCHY_NO = SH.HIERARCHY_NO
+                UNION ALL
+                SELECT DPM.HIERARCHY_NO,
+                       AD.YEAR,
+                       AD.PERIOD,
+                       NULL                                                                   AS ACTUAL_RATE,
+                       NULL                                                                   AS ACTUAL_SALES,
+                       NULL                                                                   AS ACTUAL_RPU,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                       PROJECTED_DISCOUNT                                                     AS PROJECTION_SALES,
+                       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)          AS PROJECTION_RPU,
+                       1                                                                      AS AP_TABLE_INDICATOR,
+                       ad.PARENT_HIERARCHY_NO,
+                       LEVEL_NO,
+                       NULL                                                                   AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+       COALESCE(PROJECTED_DISCOUNT / NULLIF(EXFACTORY_FORECAST_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT
+                FROM   #DISCOUNT_PROJECTION_MASTER DPM
+                       INNER JOIN #DISCOUNT_PROJECTION AD
+                               ON DPM.HIERARCHY_NO = AD.HIERARCHY_NO
+                       INNER JOIN #PROJECTION_SALES SA
+                               ON SA.YEAR = AD.YEAR
+                                  AND SA.PERIOD = AD.PERIOD
+                                  AND SA.HIERARCHY_NO = AD.HIERARCHY_NO   
+and coalesce(sa.PARENT_HIERARCHY_NO,sa.HIERARCHY_NO)=coalesce(ad.PARENT_HIERARCHY_NO,ad.HIERARCHY_NO)
+  JOIN #EXFACTORY e
+          ON e.YEAR = AD.YEAR
+             AND e.PERIOD = AD.PERIOD
+             AND e.HIERARCHY_NO = AD.HIERARCHY_NO
+			 and coalesce(e.PARENT_HIERARCHY_NO,e.HIERARCHY_NO) = coalesce(AD.PARENT_HIERARCHY_NO,AD.HIERARCHY_NO) 
+                        INNER JOIN (SELECT DISTINCT HIERARCHY_NO,
+                                                    PARENT_HIERARCHY_NO,
+                                                    LEVEL_NO
+                                    FROM   #SELECTED_HIERARCHY_NO) SH
+                                ON DPM.HIERARCHY_NO = SH.HIERARCHY_NO
+             
+                ORDER  BY LEVEL_NO,
+                          DPM.HIERARCHY_NO,
+                          PARENT_HIERARCHY_NO,
+                          YEAR,
+                          PERIOD,
+                          AP_TABLE_INDICATOR;
+
+
+             ]]>
+        </query>
+         </entity>
+     <entity id="user-group-condition-query">
+        <query>
+            <![CDATA[
+                AND MAS.USER_GROUP LIKE '[?USER_GROUP]'
+            ]]>
+        </query>
+    </entity>
+     <entity id="dpr-custom-hierarchy-discount-excel-query">
+        <query> 
+            <![CDATA[  
+                        DECLARE @VAR CHAR(1)='R'
+                        DECLARE @FREQUENCY                     CHAR(1)='[?FREQUENCY]'
+                        DECLARE @CUST_RELATIONSHIP_BUILDER_SID INT=[?CUST_RELATIONSHIP_BUILDER_SID]
+                        DECLARE @PROD_RELATIONSHIP_BUILDER_SID INT=[?PROD_RELATIONSHIP_BUILDER_SID]
+                        DECLARE @CUSTOM_VIEW_MASTER_SID        INT=[?CUSTOM_VIEW_MASTER_SID]
+
+                    IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+                      DROP TABLE #PERIOD
+
+                    SELECT PERIOD_SID,
+                           YEAR,
+                           PERIOD = CASE
+                                      WHEN @FREQUENCY = 'M' THEN MONTH
+                                      WHEN @FREQUENCY = 'Q' THEN QUARTER
+                                      WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                                      ELSE YEAR
+                                    END
+                    INTO   #PERIOD
+                    FROM   PERIOD;
+
+                    IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+                      DROP TABLE #SELECTED_REBATE
+
+                    CREATE TABLE #SELECTED_REBATE
+                      (
+                         RS_CONTRACT_SID INT
+                      )
+
+                    INSERT INTO #SELECTED_REBATE
+                                (RS_CONTRACT_SID)
+                    SELECT RS_CONTRACT_SID
+                     FROM   RS_CONTRACT where RS_CONTRACT_SID in ( [?RS_MODEL_SID]);
+
+                    IF Object_id('TEMPDB..#PARENT_HIERARCHY') IS NOT NULL
+                      DROP TABLE #PARENT_HIERARCHY
+
+                    CREATE TABLE #PARENT_HIERARCHY
+                      (
+                         CCP_DETAILS_SID           INT,
+                         HIERARCHY_NO              VARCHAR(50),
+                         LEVEL_NAME                VARCHAR(75),
+                         LEVEL_NO                  SMALLINT,
+                         RELATIONSHIP_LEVEL_VALUES VARCHAR(50)
+                      )
+
+                    INSERT INTO #PARENT_HIERARCHY
+                                (CCP_DETAILS_SID,
+                                 HIERARCHY_NO,
+                                 LEVEL_NAME,
+                                 LEVEL_NO,
+                                 RELATIONSHIP_LEVEL_VALUES)
+                    SELECT DISTINCT CH.ccp_details_sid,
+                                    RLD.HIERARCHY_NO,
+                                    RLD.LEVEL_NAME,
+                                    C.LEVEL_NO,
+                                    RLD.RELATIONSHIP_LEVEL_VALUES
+                    FROM   CUSTOM_VIEW_DETAILS C
+                           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                             ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                                AND RELATIONSHIP_BUILDER_SID IN ( @CUST_RELATIONSHIP_BUILDER_SID, @PROD_RELATIONSHIP_BUILDER_SID )
+                           JOIN ST_CCP_HIERARCHY   CH
+                             ON CH.CUST_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+                                 OR CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+                           JOIN ST_NM_DISCOUNT_PROJ_MASTER   PPA
+                             ON PPA.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                    WHERE  CUSTOM_VIEW_MASTER_SID = @CUSTOM_VIEW_MASTER_SID
+
+                  IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                      DROP TABLE #SELECTED_HIERARCHY_NO
+
+                    CREATE TABLE #SELECTED_HIERARCHY_NO
+                      (
+                         HIERARCHY_NO        VARCHAR(50),
+                         CCP_DETAILS_SID     INT,
+                         RS_CONTRACT_SID        INT,
+                         PARENT_HIERARCHY_NO VARCHAR(1000),
+                         LEVEL_NO            INT
+                      )
+
+                    INSERT INTO #SELECTED_HIERARCHY_NO
+                                (HIERARCHY_NO,
+                                 CCP_DETAILS_SID,
+                                 PARENT_HIERARCHY_NO,
+                                 LEVEL_NO
+								 ,RS_CONTRACT_SID)
+                    SELECT HIERARCHY_NO,
+                           A.CCP_DETAILS_SID,
+                           LEFT(PARENT_HIERARCHY_NO, Len(PARENT_HIERARCHY_NO) - 1),
+                           LEVEL_NO,
+						   R.RS_CONTRACT_SID
+                    FROM   #PARENT_HIERARCHY A
+                           CROSS APPLY (SELECT HIERARCHY_NO + '~'
+                                        FROM   #PARENT_HIERARCHY B
+                                        WHERE  A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                                               AND A.LEVEL_NO > B.LEVEL_NO
+                                        ORDER  BY LEVEL_NO
+                                        FOR XML PATH ('')) CS (PARENT_HIERARCHY_NO)
+									INNER JOIN	ST_NM_DISCOUNT_PROJ_MASTER S
+									ON S.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+       JOIN #SELECTED_REBATE r
+         ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN CCP_DETAILS cd
+         ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+                    ORDER  BY LEVEL_NO
+
+IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO1') IS NOT NULL
+  DROP TABLE #SELECTED_HIERARCHY_NO1
+CREATE TABLE #SELECTED_HIERARCHY_NO1
+  (
+     HIERARCHY_NO    VARCHAR(50),
+     CCP_DETAILS_SID INT,
+     DISCOUNT        VARCHAR(500),
+     RS_CONTRACT_SID INT
+  )
+INSERT INTO #SELECTED_HIERARCHY_NO1
+            (CCP_DETAILS_SID,
+             DISCOUNT,
+             RS_CONTRACT_SID,
+             HIERARCHY_NO)
+SELECT DISTINCT s.CCP_DETAILS_SID,
+                CASE
+                  WHEN @VAR = 'R' THEN rs_name
+                  ELSE price_group_type
+                END,
+                s.rs_contract_sid,
+                HIERARCHY_NO
+FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+       JOIN #SELECTED_REBATE r
+         ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+       JOIN CCP_DETAILS cd
+         ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+       JOIN (SELECT DISTINCT HIERARCHY_NO,
+                             CCP_DETAILS_SID
+             FROM   #SELECTED_HIERARCHY_NO) A
+         ON A.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER') IS NOT NULL
+  DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER
+SELECT DISTINCT DPM.CCP_DETAILS_SID,
+                PRICE_GROUP_TYPE,
+                RC.RS_NAME,
+                RC.RS_CONTRACT_SID,
+                USER_GROUP,
+                CHECK_RECORD
+INTO   #ST_NM_DISCOUNT_PROJ_MASTER
+FROM   ST_NM_DISCOUNT_PROJ_MASTER DPM
+       INNER JOIN #SELECTED_REBATE SRE
+               ON SRE.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID
+       INNER JOIN RS_CONTRACT RC
+               ON RC.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID
+                  AND RC.INBOUND_STATUS <> 'D'
+       INNER JOIN #SELECTED_HIERARCHY_NO SH
+               ON SH.CCP_DETAILS_SID = DPM.CCP_DETAILS_SID
+       INNER JOIN CCP_DETAILS CCP
+               ON CCP.CCP_DETAILS_SID = SH.CCP_DETAILS_SID
+                  AND RC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+WHERE  EXISTS(SELECT 1
+              FROM   CFP_CONTRACT CC
+                     INNER JOIN IFP_CONTRACT IC
+                             ON CC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
+                                AND CC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
+                     INNER JOIN PS_CONTRACT PC
+                             ON PC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
+                                AND PC.IFP_CONTRACT_SID = IC.IFP_CONTRACT_SID
+                                AND PC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
+              WHERE  RC.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
+                     AND CC.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                     AND CC.CFP_CONTRACT_SID = RC.CFP_CONTRACT_SID
+                     AND IC.IFP_CONTRACT_SID = RC.IFP_CONTRACT_SID
+                     AND PC.PS_CONTRACT_SID = RC.PS_CONTRACT_SID
+                     AND CC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
+                     AND IC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
+                     AND PC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
+                     AND CC.INBOUND_STATUS <> 'D'
+                     AND IC.INBOUND_STATUS <> 'D'
+                     AND PC.INBOUND_STATUS <> 'D')
+                     
+IF Object_id('TEMPDB..#EXFACTORY') IS NOT NULL
+  DROP TABLE #EXFACTORY
+SELECT HIERARCHY_NO,
+       Sum(EXFACTORY_ACTUAL_SALES)   EXFACTORY_ACTUAL_SALES,
+       Sum(EXFACTORY_FORECAST_SALES) EXFACTORY_FORECAST_SALES,
+       period,DISCOUNT,B.RS_CONTRACT_SID,
+       year,PARENT_HIERARCHY_NO
+INTO   #EXFACTORY
+FROM   ST_PRODUCT_FILE A
+       JOIN (SELECT DISTINCT item_master_sid,
+                             CASE
+                               WHEN 'R' = 'R' THEN rs_name
+                               ELSE price_group_type
+                             END discount,
+                             s.rs_contract_sid,
+                            P.HIERARCHY_NO,
+							P.PARENT_HIERARCHY_NO
+             FROM   ST_NM_DISCOUNT_PROJ_MASTER S
+                    JOIN #SELECTED_REBATE R
+                      ON s.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                    JOIN RS_CONTRACT rs
+                      ON rs.RS_CONTRACT_SID = r.RS_CONTRACT_SID
+                    JOIN CCP_DETAILS cd
+                      ON cd.CCP_DETAILS_SID = s.CCP_DETAILS_SID
+                    JOIN #SELECTED_HIERARCHY_NO1 SH
+                      ON SH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+                         AND s.RS_CONTRACT_SID = SH.RS_CONTRACT_SID
+						    INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=SH.HIERARCHY_NO
+				  AND SH.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND SH.RS_CONTRACT_SID = P.RS_CONTRACT_SID) b
+         ON a.item_master_sid = b.ITEM_MASTER_SID
+       JOIN #period p
+         ON p.PERIOD_SID = a.period_sid
+GROUP  BY HIERARCHY_NO,
+discount,b.rs_contract_sid,
+          period,
+          year,PARENT_HIERARCHY_NO
+
+IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
+  DROP TABLE #ACTUAL_SALES
+SELECT I.PERIOD,
+       I.YEAR,DISCOUNT,c.RS_CONTRACT_SID,
+       ACTUAL_SALES=Sum(ACTUAL_SALES),
+       ACTUAL_UNITS=Sum(ACTUAL_UNITS),
+     c.HIERARCHY_NO,p.PARENT_HIERARCHY_NO
+INTO   #ACTUAL_SALES
+FROM   ST_NM_ACTUAL_SALES S
+       INNER JOIN #SELECTED_HIERARCHY_NO1 C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+		INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=c.HIERARCHY_NO
+				  AND c.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = P.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+GROUP  BY I.PERIOD,
+          I.YEAR,
+          c.HIERARCHY_NO,DISCOUNT,c.RS_CONTRACT_SID,p.PARENT_HIERARCHY_NO
+          
+IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
+  DROP TABLE #ACTUAL_DISCOUNT
+SELECT I.PERIOD,
+       I.YEAR,
+       DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
+       C.HIERARCHY_NO,DISCOUNT,c.RS_CONTRACT_SID,p.PARENT_HIERARCHY_NO
+INTO   #ACTUAL_DISCOUNT
+FROM   ST_NM_ACTUAL_DISCOUNT S
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+       JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+            AND m.ccp_details_sid = s.ccp_details_sid
+       INNER JOIN #SELECTED_HIERARCHY_NO1 C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                  AND c.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+			   INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=C.HIERARCHY_NO
+				  AND C.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = P.RS_CONTRACT_SID
+ WHERE  EXISTS (SELECT 1
+                FROM   #SELECTED_REBATE sr
+                WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+ GROUP  BY I.PERIOD,
+           I.YEAR,
+           C.HIERARCHY_NO,
+		      P.PARENT_HIERARCHY_NO,DISCOUNT,c.RS_CONTRACT_SID
+                      
+IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
+  DROP TABLE #PROJECTION_SALES
+SELECT I.PERIOD,
+       I.YEAR,
+       PROJECTION_SALES=Sum(PROJECTION_SALES),
+       PROJECTION_UNITS=Sum(PROJECTION_UNITS),
+       c.HIERARCHY_NO,DISCOUNT,c.RS_CONTRACT_SID,p.PARENT_HIERARCHY_NO
+INTO   #PROJECTION_SALES
+FROM   ST_NM_SALES_PROJECTION S
+       INNER JOIN  #SELECTED_HIERARCHY_NO1 C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+			   INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=c.HIERARCHY_NO
+				  AND c.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = P.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+              ON I.PERIOD_SID = S.PERIOD_SID
+GROUP  BY I.PERIOD,
+          I.YEAR,
+          c.HIERARCHY_NO,DISCOUNT,c.RS_CONTRACT_SID,p.PARENT_HIERARCHY_NO
+IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
+  DROP TABLE #DISCOUNT_PROJECTION
+SELECT I.PERIOD,
+       I.YEAR,
+       PROJECTED_DISCOUNT=Sum(
+	   PROJECTION_SALES
+	   )
+	   ,
+       C.HIERARCHY_NO,DISCOUNT,c.RS_CONTRACT_SID,p.PARENT_HIERARCHY_NO
+INTO   #DISCOUNT_PROJECTION
+FROM  
+
+ ST_NM_DISCOUNT_PROJECTION S
+       JOIN RS_CONTRACT rs
+         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
+       INNER JOIN #PERIOD I
+               ON I.PERIOD_SID = S.PERIOD_SID
+       JOIN ST_NM_DISCOUNT_PROJ_MASTER m
+         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+            AND m.ccp_details_sid = s.ccp_details_sid
+       INNER JOIN #SELECTED_HIERARCHY_NO1 C
+               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
+                  AND c.RS_CONTRACT_SID = s.RS_CONTRACT_SID
+				    INNER JOIN #SELECTED_HIERARCHY_NO P
+				   ON P.HIERARCHY_NO=C.HIERARCHY_NO
+				  AND C.CCP_DETAILS_SID = P.CCP_DETAILS_SID
+                   AND c.RS_CONTRACT_SID = P.RS_CONTRACT_SID
+			  
+ WHERE  EXISTS (SELECT 1
+                FROM   #SELECTED_REBATE sr
+                WHERE  sr.RS_CONTRACT_SID = s.RS_CONTRACT_SID)
+ GROUP  BY I.PERIOD,
+           I.YEAR,
+           C.HIERARCHY_NO
+		   ,
+		      P.PARENT_HIERARCHY_NO
+			  ,DISCOUNT,
+			  c.RS_CONTRACT_SID
+IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+  DROP TABLE #DISCOUNT_PROJECTION_MASTER
+SELECT DISTINCT USER_GROUP=Max(DM.USER_GROUP),
+                HIERARCHY_NO,p.RS_CONTRACT_SID,DISCOUNT
+INTO   #DISCOUNT_PROJECTION_MASTER
+FROM   #SELECTED_HIERARCHY_NO1 P
+       INNER JOIN #ST_NM_DISCOUNT_PROJ_MASTER DM
+               ON P.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
+                        and p.RS_CONTRACT_SID = DM.RS_CONTRACT_SID
+       INNER JOIN #SELECTED_REBATE SR
+               ON SR.RS_CONTRACT_SID = DM.RS_CONTRACT_SID
+GROUP  BY HIERARCHY_NO,p.RS_CONTRACT_SID,DISCOUNT
+
+SELECT   DPM.HIERARCHY_NO,
+       AD.YEAR,
+       AD.PERIOD,
+       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES, 0), 0) * 100           AS ACTUAL_RATE,
+       DISCOUNT_ACTUALS                                                        AS ACTUAL_SALES,
+       COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)                 AS ACTUAL_RPU,
+       NULL                                                                    AS PROJECTION_RATE,
+       NULL                                                                    AS PROJECTION_SALES,
+       NULL                                                                    AS PROJECTION_RPU,
+       0                                                                       AS AP_TABLE_INDICATOR,
+       E.PARENT_HIERARCHY_NO,
+       LEVEL_NO,
+       COALESCE(DISCOUNT_ACTUALS / NULLIF(EXFACTORY_ACTUAL_SALES, 0), 0) * 100 AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+       NULL                                                                    AS EXFACT_DOLLAR_FORE_PERCENT
+       ,DPM.DISCOUNT
+
+FROM   #DISCOUNT_PROJECTION_MASTER DPM
+       INNER JOIN #ACTUAL_DISCOUNT AD
+               ON DPM.HIERARCHY_NO = AD.HIERARCHY_NO
+                         AND dpm.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+       INNER JOIN #ACTUAL_SALES SA
+               ON SA.YEAR = AD.YEAR
+                  AND SA.PERIOD = AD.PERIOD
+                  AND SA.HIERARCHY_NO = AD.HIERARCHY_NO
+                             AND sa.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+							 and coalesce(sa.PARENT_HIERARCHY_NO,sa.HIERARCHY_NO)=coalesce(ad.PARENT_HIERARCHY_NO,ad.HIERARCHY_NO)
+       JOIN #EXFACTORY e
+         ON e.YEAR = AD.YEAR
+            AND e.PERIOD = AD.PERIOD
+            AND e.HIERARCHY_NO = AD.HIERARCHY_NO
+			and coalesce(e.PARENT_HIERARCHY_NO,e.HIERARCHY_NO) = coalesce(AD.PARENT_HIERARCHY_NO,AD.HIERARCHY_NO) 
+                       AND e.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+       INNER JOIN (SELECT DISTINCT HIERARCHY_NO,
+                                   PARENT_HIERARCHY_NO,
+                                   LEVEL_NO
+                   FROM   #SELECTED_HIERARCHY_NO) SH
+               ON DPM.HIERARCHY_NO = SH.HIERARCHY_NO
+
+UNION ALL
+SELECT  DPM.HIERARCHY_NO,
+       AD.YEAR,
+       AD.PERIOD,
+       NULL                                                                        AS ACTUAL_RATE,
+       NULL                                                                        AS ACTUAL_SALES,
+       NULL                                                                        AS ACTUAL_RPU,
+       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_SALES, 0), 0) * 100         AS PROJECTION_RATE,
+       PROJECTED_DISCOUNT                                                          AS PROJECTION_SALES,
+       COALESCE(PROJECTED_DISCOUNT / NULLIF(PROJECTION_UNITS, 0), 0)               AS PROJECTION_RPU,
+       1                                                                           AS AP_TABLE_INDICATOR,
+       E.PARENT_HIERARCHY_NO,
+       LEVEL_NO,
+       NULL                                                                        AS EXFACT_DOLLAR_ACTUAL_PERCENT,
+       COALESCE(PROJECTED_DISCOUNT / NULLIF(COALESCE(EXFACTORY_FORECAST_SALES,EXFACTORY_ACTUAL_SALES), 0), 0) * 100 AS EXFACT_DOLLAR_FORE_PERCENT
+         ,DPM.DISCOUNT
+
+FROM   #DISCOUNT_PROJECTION_MASTER DPM
+       INNER JOIN #DISCOUNT_PROJECTION AD
+               ON DPM.HIERARCHY_NO = AD.HIERARCHY_NO
+                          AND dpm.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+       INNER JOIN #PROJECTION_SALES SA
+               ON SA.YEAR = AD.YEAR
+                  AND SA.PERIOD = AD.PERIOD
+                  AND SA.HIERARCHY_NO = AD.HIERARCHY_NO
+                               AND sa.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+							   and coalesce(sa.PARENT_HIERARCHY_NO,sa.HIERARCHY_NO)=coalesce(ad.PARENT_HIERARCHY_NO,ad.HIERARCHY_NO)
+       JOIN #EXFACTORY e
+         ON e.YEAR = AD.YEAR
+            AND e.PERIOD = AD.PERIOD
+            AND e.HIERARCHY_NO = AD.HIERARCHY_NO
+			and coalesce(e.PARENT_HIERARCHY_NO,e.HIERARCHY_NO) = coalesce(AD.PARENT_HIERARCHY_NO,AD.HIERARCHY_NO) 
+                       AND e.RS_CONTRACT_SID = AD.RS_CONTRACT_SID
+       INNER JOIN (SELECT DISTINCT HIERARCHY_NO,
+                                   PARENT_HIERARCHY_NO,
+                                   LEVEL_NO
+                   FROM   #SELECTED_HIERARCHY_NO) SH
+               ON DPM.HIERARCHY_NO = SH.HIERARCHY_NO
+ORDER  BY LEVEL_NO,
+          DPM.HIERARCHY_NO,
+          PARENT_HIERARCHY_NO,
+          DISCOUNT,
+          YEAR,
+          PERIOD,
+          AP_TABLE_INDICATOR;
+ 
+            ]]>
+        </query>
+     </entity>
+</sql>

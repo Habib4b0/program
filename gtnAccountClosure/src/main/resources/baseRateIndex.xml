@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="dsVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="panel1" caption="Selection Criteria">
+
+            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
+
+                <GridLayout spacing="true"  id="dsLayout" immediate="true" columns="4" rows="3">
+                    <Label caption="Company: " contentMode="HTML" />
+                    <ComboBox id="CompanyId" immediate="true" />
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

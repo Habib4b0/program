@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+   
+    <entity id="getNMProjDetailsSid_Query">
+        <query> 
+            <![CDATA[
+                IF Object_id('TEMPDB..#PROJECTION_DETAILS') IS NOT NULL
+                DROP TABLE #PROJECTION_DETAILS;
+            WITH CCPMAP
+            AS (
+                    SELECT RLD.RELATIONSHIP_LEVEL_VALUES
+                            ,RLD.HIERARCHY_NO
+                            ,CCP.CCP_DETAILS_SID
+                            ,pd.PROJECTION_DETAILS_SID
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID
+                    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                    WHERE PD.PROJECTION_MASTER_SID = '?PROJSID'
+                ),HLD
+            AS (
+                    SELECT RLD1.HIERARCHY_NO
+                            ,RLD1.RELATIONSHIP_LEVEL_SID
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD1
+                    JOIN ?TABLENAME PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID
+                            AND PCH.PROJECTION_MASTER_SID = ?PROJSID
+                    WHERE RLD1.HIERARCHY_NO LIKE '?HIERNO'
+                            AND RLD1.LEVEL_NO = '?LEVELNO'
+                ),LCCP
+            AS (
+                    SELECT C.CCP_DETAILS_SID
+                            ,C.PROJECTION_DETAILS_SID
+                            ,C.HIERARCHY_NO
+                    FROM CCPMAP C
+                    WHERE EXISTS (
+                                    SELECT 1
+                                    FROM HLD H
+                                    WHERE C.HIERARCHY_NO LIKE H.HIERARCHY_NO + '%'
+                                    )
+                ),PROJ_DETAILS
+            AS (
+                    SELECT DISTINCT PD.CCP_DETAILS_SID
+                    FROM LCCP L
+                    INNER JOIN PROJECTION_DETAILS PD ON L.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+                )
+
+            SELECT * INTO #PROJECTION_DETAILS FROM PROJ_DETAILS
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getNMDPRProjectionTotal_Query_New">
+        <query> 
+            <![CDATA[
+                        ;WITH CTE AS (
+                        SELECT PD.CCP_DETAILS_SID,ST.RS_CONTRACT_SID,RSM.RS_NAME FROM ST_NM_DISCOUNT_PROJ_MASTER ST
+                        INNER JOIN #PROJECTION_DETAILS PD
+                        ON ST.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                        JOIN RS_CONTRACT RSM ON RSM.RS_CONTRACT_SID = ST.RS_CONTRACT_SID
+			AND RSM.RS_NAME IN (?DISCOUNTNAME) )
+
+
+                        SELECT ?FREQUENCY
+                                0.00 AS ACTUAL_SALES
+                                ,0.00 AS ACTUAL_DISCOUNT
+                                ,SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES
+                                ,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_SALES),0) ) * 100 AS PROJECTION_RATE
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_UNITS),0) ) as PROJECTION_RPU
+                                ,0.00 AS ACTUAL_RATE
+                                ,0.00 AS ACTUAL_RPU
+                                ,'Projections' AS Projection
+                                ?RSNAME
+                        FROM CTE NMDPM 
+                        JOIN ST_NM_DISCOUNT_PROJECTION NMDP ON NMDP.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                                AND NMDPM.RS_CONTRACT_SID = NMDP.RS_CONTRACT_SID
+                        JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID 
+                                ?PERIODCOND
+                        LEFT JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID
+                                AND NMSP.CCP_DETAILS_SID=NMDPM.CCP_DETAILS_SID
+                        
+                                ?GRSNAME
+
+                        UNION ALL
+
+                        SELECT ?FREQUENCY
+                                SUM(NMAS.ACTUAL_SALES) AS ACTUAL_SALES
+                                ,SUM(NMAD.ACTUAL_SALES) AS ACTUAL_DISCOUNT
+                                ,0.00 AS PROJECTION_SALES
+                                ,0.00 AS PROJECTION_DISCOUNT
+                                ,0.00 AS PROJECTION_RATE
+                                ,0.00 AS PROJECTION_RPU
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_SALES),0) ) * 100 AS ACTUAL_RATE
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_UNITS),0) ) as ACTUAL_RPU
+                                ,'Actuals' AS Projection
+                                ?RSNAME
+                        FROM CTE NMDPM
+                        JOIN ST_NM_ACTUAL_DISCOUNT NMAD ON NMAD.CCP_DETAILS_SID= NMDPM.CCP_DETAILS_SID
+                            AND NMDPM.RS_CONTRACT_SID = NMAD.RS_CONTRACT_SID
+                        JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID 
+                                ?PERIODCOND
+                        LEFT JOIN ST_NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID
+                            AND NMAS.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                            
+                        
+                                ?GRSNAME
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getNMProjDetailsSid_CustomQuery_New">
+        <query> 
+            <![CDATA[
+                
+                        SELECT ?FREQUENCY
+                                0.00 AS ACTUAL_SALES
+                                ,0.00 AS ACTUAL_DISCOUNT
+                                ,SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES
+                                ,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_SALES),0) ) * 100 AS PROJECTION_RATE
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_UNITS),0) ) as PROJECTION_RPU
+                                ,0.00 AS ACTUAL_RATE
+                                ,0.00 AS ACTUAL_RPU
+                                ,'Projections' AS Projection
+                                ?RSNAME
+                                
+                        FROM #PROJECTION_DETAILS NMDPM 
+                        JOIN ST_NM_DISCOUNT_PROJECTION NMDP ON NMDP.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                                AND NMDPM.RS_CONTRACT_SID = NMDP.RS_CONTRACT_SID
+                        JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID 
+                                ?PERIODCOND
+                        JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID
+                                AND NMSP.CCP_DETAILS_SID=NMDP.CCP_DETAILS_SID
+                        
+                        
+                                ?GRSNAME
+
+                        UNION ALL
+
+                        SELECT ?FREQUENCY
+                                SUM(NMAS.ACTUAL_SALES) AS ACTUAL_SALES
+                                ,SUM(NMAD.ACTUAL_SALES) AS ACTUAL_DISCOUNT
+                                ,0.00 AS PROJECTION_SALES
+                                ,0.00 AS PROJECTION_DISCOUNT
+                                ,0.00 AS PROJECTION_RATE
+                                ,0.00 AS PROJECTION_RPU
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_SALES),0) ) * 100 AS ACTUAL_RATE
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_UNITS),0) ) as ACTUAL_RPU
+                                ,'Actuals' AS Projection
+                                ?RSNAME
+                                
+                        FROM #PROJECTION_DETAILS NMDPM
+                         JOIN ST_NM_ACTUAL_DISCOUNT NMAD ON NMAD.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                                 AND NMDPM.RS_CONTRACT_SID = NMAD.RS_CONTRACT_SID
+                         JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID 
+                                ?PERIODCOND
+                         JOIN ST_NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID
+                                 AND NMAS.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+
+                        
+                                ?GRSNAME         
+                
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getNMDPRProjectionTotal_Query_View_New">
+        <query> 
+            <![CDATA[
+                        ;WITH CTE AS (
+                        SELECT PD.CCP_DETAILS_SID,ST.RS_CONTRACT_SID,RSM.RS_NAME FROM NM_DISCOUNT_PROJ_MASTER ST
+                        INNER JOIN #PROJECTION_DETAILS PD
+                        ON ST.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+                        JOIN RS_CONTRACT RSM ON RSM.RS_CONTRACT_SID = ST.RS_CONTRACT_SID
+			AND RSM.RS_NAME IN (?DISCOUNTNAME) )
+
+
+                        SELECT ?FREQUENCY
+                                0.00 AS ACTUAL_SALES
+                                ,0.00 AS ACTUAL_DISCOUNT
+                                ,SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES
+                                ,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_SALES),0) ) * 100 AS PROJECTION_RATE
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_UNITS),0) ) as PROJECTION_RPU
+                                ,0.00 AS ACTUAL_RATE
+                                ,0.00 AS ACTUAL_RPU
+                                ,'Projections' AS Projection
+                                ?RSNAME
+                        FROM CTE NMDPM 
+                        JOIN NM_DISCOUNT_PROJECTION NMDP ON NMDP.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                                AND NMDPM.RS_CONTRACT_SID = NMDP.RS_CONTRACT_SID
+                        JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID 
+                                ?PERIODCOND
+                        LEFT JOIN NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID
+                                AND NMSP.CCP_DETAILS_SID=NMDPM.CCP_DETAILS_SID
+                        
+                                ?GRSNAME
+
+                        UNION ALL
+
+                        SELECT ?FREQUENCY 
+                                SUM(NMAS.ACTUAL_SALES) AS ACTUAL_SALES
+                                ,SUM(NMAD.ACTUAL_SALES) AS ACTUAL_DISCOUNT
+                                ,0.00 AS PROJECTION_SALES
+                                ,0.00 AS PROJECTION_DISCOUNT
+                                ,0.00 AS PROJECTION_RATE
+                                ,0.00 AS PROJECTION_RPU
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_SALES),0) ) * 100 AS ACTUAL_RATE
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_UNITS),0) ) as ACTUAL_RPU
+                                ,'Actuals' AS Projection
+                                ?RSNAME
+                        FROM CTE NMDPM
+                        JOIN NM_ACTUAL_DISCOUNT NMAD ON NMAD.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                            AND NMDPM.RS_CONTRACT_SID = NMAD.RS_CONTRACT_SID
+                        JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID 
+                                ?PERIODCOND
+                        LEFT JOIN NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID
+                            AND NMAS.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                            
+                        
+                                ?GRSNAME
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getNMProjDetailsSid_CustomQuery_View_New">
+        <query> 
+            <![CDATA[
+                
+                        SELECT ?FREQUENCY
+                                0.00 AS ACTUAL_SALES
+                                ,0.00 AS ACTUAL_DISCOUNT
+                                ,SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES
+                                ,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_SALES),0) ) * 100 AS PROJECTION_RATE
+                                ,(SUM(NMDP.PROJECTION_SALES)/ nullif(sum(NMSP.PROJECTION_UNITS),0) ) as PROJECTION_RPU
+                                ,0.00 AS ACTUAL_RATE
+                                ,0.00 AS ACTUAL_RPU
+                                ,'Projections' AS Projection
+                                ?RSNAME
+                                
+                        FROM #PROJECTION_DETAILS NMDPM 
+                        JOIN NM_DISCOUNT_PROJECTION NMDP ON NMDP.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                                AND NMDPM.RS_CONTRACT_SID = NMDP.RS_CONTRACT_SID
+                        JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID 
+                                ?PERIODCOND
+                        JOIN NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID
+                                AND NMSP.CCP_DETAILS_SID=NMDP.CCP_DETAILS_SID
+                        
+                        
+                                ?GRSNAME
+
+                        UNION ALL
+
+                        SELECT ?FREQUENCY
+                                SUM(NMAS.ACTUAL_SALES) AS ACTUAL_SALES
+                                ,SUM(NMAD.ACTUAL_SALES) AS ACTUAL_DISCOUNT
+                                ,0.00 AS PROJECTION_SALES
+                                ,0.00 AS PROJECTION_DISCOUNT
+                                ,0.00 AS PROJECTION_RATE
+                                ,0.00 AS PROJECTION_RPU
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_SALES),0) ) * 100 AS ACTUAL_RATE
+                                ,(SUM(NMAD.ACTUAL_SALES)/ nullif(sum(NMAS.ACTUAL_UNITS),0) ) as ACTUAL_RPU
+                                ,'Actuals' AS Projection
+                                ?RSNAME
+                                
+                        FROM #PROJECTION_DETAILS NMDPM
+                         JOIN NM_ACTUAL_DISCOUNT NMAD ON NMAD.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+                                 AND NMDPM.RS_CONTRACT_SID = NMAD.RS_CONTRACT_SID
+                         JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID 
+                                ?PERIODCOND
+                         JOIN NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID
+                                 AND NMAS.CCP_DETAILS_SID = NMDPM.CCP_DETAILS_SID
+
+                        
+                                ?GRSNAME         
+                
+            ]]>
+        </query>
+    </entity>
+    
+</sql>

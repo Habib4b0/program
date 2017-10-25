@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="insert_temp_table_query">
+        <query>
+    		<![CDATA[
+        INSERT
+            INTO
+                GCM_GLOBAL_DETAILS(
+                    SCREEN_NAME,
+                    SESSION_ID,
+                    USER_ID,
+                    CHECK_RECORD,
+                    CONTRACT_MASTER_SID,
+                    CFP_MODEL_SID,
+                    IFP_MODEL_SID,
+                    PS_MODEL_SID,
+                    RS_MODEL_SID
+                ) SELECT
+                    'REMOVE_DISCOUNT',
+                    '@SESSION_ID',
+                    '@USER_ID',
+                    0,
+                    CN.CONTRACT_MASTER_SID,
+                    CFC.CFP_MODEL_SID,
+                    IFC.IFP_MODEL_SID,
+                    PSC.PS_MODEL_SID,
+                    RSC.RS_CONTRACT_SID
+                FROM
+                    CONTRACT_MASTER CN LEFT OUTER JOIN CONTRACT_ALIAS_MASTER CAM
+                        ON CAM.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID LEFT JOIN RS_CONTRACT RSC
+                        ON CN.CONTRACT_MASTER_SID = RSC.CONTRACT_MASTER_SID LEFT JOIN IFP_CONTRACT IFC
+                        ON RSC.IFP_CONTRACT_SID = IFC.IFP_CONTRACT_SID LEFT JOIN PS_CONTRACT PSC
+                        ON RSC.PS_CONTRACT_SID = PSC.PS_CONTRACT_SID LEFT JOIN CFP_CONTRACT CFC
+                        ON RSC.CFP_CONTRACT_SID = CFC.CFP_CONTRACT_SID LEFT JOIN COMPANY_MASTER CM
+                        ON CN.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID,
+                    HELPER_TABLE HT
+                WHERE
+                    CN.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+                    AND CN.RECORD_LOCK_STATUS = 'false'
+                    AND CN.INBOUND_STATUS != 'D'
+                    AND RSC.INBOUND_STATUS != 'D'
+                    AND CFC.INBOUND_STATUS != 'D'
+                    AND IFC.INBOUND_STATUS != 'D'
+                    AND PSC.INBOUND_STATUS != 'D'
+                    AND CN.CONTRACT_MASTER_SID LIKE '@CONTRACT_MASTER_SID'
+		]]>
+        </query>
+    </entity>
+    <entity id="remove_discount_get_checkRecord_value">
+        <query>
+    		<![CDATA[
+                    SELECT
+                        CONTRACT_MASTER_SID
+                    FROM
+                        GCM_GLOBAL_DETAILS
+                    WHERE
+                        CHECK_RECORD = 1
+                        AND CONTRACT_MASTER_SID = @CONTRACT_MASTER_SID
+                        AND USER_ID = @USER_ID
+                        AND SESSION_ID = @SESSION_ID;
+		]]>
+        </query>
+    </entity>
+    <entity id="remove_discount_update_checkRecord_value">
+        <query>
+    		<![CDATA[
+                    UPDATE GCM_GLOBAL_DETAILS SET CHECK_RECORD = @CHECK_RECORD
+                    WHERE SCREEN_NAME = 'REMOVE_DISCOUNT' AND SESSION_ID = '${sessionId}'
+                    AND USER_ID = '${userId}'
+                    AND CONTRACT_MASTER_SID = '${contractSid}'
+                    AND CFP_MODEL_SID = '${cfpSid}'
+                    AND IFP_MODEL_SID = '${ifpSid}'
+                    AND PS_MODEL_SID = '${psSid}'
+                    AND RS_MODEL_SID = '${rsSid}' 
+		]]>
+        </query>
+    </entity>
+    <entity id="rd.selectedContractCount">
+        <query>
+    		<![CDATA[
+                    select count(*) from ( select distinct CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,CN.START_DATE,CN.END_DATE,CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,CN.CONTRACT_MASTER_SID,CFC.CFP_MODEL_SID,
+                    IFC.IFP_MODEL_SID,PSC.PS_MODEL_SID,RSC.RS_CONTRACT_SID,CM.COMPANY_MASTER_SID ,CN.CONTRACT_ID
+                    from CONTRACT_MASTER CN
+                    LEFT JOIN dbo.GCM_GLOBAL_DETAILS TEMP on TEMP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID AND TEMP.CHECK_RECORD = 1 
+                    LEFT JOIN dbo.RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID = TEMP.RS_MODEL_SID AND RSC.INBOUND_STATUS!='D' 
+                    LEFT JOIN dbo.IFP_CONTRACT IFC ON IFC.IFP_MODEL_SID = TEMP.IFP_MODEL_SID AND IFC.INBOUND_STATUS!='D'  
+                    LEFT JOIN dbo.PS_CONTRACT PSC ON PSC.PS_MODEL_SID = TEMP.PS_MODEL_SID AND PSC.INBOUND_STATUS!='D' 
+                    LEFT JOIN dbo.CFP_CONTRACT CFC ON CFC.CFP_MODEL_SID = TEMP.CFP_MODEL_SID AND CFC.INBOUND_STATUS!='D' 
+                    LEFT JOIN COMPANY_MASTER CM ON CN.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+                    LEFT JOIN HELPER_TABLE HT ON CN.CONTRACT_TYPE = HT.HELPER_TABLE_SID  
+                    LEFT JOIN HELPER_TABLE HT1
+                   ON RSC.RS_STATUS = HT1.HELPER_TABLE_SID
+                   LEFT JOIN HELPER_TABLE HT2
+                   ON RSC.RS_TYPE = HT2.HELPER_TABLE_SID
+                   LEFT JOIN DBO.HELPER_TABLE CN_ST 
+                    ON CN_ST.HELPER_TABLE_SID=CN.CONTRACT_STATUS
+
+                    WHERE CN.RECORD_LOCK_STATUS='false' AND CN.INBOUND_STATUS!='D' AND TEMP.SCREEN_NAME = 'REMOVE_DISCOUNT' AND TEMP.USER_ID = [$USERID] AND TEMP.SESSION_ID = [$SESSIONID] 
+                    @RS_SID_CHECK
+                    ?
+                    @filter@
+                    GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,
+                    CN.START_DATE,CN.END_DATE,
+                    CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,
+                    CN.CONTRACT_MASTER_SID,CFC.CFP_MODEL_SID,
+                    IFC.IFP_MODEL_SID,PSC.PS_MODEL_SID,
+                    RSC.RS_CONTRACT_SID,CM.COMPANY_MASTER_SID,CN.CONTRACT_ID ) c 
+		]]>
+        </query>
+    </entity>
+    <entity id="rd.selectedContractData">
+        <query>
+    		<![CDATA[
+                    select distinct CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,CN.START_DATE,CN.END_DATE,CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,CN.CONTRACT_MASTER_SID,CFC.CFP_MODEL_SID,
+                    IFC.IFP_MODEL_SID,PSC.PS_MODEL_SID,RSC.RS_CONTRACT_SID,CM.COMPANY_MASTER_SID ,CN.CONTRACT_ID,CN_ST.DESCRIPTION AS STATUS
+                     from CONTRACT_MASTER CN
+                     LEFT JOIN dbo.GCM_GLOBAL_DETAILS TEMP on TEMP.CONTRACT_MASTER_SID = CN.CONTRACT_MASTER_SID AND TEMP.CHECK_RECORD = 1 
+                     LEFT JOIN dbo.RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID = TEMP.RS_MODEL_SID AND RSC.INBOUND_STATUS!='D' 
+                    LEFT JOIN dbo.IFP_CONTRACT IFC ON IFC.IFP_MODEL_SID = TEMP.IFP_MODEL_SID AND IFC.INBOUND_STATUS!='D'  
+                     LEFT JOIN dbo.PS_CONTRACT PSC ON PSC.PS_MODEL_SID = TEMP.PS_MODEL_SID AND PSC.INBOUND_STATUS!='D' 
+                     LEFT JOIN dbo.CFP_CONTRACT CFC ON CFC.CFP_MODEL_SID = TEMP.CFP_MODEL_SID AND CFC.INBOUND_STATUS!='D' 
+                     LEFT JOIN COMPANY_MASTER CM ON CN.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+                    LEFT JOIN HELPER_TABLE HT ON CN.CONTRACT_TYPE = HT.HELPER_TABLE_SID  
+                     LEFT JOIN HELPER_TABLE HT1
+                   ON RSC.RS_STATUS = HT1.HELPER_TABLE_SID
+                   LEFT JOIN HELPER_TABLE HT2
+                   ON RSC.RS_TYPE = HT2.HELPER_TABLE_SID
+                   LEFT JOIN DBO.HELPER_TABLE CN_ST 
+                        ON CN_ST.HELPER_TABLE_SID=CN.CONTRACT_STATUS
+
+                    WHERE CN.RECORD_LOCK_STATUS='false' AND CN.INBOUND_STATUS!='D' AND TEMP.SCREEN_NAME = 'REMOVE_DISCOUNT' AND TEMP.USER_ID = [$USERID] AND TEMP.SESSION_ID = [$SESSIONID] 
+                    @RS_SID_CHECK
+                    ?
+                    @filter@
+                    GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,
+                    CN.START_DATE,CN.END_DATE,
+                    CFC.CFP_NAME,IFC.IFP_NAME,PSC.PS_NAME,RSC.RS_NAME,
+                    CN.CONTRACT_MASTER_SID,CFC.CFP_MODEL_SID,
+                    IFC.IFP_MODEL_SID,PSC.PS_MODEL_SID,
+                    RSC.RS_CONTRACT_SID,CM.COMPANY_MASTER_SID,CN.CONTRACT_ID,CN_ST.DESCRIPTION ORDER BY  CN.CONTRACT_MASTER_SID  
+		]]>
+        </query>
+    </entity>
+</sql>

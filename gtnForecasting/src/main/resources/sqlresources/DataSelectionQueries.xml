@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql> 
+    <entity id="GET_CONTRACT_LEVEL">
+        <query> 
+                    <![CDATA[
+        SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO 
+        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
+        AND LEVEL_NAME = 'CONTRACT' AND (@HIERARCHY_DETAILS)
+                            ]]>
+        </query>
+    </entity>
+    
+    <entity id="GET_CUSTOMER_LEVEL">
+        <query> 
+                    <![CDATA[
+        SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO 
+        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
+        AND (LEVEL_NAME = 'Customer' OR LEVEL_NAME = 'Trading Partner' OR  LEVEL_NAME = 'TradingPartner') AND (@HIERARCHY_DETAILS)
+                            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="GET_PRODUCT_LEVEL">
+        <query> 
+                    <![CDATA[
+       SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES
+        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
+        AND (LEVEL_NAME = 'Item' OR LEVEL_NAME = 'Product' OR  LEVEL_NAME = 'NDC') AND (@HIERARCHY_DETAILS)
+                            ]]>
+        </query>
+    </entity>
+    
+    <entity id="CCP_HIERARCHY_INSERT">
+        <query> 
+                    <![CDATA[
+   IF Object_id('tempdb..#COMP_CONT') IS NOT NULL
+  DROP TABLE #COMP_CONT
+
+CREATE TABLE #COMP_CONT
+  (
+     COMPANY_MASTER_SID  INT,
+     CONTRACT_MASTER_SID INT,
+     HIERARCHY_NO        VARCHAR(50)
+  );
+
+WITH contract
+     AS (@CONTRACT),
+     company
+     AS (@CUSTOMER)
+     
+     INSERT INTO #COMP_CONT
+            (COMPANY_MASTER_SID,
+             CONTRACT_MASTER_SID,
+             HIERARCHY_NO)
+SELECT COM.RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
+       C.RELATIONSHIP_LEVEL_VALUES   AS CONTRACT_MASTER_SID,
+       com.HIERARCHY_NO
+FROM   COMPANY COM
+       JOIN CONTRACT C
+         ON @FILTER + '%' -- LHS Should have bigger level no than RHS
+IF Object_id('tempdb..#ITEM') IS NOT NULL
+  DROP TABLE #ITEM
+
+CREATE TABLE #ITEM
+  (
+     ITEM_MASTER_SID INT,
+     HIERARCHY_NO    VARCHAR(50)
+  );
+
+INSERT INTO #ITEM
+            (HIERARCHY_NO,ITEM_MASTER_SID)
+@PRODUCT
+
+INSERT INTO ST_CCP_HIERARCHY
+            (CCP_DETAILS_SID,
+             CUST_HIERARCHY_NO,
+             PROD_HIERARCHY_NO)
+SELECT CD.CCP_DETAILS_SID,
+       CC.HIERARCHY_NO,
+       I.HIERARCHY_NO
+FROM   #COMP_CONT CC
+       JOIN CCP_DETAILS CD
+         ON CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+            AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+       JOIN #ITEM I
+         ON I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID 
+
+                         ]]>
+        </query>
+    </entity>
+                
+ <entity id="CCP_HIERARCHY_INSERT_CUST_INSERTION">
+        <query> 
+                    <![CDATA[    
+    INSERT INTO #COMP_CONT
+            (COMPANY_MASTER_SID,
+             CONTRACT_MASTER_SID,
+             HIERARCHY_NO)
+SELECT COM.RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
+       C.RELATIONSHIP_LEVEL_VALUES   AS CONTRACT_MASTER_SID,
+       com.HIERARCHY_NO
+FROM   COMPANY COM
+       JOIN CONTRACT C
+         ON COM.HIERARCHY_NO LIKE C.HIERARCHY_NO + '%' -- LHS Should have bigger level no than RHS
+             ]]>
+        </query>
+   </entity>
+    
+    <entity id="CCP_HIERARCHY_INSERT_PRODUCT">
+        <query> 
+                    <![CDATA[ 
+                    IF Object_id('tempdb..#ITEM') IS NOT NULL
+  DROP TABLE #ITEM
+
+CREATE TABLE #ITEM
+  (
+     ITEM_MASTER_SID INT,
+     HIERARCHY_NO    VARCHAR(50)
+  );
+
+INSERT INTO #ITEM
+            (ITEM_MASTER_SID,
+             HIERARCHY_NO)
+SELECT RELATIONSHIP_LEVEL_VALUES,
+       HIERARCHY_NO
+FROM   RELATIONSHIP_LEVEL_DEFINITION
+WHERE  RELATIONSHIP_BUILDER_SID = 63
+       AND ( LEVEL_NAME = 'Item'
+              OR LEVEL_NAME = 'Product'
+              OR LEVEL_NAME = 'NDC' )
+       AND ( HIERARCHY_NO LIKE '63-1.%' )
+   
+             ]]>
+        </query>
+   </entity>        
+                    
+   <entity id="PROJECTION_CUST_HIERARCHY">
+       <query> 
+             <![CDATA[              
+                    Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)
+             ]]>
+       </query>
+   </entity>  
+   
+   <entity id="PROJECTION_PROD_HIERARCHY">
+       <query> 
+             <![CDATA[              
+                    Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)
+             ]]>
+       </query>
+   </entity>  
+   
+   <entity id="PROJECTION_DETAILS_INSERT">
+       <query> 
+             <![CDATA[              
+           INSERT INTO PROJECTION_DETAILS (PROJECTION_MASTER_SID, CCP_DETAILS_SID) 
+           SELECT DISTINCT @PROJECTION_MASTER_SID, 
+                   CCP_DETAILS_SID
+           FROM  ST_CCP_HIERARCHY 
+             ]]>
+       </query>
+   </entity>  
+     
+   <entity id="EDIT_MODE_PROJECTION_CUST_SELECTION">
+       <query> 
+             <![CDATA[   
+     SELECT HIERARCHY_NO,RELATIONSHIP_LEVEL_VALUES,LEVEL_NO,LEVEL_NAME from RELATIONSHIP_LEVEL_DEFINITION RLD 
+JOIN PROJECTION_CUST_HIERARCHY PCH ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID
+WHERE PCH.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+     ]]>
+       </query>
+   </entity>     
+   
+   <entity id="EDIT_MODE_PROJECTION_PROD_SELECTION">
+       <query> 
+             <![CDATA[   
+   SELECT HIERARCHY_NO,RELATIONSHIP_LEVEL_VALUES,LEVEL_NO,LEVEL_NAME from RELATIONSHIP_LEVEL_DEFINITION RLD 
+JOIN PROJECTION_PROD_HIERARCHY PPH ON RLD.RELATIONSHIP_LEVEL_SID = PPH.RELATIONSHIP_LEVEL_SID
+WHERE PPH.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID   
+       ]]>
+       </query>
+   </entity>     
+   
+   <entity id="DELETION">
+       <query> 
+   <![CDATA[   
+   DELETE FROM @TABLE_NAME 
+      ]]>
+       </query>
+   </entity> 
+   
+   <entity id="PROJECTION_DETAILS_INSERT_DS_TAB">
+       <query> 
+   <![CDATA[   
+  DECLARE @PROJECTION_SID INT = @PROJECTION_MASTER_SID
+
+MERGE PROJECTION_DETAILS AS TARGET
+USING ST_CCP_HIERARCHY AS SOURCE
+ON TARGET.CCP_DETAILS_SID = SOURCE.CCP_DETAILS_SID
+   AND PROJECTION_MASTER_SID = @PROJECTION_SID
+WHEN NOT MATCHED BY TARGET THEN
+  INSERT (PROJECTION_MASTER_SID,
+          CCP_DETAILS_SID)
+  VALUES (@PROJECTION_SID,
+          CCP_DETAILS_SID)
+WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
+  DELETE; 
+
+      ]]>
+       </query>
+   </entity>   
+         
+               
+   <entity id="getHierarchyTableDetails">
+        <query> 
+            <![CDATA[         
+                SELECT distinct 
+                CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'LEVEL_VALUES' ELSE 
+                    CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME OR JVIEW.REFERENCE_TABLE_NAME='HELPER_TABLE' THEN JVIEW.REFERENCE_COLUMN_NAME ELSE JVIEW.DESC_COLUMN_NAME END END DISPLAY_COLUMN,
+                CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES' ELSE 
+                    CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME THEN HLD.TABLE_NAME ELSE JVIEW.REFERENCE_TABLE_NAME  END END H_TABLE_NAME,
+                CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES_SID' ELSE 
+                    CASE WHEN JVIEW.MAPPING_COLUMN_NAME is null THEN JVIEW.PRIMARY_KEY_COLUMN_NAME ELSE JVIEW.MAPPING_COLUMN_NAME END END FIELD_NAME,
+                RLD.LEVEL_NO
+                FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+                JOIN HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD.HIERARCHY_LEVEL_DEFINITION_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+                JOIN HIERARCHY_DEFINITION HD ON HD.HIERARCHY_DEFINITION_SID=HLD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN vw_helper_list JVIEW ON JVIEW.ACTUAL_TABLE_NAME=HLD.TABLE_NAME AND JVIEW.ACTUAL_COLUMN_NAME=HLD.FIELD_NAME
+                JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=HD.HIERARCHY_CATEGORY ORDER BY RLD.LEVEL_NO;
+             ]]>
+        </query>
+    </entity>  
+    
+    <entity id="getRelationshipLevelValues">
+        <query> 
+            <![CDATA[ 
+                SELECT
+                    RLD.HIERARCHY_NO,
+                    TEMP.?FIELD VALUE,
+                    LEVEL_NAME,
+                    LEVEL_NO,
+                    RELATIONSHIP_LEVEL_VALUES
+                FROM
+                    RELATIONSHIP_LEVEL_DEFINITION RLD
+                JOIN ST_CCP_HIERARCHY CH ON CH.?HIERARCHY_NO LIKE RLD.HIERARCHY_NO+'%'
+                JOIN ?TABLE TEMP ON
+                                TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALUES
+                                AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+                                AND RLD.LEVEL_NO = ?LNO
+            ]]>
+        </query>
+    </entity> 
+    
+    <entity id="GET_TOP_LEVEL_NAME">
+        <query> 
+            <![CDATA[ 
+      SELECT LEVEL_NAME FROM HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID = @HIERARCHY_SID 
+      ]]>
+        </query>
+    </entity> 
+    
+    
+     <entity  id="remove-tp-customer-with-no-actuals">
+        <query> 
+        <![CDATA[
+            DELETE PCH
+FROM   PROJECTION_CUST_HIERARCHY PCH
+       JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+         ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID
+            AND LEVEL_NAME IN ( 'Trading Partner', 'Customer' )
+       JOIN (SELECT DISTINCT CCP.COMPANY_MASTER_SID
+             FROM   PROJECTION_DETAILS PD
+                    JOIN CCP_DETAILS CCP
+                      ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                         AND PD.PROJECTION_MASTER_SID = @PROJECTION_ID
+                    LEFT JOIN ACTUALS_MASTER AM
+                           ON AM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                              AND AM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                              AND AM.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+             GROUP  BY CCP.COMPANY_MASTER_SID
+             HAVING Sum(AM.SALES_AMOUNT) = 0
+                     OR Sum(AM.SALES_AMOUNT) IS NULL) COMP
+         ON COMP.COMPANY_MASTER_SID = RLD.RELATIONSHIP_LEVEL_VALUES
+            AND PCH.PROJECTION_MASTER_SID = @PROJECTION_ID; 
+
+    
+            DELETE  P       
+            FROM   ST_CCP_HIERARCHY P
+                   JOIN CCP_DETAILS C
+                     ON P.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+            JOIN  (SELECT
+                        DISTINCT CCP.COMPANY_MASTER_SID
+                    FROM
+                        PROJECTION_DETAILS PD 
+                    JOIN CCP_DETAILS CCP
+                                   ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID  AND PD.PROJECTION_MASTER_SID = @PROJECTION_ID 
+                    LEFT JOIN ACTUALS_MASTER AM
+                            ON AM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID AND AM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID AND AM.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                    GROUP BY
+                        CCP.COMPANY_MASTER_SID
+                    HAVING
+                        SUM(AM.SALES_AMOUNT) = 0
+                        OR SUM(AM.SALES_AMOUNT) IS NULL) COMP
+                           ON COMP.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID
+        ]]>        
+    </query>
+    </entity> 
+    
+    
+     <entity  id="checktpcustomeractual">
+         <query> 
+        <![CDATA[            
+        select
+	case
+		when exists(
+			SELECT
+				P.CCP_DETAILS_SID
+			FROM
+				ST_CCP_HIERARCHY P
+			JOIN CCP_DETAILS C ON
+				P.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+			JOIN(
+					SELECT
+						DISTINCT CCP.COMPANY_MASTER_SID
+					FROM
+						ST_CCP_HIERARCHY PD
+					JOIN CCP_DETAILS CCP ON
+						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					LEFT JOIN ACTUALS_MASTER AM ON
+						AM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+						AND AM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+						AND AM.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+					GROUP BY
+						CCP.COMPANY_MASTER_SID
+					HAVING
+						SUM( AM.SALES_AMOUNT ) = 0
+						OR SUM( AM.SALES_AMOUNT ) IS NULL
+				) COMP ON
+				COMP.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID
+		) then 1
+		else 0
+	end
+         ]]>        
+    </query>
+    </entity> 
+</sql>

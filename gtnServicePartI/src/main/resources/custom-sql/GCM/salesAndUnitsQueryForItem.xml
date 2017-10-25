@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<custom-sql>
+    <sql id="contractCountForItem">
+        <![CDATA[
+            select
+count(distinct CON.CONTRACT_MASTER_SID)
+from PROJECTION_DETAILS PD
+join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID
+AND CCPD.ITEM_MASTER_SID in ( ? )
+join CONTRACT_MASTER CON ON CON.CONTRACT_MASTER_SID=CCPD.CONTRACT_MASTER_SID
+AND PD.PROJECTION_MASTER_SID= '?'
+
+        ]]>
+    </sql>
+    <sql id="brandCountForItem">
+        <![CDATA[
+            select count(distinct BM.BRAND_MASTER_SID) from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.ITEM_MASTER_SID in (?)  
+            AND CCPD.CONTRACT_MASTER_SID='?' AND PD.PROJECTION_MASTER_SID= '?' 
+            join ITEM_MASTER IM ON IM.ITEM_MASTER_SID=CCPD.ITEM_MASTER_SID 
+            join BRAND_MASTER BM ON IM.BRAND_MASTER_SID=BM.BRAND_MASTER_SID
+        ]]>
+    </sql>
+    <sql id="itemCountForItem">
+        <![CDATA[
+            select
+count(DISTINCT ITEM_MASTER_SID)
+from ITEM_MASTER
+where BRAND_MASTER_SID=?
+
+            
+        ]]>
+    </sql>
+    <sql id="getContractForItem">
+        <![CDATA[
+            select CON.CONTRACT_MASTER_SID as ID,CON.CONTRACT_NAME as COM_NAME ,I."YEAR" as YEARS, I.? as PERIODS,
+            sum(NMSP.?) as Sales,sum(NMSP.?) as Units, CON.CONTRACT_NO from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.ITEM_MASTER_SID in (select distinct IMTD.ITEM_MASTER_SID from  
+            GCM_GLOBAL_DETAILS IMTD WHERE CHECK_RECORD='1' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND SESSION_ID = '?' AND "OPERATION" = '?')  
+             join CONTRACT_MASTER CON ON CON.CONTRACT_MASTER_SID=CCPD.CONTRACT_MASTER_SID 
+            join ? NMSP  
+            ON  NMSP.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID 
+            join "PERIOD" I on I.PERIOD_SID = NMSP.PERIOD_SID WHERE PD.PROJECTION_MASTER_SID= '?'  
+            group by CON.CONTRACT_MASTER_SID,CON.CONTRACT_NAME,I."YEAR", I.?,CON.CONTRACT_NO order by CON.CONTRACT_MASTER_SID;
+        ]]>
+    </sql>
+    <sql id="getCompanyForItem">
+        <![CDATA[
+            select COM.COMPANY_MASTER_SID as ID,COM.COMPANY_NAME as COM_NAME ,I."YEAR" as YEARS, I.? as PERIODS,
+            sum(NMSP.?) as Sales,sum(NMSP.?) as Units, CCPD.CONTRACT_MASTER_SID, COM.COMPANY_NO from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.ITEM_MASTER_SID in (select distinct IMTD.ITEM_MASTER_SID from  
+            GCM_GLOBAL_DETAILS IMTD WHERE CHECK_RECORD='1' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND SESSION_ID = '?' AND "OPERATION" = '?') AND CCPD.CONTRACT_MASTER_SID = '?' 
+             join COMPANY_MASTER COM ON COM.COMPANY_MASTER_SID=CCPD.COMPANY_MASTER_SID 
+            join ? NMSP  
+            ON  NMSP.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID 
+            join "PERIOD" I on I.PERIOD_SID = NMSP.PERIOD_SID WHERE PD.PROJECTION_MASTER_SID= '?'  
+            group by COM.COMPANY_MASTER_SID,COM.COMPANY_NAME,I."YEAR", I.?,COM.COMPANY_NO,CCPD.CONTRACT_MASTER_SID order by COM.COMPANY_MASTER_SID;
+        ]]>
+    </sql>
+    <sql id="getBrandForItem">
+        <![CDATA[
+            select BM.BRAND_MASTER_SID as ID,BM.BRAND_NAME as COM_NAME,I."YEAR" as YEARS, I.? as PERIODS,
+            sum(NMSP.?) as Sales,sum(NMSP.?) as Units,CCPD.CONTRACT_MASTER_SID,CCPD.COMPANY_MASTER_SID, BM.BRAND_ID from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.ITEM_MASTER_SID in (select distinct IMTD.ITEM_MASTER_SID from  
+            GCM_GLOBAL_DETAILS IMTD WHERE CHECK_RECORD='1' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND SESSION_ID = '?' AND "OPERATION" = '?')  
+            AND CCPD.CONTRACT_MASTER_SID='?' 
+            join ITEM_MASTER IM ON IM.ITEM_MASTER_SID=CCPD.ITEM_MASTER_SID 
+            join BRAND_MASTER BM ON IM.BRAND_MASTER_SID=BM.BRAND_MASTER_SID 
+             join ? NMSP 
+            ON  NMSP.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID 
+            join "PERIOD" I on I.PERIOD_SID = NMSP.PERIOD_SID WHERE PD.PROJECTION_MASTER_SID= '?'  
+            group by BM.BRAND_MASTER_SID, BM.BRAND_NAME,CCPD.CONTRACT_MASTER_SID,CCPD.COMPANY_MASTER_SID,I."YEAR", I.?,BM.BRAND_ID order by BM.BRAND_MASTER_SID;
+        ]]>
+    </sql>
+    <sql id="getItemForItem">
+        <![CDATA[
+            SELECT IMTD.ITEM_MASTER_SID       AS ID,
+       ITEM.ITEM_NAME             AS COM_NAME,
+       I."YEAR"                   AS YEARS,
+       I.?                  AS PERIODS,
+       Sum(NMSP.?) AS Sales,
+       Sum(NMSP.?) AS Units,
+       ITEM.ITEM_NO               AS itemNo
+FROM   PROJECTION_DETAILS PD
+       JOIN CCP_DETAILS CCPD
+         ON CCPD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+            AND CCPD.CONTRACT_MASTER_SID = '?'
+            AND PD.PROJECTION_MASTER_SID = '?'
+       JOIN GCM_GLOBAL_DETAILS IMT
+         ON IMT.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+            AND IMT.CHECK_RECORD = '1'
+            AND IMT.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND IMT.SESSION_ID = '?'
+            AND "OPERATION" = '?'
+       JOIN ITEM_MASTER ITEM
+         ON ITEM.ITEM_MASTER_SID = IMT.ITEM_MASTER_SID
+       JOIN BRAND_MASTER BM
+         ON BM.BRAND_MASTER_SID = ITEM.BRAND_MASTER_SID
+            AND BM.BRAND_MASTER_SID = '?'
+       JOIN ? NMSP
+         ON NMSP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+       JOIN "PERIOD" I
+         ON I.PERIOD_SID = NMSP.PERIOD_SID
+       LEFT JOIN GCM_GLOBAL_DETAILS IMTD
+              ON IMTD.CHECK_RECORD = '1'
+                 AND IMTD.SESSION_ID = '?'
+                 AND IMTD.MODULE_NAME = 'ITEM_MANAGEMENT'
+                 AND IMTD."OPERATION" = '?'
+GROUP  BY IMTD.ITEM_MASTER_SID,
+          I."YEAR",
+          I.?,
+          ITEM.ITEM_NAME,
+          ITEM.ITEM_NO;
+        ]]>
+    </sql>
+    <sql id="companyCountForItem">
+        <![CDATA[
+            select count(distinct COM.COMPANY_MASTER_SID) from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.ITEM_MASTER_SID in (?) AND CCPD.CONTRACT_MASTER_SID = '?' 
+            join COMPANY_MASTER COM ON COM.COMPANY_MASTER_SID=CCPD.COMPANY_MASTER_SID 
+            AND PD.PROJECTION_MASTER_SID= '?'
+        ]]>
+    </sql>
+    <sql id = "getProjectionDetail">
+        <![CDATA[
+        SELECT TOP 1 *
+        FROM PROJECTION_MASTER PM 
+        JOIN PROJECTION_DETAILS PD 
+        ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID 
+        AND PM.IS_APPROVED = 'A' 
+        JOIN CCP_DETAILS CCPT 
+         ON CCPT.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+       JOIN GCM_GLOBAL_DETAILS IMTD
+         ON IMTD.CONTRACT_MASTER_SID = CCPT.CONTRACT_MASTER_SID
+            AND IMTD.SESSION_ID = '?'
+            AND IMTD.MODULE_NAME = 'ITEM_MANAGEMENT'
+            AND IMTD.ITEM_MASTER_SID IN ( ? )
+            AND IMTD.CHECK_RECORD = 1
+            AND IMTD."OPERATION" = '?' 
+ORDER  BY PM.MODIFIED_DATE DESC
+]]>
+    </sql>
+</custom-sql>
+

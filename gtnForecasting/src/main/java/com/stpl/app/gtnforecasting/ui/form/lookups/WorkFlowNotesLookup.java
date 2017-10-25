@@ -1,0 +1,461 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.gtnforecasting.ui.form.lookups;
+
+import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
+import com.stpl.app.utils.ValidationUtils;
+import com.stpl.app.utils.FileUploader;
+import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.ui.util.AbstractNotificationUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.event.FieldEvents;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.LayoutEvents;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.JavaScriptFunction;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.ui.Upload.StartedEvent;
+import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Window;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
+/**
+ *
+ * @author rohitvignesh.s
+ */
+public class WorkFlowNotesLookup extends Window {
+
+    private static final Logger LOGGER = Logger.getLogger(WorkFlowNotesLookup.class);
+
+    @UiField("fileNameField")
+    protected TextField fileNameField;
+
+    @UiField("cssLayout1")
+    public CssLayout cssLayout1;
+
+    @UiField("notes")
+    protected TextArea notes;
+
+    @UiField("okBtn")
+    public Button okBtn;
+
+    @UiField("table")
+    protected ExtFilterTable table;
+
+    @UiField("remove")
+    public Button remove;
+
+    public TextArea getNotes() {
+        return notes;
+    }
+
+    public void setNotes(TextArea notes) {
+        this.notes = notes;
+    }
+
+    protected Receiver uploadReceiver;
+    protected Upload uploadComponent;
+    protected final TextField uploader = new TextField();
+    AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
+    protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
+    protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
+    protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
+    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<NotesDTO>(NotesDTO.class);
+    protected Object tableBeanId = null;
+    protected File fileUpload;
+    protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
+    protected String fileName;
+    protected String fileUploadPath;
+    public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
+    private NotesDTO tableBean = new NotesDTO();
+
+    public static String submitFlag="";
+    public WorkFlowNotesLookup() {
+        init();
+    }
+
+    private void init() {
+        addToContent();
+        configureFields();
+    }
+
+    private void addToContent() {
+        setContent(Clara.create(getClass().getResourceAsStream("/workFlowNotesLookup.xml"), this));
+        addStyleName(Constant.BOOTSTRAP_UI);
+        addStyleName(Constant.BOOTSTRAP);
+        addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+        setCaption(Constant.NOTES);
+        center();
+        setClosable(true);
+        setModal(true);
+    }
+
+    private void configureFields() {
+        addTable();
+        notes.setInputPrompt("- Enter New Note -");
+        Label addAttachmentLable = new Label();
+        addAttachmentLable.setValue("Attachment");
+        addAttachmentLable.addStyleName("attachment");
+        fileNameField.setImmediate(true);
+        fileNameField.setMaxLength(NumericConstants.TWO_FIVE_ZERO);
+        fileNameField.addValidator(new StringLengthValidator(" File Name Should be less than 250 characters", 0, NumericConstants.TWO_FIVE_ZERO, true));
+        uploader.setStyleName(Constant.SEARCH_TEXT);
+        uploader.setImmediate(true);
+        uploader.setEnabled(false);
+        uploadReceiver = (Receiver) new FileUploader(StringUtils.EMPTY + "/" + userId);
+        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
+        fileUploadPath = FileUploader.FILE_PATH + StringUtils.EMPTY + "/" + userId + "/";
+        uploadComponent.setButtonCaption(Constant.ADD);
+        uploadComponent.setStyleName("uploadIdBB");
+        cssLayout1.addComponent(addAttachmentLable);
+        cssLayout1.addComponent(uploader);
+        cssLayout1.addComponent(uploadComponent);
+
+        cssLayout1.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+
+            /**
+             * Will execute,when we click layout.
+             */
+            @Override
+            public void layoutClick(final LayoutEvents.LayoutClickEvent event) {
+                callJavaScript();
+            }
+        });
+
+        JavaScript.getCurrent().addFunction("callJava", new JavaScriptFunction() {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void call(org.json.JSONArray arguments) throws org.json.JSONException {
+                try {
+                    String value = String.valueOf(arguments.get(0));
+                    if (StringUtils.isNotEmpty(value)) {
+
+                        fileUpload = new File(fileUploadPath + value);
+                        String name = fileUpload.getAbsolutePath();
+                        if (name.contains("\\")) {
+                            String replace = name.replace("\\", ",");
+                            String[] array = replace.split(",");
+                            String filename = array[array.length - 1];
+                            uploader.setValue(filename);
+                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : fileNameField.getValue());
+                        } else if (name.contains("/")) {
+                            final String replace = name.replace("/", ",");
+                            final String[] array = replace.split(",");
+                            final String filename = array[array.length - 1];
+                            uploader.setValue(filename);
+                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : fileNameField.getValue());
+                        } else {
+                            uploader.setValue(name);
+                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? name.substring(0, name.lastIndexOf('.')) : fileNameField.getValue());
+                        }
+                    } else {
+                        uploader.setValue(StringUtils.EMPTY);
+                        fileNameField.setValue(StringUtils.EMPTY);
+                    }
+                } catch (Exception ex) {
+                    LOGGER.error(ex);
+                }
+                uploader.focus();
+            }
+        });
+
+        uploader.addFocusListener(new FieldEvents.FocusListener() {
+            /**
+             * Will execute,when we click an uploader.
+             */
+            @Override
+            public void focus(final FieldEvents.FocusEvent event) {
+                uploadComponent.focus();
+            }
+        });
+
+        uploadComponent.addSucceededListener(new Upload.SucceededListener() {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void uploadSucceeded(Upload.SucceededEvent event) {
+                uploadComponentSucceededLogic(event);
+            }
+        });
+
+        uploadComponent.addStartedListener(new Upload.StartedListener() {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void uploadStarted(Upload.StartedEvent event) {
+                uploadComponentStartedLogic(event);
+            }
+        });
+        remove.addClickListener(new Button.ClickListener() {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                removeButtonLogic(event);
+            }
+        });
+
+        table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+
+            public void itemClick(ItemClickEvent event) {
+                try {
+                    itemClickLogic(event);
+                } catch (Exception e) {
+                    LOGGER.error(e);
+                }
+            }
+        });
+        okBtn.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                submitFlag = "Success";
+                close();
+            }
+        });
+    }
+
+    public void callJavaScript() {
+        uploader.setDebugId("textId");
+        uploadComponent.setId("layoutId");
+        Page.getCurrent()
+                .getJavaScript()
+                .execute(
+                        "var f=document.getElementById('layoutId').firstChild;" + "var f2=f.children[1]; " + "f2.addEventListener('change', function(){" + "var f3=f2.value;" + "callJava(f3)"
+                        + "}, false);");
+
+    }
+
+    private void addTable() {
+        table.markAsDirty();
+        table.addStyleName(Constant.FILTERBAR);
+        table.setFilterBarVisible(true);
+        table.setFilterDecorator(new ExtDemoFilterDecorator());
+        table.setImmediate(true);
+        table.setPageLength(NumericConstants.SEVEN);
+        table.setContainerDataSource(attachmentsListBean);
+        table.setSelectable(true);
+        table.setVisibleColumns(new Object[]{"documentName", "dateAdded", "userName"});
+        table.setColumnHeaders(new String[]{"Document Name", "Date Added", "User Name"});
+    }
+
+    public void uploadComponentSucceededLogic(SucceededEvent event) {
+        try {
+            String file = fileNameField.getValue();
+            if (file.matches(ValidationUtils.SPECIAL_CHAR)) {
+                
+                StringBuilder sb = new StringBuilder(event.getFilename());
+                int index = sb.lastIndexOf(".");
+                sb.replace(0, index, file);
+                Date date = new Date();
+                long value = date.getTime();
+                sb.insert(sb.lastIndexOf("."), "_" + value);
+                File destFileUpload = new File(fileUploadPath + event.getFilename());
+                NotesDTO attachmentDTO = new NotesDTO();
+                String name = file + sb.substring(sb.indexOf("."));
+                File renameFileUpload = new File(fileUploadPath + name);
+                destFileUpload.renameTo(renameFileUpload);
+                if (!StringUtils.isBlank(file)) {
+                    attachmentDTO.setDocumentName(name);
+                } else {
+                    attachmentDTO.setDocumentName(event.getFilename());
+                }
+                SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+                TimeZone central = TimeZone.getTimeZone("CST");
+                format.setTimeZone(central);
+                attachmentDTO.setDateAdded(format.format(new Date()));
+                attachmentDTO.setUserId(Integer.valueOf(userId));
+                attachmentDTO.setUserName(StringUtils.EMPTY + CommonUtils.getUserNameById(userId));
+                attachmentDTO.setDocumentFullPath(fileUploadPath + name);
+                attachmentsListBean.addBean(attachmentDTO);
+                fileNameField.setValue(StringUtils.EMPTY);
+                uploader.setValue(StringUtils.EMPTY);
+                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf(".")) + " uploaded successfully");
+            } else {
+                AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
+                uploader.setValue(StringUtils.EMPTY);
+                fileNameField.setValue(StringUtils.EMPTY);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+
+    }
+
+    public void uploadComponentStartedLogic(StartedEvent event) {
+        try {
+            String file = fileNameField.getValue();
+            if (file.matches(ValidationUtils.SPECIAL_CHAR)) {
+                String filename = event.getFilename().toLowerCase();
+                if (event.getFilename().equals(StringUtils.EMPTY)) {
+                    uploadComponent.interruptUpload();
+                    AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
+                } else if (!(filename != null && (filename.endsWith(".doc") || filename.endsWith(".docx") || filename.endsWith(".ppt") || filename.endsWith(".xls") || filename.endsWith(".xlsx")
+                        || filename.endsWith(".pdf") || filename.endsWith(".txt") || filename.endsWith(".csv") || filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename
+                        .endsWith(".pptx")))) {
+                    uploadComponent.interruptUpload();
+                    AbstractNotificationUtils.getErrorNotification("Invalid File", "File Not Supported");
+                    uploader.setValue(StringUtils.EMPTY);
+                    fileNameField.setValue(StringUtils.EMPTY);
+                } else if (fileExists(file)) {
+                    uploadComponent.interruptUpload();
+                    AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
+                    uploader.setValue(StringUtils.EMPTY);
+                    fileNameField.setValue(StringUtils.EMPTY);
+                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf(".")))) {
+                    uploadComponent.interruptUpload();
+                    AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
+                    uploader.setValue(StringUtils.EMPTY);
+                    fileNameField.setValue(StringUtils.EMPTY);
+                } else {
+                    uploader.setValue(StringUtils.EMPTY);
+                }
+            } else {
+                uploadComponent.interruptUpload();
+                AbstractNotificationUtils.getErrorNotification("Add Attachment", "Please select an attachment to add");
+                uploader.setValue(StringUtils.EMPTY);
+                fileNameField.setValue(StringUtils.EMPTY);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+
+    }
+
+    public void removeButtonLogic(Button.ClickEvent event) {
+        
+        String temp = tableBean.getUserName();
+        if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
+            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "Please select an attachment to remove ");
+        }
+      
+        if (CommonUtils.getUserNameById(userId).equalsIgnoreCase(temp)) {
+            AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                @Override
+                public void noMethod() {
+                }
+
+                @Override
+                public void yesMethod() {
+                    NotesDTO dtoValue = new NotesDTO();
+                    dtoValue.setDocDetailsId(tableBean.getDocDetailsId());
+                    dtoValue.setDocumentFullPath(tableBean.getDocumentFullPath());
+                    removeDetailsList.add(dtoValue);
+                    table.removeItem(tableBeanId);
+                    tableBeanId = null;
+                    tableBean = null;
+                }
+            };
+            notification.getConfirmationMessage("Remove Attachment", "Are you sure you want to delete this Attachment?");
+
+        } else {
+            AbstractNotificationUtils.getErrorNotification("Remove Attachment", "You can only remove attachments that you have uploaded.");
+        }
+    }
+
+    public void itemClickLogic(ItemClickEvent event) {
+        try {
+            tableBeanId = event.getItemId();
+            BeanItem<?> targetItem = null;
+            if (tableBeanId instanceof BeanItem<?>) {
+                targetItem = (BeanItem<?>) tableBeanId;
+            } else if (tableBeanId instanceof NotesDTO) {
+                targetItem = new BeanItem<NotesDTO>((NotesDTO) tableBeanId);
+            }
+            tableBean = (NotesDTO) targetItem.getBean();
+            if (event.isDoubleClick()) {
+                File uploadedFile = new File(tableBean.getDocumentFullPath());
+                Resource res = new FileResource(uploadedFile);
+                fileDownloader.setFileDownloadResource(res);
+                downloadFile(uploadedFile);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+    }
+
+    public List<NotesDTO> getUploadedData() {
+
+        return attachmentsListBean.getItemIds();
+    }
+
+    public boolean fileExists(String fileName) {
+        List<NotesDTO> uploadedFiles = getUploadedData();
+        for (NotesDTO uploadedFile : uploadedFiles) {
+            String doc = uploadedFile.getDocumentName();
+            int index = doc.indexOf('.');
+            doc = doc.substring(0, index);
+            if (doc.equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void downloadFile(File uploadedFile) {
+        try {
+            if (uploadedFile.exists()) {
+                Resource res = new FileResource(uploadedFile);
+                Page.getCurrent().open(res, "_blank", true);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:b="urn:import:org.asi.ui.customtextfield"  xmlns:p="urn:vaadin:parent">
+    <VerticalLayout margin="true" spacing="true" >
+        <Panel caption="Projection Variance Selection" margin="false"
+               spacing="true">
+            <VerticalLayout margin="true" styleName="width-auto">
+                <GridLayout rows="2" columns="1" margin="false" spacing="true">
+                    <GridLayout spacing="true" rows="2"
+                                columns="12">
+                        <Label value="Comparison: " contentMode="HTML"  />
+                        <b:CustomTextField id="comparison" styleName="searchicon" 
+                                           immediate="true" enable="true" width="180px"/>
+
+                        <Label value="Level: " contentMode="HTML" width="40px"/>
+                        <OptionGroup id="level" multiSelect="false" enabled="true" 
+                                     immediate="true" />
+                        <Label value="Projection Period Order:" contentMode="HTML"
+                               width="167px" />
+                        <OptionGroup id="projectionPeriodOrder" multiSelect="false"
+                                     enabled="true" immediate="true" />
+                        <Label value ="" contentMode="HTML" width="5px" />
+                        <Label value ="" contentMode="HTML" width="5px" />
+                        <Label value ="" contentMode="HTML" width="90px" />
+                        <Label value="Date Range:" contentMode="HTML" width="89px"  />
+                        <Label value="From:" contentMode="HTML" />
+                        <ComboBox id="fromDate" nullSelectionAllowed="true"
+                                  immediate="true"/>
+
+                        <Label value="Frequency:" contentMode="HTML" />
+                        <ComboBox id="frequency" nullSelectionAllowed="false"
+                                  immediate="true"/>
+                        <Label value ="" contentMode="HTML" width="5px" />
+                        <Label value ="" contentMode="HTML" width="101px" />
+                        <Label value="Pivot View:" contentMode="HTML" />
+                        <OptionGroup id="pivotView" multiSelect="false"
+                                     enabled="true" immediate="true" />
+                        <Label value ="" contentMode="HTML" /> 
+                        <Label value ="" contentMode="HTML"  />
+                        <Label value ="" contentMode="HTML"  />
+                        <Label value="" contentMode="HTML" width="90px" />
+                        <Label value="To: " contentMode="HTML" />
+                        <ComboBox id="toDate" nullSelectionAllowed="true"
+                                  immediate="true"/>
+                    </GridLayout>
+                    <HorizontalLayout spacing="true">
+                        <Label value="Variable Category: " contentMode="HTML"
+                               width="128px" />
+                        <OptionGroup id="variableCategory" multiSelect="true"
+                                     enabled="true" immediate="true" />
+                        <!--					<Label value="" contentMode="HTML" width="10%" />-->
+                        <Label value="Variables: " contentMode="HTML" width="255px" />
+                        <OptionGroup id="variables" multiSelect="true" enabled="true"
+                                     immediate="true" />
+                    </HorizontalLayout>
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+        <Panel caption="">
+            <VerticalLayout styleName = "width-auto"  margin="false">      
+                <HorizontalLayout spacing="true" margin="false">
+                    <HorizontalLayout spacing="true" margin="true" styleName="component-layout">
+                        <Button id="generateBtn" caption="GENERATE"></Button>
+                        <Button id="resetBtn" caption="RESET"></Button>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing="true" margin="true" styleName="component-layout">
+                        <Label value="Level: " contentMode="HTML" />
+                        <ComboBox id="levelDdlb" nullSelectionAllowed="true" styleName="comboxsize"/>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing="true" margin="true" styleName="component-layout">
+                        <Button id="expand" caption="EXPAND"></Button>
+                        <Button id="collapse" caption="COLLAPSE"></Button>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing="true" margin="true" styleName="component-layout">
+                        <Label value="Level Filter: " contentMode="HTML" />
+                        <ComboBox id="levelFilter" nullSelectionAllowed="true"
+                                  immediate="true" styleName="comboxsize" />
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing="true" margin="true" styleName="component-layout">
+                        <Label value="View: " contentMode="HTML"></Label>
+                        <OptionGroup id="view" multiSelect="false" enabled="true"
+                                     immediate="true" styleName = "horizontal"/>                        
+                        <ComboBox id="customDdlb" nullSelectionAllowed="true"
+                                  immediate="true" styleName="comboxsize"/>
+                    </HorizontalLayout>
+                    <HorizontalLayout spacing="true" margin="true" styleName="component-layout">
+                        <Button id="newBtn" caption="NEW"></Button>
+                        <Button id="editBtn" caption="EDIT"></Button>
+                    </HorizontalLayout>
+                </HorizontalLayout> 
+            </VerticalLayout>
+        </Panel>
+
+        <Panel caption="Period Pivot View" id="pivotPanel" >
+            <VerticalLayout id="verticalLayout" spacing="false"
+                            margin="false" immediate="true">
+                <VerticalLayout id="tableVerticalLayout" spacing="false"
+                                margin="false" immediate="true">
+                </VerticalLayout>
+                <!--                <a:FreezeFilterTreeTable styleName="table-header-normal" id="resultsTable"
+                caption="" width="100%" immediate="true" height="100%" />-->
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="excelExport" primaryStyleName="link"></Button>
+                    <Button id="graphExport" primaryStyleName="link"></Button>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+
+</Panel>

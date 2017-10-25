@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+ 
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+      
+
+    <appender name="FILE" class="org.apache.log4j.rolling.RollingFileAppender">
+            <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+            <param name="FileNamePattern" value="${ETL_LOG_PATH}/R2ETL.%d{yyyy-MM-dd}.log" />
+        </rollingPolicy>
+ 
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}:%L] %m%n" />
+        </layout>
+    </appender>
+    <root>
+
+        <appender-ref ref="FILE" />
+        <level value="INFO"/>
+    </root>
+</log4j:configuration>

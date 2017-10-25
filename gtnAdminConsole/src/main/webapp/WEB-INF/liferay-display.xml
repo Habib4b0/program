@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 4.0.0//EN" "http://www.liferay.com/dtd/liferay-display_4_0_0.dtd">
+
+<display>
+
+    <category name="AdminConsole">
+        <portlet id="ItemGroup" />
+        <portlet id="CustomerGroup" />
+        <portlet id="RelationshipBuilder" />        
+        <portlet id="HierarchyBuilder" />        
+        <portlet id="FileManagement" />    
+        <portlet id="Archive" />
+        <portlet id="Discount" /> 
+        <portlet id="Forecast"/>
+        <portlet id="Period Configuration"/>
+        <portlet id="ProjectionNameConfiguration"/>
+        <portlet id="ProcessScheduler"/>
+        <portlet id="CalendarConfiguration" /> 
+        <portlet id="ProcessMonitoring" />   
+        <portlet id="EmailConfiguration"/>
+        <portlet id="ServerLogging"/>
+    </category>
+
+</display>

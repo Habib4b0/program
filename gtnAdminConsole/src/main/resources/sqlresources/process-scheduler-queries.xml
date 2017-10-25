@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="insert-arp-outbound">
+        <query> 
+            <![CDATA[
+                INSERT INTO ST_ARP_OUTBOUND
+                            (ARP_WORKFLOW_ID,
+                            ACCOUNT_TYPE,
+                            ITEM_MASTER_SID,
+                            RS_MODEL_SID,
+                            USER_ID,
+                            SESSION_ID,
+                            ETL_CHECK_RECORD)
+                SELECT DISTINCT ARP_WORKFLOW_ID,
+                       ACCOUNT_TYPE,
+                       ITEM_MASTER_SID,
+                       RS_MODEL_SID,
+                       [?USER_ID],
+                       [?SESSION_ID],
+                       1
+                FROM   ARP_OUTBOUND
+                WHERE  OUTBOUND_STATUS = 0;
+           ]]>
+        </query> 
+    </entity>
+    <entity id="check-process-scheduler">
+        <query> 
+            <![CDATA[
+                SELECT TOP 1(STATUS) FROM AUDIT_MASTER_INBOUND WHERE APPLICATION_PROCESS ='?'
+                ORDER BY MODIFIED_DATE DESC
+           ]]>
+        </query> 
+    </entity>
+    <entity id="getRunningStatus">
+        <query> 
+            <![CDATA[
+                SELECT VALIDATION FROM WORKFLOW_PROFILE WHERE PROCESS_NAME ='@PROCESS'
+           ]]>
+        </query> 
+    </entity>
+</sql>

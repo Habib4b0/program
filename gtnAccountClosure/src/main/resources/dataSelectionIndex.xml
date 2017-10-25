@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="parentVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="panel1" caption="Report Options">
+
+            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true"
+                              immediate="true">
+
+                <GridLayout spacing="true"  id="dsLayout"
+                            immediate="true" columns="2" rows="1">
+                    <Label value="Mode: " contentMode="HTML" id="modeLabel" />
+                    <OptionGroup multiSelect="false" id="modeOption"
+                                 immediate="true" enable="true" styleName = "horizontal"/>
+                </GridLayout>
+                <GridLayout id="gridLayout" spacing="true" 
+                            immediate="true" columns="4" rows="1">
+                    <Label caption="Private Views:" id="privateLabel" contentMode="HTML" />
+                    <b:CustomTextField id="privateViews" styleName="searchicon" />
+                    <Label caption="Public Views:" id="publicLabel" contentMode="HTML" />
+                    <b:CustomTextField id="publicViews" styleName="searchicon" />
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+
+        <Panel id="dsPanel" caption="Data Selection">
+            <VerticalLayout id="dsVerticalLayout" spacing="true"
+                            margin="true" immediate="true" >
+                <Panel>
+                    <HorizontalLayout >
+                        <VerticalLayout margin="true" >
+                            <GridLayout spacing="true" id="dsGridLayout"
+                                        immediate="true" columns="8" rows="4">
+                        
+                                <Label value="Report Name: " contentMode="HTML" styleName="acctmandatoryfields" width="110px"/>
+                                <TextField id="reportName"  immediate="true"/>
+                                <Label value="Market Type: " contentMode="HTML" width="144px" styleName="acctmandatoryfields" />
+                                <ComboBox id="marketType" immediate="true" width="208px"/>
+                                <Label value="Business Unit:" contentMode="HTML" width="144px" styleName="acctmandatoryfields"/>
+                                <ComboBox id="companyDdlb" nullSelectionAllowed="true"  immediate = "true"  width="208px"/>
+                                <Button id = "pdtGroup" caption="Product/Group: " contentMode="HTML" styleName="link" width="123px"/>
+                                <b:CustomTextField id="productGroup" styleName="searchicon" />
+                                <Label value="Description: " contentMode="HTML" styleName="acctmandatoryfields" width="100px"></Label>
+                                <TextField id="description"  immediate="true"/>
+                                <Label value="Deduction Category: " contentMode="HTML" width="144px" styleName="acctmandatoryfields"/>
+                                <ComboBox id="deductionCatogory" immediate="true" width="208px"/>        
+                                <Button id="cusGroup" caption="Customer/Group: " contentMode="HTML" styleName="link" width="134px"/>
+                                <b:CustomTextField id="customerGroup" styleName="searchicon" />
+                                <Label value="Product: " contentMode="HTML" width="135px"/>
+                                <ComboBox id="product" immediate="true" width="208px"/>
+                                <Label value="Time Period From: " contentMode="HTML" styleName="acctmandatoryfields"></Label>
+                                <GridLayout  immediate="true" columns="3" rows="1" >
+                                    <ComboBox id="fromDate"  width="137px"/>
+                                    <Label value="To: " contentMode="HTML" width="48px"></Label>
+                                    <ComboBox id="toDate"  width="137px"/>
+                                </GridLayout>
+                                <Label value="Deduction Type: " contentMode="HTML" width="144px" styleName="acctmandatoryfields"/>
+                                <ComboBox id="deductionType" immediate="true" width="208px"/>
+                                <Label value="Contract: " contentMode="HTML"/>
+                                <ComboBox id="contractDdlb" immediate="true" width="208px"/>       
+                                <Label value="Product Identifier: " contentMode="HTML" width="135px" styleName="acctmandatoryfields"/>
+                                <ComboBox id="productIdentifier" immediate="true" width="208px"/>        
+                                <Label value="Type:" contentMode="HTML" />
+                                <ComboBox id="typeDdlb" immediate="true" width="208px"/>
+                                <Label value="Deduction Sub-Type:" contentMode="HTML" width="150px" styleName="acctmandatoryfields"/>
+                                <ComboBox id="deductionSubType" immediate="true" width="208px"/>
+                                <Label value="Account No: " contentMode="HTML"></Label>
+                                <TextField id="accountNo"  immediate="true"/>
+                       
+                            </GridLayout>
+                        </VerticalLayout>
+                    
+                    </HorizontalLayout>
+                </Panel>
+                
+                <VerticalLayout immediate="true" spacing="true" margin="true" width="100%" styleName="width-auto">
+                    <GridLayout spacing="true" immediate="true" columns="3" rows="1">
+                        <VerticalLayout id="availableCustomersTableLayout" caption="Available Customers" width="100%">
+                        </VerticalLayout>
+                        <VerticalLayout spacing="true" 
+                                        immediate="true">
+                            <Label caption="" contentMode="HTML"></Label>
+                            <Button id="nextBtn" caption="&gt;" width="50px" ></Button>
+                            <Button id="preBtn" caption="&lt;" width="50px"></Button>
+                            <Button id="allLeftToRight" caption="&gt;&gt;" width="50px"></Button>
+                            <Button id="allRightToLeft" caption="&lt;&lt;" width="50px"></Button>
+                        </VerticalLayout>
+                        <VerticalLayout id="selectedCustomersTableLayout" caption="Selected Customers" width="100%">
+                        </VerticalLayout>
+                    </GridLayout>
+                </VerticalLayout>
+               
+                <VerticalLayout immediate="true"  spacing="true" margin="true" width ="100%" styleName="width-auto">
+                    <GridLayout spacing="true" immediate="true" 
+                                columns="3" rows="1">
+                        <VerticalLayout id="availableProductsTableLayout" caption="Available Products"
+                                        width="100%">
+                        </VerticalLayout>
+                        <VerticalLayout spacing="true" 
+                                        immediate="true">
+                            <Label caption="" contentMode="HTML"></Label>
+                            <Button id="nextBtnforProduct" caption="&gt;" width="50px"></Button>
+                            <Button id="preBtnforProduct" caption="&lt;" width="50px"></Button>
+                            <Button id="allLeftToRightForProduct" caption="&gt;&gt;" width="50px"></Button>
+                            <Button id="allRightToLeftForProduct" caption="&lt;&lt;" width="50px"></Button>
+                        </VerticalLayout>
+                        <VerticalLayout id="selectedProductsTableLayout" caption="Selected Products"
+                                        width="100%">
+                        </VerticalLayout>
+                    </GridLayout>
+                </VerticalLayout>
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true" 
+                          immediate="true">
+            <Button id="generateBtn" caption="GENERATE"></Button>
+            <Button id="searchBtn" caption="SEARCH" enabled = "false"></Button>
+            <Button id="resetBtn" caption="RESET"></Button>
+            <Button id="deleteviewBtn" caption="DELETE VIEW"></Button>
+            <Button id="saveviewBtn" caption="SAVE VIEW"></Button>
+           
+        </HorizontalLayout>
+        <Panel caption="Results" width="100%">
+            <HorizontalLayout>
+                <VerticalLayout id="resultTableLayout" 
+                                width="100%">
+                                
+                </VerticalLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true" 
+                          immediate="true">
+            <Button id="viewBtn" caption="VIEW"></Button>
+        </HorizontalLayout>
+
+    </VerticalLayout>
+</Panel>

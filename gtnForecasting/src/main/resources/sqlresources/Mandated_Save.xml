@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql> 
+    <entity id="Actuals_Sales_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+              MERGE M_ACTUAL_SALES AS TARGET
+             USING (
+             SELECT PD.PROJECTION_DETAILS_SID,
+             PERIOD_SID,
+             ACTUAL_SALES,
+             ACTUAL_UNITS,
+             ACTUAL_PROJECTION_SALES,
+             ACTUAL_PROJECTION_UNITS
+             FROM dbo.ST_M_ACTUAL_SALES MAS
+              JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
+                WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            
+             ) AS SOURCE
+             ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+             WHEN MATCHED
+             THEN
+             UPDATE SET
+             TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
+             TARGET.ACTUAL_UNITS=SOURCE.ACTUAL_UNITS,
+             TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,
+             TARGET.ACTUAL_PROJECTION_UNITS=SOURCE.ACTUAL_PROJECTION_UNITS
+             WHEN NOT MATCHED BY TARGET
+             THEN
+             INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,
+             SOURCE.PERIOD_SID,
+             SOURCE.ACTUAL_SALES,
+             SOURCE.ACTUAL_UNITS,
+             SOURCE.ACTUAL_PROJECTION_SALES,
+             SOURCE.ACTUAL_PROJECTION_UNITS);  
+                
+                 ]]>
+        </query>
+    </entity> 
+    <entity id="Discount_Proj_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+             MERGE M_DISCOUNT_PROJECTION AS TARGET
+             USING (
+             SELECT PD.PROJECTION_DETAILS_SID,
+             PERIOD_SID,
+             PROJECTION_SALES,
+             PROJECTION_RATE,
+             PROJECTION_RPU,
+             SAVE_FLAG
+             FROM dbo.ST_M_DISCOUNT_PROJECTION MAS
+              JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
+                WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            
+             ) AS SOURCE
+             ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+             WHEN MATCHED
+             THEN
+             UPDATE SET
+             TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
+             TARGET.PROJECTION_RATE=SOURCE.PROJECTION_RATE,
+             TARGET.PROJECTION_RPU=SOURCE.PROJECTION_RPU,
+             TARGET.SAVE_FLAG=SOURCE.SAVE_FLAG
+             WHEN NOT MATCHED BY TARGET
+             THEN
+             INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,
+             SOURCE.PERIOD_SID,
+             SOURCE.PROJECTION_SALES,
+             SOURCE.PROJECTION_RATE,
+             SOURCE.PROJECTION_RPU,
+             1);;
+                
+                 ]]>
+        </query>
+    </entity> 
+    
+    <entity id="Master_Sales_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+               MERGE M_SALES_PROJECTION_MASTER AS TARGET
+              USING (
+              SELECT PD.PROJECTION_DETAILS_SID,
+              METHODOLOGY,
+              CALCULATION_PERIODS,
+              CALCULATION_BASED,
+              CHECK_RECORD,
+              FORECAST_START_PERIOD_SID,
+              FORECAST_END_PERIOD_SID,
+              ALLOCATION_BASIS
+              FROM dbo.ST_M_SALES_PROJECTION_MASTER MAS
+           JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
+                WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+              ) AS SOURCE
+              ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)
+              WHEN MATCHED
+              THEN
+              UPDATE SET
+              TARGET.METHODOLOGY=SOURCE.METHODOLOGY,
+              TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS,
+              TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED,
+              TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD,
+              TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID,
+              TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID,
+              TARGET.ALLOCATION_BASIS=SOURCE.ALLOCATION_BASIS
+              WHEN NOT MATCHED BY TARGET
+              THEN
+              INSERT (
+                PROJECTION_DETAILS_SID,
+                METHODOLOGY,
+                CALCULATION_PERIODS,
+                CALCULATION_BASED,
+                CHECK_RECORD,
+                FORECAST_START_PERIOD_SID,
+                FORECAST_END_PERIOD_SID,
+                ALLOCATION_BASIS
+                ) VALUES
+             (SOURCE.PROJECTION_DETAILS_SID,
+              SOURCE.METHODOLOGY,
+              SOURCE.CALCULATION_PERIODS,
+              SOURCE.CALCULATION_BASED,
+              SOURCE.CHECK_RECORD,
+              SOURCE.FORECAST_START_PERIOD_SID,
+              SOURCE.FORECAST_END_PERIOD_SID,
+              SOURCE.ALLOCATION_BASIS);
+                
+                 ]]>
+        </query>
+    </entity> 
+    <entity id="Proj_Sales_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[ 
+            INSERT INTO dbo.ST_M_SALES_PROJECTION(
+                      CCP_DETAILS_SID,
+                      ACCOUNT_GROWTH,
+                      PRODUCT_GROWTH,
+                      PROJECTION_SALES,
+                      PROJECTION_UNITS,
+                      PERIOD_SID,
+                      ADJUSTMENT_TYPE,
+                      ADJUSTMENT_BASIS,
+                      ADJUSTMENT_VARIABLE,
+                      ADJUSTMENT_METHODOLOGY,
+                      ADJUSTMENT_VALUES)
+              SELECT B.CCP_DETAILS_SID,
+                      A.ACCOUNT_GROWTH,
+                      A.PRODUCT_GROWTH,
+                      A.PROJECTION_SALES,
+                      A.PROJECTION_UNITS,
+                      A.PERIOD_SID,
+                      A.ADJUSTMENT_TYPE,
+                      A.ADJUSTMENT_BASIS,
+                      A.ADJUSTMENT_VARIABLE,
+                      A.ADJUSTMENT_METHODOLOGY,
+                      A.ADJUSTMENT_VALUES
+              FROM dbo.M_SALES_PROJECTION A,
+                      dbo.PROJECTION_DETAILS B
+              WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+			AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;   
+               
+                 ]]>
+        </query>
+    </entity> 
+    
+    <entity id="Proj_Sales_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+             MERGE M_SALES_PROJECTION AS TARGET
+             USING (
+             SELECT PD.PROJECTION_DETAILS_SID,
+             ACCOUNT_GROWTH,
+             PRODUCT_GROWTH,
+             PROJECTION_SALES,
+             PROJECTION_UNITS,
+             PERIOD_SID,
+             ADJUSTMENT_TYPE,
+             ADJUSTMENT_BASIS,
+             ADJUSTMENT_VARIABLE,
+             ADJUSTMENT_METHODOLOGY,
+             ADJUSTMENT_VALUES
+             FROM dbo.ST_M_SALES_PROJECTION MAS
+             JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
+                WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+             ) AS SOURCE
+             ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+             WHEN MATCHED
+             THEN
+             UPDATE SET
+             TARGET.ACCOUNT_GROWTH=SOURCE.ACCOUNT_GROWTH,
+             TARGET.PRODUCT_GROWTH=SOURCE.PRODUCT_GROWTH,
+             TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,
+             TARGET.PROJECTION_UNITS=SOURCE.PROJECTION_UNITS,
+             TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+             TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE,
+             TARGET.ADJUSTMENT_BASIS=SOURCE.ADJUSTMENT_BASIS,
+             TARGET.ADJUSTMENT_VARIABLE=SOURCE.ADJUSTMENT_VARIABLE,
+             TARGET.ADJUSTMENT_METHODOLOGY=SOURCE.ADJUSTMENT_METHODOLOGY,
+             TARGET.ADJUSTMENT_VALUES=SOURCE.ADJUSTMENT_VALUES
+             WHEN NOT MATCHED BY TARGET
+             THEN
+             INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,
+             SOURCE.ACCOUNT_GROWTH,
+             SOURCE.PRODUCT_GROWTH,
+             SOURCE.PROJECTION_SALES,
+             SOURCE.PROJECTION_UNITS,
+             SOURCE.PERIOD_SID,
+             SOURCE.ADJUSTMENT_TYPE,
+             SOURCE.ADJUSTMENT_BASIS,
+             SOURCE.ADJUSTMENT_VARIABLE,
+             SOURCE.ADJUSTMENT_METHODOLOGY,
+             SOURCE.ADJUSTMENT_VALUES);;
+                
+                 ]]>
+        </query>
+    </entity> 
+     <entity id="Master_Sales_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[  
+              INSERT INTO ST_M_SALES_PROJECTION_MASTER(
+                     CCP_DETAILS_SID,
+                     METHODOLOGY,
+                     CALCULATION_PERIODS,
+                     CALCULATION_BASED,
+                     CHECK_RECORD)
+             SELECT  B.CCP_DETAILS_SID,
+                     A.METHODOLOGY,
+                     A.CALCULATION_PERIODS,
+                     A.CALCULATION_BASED,
+                     A.CHECK_RECORD
+             FROM dbo.M_SALES_PROJECTION_MASTER A,
+			dbo.PROJECTION_DETAILS B
+		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+			AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+                
+                 ]]>
+        </query>
+    </entity> 
+     <entity id="Actuals_Sales_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[  
+            INSERT INTO dbo.ST_M_ACTUAL_SALES(
+                     CCP_DETAILS_SID,
+                     PERIOD_SID,
+                     ACTUAL_SALES,
+                     ACTUAL_UNITS,
+                     ACTUAL_PROJECTION_SALES,
+                     ACTUAL_PROJECTION_UNITS)
+             SELECT B.CCP_DETAILS_SID,
+                     A.PERIOD_SID,
+                     A.ACTUAL_SALES,
+                     A.ACTUAL_UNITS,
+                     A.ACTUAL_PROJECTION_SALES,
+                     A.ACTUAL_PROJECTION_UNITS
+             FROM dbo.M_ACTUAL_SALES A,
+			dbo.PROJECTION_DETAILS B
+		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+			AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+                
+                 ]]>
+        </query>
+    </entity> 
+    
+     <entity id="Discount_Proj_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[  
+            INSERT INTO ST_M_DISCOUNT_PROJECTION(
+                      CCP_DETAILS_SID,
+                      PERIOD_SID,
+                      PROJECTION_SALES,
+                      PROJECTION_RATE,
+                      SAVE_FLAG,
+                      PROJECTION_RPU)
+              SELECT B.CCP_DETAILS_SID,
+                      A.PERIOD_SID,
+                      A.PROJECTION_SALES,
+                      A.PROJECTION_RATE,
+                      A.SAVE_FLAG,
+                      A.PROJECTION_RPU
+              FROM dbo.M_DISCOUNT_PROJECTION A,
+                      dbo.PROJECTION_DETAILS B
+              WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+                      AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+                
+                 ]]>
+        </query>
+    </entity> 
+    
+     <entity id="Supp_Discount_Master_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[  
+            INSERT
+	INTO
+		ST_M_SUPPLEMENTAL_DISC_MASTER(
+			CCP_DETAILS_SID,
+			MARKET_TYPE,
+			ACTUAL_DISCOUNT,
+			ACTUAL_METHODOLOGY,
+			ACTUAL_CONTRACT_PRICE,
+			ACTUAL_DISCOUNT_RATE1,
+			ACTUAL_DISCOUNT_RATE2,
+			CONTRACT_END_DATE,
+			CHECK_RECORD,
+			CASH_PAID_DATE
+		)(
+			SELECT
+				B.CCP_DETAILS_SID,
+				MARKET_TYPE,
+				ACTUAL_DISCOUNT,
+				ACTUAL_METHODOLOGY,
+				ACTUAL_CONTRACT_PRICE,
+				ACTUAL_DISCOUNT_RATE1,
+				ACTUAL_DISCOUNT_RATE2,
+				CONTRACT_END_DATE,
+				CHECK_RECORD,
+				CASH_PAID_DATE
+			from
+				M_SUPPLEMENTAL_DISC_MASTER A,
+                      PROJECTION_DETAILS B
+              WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+                      AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID
+                      )
+                
+                 ]]>
+        </query>
+    </entity> 
+     <entity id="Supp_Discount_Proj_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[  
+         INSERT
+	INTO
+		ST_M_SUPPLEMENTAL_DISC_PROJ(
+			CCP_DETAILS_SID,
+			PERIOD_SID,
+			METHODOLOGY,
+			CONTRACT_PRICE,
+			DISCOUNT_RATE_1,
+			DISCOUNT_RATE_2,
+			ACCESS,
+			PARITY,
+			PARITY_REFERENCE,
+			PARITY_DISCOUNT,
+			PROJECTION_RATE,
+			PROJECTION_SALES
+		)(
+			SELECT
+				B.CCP_DETAILS_SID,
+				PERIOD_SID,
+				METHODOLOGY,
+				CONTRACT_PRICE,
+				DISCOUNT_RATE_1,
+				DISCOUNT_RATE_2,
+				ACCESS,
+				PARITY,
+				PARITY_REFERENCE,
+				PARITY_DISCOUNT,
+				PROJECTION_RATE,
+				PROJECTION_SALES
+			from
+				M_SUPPLEMENTAL_DISC_PROJ A,
+                      PROJECTION_DETAILS B
+              WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+                      AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID
+		)
+                 ]]>
+        </query>
+    </entity> 
+     <entity id="Supp_Discount_Actuals_Main_Temp_Mandated">
+        <query> 
+                <![CDATA[  
+            INSERT
+	INTO
+		ST_M_SUPPLEMENTAL_DISC_ACTUALS(
+			CCP_DETAILS_SID,
+			PERIOD_SID,
+			ACTUAL_SALES,
+			ACTUAL_RATE,
+			ACTUAL_PROJECTION_SALES,
+			ACTUAL_PROJECTION_RATE
+		)(
+			SELECT
+				B.CCP_DETAILS_SID,
+				PERIOD_SID,
+				ACTUAL_SALES,
+				ACTUAL_RATE,
+				ACTUAL_PROJECTION_SALES,
+				ACTUAL_PROJECTION_RATE
+			from
+				M_SUPPLEMENTAL_DISC_ACTUALS A,
+                      PROJECTION_DETAILS B
+              WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID
+                      AND B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID
+                      )
+                
+                 ]]>
+        </query>
+    </entity>
+    
+      <entity id="Discount_Actual_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+             MERGE M_ACTUAL_DISCOUNT AS TARGET
+             USING (
+             SELECT PD.PROJECTION_DETAILS_SID,
+             PERIOD_SID,
+             ACTUAL_SALES,
+             ACTUAL_RATE,
+             ACTUAL_RPU,
+             SAVE_FLAG
+             FROM dbo.ST_M_ACTUAL_DISCOUNT MAS
+              JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID    
+                WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            
+             ) AS SOURCE
+             ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+             WHEN MATCHED
+             THEN
+             UPDATE SET
+             TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
+             TARGET.ACTUAL_RATE=SOURCE.ACTUAL_RATE,
+             TARGET.ACTUAL_RPU=SOURCE.ACTUAL_RPU,
+             TARGET.SAVE_FLAG=SOURCE.SAVE_FLAG
+             WHEN NOT MATCHED BY TARGET
+             THEN
+             INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,
+             SOURCE.PERIOD_SID,
+             SOURCE.ACTUAL_SALES,
+             SOURCE.ACTUAL_RATE,
+             SOURCE.ACTUAL_RPU,
+             1);;
+                
+                 ]]>
+        </query>
+    </entity>  
+    
+      <entity id="Supp_Discount_Master_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+             
+            MERGE M_SUPPLEMENTAL_DISC_MASTER AS TARGET
+           USING (
+           SELECT PD.PROJECTION_DETAILS_SID,
+           MARKET_TYPE,
+			ACTUAL_DISCOUNT,
+			ACTUAL_METHODOLOGY,
+			ACTUAL_CONTRACT_PRICE,
+			ACTUAL_DISCOUNT_RATE1,
+			ACTUAL_DISCOUNT_RATE2,
+			CONTRACT_END_DATE,
+			CHECK_RECORD,
+			CASH_PAID_DATE
+           FROM dbo.ST_M_SUPPLEMENTAL_DISC_MASTER MAS
+        JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+             WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           ) AS SOURCE
+           ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)
+           WHEN MATCHED
+           THEN
+           UPDATE SET
+           TARGET.MARKET_TYPE=SOURCE.MARKET_TYPE,
+           TARGET.ACTUAL_DISCOUNT=SOURCE.ACTUAL_DISCOUNT,
+           TARGET.ACTUAL_METHODOLOGY=SOURCE.ACTUAL_METHODOLOGY,
+           TARGET.ACTUAL_CONTRACT_PRICE=SOURCE.ACTUAL_CONTRACT_PRICE,
+           TARGET.ACTUAL_DISCOUNT_RATE1=SOURCE.ACTUAL_DISCOUNT_RATE1,
+           TARGET.ACTUAL_DISCOUNT_RATE2=SOURCE.ACTUAL_DISCOUNT_RATE2,
+           TARGET.CONTRACT_END_DATE=SOURCE.CONTRACT_END_DATE,
+           TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD,
+           TARGET.CASH_PAID_DATE=SOURCE.CASH_PAID_DATE
+           WHEN NOT MATCHED BY TARGET
+           THEN
+           INSERT(
+            PROJECTION_DETAILS_SID,
+           MARKET_TYPE,
+			ACTUAL_DISCOUNT,
+			ACTUAL_METHODOLOGY,
+			ACTUAL_CONTRACT_PRICE,
+			ACTUAL_DISCOUNT_RATE1,
+			ACTUAL_DISCOUNT_RATE2,
+			CONTRACT_END_DATE,
+			CHECK_RECORD,
+			CASH_PAID_DATE ) VALUES (SOURCE.PROJECTION_DETAILS_SID,
+           SOURCE.MARKET_TYPE,
+           SOURCE.ACTUAL_DISCOUNT,
+           SOURCE.ACTUAL_METHODOLOGY,
+           SOURCE.ACTUAL_CONTRACT_PRICE,
+           SOURCE.ACTUAL_DISCOUNT_RATE1,
+           SOURCE.ACTUAL_DISCOUNT_RATE2,
+           SOURCE.CONTRACT_END_DATE,
+           SOURCE.CHECK_RECORD,
+           SOURCE.CASH_PAID_DATE);;
+                
+                 ]]>
+        </query>
+    </entity>  
+      <entity id="Supp_Discount_Proj_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+           MERGE M_SUPPLEMENTAL_DISC_PROJ AS TARGET
+           USING (
+           SELECT PD.PROJECTION_DETAILS_SID,
+           PERIOD_SID,
+			METHODOLOGY,
+			CONTRACT_PRICE,
+			DISCOUNT_RATE_1,
+			DISCOUNT_RATE_2,
+			ACCESS,
+			PARITY,
+			PARITY_REFERENCE,
+			PARITY_DISCOUNT,
+			PROJECTION_RATE,
+			PROJECTION_SALES
+           FROM dbo.ST_M_SUPPLEMENTAL_DISC_PROJ MAS
+        JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+             WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           ) AS SOURCE
+           ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+           WHEN MATCHED
+           THEN
+           UPDATE SET
+           TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+           TARGET.METHODOLOGY=SOURCE.METHODOLOGY,
+           TARGET.CONTRACT_PRICE=SOURCE.CONTRACT_PRICE,
+           TARGET.DISCOUNT_RATE_1=SOURCE.DISCOUNT_RATE_1,
+           TARGET.DISCOUNT_RATE_2=SOURCE.DISCOUNT_RATE_2,
+           TARGET.ACCESS=SOURCE.ACCESS,
+           TARGET.PARITY=SOURCE.PARITY,
+           TARGET.PARITY_REFERENCE=SOURCE.PARITY_REFERENCE,
+           TARGET.PARITY_DISCOUNT=SOURCE.PARITY_DISCOUNT,
+           TARGET.PROJECTION_RATE=SOURCE.PROJECTION_RATE,
+           TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES
+           WHEN NOT MATCHED BY TARGET
+           THEN
+           INSERT(
+            PROJECTION_DETAILS_SID,
+          PERIOD_SID,
+			METHODOLOGY,
+			CONTRACT_PRICE,
+			DISCOUNT_RATE_1,
+			DISCOUNT_RATE_2,
+			ACCESS,
+			PARITY,
+			PARITY_REFERENCE,
+			PARITY_DISCOUNT,
+			PROJECTION_RATE,
+			PROJECTION_SALES) VALUES (SOURCE.PROJECTION_DETAILS_SID,
+           SOURCE.PERIOD_SID,
+            SOURCE.METHODOLOGY,
+			SOURCE.CONTRACT_PRICE,
+           SOURCE.DISCOUNT_RATE_1,
+           SOURCE.DISCOUNT_RATE_2,
+           SOURCE.ACCESS,
+           SOURCE.PARITY,
+           SOURCE.PARITY_REFERENCE,
+           SOURCE.PARITY_DISCOUNT,
+           SOURCE.PROJECTION_RATE,
+           SOURCE.PROJECTION_SALES);;
+                
+                 ]]>
+        </query>
+    </entity>  
+     <entity id="Supp_Discount_Actuals_Temp_Main_Mandated">
+        <query> 
+                <![CDATA[  
+          
+            MERGE M_SUPPLEMENTAL_DISC_ACTUALS AS TARGET
+           USING (
+           SELECT PD.PROJECTION_DETAILS_SID,
+            PERIOD_SID,
+			ACTUAL_SALES,
+			ACTUAL_RATE,
+			ACTUAL_PROJECTION_SALES,
+			ACTUAL_PROJECTION_RATE
+           FROM dbo.ST_M_SUPPLEMENTAL_DISC_ACTUALS MAS
+        JOIN PROJECTION_DETAILS PD ON MAS.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+             WHERE  PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           ) AS SOURCE
+           ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)
+           WHEN MATCHED
+           THEN
+           UPDATE SET
+           TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+           TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,
+           TARGET.ACTUAL_RATE=SOURCE.ACTUAL_RATE,
+           TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,
+           TARGET.ACTUAL_PROJECTION_RATE=SOURCE.ACTUAL_PROJECTION_RATE
+           WHEN NOT MATCHED BY TARGET
+           THEN
+           INSERT(
+            PROJECTION_DETAILS_SID,
+             PERIOD_SID,
+			ACTUAL_SALES,
+			ACTUAL_RATE,
+			ACTUAL_PROJECTION_SALES,
+			ACTUAL_PROJECTION_RATE) VALUES (SOURCE.PROJECTION_DETAILS_SID,
+           SOURCE.PERIOD_SID,
+            SOURCE.ACTUAL_SALES,
+			SOURCE.ACTUAL_RATE,
+           SOURCE.ACTUAL_PROJECTION_SALES,
+           SOURCE.ACTUAL_PROJECTION_RATE);;
+                
+                 ]]>
+        </query>
+    </entity>  
+    </sql>

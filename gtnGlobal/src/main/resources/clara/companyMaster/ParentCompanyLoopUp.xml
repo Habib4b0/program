@@ -1,0 +1,38 @@
+<VerticalLayout margin="true" xmlns:p="urn:import:com.stpl.app.ui.errorhandling" xmlns:a="urn:import:org.asi.ui.extfilteringtable">
+    <p:ErrorLabel id="errorMsg"/>
+    <HorizontalLayout id="hLayout" styleName="responsiveTabGrid">
+        <CssLayout id="cssLayout" width="100%" height="100%">
+            
+            <Label id="companyIdLB" value="Company ID" contentMode="HTML" />
+            <TextField id="companyId" inputPrompt="" />
+            
+            <Label id="companyNoLB" value="Company No" contentMode="HTML" />
+            <TextField id="companyNo" inputPrompt="" />
+                    
+            <Label id="companyNameLB" value="Company Name" contentMode="HTML" />
+            <TextField id="companyName" inputPrompt="" />
+                    
+            <Label id="companyStatusLB" value="Company Status" contentMode="HTML" />
+            <ComboBox id="companyStatus" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" /> 
+                              
+            <Label id="companyTypeLB" value="Company Type" contentMode="HTML" />
+            <ComboBox id="companyType" nullSelectionAllowed="false"
+                      inputPrompt="-Select One" immediate="true" />           
+        
+        </CssLayout>
+    </HorizontalLayout>
+    
+    <HorizontalLayout immediate="true" spacing="true" margin="true">
+        <Button id="searchBtn" caption="Search" ></Button>
+        <Button id="resetBtn" caption="Reset" ></Button>
+    </HorizontalLayout>
+    
+        
+    <a:ExtFilterTable id="table" selectable="true" immediate="true" />
+    <Label  value="   " />
+     <HorizontalLayout immediate="true" spacing="true" margin="true">
+    <Button id="selectBtn" caption="Select"/>
+    <Button id="closeBtn" caption="Close"/>
+     </HorizontalLayout>
+</VerticalLayout>

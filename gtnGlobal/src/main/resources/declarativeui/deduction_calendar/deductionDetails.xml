@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" id="mainPanel"  xmlns:b="urn:import:org.asi.ui.customtextfield" 
+       xmlns:c="urn:import:org.asi.ui.customcombobox" >
+    
+    
+    <VerticalLayout spacing="false" margin="true" immediate="true" >
+        <Panel caption="Deduction Calendar Details" width="100%">
+            <VerticalLayout immediate="true" spacing ="true" caption="Adjustment" >
+                <Panel caption="Display Details" id = "detailsPanel" >
+                    <VerticalLayout styleName = "width-auto" margin="true">     
+                      
+                        <!--                            <GridLayout spacing="true" id="dsLayout" margin="false" immediate="true" rows="1" columns="13" styleName="adjustCaption">-->
+                        <CssLayout id="cssLayout" immediate="true" width="100%" height="100%">
+                            <HorizontalLayout spacing="false" margin="false" immediate="true" > 
+                                <Label id="dataviewLb" styleName="mandatory" value="Data View" contentMode="HTML" immediate="true" />
+                                <OptionGroup id="dataview"  immediate="true" styleName = "horizontal" />
+                                <Label id="listviewLb" styleName="mandatory" value="List View" contentMode="HTML" immediate="true" />
+                                <OptionGroup id="listview"  immediate="true" styleName = "horizontal" />
+                                <Label id="datarangeLb" styleName="mandatory" Value="Date Range:" contentMode="HTML"/>
+                                <!--<GridLayout columns="4" rows="1">-->
+                                    <Label Value="From:" styleName="mandatory" contentMode="HTML"/>
+                                    <!--                                <ComboBox id="fromDateDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" />-->
+                                    <PopupDateField id="from" immediate="true" styleName="align-center"/> 
+                                    <Label Value="To:" styleName="mandatory" contentMode="HTML"/>
+                                    <!--                                <ComboBox id="toDateDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" /> -->
+                                    <PopupDateField id="to" immediate="true" styleName="align-center"/> 
+                                <!--</GridLayout>-->
+                                <Label id="frequencyLb" styleName="mandatory" Value="Frequency:" contentMode="HTML" />
+                                <ComboBox id="frequencyDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" /> 
+                                <Label value="Filter:" id="filter" contentMode="HTML" />
+                                <ComboBox id="filterDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" /> 
+                                <Button id="generateBtn" caption="GENERATE"></Button>
+                            </HorizontalLayout>
+                        </CssLayout>
+                        <!--                            </GridLayout>-->
+                           
+                        
+                    </VerticalLayout>
+                </Panel>
+                
+                <Panel caption="Adjustment" id = "adjustmentPanel" >
+                    <VerticalLayout styleName = "width-auto" margin="true">     
+                        <HorizontalLayout spacing="false" margin="false" immediate="true" > 
+                            <CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
+                                <HorizontalLayout spacing="true" margin="false" immediate="true">
+                                    <!--<GridLayout spacing="true" id="typeLayout" margin="false" immediate="true" rows="1" columns="2" styleName="adjustCaption">-->
+                                        <Label id="type2" styleName="mandatory" value="Type:" contentMode="HTML" />
+                                        <OptionGroup id="type"  multiSelect="false" enable="true" immediate="true" styleName = "horizontal" />
+                                    <!--</GridLayout>-->                                    
+                                    <Label  id="basis1" styleName="mandatory" value="Basis:" contentMode="HTML" />  
+                                    <OptionGroup id="basis" multiSelect="false" enable="true" styleName = "horizontal" immediate="true"/>
+                                    <Label  id="variable1"  styleName="mandatory" value="Variable:" contentMode="HTML" />  
+                                    <OptionGroup id="variable" multiSelect="false" enable="true" styleName = "horizontal" immediate="true"/>
+                                    <Label  id="adjustment1" styleName="mandatory" value="Adjustment:" contentMode="HTML"  />  
+                                    <TextField id="adjustment" enable="true"/>
+                                    <Label  id="allocation" styleName="mandatory" value="Allocation Methodology:" contentMode="HTML" />
+                                    <ComboBox id="allocationMethododlogyDdlb" styleName="comboxsize" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" />
+                                    <Label  id="adjustments" styleName="mandatory" value="Adjustment Periods:" contentMode="HTML"/>  
+                                    <OptionGroup id="adjustmentPeriods" multiSelect="false" enable="true" styleName = "horizontal"/> 
+                                    <Button id="adjustBtn" caption="ADJUST"></Button>
+                                </HorizontalLayout>
+                            </CssLayout>
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                
+<!--                               
+                
+                -->                
+                <Panel caption="Mass Update" id = "massUpdatePanel">
+                    <VerticalLayout styleName = "width-auto" margin="true" >      
+                        <HorizontalLayout spacing="false" margin="false" immediate="true" >
+                            <!--                            <GridLayout spacing="true" margin="false" immediate="true" rows="1" columns="13" styleName="adjustCaption" >-->
+                            <CssLayout id="cssLayout3" immediate="true" width="100%" height="100%">
+                                <HorizontalLayout spacing="true" margin="false" immediate="true">
+                                    <OptionGroup id="massUpdate" multiSelect="false"  enable="true" styleName = "horizontal" />
+                                    <Label value="Field: " contentMode="HTML" />
+                                    <ComboBox id="fieldDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "false" inputPrompt="-Select One" />
+                                    <Label value="Level: " contentMode="HTML" />
+                                    <ComboBox id="levelDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true" inputPrompt="-Select One" />
+                                    <Label value="Value: " contentMode="HTML" />
+                                    <TextField id="value" enable="true"/>
+                                    <!--                             <c:CustomComboBox id="valueDdlb" styleName="comboxsize" enable="true" nullSelectionAllowed = "false" inputPrompt="-Select One" />-->
+                                    <TextField id="valueTxt" inputPrompt="" immediate="true" visible="false"/>
+                                    <Label id="StartLb" value="Start Period:" contentMode="HTML" />
+                                    <ComboBox id="startPeriod" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "false" inputPrompt="-Select One"  />
+                                    <Label id="EndLb" value="End Period:" contentMode="HTML"/>
+                                    <ComboBox id="endPeriod" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "false" inputPrompt="-Select One" />
+                                    <Button id="populate" caption="POPULATE" />
+                                    <!--                            </GridLayout>-->
+                             </HorizontalLayout>
+                            </CssLayout>
+                    </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                
+                
+                
+                 
+                <Panel  spacing="true" >
+                    <!--<VerticalLayout spacing="true" margin="true">-->
+                    <VerticalLayout id="tableVerticalLayout" selectable="true" immediate="true" />
+                    <!--</VerticalLayout>-->
+                </Panel>
+                
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

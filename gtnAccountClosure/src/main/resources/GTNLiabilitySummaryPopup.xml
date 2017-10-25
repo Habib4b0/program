@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<VerticalLayout margin="true">
+    <Panel   xmlns:a="urn:import:org.asi.ui.extfilteringtable"  id="mainPanel" caption="Liability Summary">
+
+        <VerticalLayout id="lsummaryLayout" spacing="true"
+                    margin="true" immediate="true">
+<!--            <a:ExtFilterTable id="liabilitySummaryTable" width="300px"
+                          styleName="table-header-normal" height="100px" pageLength="8" immediate="true" />-->
+        </VerticalLayout>
+    </Panel>
+    <HorizontalLayout spcing="true" margin="true">
+         <Button id="closeBtn" caption="CLOSE" />
+        <Button id="exportBtn" caption="EXPORT" />
+    </HorizontalLayout>
+</VerticalLayout>
+

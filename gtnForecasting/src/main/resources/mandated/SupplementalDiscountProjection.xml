@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+
+    <VerticalLayout id="dsVerticalLayout" spacing="true"
+                    margin="true" immediate="true" styleName="bootstrap-forecast">
+
+        <Panel id="panel1" caption="Supplemental Variable Selection" width="100%">
+
+            <HorizontalLayout spacing="true" margin="true"
+                              immediate="true">
+                <Label value="Variables: " contentMode="HTML" />
+                <OptionGroup multiSelect="true" id="variables" enabled="true"
+                             immediate="true"  />
+            </HorizontalLayout>
+
+        </Panel>
+
+        <HorizontalLayout spacing="true" margin="false"
+                          immediate="true">
+            <Button id="generateBtn" caption="GENERATE" immediate="true"></Button>
+            <Button id="resetBtn" caption="RESET" immediate="true"></Button>
+        </HorizontalLayout>
+
+
+        <Panel caption="Discount Projection" width="100%">
+            <VerticalLayout id="verticalLayout" spacing="true"
+                            margin="true" immediate="true">
+                 
+                <Panel caption="Mass Update" width="100%">
+        
+                    <HorizontalLayout id="populateLayout" spacing="true" margin="false" immediate="false" styleName="component-layout" width="115%">
+                        <HorizontalLayout spacing="true" margin="true" immediate="true" styleName="component-layout">
+                            <OptionGroup multiSelect="false" id="massUpdate"
+                                     enabled="true" immediate="true" styleName = "horizontal" />
+                        </HorizontalLayout>
+                        <HorizontalLayout spacing="true" margin="true" immediate="true" styleName="component-layout">
+                            <Label caption="Field: " contentMode="HTML" />
+                            <ComboBox id="fieldDdlb" inputPrompt="-Select One-"
+                                      nullSelectionAllowed="false" immediate="true" />
+                        </HorizontalLayout>
+                        <HorizontalLayout spacing="true" margin="true" immediate="true" styleName="component-layout">
+                            <Label caption="Value: " contentMode="HTML" />
+                            <ComboBox id="methodologyDdlb" nullSelectionAllowed="false"
+                                      inputPrompt="-Select Methodology-" immediate="true" visible="true"/>
+                      
+                            <ComboBox id="accessDdlb" nullSelectionAllowed="false"
+                                      inputPrompt="-Select One-" immediate="true" visible="false"/>
+                            <TextField id="valueTextField" immediate="true" visible="false" height="29px" width="179px" styleName = "txtRightAlign"></TextField>
+                            <OptionGroup multiSelect="false" id="valueOption"
+                                         enabled="true" visible="false" immediate="true" styleName = "horizontal"  />
+                            <b:CustomTextField id="valueLookUp" styleName="searchicon"
+                                               immediate="true" enable="true" visible="false" />
+                        </HorizontalLayout>
+                        <HorizontalLayout spacing="true" margin="true" immediate="true" styleName="component-layout">
+                            <Label caption="Start Period: " contentMode="HTML" />
+                            <ComboBox id="startPeriod" nullSelectionAllowed="false"
+                                      immediate="true" inputPrompt="-Select One-" />
+                        </HorizontalLayout>
+                        <HorizontalLayout spacing="true" margin="true" immediate="true" styleName="component-layout" >
+                            <Label caption="End Period:  " contentMode="HTML" />
+                            <ComboBox id="endPeriod" nullSelectionAllowed="false"
+                                      immediate="true" inputPrompt="-Select One-"/>
+                        </HorizontalLayout>
+                         <HorizontalLayout spacing="true" margin="true" immediate="true" styleName="component-layout" >
+                        <Button id="populateBtn" caption="POPULATE" immediate="true"></Button>
+                         </HorizontalLayout>
+                           </HorizontalLayout>
+                </Panel>
+                <HorizontalLayout spacing="true" margin="false"
+                                  immediate="true">
+
+                    <Label caption="Level: " contentMode="HTML" />
+                    <ComboBox id="level" nullSelectionAllowed="true"/>
+                    <Button id="expandBtn" caption="EXPAND"></Button>
+                    <Button id="collapseBtn" caption="COLLAPSE"></Button>
+                    <Label caption="Level Filter: " contentMode="HTML" />
+                    <ComboBox id="levelFilter" nullSelectionAllowed="true"
+                              immediate="true"/>
+
+                </HorizontalLayout>
+                <VerticalLayout id="tableVerticalLayout" spacing="true"
+                                 margin="false" immediate="true">
+              
+                </VerticalLayout>    
+                
+                <HorizontalLayout spacing="true">
+                    <Button id="excelBtn" primaryStyleName="link"></Button>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+
+    </VerticalLayout>
+
+</Panel>

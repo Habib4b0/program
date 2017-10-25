@@ -1,0 +1,1407 @@
+<sql>
+
+    <entity id="getItemCountForCustomer">
+        <query> <![CDATA[
+            SELECT COUNT(DISTINCT ITEM_MASTER_SID) FROM ST_DEDUCTION_CALENDAR_DETAILS WHERE COMPANY_MASTER_SID = '@SID' AND INBOUND_STATUS <> 'D'  ;
+        ]]></query>
+    </entity>
+    
+    <entity id="getItemCountForBrand">
+        <query> <![CDATA[
+            SELECT COUNT(DISTINCT SD.ITEM_MASTER_SID) FROM ST_DEDUCTION_CALENDAR_DETAILS SD
+            JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = SD.ITEM_MASTER_SID WHERE IM.BRAND_MASTER_SID = '@SID' AND SD.INBOUND_STATUS <> 'D' ;
+        ]]></query>
+    </entity>
+    
+    <entity id="getLineLevelUpdateForCust">
+        <query> <![CDATA[
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT COUNT(SI.ITEM_MASTER_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   CP_DETAILS CD
+                               INNER JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+                                       ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                        WHERE  SI.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                               AND SI.USER_ID = SC.USER_ID
+                               AND SI.SESSION_ID = SC.SESSION_ID
+                               AND SC.COMPANY_MASTER_SID = @SID)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON SD.CP_DETAILS_SID = CD.CP_DETAILS_SID
+       INNER JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+               ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+               AND SC.USER_ID = '@USERID'	
+	                  AND SC.SESSION_ID = '@SESSIONID'
+WHERE  SC.COMPANY_MASTER_SID = @SID
+       AND YEAR = @YEAR;
+       
+        ]]></query>
+    </entity>
+    
+    <entity id="getLineLevelUpdateForCustinProd">
+        <query> <![CDATA[
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT COUNT(SI.ITEM_MASTER_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   ITEM_MASTER IM
+                        WHERE  SI.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               AND IM.BRAND_MASTER_SID = @BRAND_SID
+                               ?FILTER)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+         ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+          AND SC.USER_ID = '@USERID'		
+	            AND SC.SESSION_ID = '@SESSIONID'
+WHERE  IM.BRAND_MASTER_SID = @BRAND_SID
+       ?FILTER
+       AND CD.COMPANY_MASTER_SID = @SID
+       AND YEAR = @YEAR
+
+       
+        ]]></query>
+    </entity>
+    
+    <entity id="getLineLevelUpdateForBrand">
+        <query> <![CDATA[
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT COUNT(SI.ITEM_MASTER_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   ITEM_MASTER IM
+                        WHERE  SI.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               AND IM.BRAND_MASTER_SID = @SID)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+         ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+            AND SC.USER_ID = '@USERID'		            
+            AND SC.SESSION_ID = '@SESSIONID'
+WHERE  IM.BRAND_MASTER_SID = @SID
+       AND CD.COMPANY_MASTER_SID = @COMPANY_SID
+       AND YEAR = @YEAR
+      
+        ]]></query>
+    </entity>
+    
+    <entity id="getLineLevelUpdateForBrandinProd">
+        <query> <![CDATA[
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT Count(DISTINCT CP_DETAILS_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_DETAILS SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   CP_DETAILS cd
+                               JOIN ST_DEDUCTION_CALENDAR_item sc
+                                 ON sc.ITEM_MASTER_sid = cd.ITEM_MASTER_SID
+                               JOIN ITEM_MASTER im
+                                 ON im.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                        WHERE  si.CP_DETAILS_SID = cd.CP_DETAILS_SID
+                               AND si.USER_ID = sc.USER_ID
+                               AND si.SESSION_ID = sc.SESSION_ID
+                               AND im.BRAND_MASTER_SID = @SID
+                               ?FILTER)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON SD.CP_DETAILS_SID = CD.CP_DETAILS_SID
+       INNER JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+               ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+               AND SC.USER_ID = '@USERID'		
+                AND SC.SESSION_ID = '@SESSIONID'
+       JOIN ST_DEDUCTION_CALENDAR_item si
+         ON si.ITEM_MASTER_sid = cd.ITEM_MASTER_SID
+            AND si.USER_ID = sc.USER_ID
+            AND si.SESSION_ID = sc.SESSION_ID
+       JOIN ITEM_MASTER im
+         ON im.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+WHERE  im.BRAND_MASTER_SID = @SID
+       ?FILTER
+       AND YEAR = @YEAR; 
+
+        ]]></query>
+    </entity>
+    
+    <entity id="getLineLevelUpdateForItem">
+        <query> <![CDATA[
+        declare @VALUE numeric(22,6) = ?VALUE
+        UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE 
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+         ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+         AND SC.USER_ID = '@USERID'		
+        AND SC.SESSION_ID = '@SESSIONID'
+WHERE  IM.ITEM_MASTER_SID = @SID
+       AND IM.BRAND_MASTER_SID = @BRAND_SID
+       AND SC.COMPANY_MASTER_SID = @COMPANY_SID
+       AND YEAR = @YEAR
+        ]]></query>
+    </entity>
+    
+    <entity id="checkTempTable">
+        <query> <![CDATA[
+        UPDATE SD SET SD.CHECK_RECORD = '@CHECK' 
+        FROM ST_DEDUCTION_CALENDAR_DETAILS SD
+        JOIN CP_DETAILS CD ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+        @JOIN
+        @WHERE 
+        ]]></query>
+    </entity>
+    
+    <entity id="checkTempTableBrand">
+        <query> <![CDATA[
+        UPDATE SD SET CHECK_RECORD = '@CHECK'
+        FROM ST_DEDUCTION_CALENDAR_DETAILS SD
+        JOIN CP_DETAILS CD ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+        JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+        @WHERE  
+        ]]></query>
+    </entity>
+    
+    <entity id="checkAllTemp">
+        <query> <![CDATA[
+            UPDATE ST_DEDUCTION_CALENDAR_DETAILS SET CHECK_RECORD = '@CHECK'  ;
+        ]]></query>
+    </entity>
+    
+   
+    <entity id="deleteDeductionDetails">
+        <query> <![CDATA[
+            DELETE FROM ST_DEDUCTION_CALENDAR_DETAILS;
+        ]]></query>
+    </entity>
+    
+    <entity id="insertToTempForDetails">
+        <query> <![CDATA[
+            DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT = ?DCID
+        
+        INSERT INTO ST_DEDUCTION_CALENDAR_DETAILS (
+	CP_DETAILS_SID
+	,YEAR
+	,JAN_DISCOUNT_AMOUNT
+	,FEB_DISCOUNT_AMOUNT
+	,MAR_DISCOUNT_AMOUNT
+	,APR_DISCOUNT_AMOUNT
+	,MAY_DISCOUNT_AMOUNT
+	,JUN_DISCOUNT_AMOUNT
+	,JUL_DISCOUNT_AMOUNT
+	,AUG_DISCOUNT_AMOUNT
+	,SEP_DISCOUNT_AMOUNT
+	,OCT_DISCOUNT_AMOUNT
+	,NOV_DISCOUNT_AMOUNT
+	,DEC_DISCOUNT_AMOUNT
+	,CHECK_RECORD
+        ,DEDUCTION_CALENDAR_MASTER_SID
+	)
+SELECT CP_DETAILS_SID
+	,YEAR
+	,JAN_DISCOUNT_AMOUNT
+	,FEB_DISCOUNT_AMOUNT
+	,MAR_DISCOUNT_AMOUNT
+	,APR_DISCOUNT_AMOUNT
+	,MAY_DISCOUNT_AMOUNT
+	,JUN_DISCOUNT_AMOUNT
+	,JUL_DISCOUNT_AMOUNT
+	,AUG_DISCOUNT_AMOUNT
+	,SEP_DISCOUNT_AMOUNT
+	,OCT_DISCOUNT_AMOUNT
+	,NOV_DISCOUNT_AMOUNT
+	,DEC_DISCOUNT_AMOUNT
+	,CHECK_RECORD
+        ,DEDUCTION_CALENDAR_MASTER_SID
+FROM DEDUCTION_CALENDAR_DETAILS
+WHERE CP_DETAILS_SID IN (
+		SELECT CP_DETAILS_SID
+		FROM CP_DETAILS CD
+		WHERE EXISTS (
+				SELECT 1
+				FROM DEDUCTION_CALENDAR_COMPANY DC
+				WHERE DC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+					AND DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+					AND INBOUND_STATUS <> 'D'
+				)
+			AND EXISTS (
+				SELECT 1
+				FROM DEDUCTION_CALENDAR_ITEM DI
+				WHERE DI.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+					AND DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+					AND INBOUND_STATUS <> 'D'
+				)
+		) AND DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+        
+        ]]></query>
+    </entity>
+    
+    <entity id="checkValidation">
+        <query> <![CDATA[
+            IF EXISTS (SELECT 1
+           FROM   ST_DEDUCTION_CALENDAR_DETAILS
+           WHERE  CHECK_RECORD = 1)
+  SELECT 1
+ELSE
+  SELECT 0
+        ]]></query>
+    </entity>
+    
+    <entity id="checkFilterCompValidation">
+        <query> <![CDATA[
+            IF EXISTS (SELECT 1
+           FROM   ST_DEDUCTION_CALENDAR_DETAILS SDC
+                  INNER JOIN CP_DETAILS CD
+                          ON SDC.CP_DETAILS_SID = CD.CP_DETAILS_SID
+           WHERE  CHECK_RECORD = 1)
+  SELECT 1
+ELSE
+  SELECT 0 
+
+        ]]></query>
+    </entity>
+    
+    <entity id="checkFilterItemValidation">
+        <query> <![CDATA[
+            IF EXISTS (SELECT 1
+           FROM   ST_DEDUCTION_CALENDAR_DETAILS SDC
+                  INNER JOIN CP_DETAILS CD
+                          ON SDC.CP_DETAILS_SID = CD.CP_DETAILS_SID
+           WHERE  CHECK_RECORD = 1)
+  SELECT 1
+ELSE
+  SELECT 0 
+
+        ]]></query>
+    </entity>
+      
+    <entity id="saveToTempDeductionDetails">        
+        <query> <![CDATA[
+        DECLARE @USER_ID    INT = @USERID,
+        @SESSION_ID VARCHAR(100) = '@SESSIONID'
+
+IF Object_id('TEMPDB..#YEAR') IS NOT NULL
+  TRUNCATE TABLE #YEAR
+ELSE
+  CREATE TABLE #YEAR
+    (
+       YEAR INT PRIMARY KEY
+    )
+
+INSERT #YEAR
+SELECT DISTINCT YEAR
+FROM   PERIOD
+WHERE  PERIOD_DATE BETWEEN datefromparts(year('@STARTPERIOD'),
+month('@STARTPERIOD'),'01') AND datefromparts(year('@ENDPERIOD'),
+month('@STARTPERIOD'),'01')  
+
+INSERT INTO ST_DEDUCTION_CALENDAR_DETAILS WITH(TABLOCKX)
+            (CP_DETAILS_SID,
+             year,
+             CHECK_RECORD,
+             DEDUCTION_CALENDAR_MASTER_SID)
+SELECT CD.CP_DETAILS_SID,
+       year,
+       1           AS CHECK_RECORD,
+       0           AS DEDUCTION_CALENDAR_MASTER_SID
+FROM   CP_DETAILS CD
+       CROSS JOIN #YEAR Y
+WHERE  EXISTS (SELECT 1
+               FROM   ST_DEDUCTION_CALENDAR_COMPANY C
+               WHERE  C.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                      AND C.SESSION_ID = @SESSION_ID
+                      AND C.USER_ID = @USER_ID)
+       AND EXISTS (SELECT 1
+                   FROM   ST_DEDUCTION_CALENDAR_ITEM I
+                   WHERE  I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                          AND I.SESSION_ID = @SESSION_ID
+                          AND I.USER_ID = @USER_ID)
+       AND NOT EXISTS (SELECT 1
+                       FROM   [ST_DEDUCTION_CALENDAR_DETAILS] DCD
+                       WHERE  DCD.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                              AND DCD.YEAR = Y.YEAR); 
+
+        ]]> </query>
+    </entity>
+               
+    
+    <entity id="totalcustomer">
+        <query> <![CDATA[
+            SELECT
+    'Total' ,
+    YEAR ,
+    COUNT(*) total_count,
+    MIN(
+        CASE
+            (CHECK_RECORD)
+            WHEN 1 THEN 1
+            ELSE 0
+        END
+    ) AS CHECK_RECORD,
+    SUM(
+        CASE
+            (CHECK_RECORD)
+            WHEN 1 THEN 0
+            ELSE 1
+        END
+    ) AS uncheck_count,
+    ?FREQ
+    
+FROM
+    ST_DEDUCTION_CALENDAR_DETAILS ST INNER JOIN CP_DETAILS CD
+        ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+GROUP BY
+    YEAR
+ORDER BY
+    YEAR
+
+                    ]]> </query>   
+    </entity>
+    
+    
+    <entity id="customerlevel2">
+        <query> <![CDATA[
+        
+        ;WITH cte
+     AS (SELECT *
+         FROM   ST_DEDUCTION_CALENDAR_COMPANY
+         WHERE  USER_ID = ?UID
+                AND SESSION_ID = ?SID
+                ?FILTER
+         ORDER  BY COMPANY_MASTER_SID
+        OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT CM.COMPANY_MASTER_SID,
+                           CM.COMPANY_NAME,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN COMPANY_MASTER CM
+                             ON CM.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                    WHERE  sc.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                            AND sc.USER_ID = ?UID
+                            AND sc.SESSION_ID = ?SID
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY CM.COMPANY_MASTER_SID,
+                              CM.COMPANY_NAME,
+                              YEAR) cs
+ORDER  BY COMPANY_MASTER_SID,
+          COMPANY_NAME,
+          YEAR 
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="customerlevel3">
+        <query> <![CDATA[
+        
+        ;WITH CTE
+     AS (SELECT *
+         FROM   BRAND_MASTER BM
+         WHERE  EXISTS (SELECT 1
+                        FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+                               INNER JOIN ITEM_MASTER IM
+                                       ON SI.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               JOIN CP_DETAILS C
+                                 ON C.ITEM_MASTER_SID = SI.ITEM_MASTER_SID
+                               JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+                                 ON SC.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID
+                                    AND SC.USER_ID = SI.USER_ID
+                                    AND SC.SESSION_ID = SI.SESSION_ID
+                        WHERE  BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                               AND SI.USER_ID = ?UID
+                               AND SI.SESSION_ID = ?SID
+                               AND C.COMPANY_MASTER_SID = ?CMID)
+         ORDER  BY BRAND_MASTER_SID
+        OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT CS.*
+FROM   CTE SI
+       CROSS APPLY (SELECT B.BRAND_MASTER_SID,
+                           B.BRAND_NAME,
+                           YEAR,
+                           COUNT(*) TOTAL_COUNT,
+                           MIN(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           SUM(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS UNCHECK_COUNT,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN ITEM_MASTER I
+                             ON I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                           JOIN BRAND_MASTER B
+                             ON B.BRAND_MASTER_SID = I.BRAND_MASTER_SID
+                    WHERE  SI.BRAND_MASTER_SID = I.BRAND_MASTER_SID
+                           AND CD.COMPANY_MASTER_SID = ?CMID
+                           AND YEAR BETWEEN YEAR ('?FROM') AND YEAR('?TO')
+                    GROUP  BY B.BRAND_MASTER_SID,
+                              B.BRAND_NAME,
+                              YEAR) CS
+ORDER  BY BRAND_MASTER_SID,
+          BRAND_NAME,
+          YEAR 
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="customerlevel4">
+        <query> <![CDATA[
+        
+        ;WITH CTE
+     AS (SELECT SI.*
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   ITEM_MASTER IM
+                               JOIN CP_DETAILS c
+                                 ON C.ITEM_MASTER_SID = SI.ITEM_MASTER_SID
+                               JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+                                 ON SC.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID
+                                    AND SC.USER_ID = SI.USER_ID
+                                    AND SC.SESSION_ID = SI.SESSION_ID
+                        WHERE  SI.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               AND C.COMPANY_MASTER_SID = ?CMID
+                               AND IM.BRAND_MASTER_SID = ?BMSID)
+                AND SI.USER_ID = ?UID
+                AND SI.SESSION_ID = ?SID
+         ORDER  BY SI.ITEM_MASTER_SID
+         OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT CS.*
+FROM   CTE SI
+       CROSS APPLY (SELECT I.ITEM_MASTER_SID,
+                           I.ITEM_NAME,
+                           YEAR,
+                           Count(*) TOTAL_COUNT,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS UNCHECK_COUNT,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN ITEM_MASTER I
+                             ON I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                    WHERE  SI.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                                 AND SI.USER_ID = ?UID	
+	                           AND SI.SESSION_ID = ?SID
+                           AND CD.COMPANY_MASTER_SID = ?CMID
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY I.ITEM_MASTER_SID,
+                              I.ITEM_NAME,
+                              YEAR) CS
+ORDER  BY ITEM_MASTER_SID,
+          ITEM_NAME,
+          YEAR 
+        
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="prod-level1-data">
+        <query> <![CDATA[
+          ;WITH cte
+     AS (SELECT *
+         FROM   BRAND_MASTER bm
+         WHERE  EXISTS (SELECT 1
+                        FROM   ST_DEDUCTION_CALENDAR_ITEM si
+                               INNER JOIN ITEM_MASTER im
+                                       ON im.ITEM_MASTER_SID = si.ITEM_MASTER_SID
+                        WHERE  bm.BRAND_MASTER_SID = im.BRAND_MASTER_SID
+                                ?FILTER
+                               AND USER_ID = ?UID
+                               AND SESSION_ID = ?SID)
+         ORDER  BY BRAND_MASTER_SID
+        OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT bm.BRAND_MASTER_SID,
+                           bm.brand_name,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN ITEM_MASTER iM
+                             ON im.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                           JOIN BRAND_MASTER bm
+                             ON bm.BRAND_MASTER_SID = im.BRAND_MASTER_SID
+                                                JOIN ST_DEDUCTION_CALENDAR_COMPANY sdc ON sdc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                                                AND sdc.USER_ID = ?UID
+                                                AND sdc.SESSION_ID = ?SID
+                    WHERE  sc.BRAND_MASTER_SID = im.BRAND_MASTER_SID
+                           ?FILTER
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY bm.BRAND_MASTER_SID,
+                              bm.brand_name,
+                              YEAR) cs
+ORDER  BY BRAND_MASTER_SID,
+          brand_name,
+          YEAR
+
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="prod-level2-data">
+        <query> <![CDATA[
+          ;WITH cte
+     AS (SELECT sc.COMPANY_MASTER_SID
+         FROM   ST_DEDUCTION_CALENDAR_COMPANY sc
+         WHERE  EXISTS (SELECT 1
+                        FROM   ST_DEDUCTION_CALENDAR_ITEM si
+                               JOIN CP_DETAILS Cd
+                                 ON Cd.ITEM_MASTER_SID = si.ITEM_MASTER_SID
+                               JOIN ITEM_MASTER IM
+                                 ON IM.ITEM_MASTER_SID = cD.ITEM_MASTER_SID
+                        WHERE  sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                               AND si.USER_ID = sc.USER_ID
+                               AND si.SESSION_ID = sc.SESSION_ID
+                               AND IM.BRAND_MASTER_SID = ?BMSID
+                               ?FILTER
+                                                   )
+                AND sc.USER_ID = ?UID
+                AND sc.SESSION_ID = ?SID
+         ORDER  BY COMPANY_MASTER_SID
+        OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT cm.COMPANY_MASTER_SID,
+                           cm.COMPANY_NAME,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN COMPANY_MASTER cM
+                             ON cM.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                           JOIN ST_DEDUCTION_CALENDAR_ITEM sdc
+                             ON sdc.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                                AND sdc.USER_ID = ?UID
+                                AND sdc.SESSION_ID = ?SID
+                            JOIN ITEM_MASTER im ON im.ITEM_MASTER_SID = cd.ITEM_MASTER_SID    
+                    WHERE  sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                           AND  IM.BRAND_MASTER_SID = ?BMSID
+                           ?FILTER
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY cm.COMPANY_MASTER_SID,
+                              cm.COMPANY_NAME,
+                              YEAR) cs
+ORDER  BY COMPANY_MASTER_SID,
+          COMPANY_NAME,
+          YEAR
+
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="prod-level3-data">
+        <query> <![CDATA[
+        ;with cte as
+(
+SELECT *
+FROM   ST_DEDUCTION_CALENDAR_ITEM SD
+WHERE  EXISTS (SELECT 1
+               FROM   CP_DETAILS cd
+                      JOIN ITEM_MASTER IM
+                        ON IM.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                      JOIN BRAND_MASTER BM
+                        ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                      JOIN ST_DEDUCTION_CALENDAR_COMPANY sc
+                        ON sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                           AND sd.USER_ID = sc.USER_ID
+                           AND sd.SESSION_ID = sc.SESSION_ID
+               WHERE  sd.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                      AND sc.COMPANY_MASTER_SID = ?CMID
+                      AND IM.BRAND_MASTER_SID = ?BMSID
+                      ?FILTER
+                      AND SD.USER_ID = ?UID
+                      AND SD.SESSION_ID = ?SID) 
+                                    order by ITEM_MASTER_SID
+   OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+)
+
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT im.ITEM_MASTER_SID,
+                           im.ITEM_NAME,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                            ?FREQ   
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN ITEM_MASTER iM
+                             ON iM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                           JOIN ST_DEDUCTION_CALENDAR_ITEM sdc
+                             ON sdc.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                                AND sdc.USER_ID = ?UID
+                                AND sdc.SESSION_ID = ?SID
+                    WHERE  sc.ITEM_MASTER_SID = iM.ITEM_MASTER_SID
+                           AND CD.COMPANY_MASTER_SID = ?CMID
+                           ?FILTER
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY im.ITEM_MASTER_SID,
+                           im.ITEM_NAME,
+                              YEAR) cs
+ORDER  BY ITEM_MASTER_SID,
+          ITEM_NAME,
+          YEAR
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="savedeductiondetails">
+        <query> <![CDATA[
+          DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT= ?DCID, @USER_ID INT = ?UID
+	,@SESSION_ID VARCHAR(100) = ?SID
+        
+        
+IF((SELECT COUNT(*)
+	FROM ST_DEDUCTION_CALENDAR_COMPANY
+	WHERE USER_ID = @USER_ID
+		AND SESSION_ID = @SESSION_ID) <>0)
+BEGIN
+INSERT INTO DEDUCTION_CALENDAR_COMPANY
+(DEDUCTION_CALENDAR_MASTER_SID
+,COMPANY_MASTER_SID, INBOUND_STATUS
+)
+SELECT @DEDUCTION_CALENDAR_MASTER_SID
+,COMPANY_MASTER_SID, 'A'
+ FROM ST_DEDUCTION_CALENDAR_COMPANY
+WHERE USER_ID = @USER_ID
+		AND SESSION_ID = @SESSION_ID
+END;
+IF((SELECT COUNT(*)
+	FROM ST_DEDUCTION_CALENDAR_ITEM
+	WHERE USER_ID = @USER_ID
+		AND SESSION_ID = @SESSION_ID) <>0)
+BEGIN
+INSERT INTO DEDUCTION_CALENDAR_ITEM
+(DEDUCTION_CALENDAR_MASTER_SID
+,ITEM_MASTER_SID, INBOUND_STATUS
+)
+SELECT @DEDUCTION_CALENDAR_MASTER_SID
+,ITEM_MASTER_SID, 'A'
+FROM ST_DEDUCTION_CALENDAR_ITEM
+WHERE USER_ID = @USER_ID
+		AND SESSION_ID = @SESSION_ID
+END;
+
+IF((SELECT COUNT(*)
+	FROM ST_DEDUCTION_CALENDAR_DETAILS) <>0)
+BEGIN
+INSERT INTO DEDUCTION_CALENDAR_DETAILS
+(DEDUCTION_CALENDAR_MASTER_SID,CP_DETAILS_SID
+,YEAR
+,JAN_DISCOUNT_AMOUNT
+,FEB_DISCOUNT_AMOUNT
+,MAR_DISCOUNT_AMOUNT
+,APR_DISCOUNT_AMOUNT
+,MAY_DISCOUNT_AMOUNT
+,JUN_DISCOUNT_AMOUNT
+,JUL_DISCOUNT_AMOUNT
+,AUG_DISCOUNT_AMOUNT
+,SEP_DISCOUNT_AMOUNT
+,OCT_DISCOUNT_AMOUNT
+,NOV_DISCOUNT_AMOUNT
+,DEC_DISCOUNT_AMOUNT
+,CHECK_RECORD
+)
+
+SELECT @DEDUCTION_CALENDAR_MASTER_SID,CP_DETAILS_SID
+,YEAR
+,JAN_DISCOUNT_AMOUNT
+,FEB_DISCOUNT_AMOUNT
+,MAR_DISCOUNT_AMOUNT
+,APR_DISCOUNT_AMOUNT
+,MAY_DISCOUNT_AMOUNT
+,JUN_DISCOUNT_AMOUNT
+,JUL_DISCOUNT_AMOUNT
+,AUG_DISCOUNT_AMOUNT
+,SEP_DISCOUNT_AMOUNT
+,OCT_DISCOUNT_AMOUNT
+,NOV_DISCOUNT_AMOUNT
+,DEC_DISCOUNT_AMOUNT
+,CHECK_RECORD
+FROM ST_DEDUCTION_CALENDAR_DETAILS
+
+END ;
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="updatedeductiondetails">
+        <query> <![CDATA[
+         DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT= ?DCID, @USER_ID INT = ?UID
+	,@SESSION_ID VARCHAR(100) = ?SID
+        
+        MERGE INTO DEDUCTION_CALENDAR_COMPANY AS TARGET
+USING (
+	SELECT *
+	FROM ST_DEDUCTION_CALENDAR_COMPANY
+	WHERE USER_ID = @USER_ID
+		AND SESSION_ID = @SESSION_ID
+	) AS SOURCE
+	ON TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID AND TARGET.DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+WHEN NOT MATCHED BY TARGET
+	THEN
+		INSERT (
+			DEDUCTION_CALENDAR_MASTER_SID
+			,COMPANY_MASTER_SID
+			,INBOUND_STATUS
+			)
+		VALUES (
+			@DEDUCTION_CALENDAR_MASTER_SID
+			,COMPANY_MASTER_SID
+			,'A'
+			)
+WHEN MATCHED
+	THEN
+		UPDATE
+		SET TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID
+			,TARGET.INBOUND_STATUS = 'A'
+WHEN NOT MATCHED BY SOURCE AND TARGET.DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+	THEN
+		UPDATE
+		SET TARGET.INBOUND_STATUS = 'D';
+     
+                MERGE INTO DEDUCTION_CALENDAR_ITEM AS TARGET
+USING (
+	SELECT *
+	FROM ST_DEDUCTION_CALENDAR_ITEM
+	WHERE USER_ID = @USER_ID
+		AND SESSION_ID = @SESSION_ID
+	) AS SOURCE
+	ON TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID AND TARGET.DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+WHEN NOT MATCHED BY TARGET
+	THEN
+		INSERT (
+			DEDUCTION_CALENDAR_MASTER_SID
+			,ITEM_MASTER_SID
+			,INBOUND_STATUS
+			)
+		VALUES (
+			@DEDUCTION_CALENDAR_MASTER_SID
+			,ITEM_MASTER_SID
+			,'A'
+			)
+WHEN MATCHED
+	THEN
+		UPDATE
+		SET TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID
+			,TARGET.INBOUND_STATUS = 'A'
+WHEN NOT MATCHED BY SOURCE AND TARGET.DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+	THEN
+		UPDATE
+		SET TARGET.INBOUND_STATUS = 'D';
+
+MERGE INTO DEDUCTION_CALENDAR_DETAILS AS TARGET
+USING (
+	SELECT *
+	FROM ST_DEDUCTION_CALENDAR_DETAILS ) AS SOURCE
+	ON SOURCE.CP_DETAILS_SID = TARGET.CP_DETAILS_SID
+		AND SOURCE.YEAR = TARGET.YEAR
+WHEN MATCHED
+	THEN
+		UPDATE
+		SET TARGET.JAN_DISCOUNT_AMOUNT = SOURCE.JAN_DISCOUNT_AMOUNT
+			,TARGET.FEB_DISCOUNT_AMOUNT = SOURCE.FEB_DISCOUNT_AMOUNT
+			,TARGET.MAR_DISCOUNT_AMOUNT = SOURCE.MAR_DISCOUNT_AMOUNT
+			,TARGET.APR_DISCOUNT_AMOUNT = SOURCE.APR_DISCOUNT_AMOUNT
+			,TARGET.MAY_DISCOUNT_AMOUNT = SOURCE.MAY_DISCOUNT_AMOUNT
+			,TARGET.JUN_DISCOUNT_AMOUNT = SOURCE.JUN_DISCOUNT_AMOUNT
+			,TARGET.JUL_DISCOUNT_AMOUNT = SOURCE.JUL_DISCOUNT_AMOUNT
+			,TARGET.AUG_DISCOUNT_AMOUNT = SOURCE.AUG_DISCOUNT_AMOUNT
+			,TARGET.SEP_DISCOUNT_AMOUNT = SOURCE.SEP_DISCOUNT_AMOUNT
+			,TARGET.OCT_DISCOUNT_AMOUNT = SOURCE.OCT_DISCOUNT_AMOUNT
+			,TARGET.NOV_DISCOUNT_AMOUNT = SOURCE.NOV_DISCOUNT_AMOUNT
+			,TARGET.DEC_DISCOUNT_AMOUNT = SOURCE.DEC_DISCOUNT_AMOUNT
+WHEN NOT MATCHED BY TARGET
+	THEN
+		INSERT (
+			CP_DETAILS_SID
+			,YEAR
+			,JAN_DISCOUNT_AMOUNT
+			,FEB_DISCOUNT_AMOUNT
+			,MAR_DISCOUNT_AMOUNT
+			,APR_DISCOUNT_AMOUNT
+			,MAY_DISCOUNT_AMOUNT
+			,JUN_DISCOUNT_AMOUNT
+			,JUL_DISCOUNT_AMOUNT
+			,AUG_DISCOUNT_AMOUNT
+			,SEP_DISCOUNT_AMOUNT
+			,OCT_DISCOUNT_AMOUNT
+			,NOV_DISCOUNT_AMOUNT
+			,DEC_DISCOUNT_AMOUNT
+			,CHECK_RECORD
+                        ,DEDUCTION_CALENDAR_MASTER_SID
+			)
+		VALUES (
+			CP_DETAILS_SID
+			,YEAR
+			,JAN_DISCOUNT_AMOUNT
+			,FEB_DISCOUNT_AMOUNT
+			,MAR_DISCOUNT_AMOUNT
+			,APR_DISCOUNT_AMOUNT
+			,MAY_DISCOUNT_AMOUNT
+			,JUN_DISCOUNT_AMOUNT
+			,JUL_DISCOUNT_AMOUNT
+			,AUG_DISCOUNT_AMOUNT
+			,SEP_DISCOUNT_AMOUNT
+			,OCT_DISCOUNT_AMOUNT
+			,NOV_DISCOUNT_AMOUNT
+			,DEC_DISCOUNT_AMOUNT
+			,CHECK_RECORD
+                        ,@DEDUCTION_CALENDAR_MASTER_SID
+			);
+           
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="mass-populate-item">
+        <query> <![CDATA[
+        DECLARE @VALUE       NUMERIC(22, 6) = ?VAL,
+        @START_YEAR  INT = ?SY,
+        @END_YEAR    INT = ?EY,
+        @START_MONTH INT = ?SM,
+        @END_MONTH   INT = ?EM;
+
+WITH CTE
+     AS (SELECT *
+         FROM   (SELECT CD.CP_DETAILS_SID,
+                        YEAR,
+                        @VALUE                                                                                                                                                                                                                                                                                            AS VALUE,
+                        CHECK_RECORD,
+                       Choose(MONTH, 'JAN_DISCOUNT_AMOUNT', 'FEB_DISCOUNT_AMOUNT', 'MAR_DISCOUNT_AMOUNT', 'APR_DISCOUNT_AMOUNT', 'MAY_DISCOUNT_AMOUNT', 'JUN_DISCOUNT_AMOUNT', 'JUL_DISCOUNT_AMOUNT', 'AUG_DISCOUNT_AMOUNT', 'SEP_DISCOUNT_AMOUNT', 'OCT_DISCOUNT_AMOUNT', 'NOV_DISCOUNT_AMOUNT', 'DEC_DISCOUNT_AMOUNT') AS COLUMN_NAME
+                 FROM   ST_DEDUCTION_CALENDAR_DETAILS ST JOIN CP_DETAILS CD ON ST.CP_DETAILS_SID = CD.CP_DETAILS_SID 
+                        CROSS APPLY (VALUES (jan_DISCOUNT_AMOUNT,1),
+                                            (FEB_DISCOUNT_AMOUNT,2),
+                                            (MAR_DISCOUNT_AMOUNT,3),
+                                            (APR_DISCOUNT_AMOUNT,4),
+                                            (MAY_DISCOUNT_AMOUNT,5),
+                                            (JUN_DISCOUNT_AMOUNT,6),
+                                            (JUL_DISCOUNT_AMOUNT,7),
+                                            (AUG_DISCOUNT_AMOUNT,8),
+                                            (SEP_DISCOUNT_AMOUNT,9),
+                                            (OCT_DISCOUNT_AMOUNT,10),
+                                            (NOV_DISCOUNT_AMOUNT,11),
+                                            (DEC_DISCOUNT_AMOUNT,12) ) CS (VAL, MONTH)
+                 WHERE  Datefromparts(YEAR, MONTH, 1) BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Datefromparts(@END_YEAR, @END_MONTH, 1)
+                        AND CHECK_RECORD = 1) A
+                PIVOT (Max(VALUE)
+                      FOR COLUMN_NAME IN (JAN_DISCOUNT_AMOUNT,
+                                          FEB_DISCOUNT_AMOUNT,
+                                          MAR_DISCOUNT_AMOUNT,
+                                          APR_DISCOUNT_AMOUNT,
+                                          MAY_DISCOUNT_AMOUNT,
+                                          JUN_DISCOUNT_AMOUNT,
+                                          JUL_DISCOUNT_AMOUNT,
+                                          AUG_DISCOUNT_AMOUNT,
+                                          SEP_DISCOUNT_AMOUNT,
+                                          OCT_DISCOUNT_AMOUNT,
+                                          NOV_DISCOUNT_AMOUNT,
+                                          DEC_DISCOUNT_AMOUNT)) PV)
+UPDATE ST
+SET    JAN_DISCOUNT_AMOUNT = ISNULL(C.JAN_DISCOUNT_AMOUNT,ST.JAN_DISCOUNT_AMOUNT),
+       FEB_DISCOUNT_AMOUNT = ISNULL(C.FEB_DISCOUNT_AMOUNT,ST.FEB_DISCOUNT_AMOUNT),
+       MAR_DISCOUNT_AMOUNT = ISNULL(C.MAR_DISCOUNT_AMOUNT,ST.MAR_DISCOUNT_AMOUNT),
+       APR_DISCOUNT_AMOUNT = ISNULL(C.APR_DISCOUNT_AMOUNT,ST.APR_DISCOUNT_AMOUNT),
+       MAY_DISCOUNT_AMOUNT = ISNULL(C.MAY_DISCOUNT_AMOUNT,ST.MAY_DISCOUNT_AMOUNT),
+       JUN_DISCOUNT_AMOUNT = ISNULL(C.JUN_DISCOUNT_AMOUNT,ST.JUN_DISCOUNT_AMOUNT),
+       JUL_DISCOUNT_AMOUNT = ISNULL(C.JUL_DISCOUNT_AMOUNT,ST.JUL_DISCOUNT_AMOUNT),
+       AUG_DISCOUNT_AMOUNT = ISNULL(C.AUG_DISCOUNT_AMOUNT,ST.AUG_DISCOUNT_AMOUNT),
+       SEP_DISCOUNT_AMOUNT = ISNULL(C.SEP_DISCOUNT_AMOUNT,ST.SEP_DISCOUNT_AMOUNT),
+       OCT_DISCOUNT_AMOUNT = ISNULL(C.OCT_DISCOUNT_AMOUNT,ST.OCT_DISCOUNT_AMOUNT),
+       NOV_DISCOUNT_AMOUNT = ISNULL(C.NOV_DISCOUNT_AMOUNT,ST.NOV_DISCOUNT_AMOUNT),
+       DEC_DISCOUNT_AMOUNT = ISNULL(C.DEC_DISCOUNT_AMOUNT,ST.DEC_DISCOUNT_AMOUNT)
+
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+       JOIN CTE C
+         ON C.CP_DETAILS_SID = ST.CP_DETAILS_SID
+            AND C.YEAR = ST.YEAR
+
+
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="cp-delete-item">
+        <query> <![CDATA[
+        DELETE ST
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+WHERE  EXISTS (SELECT 1
+               FROM   ST_DEDUCTION_CALENDAR_ITEM SC
+                      JOIN CP_DETAILS CD
+                        ON CD.ITEM_MASTER_SID = SC.ITEM_MASTER_SID
+               WHERE  CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                      AND SC.USER_ID = ?UID
+                      AND  SC.SESSION_ID = ?SID
+                      AND SC.ITEM_MASTER_SID IN (?IMSID))
+        DELETE ST_DEDUCTION_CALENDAR_ITEM  WHERE ITEM_MASTER_SID IN (?IMSID)
+        AND USER_ID= ?UID AND SESSION_ID = ?SID ;
+        
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="cp-deleteall-item">
+        <query> <![CDATA[
+        DELETE ST_DEDUCTION_CALENDAR_ITEM  WHERE USER_ID= ?UID AND SESSION_ID = ?SID ;
+        DELETE ST
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST;
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="cp-delete-company">
+        <query> <![CDATA[
+        DELETE ST
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+WHERE  EXISTS (SELECT 1
+               FROM   ST_DEDUCTION_CALENDAR_COMPANY SC
+                      JOIN CP_DETAILS CD
+                        ON CD.COMPANY_MASTER_SID = SC.COMPANY_MASTER_SID
+               WHERE  CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                      AND  SC.USER_ID = ?UID
+                      AND SC.SESSION_ID = ?SID
+                      AND SC.COMPANY_MASTER_SID IN (?CMSID))
+        DELETE ST_DEDUCTION_CALENDAR_COMPANY WHERE COMPANY_MASTER_SID IN (?CMSID)
+        AND USER_ID =?UID AND SESSION_ID =?SID;
+        
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="cp-deleteall-company">
+        <query> <![CDATA[
+        DELETE ST_DEDUCTION_CALENDAR_COMPANY WHERE 
+        USER_ID =?UID AND SESSION_ID =?SID;
+        DELETE ST
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST;
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="mass-populate-brand">
+        <query> <![CDATA[
+        DECLARE @VALUE       NUMERIC(22, 6) = ?VAL,
+        @USER_ID     INT = ?UID,
+        @SESSION_ID  VARCHAR(100) = '?SID',
+        @START_YEAR  INT = ?SY,
+        @END_YEAR    INT = ?EY,
+        @START_MONTH INT = ?SM,
+        @END_MONTH   INT = ?EM;
+
+WITH BRAND_CHECK_COUNT
+     AS (SELECT COUNT(DISTINCT IM.ITEM_MASTER_SID) AS CNT,
+                BRAND_MASTER_SID
+         FROM   ST_DEDUCTION_CALENDAR_DETAILS S
+                JOIN CP_DETAILS CD
+                  ON S.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                JOIN ITEM_MASTER IM
+                  ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+         WHERE  CHECK_RECORD = 1
+                ?FILTER
+         GROUP  BY BRAND_MASTER_SID),
+     CTE
+     AS (SELECT *
+         FROM   (SELECT CD.CP_DETAILS_SID,
+                        YEAR,
+                        @VALUE / CNT                                                                                                                                                                                                                                                                                      AS VALUE,
+                        CHECK_RECORD,
+                        CHOOSE(MONTH, 'JAN_DISCOUNT_AMOUNT', 'FEB_DISCOUNT_AMOUNT', 'MAR_DISCOUNT_AMOUNT', 'APR_DISCOUNT_AMOUNT', 'MAY_DISCOUNT_AMOUNT', 'JUN_DISCOUNT_AMOUNT', 'JUL_DISCOUNT_AMOUNT', 'AUG_DISCOUNT_AMOUNT', 'SEP_DISCOUNT_AMOUNT', 'OCT_DISCOUNT_AMOUNT', 'NOV_DISCOUNT_AMOUNT', 'DEC_DISCOUNT_AMOUNT') AS COLUMN_NAME
+                 FROM   ST_DEDUCTION_CALENDAR_DETAILS S
+                        JOIN CP_DETAILS CD
+                          ON S.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                        JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                        JOIN BRAND_CHECK_COUNT BC
+                          ON BC.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                        CROSS APPLY (VALUES (JAN_DISCOUNT_AMOUNT,1),
+                                            (FEB_DISCOUNT_AMOUNT,2),
+                                            (MAR_DISCOUNT_AMOUNT,3),
+                                            (APR_DISCOUNT_AMOUNT,4),
+                                            (MAY_DISCOUNT_AMOUNT,5),
+                                            (JUN_DISCOUNT_AMOUNT,6),
+                                            (JUL_DISCOUNT_AMOUNT,7),
+                                            (AUG_DISCOUNT_AMOUNT,8),
+                                            (SEP_DISCOUNT_AMOUNT,9),
+                                            (OCT_DISCOUNT_AMOUNT,10),
+                                            (NOV_DISCOUNT_AMOUNT,11),
+                                            (DEC_DISCOUNT_AMOUNT,12) ) CS (VAL, MONTH)
+                 WHERE  CHECK_RECORD = 1
+                        ?FILTER
+                        AND DATEFROMPARTS(YEAR, MONTH, 1) BETWEEN DATEFROMPARTS(@START_YEAR, @START_MONTH, 1) AND DATEFROMPARTS(@END_YEAR, @END_MONTH, 1)) A
+                PIVOT (MAX(VALUE)
+                      FOR COLUMN_NAME IN (JAN_DISCOUNT_AMOUNT,
+                                          FEB_DISCOUNT_AMOUNT,
+                                          MAR_DISCOUNT_AMOUNT,
+                                          APR_DISCOUNT_AMOUNT,
+                                          MAY_DISCOUNT_AMOUNT,
+                                          JUN_DISCOUNT_AMOUNT,
+                                          JUL_DISCOUNT_AMOUNT,
+                                          AUG_DISCOUNT_AMOUNT,
+                                          SEP_DISCOUNT_AMOUNT,
+                                          OCT_DISCOUNT_AMOUNT,
+                                          NOV_DISCOUNT_AMOUNT,
+                                          DEC_DISCOUNT_AMOUNT)) PV)
+UPDATE ST
+SET    JAN_DISCOUNT_AMOUNT = ISNULL(C.JAN_DISCOUNT_AMOUNT,ST.JAN_DISCOUNT_AMOUNT),
+       FEB_DISCOUNT_AMOUNT = ISNULL(C.FEB_DISCOUNT_AMOUNT,ST.FEB_DISCOUNT_AMOUNT),
+       MAR_DISCOUNT_AMOUNT = ISNULL(C.MAR_DISCOUNT_AMOUNT,ST.MAR_DISCOUNT_AMOUNT),
+       APR_DISCOUNT_AMOUNT = ISNULL(C.APR_DISCOUNT_AMOUNT,ST.APR_DISCOUNT_AMOUNT),
+       MAY_DISCOUNT_AMOUNT = ISNULL(C.MAY_DISCOUNT_AMOUNT,ST.MAY_DISCOUNT_AMOUNT),
+       JUN_DISCOUNT_AMOUNT = ISNULL(C.JUN_DISCOUNT_AMOUNT,ST.JUN_DISCOUNT_AMOUNT),
+       JUL_DISCOUNT_AMOUNT = ISNULL(C.JUL_DISCOUNT_AMOUNT,ST.JUL_DISCOUNT_AMOUNT),
+       AUG_DISCOUNT_AMOUNT = ISNULL(C.AUG_DISCOUNT_AMOUNT,ST.AUG_DISCOUNT_AMOUNT),
+       SEP_DISCOUNT_AMOUNT = ISNULL(C.SEP_DISCOUNT_AMOUNT,ST.SEP_DISCOUNT_AMOUNT),
+       OCT_DISCOUNT_AMOUNT = ISNULL(C.OCT_DISCOUNT_AMOUNT,ST.OCT_DISCOUNT_AMOUNT),
+       NOV_DISCOUNT_AMOUNT = ISNULL(C.NOV_DISCOUNT_AMOUNT,ST.NOV_DISCOUNT_AMOUNT),
+       DEC_DISCOUNT_AMOUNT = ISNULL(C.DEC_DISCOUNT_AMOUNT,ST.DEC_DISCOUNT_AMOUNT)
+
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+       JOIN CTE C
+         ON C.CP_DETAILS_SID = ST.CP_DETAILS_SID
+            AND C.YEAR = ST.YEAR
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="mass-populate-brand-product-view">
+        <query> <![CDATA[
+        DECLARE @VALUE       NUMERIC(22, 6) = ?VAL,
+        @USER_ID     INT = ?UID,
+        @SESSION_ID  VARCHAR(100) = '?SID',
+        @START_YEAR  INT = ?SY,
+        @END_YEAR    INT = ?EY,
+        @START_MONTH INT = ?SM,
+        @END_MONTH   INT = ?EM;
+
+WITH BRAND_CHECK_COUNT
+     AS (SELECT COUNT(DISTINCT S.CP_DETAILS_SID) AS CNT,
+                BRAND_MASTER_SID
+         FROM   ST_DEDUCTION_CALENDAR_DETAILS S
+                JOIN CP_DETAILS CD
+                  ON S.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                JOIN ITEM_MASTER IM
+                  ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+         WHERE  CHECK_RECORD = 1
+                ?FILTER
+         GROUP  BY BRAND_MASTER_SID),
+     CTE
+     AS (SELECT *
+         FROM   (SELECT CD.CP_DETAILS_SID,
+                        YEAR,
+                        @VALUE / CNT                                                                                                                                                                                                                                                                                      AS VALUE,
+                        CHECK_RECORD,
+                        CHOOSE(MONTH, 'JAN_DISCOUNT_AMOUNT', 'FEB_DISCOUNT_AMOUNT', 'MAR_DISCOUNT_AMOUNT', 'APR_DISCOUNT_AMOUNT', 'MAY_DISCOUNT_AMOUNT', 'JUN_DISCOUNT_AMOUNT', 'JUL_DISCOUNT_AMOUNT', 'AUG_DISCOUNT_AMOUNT', 'SEP_DISCOUNT_AMOUNT', 'OCT_DISCOUNT_AMOUNT', 'NOV_DISCOUNT_AMOUNT', 'DEC_DISCOUNT_AMOUNT') AS COLUMN_NAME
+                 FROM   ST_DEDUCTION_CALENDAR_DETAILS S
+                        JOIN CP_DETAILS CD
+                          ON S.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                        JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                        JOIN BRAND_CHECK_COUNT BC
+                          ON BC.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                        CROSS APPLY (VALUES (JAN_DISCOUNT_AMOUNT,1),
+                                            (FEB_DISCOUNT_AMOUNT,2),
+                                            (MAR_DISCOUNT_AMOUNT,3),
+                                            (APR_DISCOUNT_AMOUNT,4),
+                                            (MAY_DISCOUNT_AMOUNT,5),
+                                            (JUN_DISCOUNT_AMOUNT,6),
+                                            (JUL_DISCOUNT_AMOUNT,7),
+                                            (AUG_DISCOUNT_AMOUNT,8),
+                                            (SEP_DISCOUNT_AMOUNT,9),
+                                            (OCT_DISCOUNT_AMOUNT,10),
+                                            (NOV_DISCOUNT_AMOUNT,11),
+                                            (DEC_DISCOUNT_AMOUNT,12) ) CS (VAL, MONTH)
+                 WHERE  CHECK_RECORD = 1
+                        ?FILTER
+                        AND DATEFROMPARTS(YEAR, MONTH, 1) BETWEEN DATEFROMPARTS(@START_YEAR, @START_MONTH, 1) AND DATEFROMPARTS(@END_YEAR, @END_MONTH, 1)
+                        ) A
+                PIVOT (MAX(VALUE)
+                      FOR COLUMN_NAME IN (JAN_DISCOUNT_AMOUNT,
+                                          FEB_DISCOUNT_AMOUNT,
+                                          MAR_DISCOUNT_AMOUNT,
+                                          APR_DISCOUNT_AMOUNT,
+                                          MAY_DISCOUNT_AMOUNT,
+                                          JUN_DISCOUNT_AMOUNT,
+                                          JUL_DISCOUNT_AMOUNT,
+                                          AUG_DISCOUNT_AMOUNT,
+                                          SEP_DISCOUNT_AMOUNT,
+                                          OCT_DISCOUNT_AMOUNT,
+                                          NOV_DISCOUNT_AMOUNT,
+                                          DEC_DISCOUNT_AMOUNT)) PV)
+UPDATE ST
+SET    JAN_DISCOUNT_AMOUNT = ISNULL(C.JAN_DISCOUNT_AMOUNT,ST.JAN_DISCOUNT_AMOUNT),
+       FEB_DISCOUNT_AMOUNT = ISNULL(C.FEB_DISCOUNT_AMOUNT,ST.FEB_DISCOUNT_AMOUNT),
+       MAR_DISCOUNT_AMOUNT = ISNULL(C.MAR_DISCOUNT_AMOUNT,ST.MAR_DISCOUNT_AMOUNT),
+       APR_DISCOUNT_AMOUNT = ISNULL(C.APR_DISCOUNT_AMOUNT,ST.APR_DISCOUNT_AMOUNT),
+       MAY_DISCOUNT_AMOUNT = ISNULL(C.MAY_DISCOUNT_AMOUNT,ST.MAY_DISCOUNT_AMOUNT),
+       JUN_DISCOUNT_AMOUNT = ISNULL(C.JUN_DISCOUNT_AMOUNT,ST.JUN_DISCOUNT_AMOUNT),
+       JUL_DISCOUNT_AMOUNT = ISNULL(C.JUL_DISCOUNT_AMOUNT,ST.JUL_DISCOUNT_AMOUNT),
+       AUG_DISCOUNT_AMOUNT = ISNULL(C.AUG_DISCOUNT_AMOUNT,ST.AUG_DISCOUNT_AMOUNT),
+       SEP_DISCOUNT_AMOUNT = ISNULL(C.SEP_DISCOUNT_AMOUNT,ST.SEP_DISCOUNT_AMOUNT),
+       OCT_DISCOUNT_AMOUNT = ISNULL(C.OCT_DISCOUNT_AMOUNT,ST.OCT_DISCOUNT_AMOUNT),
+       NOV_DISCOUNT_AMOUNT = ISNULL(C.NOV_DISCOUNT_AMOUNT,ST.NOV_DISCOUNT_AMOUNT),
+       DEC_DISCOUNT_AMOUNT = ISNULL(C.DEC_DISCOUNT_AMOUNT,ST.DEC_DISCOUNT_AMOUNT)
+
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+       JOIN CTE C
+         ON C.CP_DETAILS_SID = ST.CP_DETAILS_SID
+            AND C.YEAR = ST.YEAR
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="mass-populate-customer">
+        <query> <![CDATA[
+        DECLARE @VALUE       NUMERIC(22, 6) = ?VAL,
+        @USER_ID     INT = ?UID,
+        @SESSION_ID  VARCHAR(100) = '?SID',
+        @START_YEAR  INT = ?SY,
+        @END_YEAR    INT = ?EY,
+        @START_MONTH INT = ?SM,
+        @END_MONTH   INT = ?EM;
+
+WITH ITEM_COUNT
+     AS (SELECT COUNT(1) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM S
+         WHERE  s.USER_ID = @USER_ID
+         AND SESSION_ID = @SESSION_ID),
+     CTE
+     AS (SELECT *
+         FROM   (SELECT CD.CP_DETAILS_SID,
+                        YEAR,
+                        @VALUE / nullif((select cnt from ITEM_COUNT),0) AS VALUE,
+                        CHECK_RECORD,
+                        CHOOSE(MONTH, 'JAN_DISCOUNT_AMOUNT', 'FEB_DISCOUNT_AMOUNT', 'MAR_DISCOUNT_AMOUNT', 'APR_DISCOUNT_AMOUNT', 'MAY_DISCOUNT_AMOUNT', 'JUN_DISCOUNT_AMOUNT', 'JUL_DISCOUNT_AMOUNT', 'AUG_DISCOUNT_AMOUNT', 'SEP_DISCOUNT_AMOUNT', 'OCT_DISCOUNT_AMOUNT', 'NOV_DISCOUNT_AMOUNT', 'DEC_DISCOUNT_AMOUNT') AS COLUMN_NAME
+                 FROM   ST_DEDUCTION_CALENDAR_DETAILS S
+                        JOIN CP_DETAILS CD
+                          ON S.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                        JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                        CROSS APPLY (VALUES (JAN_DISCOUNT_AMOUNT,1),
+                                            (FEB_DISCOUNT_AMOUNT,2),
+                                            (MAR_DISCOUNT_AMOUNT,3),
+                                            (APR_DISCOUNT_AMOUNT,4),
+                                            (MAY_DISCOUNT_AMOUNT,5),
+                                            (JUN_DISCOUNT_AMOUNT,6),
+                                            (JUL_DISCOUNT_AMOUNT,7),
+                                            (AUG_DISCOUNT_AMOUNT,8),
+                                            (SEP_DISCOUNT_AMOUNT,9),
+                                            (OCT_DISCOUNT_AMOUNT,10),
+                                            (NOV_DISCOUNT_AMOUNT,11),
+                                            (DEC_DISCOUNT_AMOUNT,12) ) CS (VAL, MONTH)
+                 WHERE  CHECK_RECORD = 1
+                        ?FILTER
+                        AND DATEFROMPARTS(YEAR, MONTH, 1) BETWEEN DATEFROMPARTS(@START_YEAR, @START_MONTH, 1) AND DATEFROMPARTS(@END_YEAR, @END_MONTH, 1)
+                        ) A
+                PIVOT (MAX(VALUE)
+                      FOR COLUMN_NAME IN (JAN_DISCOUNT_AMOUNT,
+                                          FEB_DISCOUNT_AMOUNT,
+                                          MAR_DISCOUNT_AMOUNT,
+                                          APR_DISCOUNT_AMOUNT,
+                                          MAY_DISCOUNT_AMOUNT,
+                                          JUN_DISCOUNT_AMOUNT,
+                                          JUL_DISCOUNT_AMOUNT,
+                                          AUG_DISCOUNT_AMOUNT,
+                                          SEP_DISCOUNT_AMOUNT,
+                                          OCT_DISCOUNT_AMOUNT,
+                                          NOV_DISCOUNT_AMOUNT,
+                                          DEC_DISCOUNT_AMOUNT)) PV)
+UPDATE ST
+SET    JAN_DISCOUNT_AMOUNT = ISNULL(C.JAN_DISCOUNT_AMOUNT,ST.JAN_DISCOUNT_AMOUNT),
+       FEB_DISCOUNT_AMOUNT = ISNULL(C.FEB_DISCOUNT_AMOUNT,ST.FEB_DISCOUNT_AMOUNT),
+       MAR_DISCOUNT_AMOUNT = ISNULL(C.MAR_DISCOUNT_AMOUNT,ST.MAR_DISCOUNT_AMOUNT),
+       APR_DISCOUNT_AMOUNT = ISNULL(C.APR_DISCOUNT_AMOUNT,ST.APR_DISCOUNT_AMOUNT),
+       MAY_DISCOUNT_AMOUNT = ISNULL(C.MAY_DISCOUNT_AMOUNT,ST.MAY_DISCOUNT_AMOUNT),
+       JUN_DISCOUNT_AMOUNT = ISNULL(C.JUN_DISCOUNT_AMOUNT,ST.JUN_DISCOUNT_AMOUNT),
+       JUL_DISCOUNT_AMOUNT = ISNULL(C.JUL_DISCOUNT_AMOUNT,ST.JUL_DISCOUNT_AMOUNT),
+       AUG_DISCOUNT_AMOUNT = ISNULL(C.AUG_DISCOUNT_AMOUNT,ST.AUG_DISCOUNT_AMOUNT),
+       SEP_DISCOUNT_AMOUNT = ISNULL(C.SEP_DISCOUNT_AMOUNT,ST.SEP_DISCOUNT_AMOUNT),
+       OCT_DISCOUNT_AMOUNT = ISNULL(C.OCT_DISCOUNT_AMOUNT,ST.OCT_DISCOUNT_AMOUNT),
+       NOV_DISCOUNT_AMOUNT = ISNULL(C.NOV_DISCOUNT_AMOUNT,ST.NOV_DISCOUNT_AMOUNT),
+       DEC_DISCOUNT_AMOUNT = ISNULL(C.DEC_DISCOUNT_AMOUNT,ST.DEC_DISCOUNT_AMOUNT)
+
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+       JOIN CTE C
+         ON C.CP_DETAILS_SID = ST.CP_DETAILS_SID
+            AND C.YEAR = ST.YEAR
+
+
+
+                    ]]> </query>   
+    </entity>
+    
+    <entity id="mass-populate-customer-product-view">
+        <query> <![CDATA[
+        DECLARE @VALUE       NUMERIC(22, 6) = ?VAL,
+        @USER_ID     INT = ?UID,
+        @SESSION_ID  VARCHAR(100) = '?SID',
+        @START_YEAR  INT = ?SY,
+        @END_YEAR    INT = ?EY,
+        @START_MONTH INT = ?SM,
+        @END_MONTH   INT = ?EM;
+
+WITH BRAND_CHECK_COUNT
+     AS (SELECT COUNT(1) AS CNT,
+                BRAND_MASTER_SID,
+                           cd.COMPANY_MASTER_SID
+         FROM   ST_DEDUCTION_CALENDAR_ITEM S
+                JOIN CP_DETAILS CD
+                  ON S.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                JOIN ITEM_MASTER IM
+                  ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                             join ST_DEDUCTION_CALENDAR_COMPANY sc on sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                             and sc.USER_ID = s.USER_ID
+                             and sc.SESSION_ID = s.SESSION_ID
+         WHERE  s.USER_ID = @USER_ID
+                AND s.SESSION_ID = @SESSION_ID
+                ?FILTER
+                AND exists (select 1 from ST_DEDUCTION_CALENDAR_DETAILS sdc where sdc.CP_DETAILS_SID = cd.CP_DETAILS_SID  and sdc.CHECK_RECORD = 1)
+         GROUP  BY BRAND_MASTER_SID, cd.COMPANY_MASTER_SID),
+     CTE
+     AS (SELECT *
+         FROM   (SELECT CD.CP_DETAILS_SID,
+                        YEAR,
+                        @VALUE / CNT                                                                                                                                                                                                                                                                                      AS VALUE,
+                        CHECK_RECORD,
+                        CHOOSE(MONTH, 'JAN_DISCOUNT_AMOUNT', 'FEB_DISCOUNT_AMOUNT', 'MAR_DISCOUNT_AMOUNT', 'APR_DISCOUNT_AMOUNT', 'MAY_DISCOUNT_AMOUNT', 'JUN_DISCOUNT_AMOUNT', 'JUL_DISCOUNT_AMOUNT', 'AUG_DISCOUNT_AMOUNT', 'SEP_DISCOUNT_AMOUNT', 'OCT_DISCOUNT_AMOUNT', 'NOV_DISCOUNT_AMOUNT', 'DEC_DISCOUNT_AMOUNT') AS COLUMN_NAME
+                 FROM   ST_DEDUCTION_CALENDAR_DETAILS S
+                        JOIN CP_DETAILS CD
+                          ON S.CP_DETAILS_SID = CD.CP_DETAILS_SID
+                        JOIN ITEM_MASTER IM
+                          ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                        JOIN BRAND_CHECK_COUNT BC
+                          ON BC.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                                           and bc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                        CROSS APPLY (VALUES (JAN_DISCOUNT_AMOUNT,1),
+                                            (FEB_DISCOUNT_AMOUNT,2),
+                                            (MAR_DISCOUNT_AMOUNT,3),
+                                            (APR_DISCOUNT_AMOUNT,4),
+                                            (MAY_DISCOUNT_AMOUNT,5),
+                                            (JUN_DISCOUNT_AMOUNT,6),
+                                            (JUL_DISCOUNT_AMOUNT,7),
+                                            (AUG_DISCOUNT_AMOUNT,8),
+                                            (SEP_DISCOUNT_AMOUNT,9),
+                                            (OCT_DISCOUNT_AMOUNT,10),
+                                            (NOV_DISCOUNT_AMOUNT,11),
+                                            (DEC_DISCOUNT_AMOUNT,12) ) CS (VAL, MONTH)
+                 WHERE  CHECK_RECORD = 1
+                        ?FILTER
+                        AND DATEFROMPARTS(YEAR, MONTH, 1) BETWEEN DATEFROMPARTS(@START_YEAR, @START_MONTH, 1) AND DATEFROMPARTS(@END_YEAR, @END_MONTH, 1)
+                        ) A
+                PIVOT (MAX(VALUE)
+                      FOR COLUMN_NAME IN (JAN_DISCOUNT_AMOUNT,
+                                          FEB_DISCOUNT_AMOUNT,
+                                          MAR_DISCOUNT_AMOUNT,
+                                          APR_DISCOUNT_AMOUNT,
+                                          MAY_DISCOUNT_AMOUNT,
+                                          JUN_DISCOUNT_AMOUNT,
+                                          JUL_DISCOUNT_AMOUNT,
+                                          AUG_DISCOUNT_AMOUNT,
+                                          SEP_DISCOUNT_AMOUNT,
+                                          OCT_DISCOUNT_AMOUNT,
+                                          NOV_DISCOUNT_AMOUNT,
+                                          DEC_DISCOUNT_AMOUNT)) PV)
+UPDATE ST
+SET    JAN_DISCOUNT_AMOUNT = ISNULL(C.JAN_DISCOUNT_AMOUNT,ST.JAN_DISCOUNT_AMOUNT),
+       FEB_DISCOUNT_AMOUNT = ISNULL(C.FEB_DISCOUNT_AMOUNT,ST.FEB_DISCOUNT_AMOUNT),
+       MAR_DISCOUNT_AMOUNT = ISNULL(C.MAR_DISCOUNT_AMOUNT,ST.MAR_DISCOUNT_AMOUNT),
+       APR_DISCOUNT_AMOUNT = ISNULL(C.APR_DISCOUNT_AMOUNT,ST.APR_DISCOUNT_AMOUNT),
+       MAY_DISCOUNT_AMOUNT = ISNULL(C.MAY_DISCOUNT_AMOUNT,ST.MAY_DISCOUNT_AMOUNT),
+       JUN_DISCOUNT_AMOUNT = ISNULL(C.JUN_DISCOUNT_AMOUNT,ST.JUN_DISCOUNT_AMOUNT),
+       JUL_DISCOUNT_AMOUNT = ISNULL(C.JUL_DISCOUNT_AMOUNT,ST.JUL_DISCOUNT_AMOUNT),
+       AUG_DISCOUNT_AMOUNT = ISNULL(C.AUG_DISCOUNT_AMOUNT,ST.AUG_DISCOUNT_AMOUNT),
+       SEP_DISCOUNT_AMOUNT = ISNULL(C.SEP_DISCOUNT_AMOUNT,ST.SEP_DISCOUNT_AMOUNT),
+       OCT_DISCOUNT_AMOUNT = ISNULL(C.OCT_DISCOUNT_AMOUNT,ST.OCT_DISCOUNT_AMOUNT),
+       NOV_DISCOUNT_AMOUNT = ISNULL(C.NOV_DISCOUNT_AMOUNT,ST.NOV_DISCOUNT_AMOUNT),
+       DEC_DISCOUNT_AMOUNT = ISNULL(C.DEC_DISCOUNT_AMOUNT,ST.DEC_DISCOUNT_AMOUNT)
+
+FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+       JOIN CTE C
+         ON C.CP_DETAILS_SID = ST.CP_DETAILS_SID
+            AND C.YEAR = ST.YEAR
+
+                    ]]> </query>   
+    </entity>
+</sql>

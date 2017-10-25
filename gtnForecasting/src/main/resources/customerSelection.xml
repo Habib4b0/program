@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="parentVerticalLayout" spacing="true"
+                    margin="true" immediate="true" height="100%">
+        <Panel immediate="true" caption="Search Criteria-Customer">
+           
+            <HorizontalLayout  spacing="true" margin="true" >
+                <GridLayout columns="6" rows="3" spacing="true">
+                    <Label caption="Contract Holder: " contentMode="HTML" width="90px"/>
+                    <TextField id="contractHolder" immediate="true" width="205px"/>
+                    <Label caption="Contract No: " contentMode="HTML" />
+                    <TextField id="contractNo" immediate="true" width="205px"/>
+                    <Label caption="Customer No: " contentMode="HTML" />
+                    <TextField id="customerNo" immediate="true" width="205px"/>
+                    <Label caption="Market Type: " contentMode="HTML" width="90px" />
+                    <ComboBox id="marketType" immediate="true" width="205px"/>
+                    <Label caption="Contract Name: " contentMode="HTML" />
+                    <TextField id="contractName" immediate="true" width="205px"/>
+                    <Label caption="Customer Name: " contentMode="HTML" />
+                    <TextField id="customerName" immediate="true" width="205px"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout  spacing="true" margin="true" >
+            <Button id="searchBtn" caption="SEARCH" />
+            <Button id="resetBtn" caption="RESET" />
+        </HorizontalLayout>
+        
+        <Panel caption="Results"  width="100%">
+            <VerticalLayout spacing="true" margin="true">
+                <Panel caption="Available Customers">
+                    <VerticalLayout id="availableCustomerTableLayout" spacing="true" margin="false" immediate="true">
+                    </VerticalLayout>
+                </Panel>
+                 
+                <HorizontalLayout columns="3" rows="1" spacing="true">
+                    <Button id="addBtn" caption="ADD"  />
+                    <Button id="addAllBtn" caption="ADD ALL"  /> 
+                    <Button id="excelBtn" primaryStyleName="link"/>
+                </HorizontalLayout>
+                <Panel caption="Selected Customers">
+                    <VerticalLayout id="selectedCustomerTableLayout" spacing="true" margin="false" immediate="true">
+                    </VerticalLayout>
+                </Panel>
+                <HorizontalLayout columns="3" rows="1" spacing="true">
+                    <Button id="remove" caption="REMOVE"  />
+                    <Button id="removeAllBtn" caption="REMOVE ALL"  /> 
+                    <Button id="selectedExport" primaryStyleName="link"/>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel> 
+        
+    </VerticalLayout>
+
+</Panel>

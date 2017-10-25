@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+	<deployment>
+		<exclusions>
+			<module name="org.apache.log4j"></module>
+			<module name="org.hibernate"></module>
+		</exclusions>
+		<dependencies>
+                        <module name="common.service.partone"></module>
+			<module name="com.stpl.portal"></module>
+			<module name="javax.mail.api"></module>
+			<module name="org.apache.xerces"></module>
+			<module name="org.jboss.modules"></module>
+                        <module name="org.dom4j"></module>
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>

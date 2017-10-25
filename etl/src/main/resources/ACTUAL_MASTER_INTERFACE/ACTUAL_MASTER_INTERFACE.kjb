@@ -1,0 +1,2755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job>
+  <name>ACTUAL_MASTER_INTERFACE</name>
+    <description/>
+    <extended_description/>
+    <job_version/>
+  <directory>&#47;</directory>
+  <created_user>-</created_user>
+  <created_date>2013&#47;07&#47;05 14:52:59.959</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2013&#47;07&#47;05 14:52:59.959</modified_date>
+    <parameters>
+    </parameters>
+  <connection>
+    <name>BPI DB</name>
+    <server>${BPI_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_DB}</database>
+    <port>1433</port>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>STAGING DB</name>
+    <server>${STAGING_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${STAGING_DB}</database>
+    <port>1433</port>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+    <slaveservers>
+    </slaveservers>
+<job-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<jobentry-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>JOBENTRYNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>RESULT</id><enabled>Y</enabled><name>RESULT</name></field><field><id>NR_RESULT_ROWS</id><enabled>Y</enabled><name>NR_RESULT_ROWS</name></field><field><id>NR_RESULT_FILES</id><enabled>Y</enabled><name>NR_RESULT_FILES</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field><field><id>COPY_NR</id><enabled>N</enabled><name>COPY_NR</name></field></jobentry-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+   <pass_batchid>N</pass_batchid>
+   <shared_objects_file/>
+  <entries>
+    <entry>
+      <name>VALIDATIONS</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;ACTUAL_VALIDATIONS.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>809</xloc>
+      <yloc>757</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE STAG TABLE</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>BPI DB</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>STAG_ACTUAL_MASTER</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>956</xloc>
+      <yloc>1846</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE INTERFACE TABLE</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>STAGING DB</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>ACTUAL_MASTER_INTERFACE</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>956</xloc>
+      <yloc>1940</yloc>
+      </entry>
+    <entry>
+      <name>DATAFETCH</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;ACTUAL_MASTER_DATAFETCH.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>966</xloc>
+      <yloc>589</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS</name>
+      <description/>
+      <type>ABORT</type>
+      <message/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1532</xloc>
+      <yloc>385</yloc>
+      </entry>
+    <entry>
+      <name>START</name>
+      <description/>
+      <type>SPECIAL</type>
+      <start>Y</start>
+      <dummy>N</dummy>
+      <repeat>N</repeat>
+      <schedulerType>0</schedulerType>
+      <intervalSeconds>0</intervalSeconds>
+      <intervalMinutes>60</intervalMinutes>
+      <hour>12</hour>
+      <minutes>0</minutes>
+      <weekDay>1</weekDay>
+      <DayOfMonth>1</DayOfMonth>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>348</xloc>
+      <yloc>234</yloc>
+      </entry>
+    <entry>
+      <name>CHECKING FILE</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;FULL_JOB.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>966</xloc>
+      <yloc>337</yloc>
+      </entry>
+    <entry>
+      <name>VALIDATING FILE</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>965</xloc>
+      <yloc>412</yloc>
+      </entry>
+    <entry>
+      <name>MAIL</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1158</xloc>
+      <yloc>610</yloc>
+      </entry>
+    <entry>
+      <name>MAIL (2)</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1395</xloc>
+      <yloc>1040</yloc>
+      </entry>
+    <entry>
+      <name>MAIL (3)</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1150</xloc>
+      <yloc>1838</yloc>
+      </entry>
+    <entry>
+      <name>MAIL (4)</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1157</xloc>
+      <yloc>1932</yloc>
+      </entry>
+    <entry>
+      <name>REPROCESSING_INVALID_DATA</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>732</xloc>
+      <yloc>261</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>476</xloc>
+      <yloc>247</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (3)</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>938</xloc>
+      <yloc>2267</yloc>
+      </entry>
+    <entry>
+      <name>STOP PROCESS AUDIT (2)</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1534</xloc>
+      <yloc>947</yloc>
+      </entry>
+    <entry>
+      <name>HANDLING_AUDIT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>968</xloc>
+      <yloc>490</yloc>
+      </entry>
+    <entry>
+      <name>STAG</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+TRUNCATE TABLE STAG_ACTUAL_MASTER
+
+
+INSERT INTO STAG_ACTUAL_MASTER(
+ACTUAL_INTFID
+,ACTUAL_ID
+,CONTRACT_ID
+,UPLOAD_DATE
+,PROVISION_ID
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_ACTUAL_END_DATE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,SETTLEMENT_METHOD
+,CASH_PAID_DATE
+,AMOUNT
+,QUANTITY
+,QUANTITY_INCLUSION
+,SETTLEMENT_NO
+,INVOICE_LINE_NUMBER
+,ACCOUNT_ID
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACCOUNT_NO
+,ACCOUNT_NAME
+,ANALYSIS_CODE
+,IS_ACTIVE
+,COM_DIV_MKT_BRAND_PROD_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE_ADJUSTMENT_NAME
+,PRICE
+,RECORD_SEQUENCE
+,SENT_OUT
+,ACCRUAL_PROCESSED
+,DIVISION_ID
+,MARKET_ID
+,BRAND_ID
+,ADD_CHG_DEL_INDICATOR
+,CLAIM_INDICATOR
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,BATCH_ID
+,SOURCE
+,SALES_AMOUNT
+,ORGANIZATION_KEY
+,MANDATED_DISCOUNT_AMOUNT
+,PROVISION_CLAIM_INDICATOR
+,PROGRAM_STATE_CODE
+,DISPENSED_DATE
+) 
+SELECT 
+ACTUAL_INTERFACE_ID
+,ACTUAL_ID
+,CONTRACT_ID
+,UPLOAD_DATE
+,PROVISION_ID
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_ACTUAL_END_DATE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,SETTLEMENT_METHOD
+,CASH_PAID_DATE
+,AMOUNT
+,QUANTITY
+,QUANTITY_INCLUSION
+,SETTLEMENT_NO
+,INVOICE_LINE_NUMBER
+,ACCOUNT_ID
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACCOUNT_NO
+,ACCOUNT_NAME
+,ANALYSIS_CODE
+,IS_ACTIVE
+,COM_DIV_MKT_BRAND_PROD_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE_ADJUSTMENT_NAME
+,PRICE
+,RECORD_SEQUENCE
+,SENT_OUT
+,ACCRUAL_PROCESSED
+,DIVISION_ID
+,MARKET_ID
+,BRAND_ID
+,ADD_CHG_DEL_INDICATOR
+,CLAIM_INDICATOR
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,BATCH_ID
+,SOURCE
+,SALES_AMOUNT
+,ORGANIZATION_KEY
+,MANDATED_DISCOUNT_AMOUNT
+,PROVISION_CLAIM_INDICATOR
+,PROGRAM_STATE_CODE
+,DISPENSED_DATE
+ FROM ${STAGING_DB}..ACTUAL_MASTER_INTERFACE</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>963</xloc>
+      <yloc>665</yloc>
+      </entry>
+    <entry>
+      <name>SQL 3 2 2 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DELETE A
+ FROM   STAG_ACTUAL_MASTER A 
+       INNER JOIN COMPANY_MASTER B 
+              ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	   INNER JOIN COMPANY_MASTER F              
+                 ON A.ACCOUNT_ID = F.COMPANY_NO 
+       INNER JOIN ITEM_MASTER C 
+              ON A.ITEM_ID = C.ITEM_ID 
+       INNER JOIN CONTRACT_MASTER D 
+              ON A.CONTRACT_ID = D.CONTRACT_ID 
+       INNER JOIN RS_MODEL E 
+              ON A.PROVISION_ID = E.RS_ID
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>690</xloc>
+      <yloc>1480</yloc>
+      </entry>
+    <entry>
+      <name>VALIDATIONS 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;ACTUAL_VALIDATIONS_NEW.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>961</xloc>
+      <yloc>1759</yloc>
+      </entry>
+    <entry>
+      <name>SQL 3 2 2 3</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update A 
+set A.COMPANY_MASTER_SID=f.COMPANY_MASTER_SID,
+A.ITEM_MASTER_SID=c.ITEM_MASTER_SID,
+A.contract_master_sid=d.contract_master_sid
+FROM  ACTUALS_TEST A                    
+	   INNER JOIN COMPANY_MASTER F              
+                 ON A.ACCOUNT_ID = F.COMPANY_NO 
+       INNER JOIN ITEM_MASTER C 
+              ON A.ITEM_ID = C.ITEM_ID 
+       INNER JOIN CONTRACT_MASTER D 
+              ON A.CONTRACT_ID = D.CONTRACT_ID
+WHERE A.COMPANY_MASTER_SID IS NULL
+OR A.ITEM_MASTER_SID IS NULL
+OR A.contract_master_sid IS NULL</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>809</xloc>
+      <yloc>1374</yloc>
+      </entry>
+    <entry>
+      <name>VALIDATION</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+
+;WITH cte AS ( 
+SELECT 
+ a.ACTUAL_ID
+,a.CONTRACT_ID
+,a.UPLOAD_DATE
+,a.PROVISION_ID
+,a.ACCRUAL_ACTUAL_START_DATE
+,a.ACCRUAL_ACTUAL_END_DATE
+,a.ITEM_ID
+,a.ITEM_IDENTIFIER_CODE_QUALIFIER
+,a.ITEM_NO
+,a.CASH_PAID_DATE
+,a.AMOUNT
+,a.QUANTITY
+,a.QUANTITY_INCLUSION
+,a.SETTLEMENT_NO
+,a.ACCOUNT_ID
+,a.ACCT_IDENTIFIER_CODE_QUALIFIER
+,a.ACCOUNT_NO
+,a.ACCOUNT_NAME
+,a.ANALYSIS_CODE
+,a.IS_ACTIVE
+,a.COM_DIV_MKT_BRAND_PROD_KEY
+,a.PARENTCOM_DIVMKT_BRAND_PRODKEY
+,a.PRICE_ADJUSTMENT_NAME
+,a.PRICE
+,a.RECORD_SEQUENCE
+,a.SENT_OUT
+,a.ACCRUAL_PROCESSED
+,a.DIVISION_ID
+,a.MARKET_ID
+,a.BRAND_ID
+,a.ADD_CHG_DEL_INDICATOR
+,a.CLAIM_INDICATOR
+,a.CREATED_BY
+,a.CREATED_DATE
+,a.MODIFIED_BY
+,a.MODIFIED_DATE
+,a.BATCH_ID
+,a.SOURCE
+--,REASON_FOR_FAILURE
+,a.SALES_AMOUNT
+,a.ORGANIZATION_KEY
+,a.MANDATED_DISCOUNT_AMOUNT
+,a.PROVISION_CLAIM_INDICATOR
+,a.PROGRAM_STATE_CODE
+,a.DISPENSED_DATE
+,a.ACTUAL_INTFID
+,a.SETTLEMENT_METHOD
+,a.INVOICE_LINE_NUMBER
+,ROW_NUMBER() OVER(PARTITION BY actual_id ORDER BY actual_id)&apos;RowRank&apos;
+FROM   STAG_ACTUAL_MASTER A 
+       left JOIN COMPANY_MASTER B 
+              ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	   left  JOIN COMPANY_MASTER F              
+                 ON A.ACCOUNT_ID = F.COMPANY_NO 
+       left JOIN ITEM_MASTER C 
+              ON A.ITEM_ID = C.ITEM_ID 
+       left JOIN CONTRACT_MASTER D 
+              ON A.CONTRACT_ID = D.CONTRACT_ID 
+       left JOIN RS_MODEL E 
+              ON A.PROVISION_ID = E.RS_ID 
+WHERE (B.COMPANY_ID   is null or  F.COMPANY_NO  is null or C.ITEM_ID   is null or   D.CONTRACT_ID  is null or  E.RS_ID  is null)
+and a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; 
+)
+
+
+
+ INSERT INTO IVLD_ACTUAL_MASTER(
+ 
+ACTUAL_ID
+,CONTRACT_ID
+,UPLOAD_DATE
+,PROVISION_ID
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_ACTUAL_END_DATE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,CASH_PAID_DATE
+,AMOUNT
+,QUANTITY
+,QUANTITY_INCLUSION
+,SETTLEMENT_NO
+,ACCOUNT_ID
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACCOUNT_NO
+,ACCOUNT_NAME
+,ANALYSIS_CODE
+,IS_ACTIVE
+,COM_DIV_MKT_BRAND_PROD_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE_ADJUSTMENT_NAME
+,PRICE
+,RECORD_SEQUENCE
+,SENT_OUT
+,ACCRUAL_PROCESSED
+,DIVISION_ID
+,MARKET_ID
+,BRAND_ID
+,ADD_CHG_DEL_INDICATOR
+,CLAIM_INDICATOR
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,BATCH_ID
+,SOURCE
+--,REASON_FOR_FAILURE
+,SALES_AMOUNT
+,ORGANIZATION_KEY
+,MANDATED_DISCOUNT_AMOUNT
+,PROVISION_CLAIM_INDICATOR
+,PROGRAM_STATE_CODE
+,DISPENSED_DATE
+,ACTUAL_INTFID
+,SETTLEMENT_METHOD_NO
+,INVOICE_LINE_NO
+)
+
+select 
+ a.ACTUAL_ID
+,a.CONTRACT_ID
+,a.UPLOAD_DATE
+,a.PROVISION_ID
+,a.ACCRUAL_ACTUAL_START_DATE
+,a.ACCRUAL_ACTUAL_END_DATE
+,a.ITEM_ID
+,a.ITEM_IDENTIFIER_CODE_QUALIFIER
+,a.ITEM_NO
+,a.CASH_PAID_DATE
+,a.AMOUNT
+,a.QUANTITY
+,a.QUANTITY_INCLUSION
+,a.SETTLEMENT_NO
+,a.ACCOUNT_ID
+,a.ACCT_IDENTIFIER_CODE_QUALIFIER
+,a.ACCOUNT_NO
+,a.ACCOUNT_NAME
+,a.ANALYSIS_CODE
+,a.IS_ACTIVE
+,a.COM_DIV_MKT_BRAND_PROD_KEY
+,a.PARENTCOM_DIVMKT_BRAND_PRODKEY
+,a.PRICE_ADJUSTMENT_NAME
+,a.PRICE
+,a.RECORD_SEQUENCE
+,a.SENT_OUT
+,a.ACCRUAL_PROCESSED
+,a.DIVISION_ID
+,a.MARKET_ID
+,a.BRAND_ID
+,a.ADD_CHG_DEL_INDICATOR
+,a.CLAIM_INDICATOR
+,a.CREATED_BY
+,a.CREATED_DATE
+,a.MODIFIED_BY
+,a.MODIFIED_DATE
+,a.BATCH_ID
+,a.SOURCE
+--,REASON_FOR_FAILURE
+,a.SALES_AMOUNT
+,a.ORGANIZATION_KEY
+,a.MANDATED_DISCOUNT_AMOUNT
+,a.PROVISION_CLAIM_INDICATOR
+,a.PROGRAM_STATE_CODE
+,a.DISPENSED_DATE
+,a.ACTUAL_INTFID
+,a.SETTLEMENT_METHOD
+,a.INVOICE_LINE_NUMBER
+  FROM cte A
+WHERE RowRank = 1</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>943</xloc>
+      <yloc>1084</yloc>
+      </entry>
+    <entry>
+      <name>VALIDATION UPDATE</name>
+      <description/>
+      <type>SQL</type>
+      <sql>update a set 
+REASON_FOR_FAILURE=
+ CASE 
+         WHEN b.company_id IS NULL THEN &apos;Invalid Organizationkey&apos; 
+         WHEN f.company_id IS NULL THEN &apos;Invalid AccountId&apos; 
+         WHEN c.item_id IS NULL THEN &apos;Invalid ItemId&apos; 
+         WHEN d.contract_id IS NULL THEN &apos;Invalid ContractId&apos; 
+         WHEN e.rs_id IS NULL THEN &apos;Invalid ProvisionId&apos; 
+       END 
+FROM   ivld_actual_master a 
+       LEFT JOIN company_master B 
+              ON A.organization_key = B.company_id 
+       LEFT JOIN company_master F 
+              ON A.account_id = F.company_no 
+       LEFT JOIN item_master C 
+              ON A.item_id = C.item_id 
+       LEFT JOIN contract_master D 
+              ON A.contract_id = D.contract_id 
+       LEFT JOIN rs_model E 
+              ON A.provision_id = E.rs_id 
+
+		where a.REASON_FOR_FAILURE is null</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>943</xloc>
+      <yloc>1170</yloc>
+      </entry>
+    <entry>
+      <name>INVALID_INDICATOR</name>
+      <description/>
+      <type>SQL</type>
+      <sql>insert into IVLD_ACTUAL_MASTER(
+ ACTUAL_ID
+,CONTRACT_ID
+,UPLOAD_DATE
+,PROVISION_ID
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_ACTUAL_END_DATE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,CASH_PAID_DATE
+,AMOUNT
+,QUANTITY
+,QUANTITY_INCLUSION
+,SETTLEMENT_NO
+,ACCOUNT_ID
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACCOUNT_NO
+,ACCOUNT_NAME
+,ANALYSIS_CODE
+,IS_ACTIVE
+,COM_DIV_MKT_BRAND_PROD_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE_ADJUSTMENT_NAME
+,PRICE
+,RECORD_SEQUENCE
+,SENT_OUT
+,ACCRUAL_PROCESSED
+,DIVISION_ID
+,MARKET_ID
+,BRAND_ID
+,ADD_CHG_DEL_INDICATOR
+,CLAIM_INDICATOR
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,BATCH_ID
+,SOURCE
+,REASON_FOR_FAILURE
+,SALES_AMOUNT
+,ORGANIZATION_KEY
+,MANDATED_DISCOUNT_AMOUNT
+,PROVISION_CLAIM_INDICATOR
+,PROGRAM_STATE_CODE
+,DISPENSED_DATE
+,ACTUAL_INTFID
+,SETTLEMENT_METHOD_NO
+,INVOICE_LINE_NO
+
+)
+
+
+
+
+SELECT 
+a.ACTUAL_ID
+,a.CONTRACT_ID
+,a.UPLOAD_DATE
+,a.PROVISION_ID
+,a.ACCRUAL_ACTUAL_START_DATE
+,a.ACCRUAL_ACTUAL_END_DATE
+,a.ITEM_ID
+,a.ITEM_IDENTIFIER_CODE_QUALIFIER
+,a.ITEM_NO
+,a.CASH_PAID_DATE
+,a.AMOUNT
+,a.QUANTITY
+,a.QUANTITY_INCLUSION
+,a.SETTLEMENT_NO
+,a.ACCOUNT_ID
+,a.ACCT_IDENTIFIER_CODE_QUALIFIER
+,a.ACCOUNT_NO
+,a.ACCOUNT_NAME
+,a.ANALYSIS_CODE
+,a.IS_ACTIVE
+,a.COM_DIV_MKT_BRAND_PROD_KEY
+,a.PARENTCOM_DIVMKT_BRAND_PRODKEY
+,a.PRICE_ADJUSTMENT_NAME
+,a.PRICE
+,a.RECORD_SEQUENCE
+,a.SENT_OUT
+,a.ACCRUAL_PROCESSED
+,a.DIVISION_ID
+,a.MARKET_ID
+,a.BRAND_ID
+,a.ADD_CHG_DEL_INDICATOR
+,a.CLAIM_INDICATOR
+,a.CREATED_BY
+,a.CREATED_DATE
+,a.MODIFIED_BY
+,a.MODIFIED_DATE
+,a.BATCH_ID
+,a.SOURCE
+,&apos;Invalid Indicator&apos;
+,a.SALES_AMOUNT
+,a.ORGANIZATION_KEY
+,a.MANDATED_DISCOUNT_AMOUNT
+,a.PROVISION_CLAIM_INDICATOR
+,a.PROGRAM_STATE_CODE
+,a.DISPENSED_DATE
+,a.ACTUAL_INTFID
+,a.SETTLEMENT_METHOD
+,a.INVOICE_LINE_NUMBER
+FROM   STAG_ACTUAL_MASTER A 
+     --  INNER JOIN COMPANY_MASTER B 
+     --         ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	  -- INNER JOIN COMPANY_MASTER F              
+     --            ON A.ACCOUNT_ID = F.COMPANY_NO 
+    --   INNER JOIN ITEM_MASTER C 
+    --          ON A.ITEM_ID = C.ITEM_ID 
+    --   INNER JOIN CONTRACT_MASTER D 
+     --         ON A.CONTRACT_ID = D.CONTRACT_ID 
+     --  INNER JOIN RS_MODEL E 
+      --        ON A.PROVISION_ID = E.RS_ID 
+			  where a.ADD_CHG_DEL_INDICATOR &lt;&gt;&apos;A&apos;
+
+			</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>947</xloc>
+      <yloc>839</yloc>
+      </entry>
+    <entry>
+      <name>DUPLICATE RECORD IN STAGING</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+;WITH cte AS ( 
+
+
+SELECT A.ACTUAL_INTFID, 
+       A.ACTUAL_ID, 
+       A.CONTRACT_ID, 
+       A.UPLOAD_DATE, 
+       A.PROVISION_ID, 
+       A.ACCRUAL_ACTUAL_START_DATE, 
+       A.ACCRUAL_ACTUAL_END_DATE, 
+       A.ITEM_ID, 
+       A.ITEM_IDENTIFIER_CODE_QUALIFIER, 
+       A.ITEM_NO, 
+       A.SETTLEMENT_METHOD, 
+       A.CASH_PAID_DATE, 
+       A.AMOUNT, 
+       A.QUANTITY, 
+       A.QUANTITY_INCLUSION, 
+       A.SETTLEMENT_NO, 
+       A.INVOICE_LINE_NUMBER, 
+       A.ACCOUNT_ID, 
+       A.ACCT_IDENTIFIER_CODE_QUALIFIER, 
+       A.ACCOUNT_NO, 
+       A.ACCOUNT_NAME, 
+       A.ANALYSIS_CODE, 
+       A.IS_ACTIVE, 
+       A.COM_DIV_MKT_BRAND_PROD_KEY, 
+       A.PARENTCOM_DIVMKT_BRAND_PRODKEY, 
+       A.PRICE_ADJUSTMENT_NAME, 
+       A.PRICE, 
+       A.RECORD_SEQUENCE, 
+       A.SENT_OUT, 
+       A.ACCRUAL_PROCESSED, 
+       A.DIVISION_ID, 
+       A.MARKET_ID, 
+       A.BRAND_ID, 
+       A.CLAIM_INDICATOR, 
+       A.SALES_AMOUNT, 
+       A.ORGANIZATION_KEY, 
+       A.MANDATED_DISCOUNT_AMOUNT, 
+       A.PROVISION_CLAIM_INDICATOR, 
+       A.PROGRAM_STATE_CODE, 
+       A.DISPENSED_DATE, 
+       A.CREATED_BY, 
+       A.CREATED_DATE, 
+       A.MODIFIED_BY, 
+       A.MODIFIED_DATE, 
+       A.BATCH_ID, 
+       A.SOURCE, 
+       A.ADD_CHG_DEL_INDICATOR
+ 
+,ROW_NUMBER() OVER(PARTITION BY actual_id ORDER BY actual_id)&apos;RowRank&apos;
+        FROM     STAG_ACTUAL_MASTER A 
+    --   INNER JOIN COMPANY_MASTER B 
+      --        ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	 --  INNER JOIN COMPANY_MASTER F              
+    --             ON A.ACCOUNT_ID = F.COMPANY_NO 
+    --   INNER JOIN ITEM_MASTER C 
+     --         ON A.ITEM_ID = C.ITEM_ID 
+    --   INNER JOIN CONTRACT_MASTER D 
+      --        ON A.CONTRACT_ID = D.CONTRACT_ID 
+     --  INNER JOIN RS_MODEL E 
+      --        ON A.PROVISION_ID = E.RS_ID
+where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
+			    )
+
+insert into IVLD_ACTUAL_MASTER(
+ACCOUNT_ID
+,ACCOUNT_NAME
+,ACCOUNT_NO
+,ACCRUAL_ACTUAL_END_DATE
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_PROCESSED
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACTUAL_ID
+,ACTUAL_INTFID
+,ADD_CHG_DEL_INDICATOR
+,AMOUNT
+,ANALYSIS_CODE
+,BATCH_ID
+,BRAND_ID
+,CASH_PAID_DATE
+,CLAIM_INDICATOR
+,COM_DIV_MKT_BRAND_PROD_KEY
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,DISPENSED_DATE
+,DIVISION_ID
+,ERROR_CODE
+,IS_ACTIVE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,MANDATED_DISCOUNT_AMOUNT
+,MARKET_ID
+,MODIFIED_BY
+,MODIFIED_DATE
+,ORGANIZATION_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE
+,PRICE_ADJUSTMENT_NAME
+,PROGRAM_STATE_CODE
+,PROVISION_CLAIM_INDICATOR
+,PROVISION_ID
+,QUANTITY
+,QUANTITY_INCLUSION
+,REASON_FOR_FAILURE
+,RECORD_SEQUENCE
+,SALES_AMOUNT
+,SENT_OUT
+,SETTLEMENT_NO
+,SOURCE
+,UPLOAD_DATE
+,SETTLEMENT_METHOD_NO
+,INVOICE_LINE_NO
+
+)
+select 
+ACCOUNT_ID
+,ACCOUNT_NAME
+,ACCOUNT_NO
+,ACCRUAL_ACTUAL_END_DATE
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_PROCESSED
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACTUAL_ID
+,ACTUAL_INTFID
+,ADD_CHG_DEL_INDICATOR
+,AMOUNT
+,ANALYSIS_CODE
+,BATCH_ID
+,BRAND_ID
+,CASH_PAID_DATE
+,CLAIM_INDICATOR
+,COM_DIV_MKT_BRAND_PROD_KEY
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,DISPENSED_DATE
+,DIVISION_ID
+,&apos;E04&apos;
+,IS_ACTIVE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,MANDATED_DISCOUNT_AMOUNT
+,MARKET_ID
+,MODIFIED_BY
+,MODIFIED_DATE
+,ORGANIZATION_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE
+,PRICE_ADJUSTMENT_NAME
+,PROGRAM_STATE_CODE
+,PROVISION_CLAIM_INDICATOR
+,PROVISION_ID
+,QUANTITY
+,QUANTITY_INCLUSION
+,&apos;Duplicate record in Staging&apos;
+,RECORD_SEQUENCE
+,SALES_AMOUNT
+,SENT_OUT
+,SETTLEMENT_NO
+,SOURCE
+,UPLOAD_DATE
+,SETTLEMENT_METHOD
+,INVOICE_LINE_NUMBER
+
+  FROM cte 
+WHERE RowRank &gt; 1</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>945</xloc>
+      <yloc>932</yloc>
+      </entry>
+    <entry>
+      <name>DUPLICATE RECORD</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+
+;WITH cte AS ( 
+
+
+SELECT A.ACTUAL_INTFID, 
+       A.ACTUAL_ID, 
+       A.CONTRACT_ID, 
+       A.UPLOAD_DATE, 
+       A.PROVISION_ID, 
+       A.ACCRUAL_ACTUAL_START_DATE, 
+       A.ACCRUAL_ACTUAL_END_DATE, 
+       A.ITEM_ID, 
+       A.ITEM_IDENTIFIER_CODE_QUALIFIER, 
+       A.ITEM_NO, 
+       A.SETTLEMENT_METHOD, 
+       A.CASH_PAID_DATE, 
+       A.AMOUNT, 
+       A.QUANTITY, 
+       A.QUANTITY_INCLUSION, 
+       A.SETTLEMENT_NO, 
+       A.INVOICE_LINE_NUMBER, 
+       A.ACCOUNT_ID, 
+       A.ACCT_IDENTIFIER_CODE_QUALIFIER, 
+       A.ACCOUNT_NO, 
+       A.ACCOUNT_NAME, 
+       A.ANALYSIS_CODE, 
+       A.IS_ACTIVE, 
+       A.COM_DIV_MKT_BRAND_PROD_KEY, 
+       A.PARENTCOM_DIVMKT_BRAND_PRODKEY, 
+       A.PRICE_ADJUSTMENT_NAME, 
+       A.PRICE, 
+       A.RECORD_SEQUENCE, 
+       A.SENT_OUT, 
+       A.ACCRUAL_PROCESSED, 
+       A.DIVISION_ID, 
+       A.MARKET_ID, 
+       A.BRAND_ID, 
+       A.CLAIM_INDICATOR, 
+       A.SALES_AMOUNT, 
+       A.ORGANIZATION_KEY, 
+       A.MANDATED_DISCOUNT_AMOUNT, 
+       A.PROVISION_CLAIM_INDICATOR, 
+       A.PROGRAM_STATE_CODE, 
+       A.DISPENSED_DATE, 
+       A.CREATED_BY, 
+       A.CREATED_DATE, 
+       A.MODIFIED_BY, 
+       A.MODIFIED_DATE, 
+       A.BATCH_ID, 
+       A.SOURCE, 
+       A.ADD_CHG_DEL_INDICATOR
+ 
+,ROW_NUMBER() OVER(PARTITION BY actual_id ORDER BY actual_id)&apos;RowRank&apos;
+        FROM     STAG_ACTUAL_MASTER A 
+     INNER JOIN COMPANY_MASTER B 
+          ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	   INNER JOIN COMPANY_MASTER F              
+               ON A.ACCOUNT_ID = F.COMPANY_NO 
+      INNER JOIN ITEM_MASTER C 
+            ON A.ITEM_ID = C.ITEM_ID 
+      INNER JOIN CONTRACT_MASTER D 
+            ON A.CONTRACT_ID = D.CONTRACT_ID 
+      INNER JOIN RS_MODEL E 
+           ON A.PROVISION_ID = E.RS_ID
+where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos; AND exists(select ACTUAL_ID from actuals_master b where a.ACTUAL_ID=b.ACTUAL_ID) 
+			    )
+
+insert into IVLD_ACTUAL_MASTER(
+ACCOUNT_ID
+,ACCOUNT_NAME
+,ACCOUNT_NO
+,ACCRUAL_ACTUAL_END_DATE
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_PROCESSED
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACTUAL_ID
+,ACTUAL_INTFID
+,ADD_CHG_DEL_INDICATOR
+,AMOUNT
+,ANALYSIS_CODE
+,BATCH_ID
+,BRAND_ID
+,CASH_PAID_DATE
+,CLAIM_INDICATOR
+,COM_DIV_MKT_BRAND_PROD_KEY
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,DISPENSED_DATE
+,DIVISION_ID
+,ERROR_CODE
+,IS_ACTIVE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,MANDATED_DISCOUNT_AMOUNT
+,MARKET_ID
+,MODIFIED_BY
+,MODIFIED_DATE
+,ORGANIZATION_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE
+,PRICE_ADJUSTMENT_NAME
+,PROGRAM_STATE_CODE
+,PROVISION_CLAIM_INDICATOR
+,PROVISION_ID
+,QUANTITY
+,QUANTITY_INCLUSION
+,REASON_FOR_FAILURE
+,RECORD_SEQUENCE
+,SALES_AMOUNT
+,SENT_OUT
+,SETTLEMENT_NO
+,SOURCE
+,UPLOAD_DATE
+,SETTLEMENT_METHOD_NO
+,INVOICE_LINE_NO
+
+
+)
+select 
+ACCOUNT_ID
+,ACCOUNT_NAME
+,ACCOUNT_NO
+,ACCRUAL_ACTUAL_END_DATE
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_PROCESSED
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACTUAL_ID
+,ACTUAL_INTFID
+,ADD_CHG_DEL_INDICATOR
+,AMOUNT
+,ANALYSIS_CODE
+,BATCH_ID
+,BRAND_ID
+,CASH_PAID_DATE
+,CLAIM_INDICATOR
+,COM_DIV_MKT_BRAND_PROD_KEY
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,DISPENSED_DATE
+,DIVISION_ID
+,&apos;E04&apos;
+,IS_ACTIVE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,MANDATED_DISCOUNT_AMOUNT
+,MARKET_ID
+,MODIFIED_BY
+,MODIFIED_DATE
+,ORGANIZATION_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE
+,PRICE_ADJUSTMENT_NAME
+,PROGRAM_STATE_CODE
+,PROVISION_CLAIM_INDICATOR
+,PROVISION_ID
+,QUANTITY
+,QUANTITY_INCLUSION
+,&apos;Duplicate Record&apos;
+,RECORD_SEQUENCE
+,SALES_AMOUNT
+,SENT_OUT
+,SETTLEMENT_NO
+,SOURCE
+,UPLOAD_DATE
+,SETTLEMENT_METHOD
+,INVOICE_LINE_NUMBER
+
+  FROM cte A
+WHERE RowRank = 1</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>944</xloc>
+      <yloc>1005</yloc>
+      </entry>
+    <entry>
+      <name>ADD_COUNT</name>
+      <description/>
+      <type>SQL</type>
+      <sql>;WITH cte AS ( 
+
+
+SELECT A.ACTUAL_INTFID, 
+       A.ACTUAL_ID, 
+       A.CONTRACT_ID, 
+       A.UPLOAD_DATE, 
+       A.PROVISION_ID, 
+       A.ACCRUAL_ACTUAL_START_DATE, 
+       A.ACCRUAL_ACTUAL_END_DATE, 
+       A.ITEM_ID, 
+       A.ITEM_IDENTIFIER_CODE_QUALIFIER, 
+       A.ITEM_NO, 
+       A.SETTLEMENT_METHOD, 
+       A.CASH_PAID_DATE, 
+       A.AMOUNT, 
+       A.QUANTITY, 
+       A.QUANTITY_INCLUSION, 
+       A.SETTLEMENT_NO, 
+       A.INVOICE_LINE_NUMBER, 
+       A.ACCOUNT_ID, 
+       A.ACCT_IDENTIFIER_CODE_QUALIFIER, 
+       A.ACCOUNT_NO, 
+       A.ACCOUNT_NAME, 
+       A.ANALYSIS_CODE, 
+       A.IS_ACTIVE, 
+       A.COM_DIV_MKT_BRAND_PROD_KEY, 
+       A.PARENTCOM_DIVMKT_BRAND_PRODKEY, 
+       A.PRICE_ADJUSTMENT_NAME, 
+       A.PRICE, 
+       A.RECORD_SEQUENCE, 
+       A.SENT_OUT, 
+       A.ACCRUAL_PROCESSED, 
+       A.DIVISION_ID, 
+       A.MARKET_ID, 
+       A.BRAND_ID, 
+       A.CLAIM_INDICATOR, 
+       A.SALES_AMOUNT, 
+       A.ORGANIZATION_KEY, 
+       A.MANDATED_DISCOUNT_AMOUNT, 
+       A.PROVISION_CLAIM_INDICATOR, 
+       A.PROGRAM_STATE_CODE, 
+       A.DISPENSED_DATE, 
+       A.CREATED_BY, 
+       A.CREATED_DATE, 
+       A.MODIFIED_BY, 
+       A.MODIFIED_DATE, 
+       A.BATCH_ID, 
+       A.SOURCE, 
+       A.ADD_CHG_DEL_INDICATOR
+     , B.COMPANY_MASTER_SID,
+	  C.ITEM_MASTER_SID,
+	  D.CONTRACT_MASTER_SID
+
+
+,ROW_NUMBER() OVER(PARTITION BY actual_id ORDER BY (select null))&apos;RowRank&apos;
+        FROM     STAG_ACTUAL_MASTER A 
+       INNER JOIN COMPANY_MASTER B 
+              ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	   INNER JOIN COMPANY_MASTER F              
+                 ON A.ACCOUNT_ID = F.COMPANY_NO 
+       INNER JOIN ITEM_MASTER C 
+              ON A.ITEM_ID = C.ITEM_ID 
+       INNER JOIN CONTRACT_MASTER D 
+              ON A.CONTRACT_ID = D.CONTRACT_ID 
+       INNER JOIN RS_MODEL E 
+              ON A.PROVISION_ID = E.RS_ID
+			   where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
+			   and  exists(select ACTUAL_ID from ACTUALS_TEST b where a.ACTUAL_ID=b.ACTUAL_ID)
+			    )
+
+
+
+
+  update a
+  
+  set a.ADD_COUNT= b.new_count
+  from AUDIT_MASTER_INBOUND  a
+inner join (select 
+     count(*) as new_count,BATCH_ID
+
+  FROM cte 
+  WHERE RowRank = 1
+  group by BATCH_ID)b
+  on a.BATCH_ID=b.BATCH_ID
+  and a.STATUS=&apos;R&apos;   AND A.APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;
+
+
+
+
+
+
+
+
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>837</xloc>
+      <yloc>1486</yloc>
+      </entry>
+    <entry>
+      <name>MASTER_TABLE_INSERT</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+IF OBJECT_ID(&apos;TEMPDB..#item&apos;) IS NOT NULL
+DROP TABLE #item
+
+	SELECT a.ITEM_ID,
+		   item_master_sid
+INTO   #item
+	FROM   (SELECT DISTINCT item_id
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN item_master im
+			 ON im.item_id = a.item_id
+
+IF OBJECT_ID(&apos;TEMPDB..#company&apos;) IS NOT NULL
+DROP TABLE #company
+	SELECT a.ORGANIZATION_KEY
+		   
+INTO   #company
+	FROM   (SELECT DISTINCT ORGANIZATION_KEY
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN COMPANY_master im
+			 ON im.COMPANY_ID = a.ORGANIZATION_KEY
+
+
+IF OBJECT_ID(&apos;TEMPDB..#company1&apos;) IS NOT NULL
+DROP TABLE #company1
+	SELECT a.ACCOUNT_ID,
+		   COMPANY_MASTER_SID
+INTO   #company1
+	FROM   (SELECT DISTINCT ACCOUNT_ID
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN COMPANY_master im
+			 ON im.COMPANY_NO = a.ACCOUNT_ID
+
+
+
+IF OBJECT_ID(&apos;TEMPDB..#contract&apos;) IS NOT NULL
+DROP TABLE #contract
+	SELECT a.CONTRACT_ID,
+		   CONTRACT_MASTER_SID
+INTO   #contract
+	FROM   (SELECT DISTINCT CONTRACT_ID
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN CONTRACT_MASTER im
+			 ON im.CONTRACT_ID = a.CONTRACT_ID
+
+IF OBJECT_ID(&apos;TEMPDB..#rs_model&apos;) IS NOT NULL
+DROP TABLE #rs_model
+	SELECT a.PROVISION_ID
+INTO   #rs_model
+	FROM   (SELECT DISTINCT PROVISION_ID
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN RS_MODEL im
+			 ON im.rs_id = a.PROVISION_ID
+
+
+;WITH cte AS ( 
+
+
+SELECT A.ACTUAL_INTFID, 
+       A.ACTUAL_ID, 
+       A.CONTRACT_ID, 
+       A.UPLOAD_DATE, 
+       A.PROVISION_ID, 
+       A.ACCRUAL_ACTUAL_START_DATE, 
+       A.ACCRUAL_ACTUAL_END_DATE, 
+       A.ITEM_ID, 
+       A.ITEM_IDENTIFIER_CODE_QUALIFIER, 
+       A.ITEM_NO, 
+       A.SETTLEMENT_METHOD, 
+       A.CASH_PAID_DATE, 
+       A.AMOUNT, 
+       A.QUANTITY, 
+       A.QUANTITY_INCLUSION, 
+       A.SETTLEMENT_NO, 
+       A.INVOICE_LINE_NUMBER, 
+       A.ACCOUNT_ID, 
+       A.ACCT_IDENTIFIER_CODE_QUALIFIER, 
+       A.ACCOUNT_NO, 
+       A.ACCOUNT_NAME, 
+       A.ANALYSIS_CODE, 
+       A.IS_ACTIVE, 
+       A.COM_DIV_MKT_BRAND_PROD_KEY, 
+       A.PARENTCOM_DIVMKT_BRAND_PRODKEY, 
+       A.PRICE_ADJUSTMENT_NAME, 
+       A.PRICE, 
+       A.RECORD_SEQUENCE, 
+       A.SENT_OUT, 
+       A.ACCRUAL_PROCESSED, 
+       A.DIVISION_ID, 
+       A.MARKET_ID, 
+       A.BRAND_ID, 
+       A.CLAIM_INDICATOR, 
+       A.SALES_AMOUNT, 
+       A.ORGANIZATION_KEY, 
+       A.MANDATED_DISCOUNT_AMOUNT, 
+       A.PROVISION_CLAIM_INDICATOR, 
+       A.PROGRAM_STATE_CODE, 
+       A.DISPENSED_DATE, 
+       A.CREATED_BY, 
+       A.CREATED_DATE, 
+       A.MODIFIED_BY, 
+       A.MODIFIED_DATE, 
+       A.BATCH_ID, 
+       A.SOURCE, 
+       A.ADD_CHG_DEL_INDICATOR
+     , f.COMPANY_MASTER_SID,
+	  C.ITEM_MASTER_SID,
+	  D.CONTRACT_MASTER_SID
+
+
+
+,ROW_NUMBER() OVER(PARTITION BY actual_id ORDER BY (select null))&apos;RowRank&apos;
+        FROM     STAG_ACTUAL_MASTER A 
+       INNER JOIN #company B 
+              ON A.ORGANIZATION_KEY = B.ORGANIZATION_KEY                
+	   INNER JOIN #company1 F              
+                 ON A.ACCOUNT_ID = F.ACCOUNT_ID 
+       INNER JOIN #item C 
+              ON A.ITEM_ID = C.ITEM_ID 
+       INNER JOIN #contract D 
+              ON A.CONTRACT_ID = D.CONTRACT_ID 
+       INNER JOIN #rs_model E 
+              ON A.PROVISION_ID = E.PROVISION_ID
+			   where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
+	   and not exists(select ACTUAL_ID from actuals_master b where a.ACTUAL_ID=b.ACTUAL_ID)
+			    )
+insert into ACTUALS_MASTER (
+ACCOUNT_ID
+,ACCOUNT_NAME
+,ACCOUNT_NO
+,ACCRUAL_ACTUAL_END_DATE
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_PROCESSED
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACTUAL_ID
+,AMOUNT
+,ANALYSIS_CODE
+,BATCH_ID
+,BRAND_ID
+,CASH_PAID_DATE
+,CLAIM_INDICATOR
+,COM_DIV_MKT_BRAND_PROD_KEY
+,CONTRACT_ID
+,DISPENSED_DATE
+,DIVISION_ID
+,INBOUND_STATUS
+,INVOICE_LINE_NO
+,IS_ACTIVE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,MANDATED_DISCOUNT_AMOUNT
+,MARKET_ID
+,ORGANIZATION_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE
+,PRICE_ADJUSTMENT_NAME
+,PROGRAM_STATE_CODE
+,PROVISION_CLAIM_INDICATOR
+,PROVISION_ID
+,QUANTITY
+,QUANTITY_INCLUSION
+,RECORD_SEQUENCE
+,SALES_AMOUNT
+,SENT_OUT
+,SETTLEMENT_METHOD_NO
+,SETTLEMENT_NO
+,SOURCE
+,UPLOAD_DATE
+,CREATED_BY
+,COMPANY_MASTER_SID
+,CONTRACT_MASTER_SID
+,ITEM_MASTER_SID
+
+
+)
+select 
+ ACCOUNT_ID
+,ACCOUNT_NAME
+,ACCOUNT_NO
+,ACCRUAL_ACTUAL_END_DATE
+,ACCRUAL_ACTUAL_START_DATE
+,ACCRUAL_PROCESSED
+,ACCT_IDENTIFIER_CODE_QUALIFIER
+,ACTUAL_ID
+,AMOUNT
+,ANALYSIS_CODE
+,BATCH_ID
+,BRAND_ID
+,CASH_PAID_DATE
+,CLAIM_INDICATOR
+,COM_DIV_MKT_BRAND_PROD_KEY
+,CONTRACT_ID
+,DISPENSED_DATE
+,DIVISION_ID
+,&apos;A&apos;
+,INVOICE_LINE_NUMBER
+,IS_ACTIVE
+,ITEM_ID
+,ITEM_IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,MANDATED_DISCOUNT_AMOUNT
+,MARKET_ID
+,ORGANIZATION_KEY
+,PARENTCOM_DIVMKT_BRAND_PRODKEY
+,PRICE
+,PRICE_ADJUSTMENT_NAME
+,PROGRAM_STATE_CODE
+,PROVISION_CLAIM_INDICATOR
+,PROVISION_ID
+,QUANTITY
+,QUANTITY_INCLUSION
+,RECORD_SEQUENCE
+,SALES_AMOUNT
+,SENT_OUT
+,SETTLEMENT_METHOD
+,SETTLEMENT_NO
+,SOURCE
+,UPLOAD_DATE
+,CREATED_BY
+,COMPANY_MASTER_SID
+,CONTRACT_MASTER_SID
+,ITEM_MASTER_SID
+
+
+  FROM cte 
+WHERE RowRank = 1</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>960</xloc>
+      <yloc>1459</yloc>
+      </entry>
+    <entry>
+      <name>ADD_COUNT 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+IF OBJECT_ID(&apos;TEMPDB..#item&apos;) IS NOT NULL
+DROP TABLE #item
+
+	SELECT a.ITEM_ID,
+		   item_master_sid
+INTO   #item
+	FROM   (SELECT DISTINCT item_id
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN item_master im
+			 ON im.item_id = a.item_id
+
+IF OBJECT_ID(&apos;TEMPDB..#company&apos;) IS NOT NULL
+DROP TABLE #company
+	SELECT a.ORGANIZATION_KEY
+		   
+INTO   #company
+	FROM   (SELECT DISTINCT ORGANIZATION_KEY
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN COMPANY_master im
+			 ON im.COMPANY_ID = a.ORGANIZATION_KEY
+
+
+IF OBJECT_ID(&apos;TEMPDB..#company1&apos;) IS NOT NULL
+DROP TABLE #company1
+	SELECT a.ACCOUNT_ID,
+		   COMPANY_MASTER_SID
+INTO   #company1
+	FROM   (SELECT DISTINCT ACCOUNT_ID
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN COMPANY_master im
+			 ON im.COMPANY_NO = a.ACCOUNT_ID
+
+
+
+IF OBJECT_ID(&apos;TEMPDB..#contract&apos;) IS NOT NULL
+DROP TABLE #contract
+	SELECT a.CONTRACT_ID,
+		   CONTRACT_MASTER_SID
+INTO   #contract
+	FROM   (SELECT DISTINCT CONTRACT_ID
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN CONTRACT_MASTER im
+			 ON im.CONTRACT_ID = a.CONTRACT_ID
+
+IF OBJECT_ID(&apos;TEMPDB..#rs_model&apos;) IS NOT NULL
+DROP TABLE #rs_model
+	SELECT a.PROVISION_ID
+INTO   #rs_model
+	FROM   (SELECT DISTINCT PROVISION_ID
+			FROM   STAG_ACTUAL_MASTER) a
+		   JOIN RS_MODEL im
+			 ON im.rs_id = a.PROVISION_ID
+
+
+;WITH cte AS ( 
+
+
+SELECT A.ACTUAL_INTFID, 
+       A.ACTUAL_ID, 
+       A.CONTRACT_ID, 
+       A.UPLOAD_DATE, 
+       A.PROVISION_ID, 
+       A.ACCRUAL_ACTUAL_START_DATE, 
+       A.ACCRUAL_ACTUAL_END_DATE, 
+       A.ITEM_ID, 
+       A.ITEM_IDENTIFIER_CODE_QUALIFIER, 
+       A.ITEM_NO, 
+       A.SETTLEMENT_METHOD, 
+       A.CASH_PAID_DATE, 
+       A.AMOUNT, 
+       A.QUANTITY, 
+       A.QUANTITY_INCLUSION, 
+       A.SETTLEMENT_NO, 
+       A.INVOICE_LINE_NUMBER, 
+       A.ACCOUNT_ID, 
+       A.ACCT_IDENTIFIER_CODE_QUALIFIER, 
+       A.ACCOUNT_NO, 
+       A.ACCOUNT_NAME, 
+       A.ANALYSIS_CODE, 
+       A.IS_ACTIVE, 
+       A.COM_DIV_MKT_BRAND_PROD_KEY, 
+       A.PARENTCOM_DIVMKT_BRAND_PRODKEY, 
+       A.PRICE_ADJUSTMENT_NAME, 
+       A.PRICE, 
+       A.RECORD_SEQUENCE, 
+       A.SENT_OUT, 
+       A.ACCRUAL_PROCESSED, 
+       A.DIVISION_ID, 
+       A.MARKET_ID, 
+       A.BRAND_ID, 
+       A.CLAIM_INDICATOR, 
+       A.SALES_AMOUNT, 
+       A.ORGANIZATION_KEY, 
+       A.MANDATED_DISCOUNT_AMOUNT, 
+       A.PROVISION_CLAIM_INDICATOR, 
+       A.PROGRAM_STATE_CODE, 
+       A.DISPENSED_DATE, 
+       A.CREATED_BY, 
+       A.CREATED_DATE, 
+       A.MODIFIED_BY, 
+       A.MODIFIED_DATE, 
+       A.BATCH_ID, 
+       A.SOURCE, 
+       A.ADD_CHG_DEL_INDICATOR
+     , f.COMPANY_MASTER_SID,
+	  C.ITEM_MASTER_SID,
+	  D.CONTRACT_MASTER_SID
+
+
+
+,ROW_NUMBER() OVER(PARTITION BY actual_id ORDER BY (select null))&apos;RowRank&apos;
+        FROM     STAG_ACTUAL_MASTER A 
+       INNER JOIN #company B 
+              ON A.ORGANIZATION_KEY = B.ORGANIZATION_KEY                
+	   INNER JOIN #company1 F              
+                 ON A.ACCOUNT_ID = F.ACCOUNT_ID 
+       INNER JOIN #item C 
+              ON A.ITEM_ID = C.ITEM_ID 
+       INNER JOIN #contract D 
+              ON A.CONTRACT_ID = D.CONTRACT_ID 
+       INNER JOIN #rs_model E 
+              ON A.PROVISION_ID = E.PROVISION_ID
+			   where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
+	   and not exists(select ACTUAL_ID from actuals_master b where a.ACTUAL_ID=b.ACTUAL_ID)
+			    )
+
+
+
+  update a
+  
+  set a.ADD_COUNT= b.new_count
+  from AUDIT_MASTER_INBOUND  a
+inner join (select 
+     count(*) as new_count,BATCH_ID
+
+  FROM cte 
+  WHERE RowRank = 1
+  group by BATCH_ID)b
+  on a.BATCH_ID=b.BATCH_ID
+  and a.STATUS=&apos;R&apos;   AND A.APPLICATION_PROCESS=&apos;ACTUAL_MASTER_INTERFACE&apos;
+
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1104</xloc>
+      <yloc>1213</yloc>
+      </entry>
+    <entry>
+      <name>ACTUAL FUNCTION</name>
+      <description/>
+      <type>SQL</type>
+      <sql>--MERGE ACTUALS_DETAILS AD 
+--USING(
+
+INSERT INTO ACTUALS_DETAILS
+(
+ [PERIOD_SID]         
+ ,[RS_MODEL_SID]      
+ ,[CCP_DETAILS_SID]   
+ ,[SALES]             
+ ,[QUANTITY]          
+ ,[DISCOUNT]          
+ ,[QUANTITY_INCLUSION]
+ ,[ACTUAL_ID]  
+)
+
+
+SELECT PERIOD_SID, 
+RM.RS_MODEL_SID, 
+             CCP.CCP_DETAILS_SID ,
+             --PROVISION_ID,  
+             ISNULL((SALES), 0)               AS SALES, 
+             ISNULL((QUANTITY), 0)            AS QUANTITY, 
+             ISNULL((DISCOUNT), 0)            AS DISCOUNT, 
+             ISNULL((QUANTITY_INCLUSION), &apos;Y&apos;)AS QUANTITY_INCLUSION,
+             --PERIOD_DATE                    AS START_DATE           ,  
+             --EOMONTH(PERIOD_DATE)           AS END_DATE,  
+             --A.YEAR,  
+             --A.MONTH,  
+             --A.QUARTER,  
+             --A.COMPANY_MASTER_SID,  
+             --A.CONTRACT_MASTER_SID,  
+             --A.ITEM_MASTER_SID ,
+             ACTUAL_ID
+      FROM   (SELECT CONTRACT_MASTER_SID, 
+                     COMPANY_MASTER_SID, 
+                     ITEM_MASTER_SID, 
+                     PROVISION_ID, 
+                     PERIOD_SID, 
+                     YEAR, 
+                     MONTH, 
+                     QUARTER, 
+                     PERIOD_DATE, 
+                     SALES, 
+                     QUANTITY, 
+                     DISCOUNT, 
+                     QUANTITY_INCLUSION ,B.ACTUAL_ID
+              FROM   PERIOD A 
+                     JOIN (SELECT PROVISION_ID, 
+                                  ACCRUAL_ACTUAL_START_DATE   START_DATE, 
+                                  ACCRUAL_ACTUAL_END_DATE     END_DATE, 
+                                  QUANTITY_INCLUSION, 
+                                  A1.CONTRACT_MASTER_SID, 
+                                  A1.COMPANY_MASTER_SID, 
+                                  A1.ITEM_MASTER_SID, 
+                                  (SALES_AMOUNT) &#47; ( DATEDIFF(MM, ACCRUAL_ACTUAL_START_DATE, ACCRUAL_ACTUAL_END_DATE)
+                                                        + 1 ) SALES, 
+                                  (QUANTITY) &#47; ( DATEDIFF(MM, ACCRUAL_ACTUAL_START_DATE, ACCRUAL_ACTUAL_END_DATE)
+                                                    + 1 )     QUANTITY, 
+                                  (AMOUNT) &#47; ( DATEDIFF(MM, ACCRUAL_ACTUAL_START_DATE, ACCRUAL_ACTUAL_END_DATE)
+                                                  + 1 )       DISCOUNT 
+												  ,A1.ACTUAL_ID
+                           FROM   ACTUALS_MASTER A1 
+                      WHERE   exists (select 1 from STAG_ACTUAL_MASTER sam where a1.ACTUAL_ID=sam.ACTUAL_ID)
+						    --COMPANY_MASTER_SID = 46143 
+          --                        AND CONTRACT_MASTER_SID = 36 
+          --                        AND ITEM_MASTER_SID = 2523 
+                         --  A1.BATCH_ID=?  
+                           --GROUP  BY PROVISION_ID, 
+                           --          ACCRUAL_ACTUAL_START_DATE, 
+                           --          ACCRUAL_ACTUAL_END_DATE, 
+                           --          QUANTITY_INCLUSION, 
+                           --          A1.COMPANY_MASTER_SID, 
+                           --          A1.CONTRACT_MASTER_SID, 
+                           --          A1.ITEM_MASTER_SID,A1.ACTUAL_ID
+									 ) B 
+                       ON A.PERIOD_DATE BETWEEN B.START_DATE AND B.END_DATE)A 
+             JOIN RS_MODEL RM 
+               ON RM.RS_ID = A.PROVISION_ID 
+             JOIN CCP_DETAILS CCP 
+               ON CCP.COMPANY_MASTER_SID = A.COMPANY_MASTER_SID 
+                  AND CCP.ITEM_MASTER_SID = A.ITEM_MASTER_SID 
+                  AND CCP.CONTRACT_MASTER_SID = A.CONTRACT_MASTER_SID 
+      --GROUP  BY PERIOD_SID, 
+      --          CCP_DETAILS_SID, 
+      --          RS_MODEL_SID, 
+      --          QUANTITY_INCLUSION
+			--	)SOURCE 
+--ON AD.CCP_DETAILS_SID = SOURCE.CCP_DETAILS_SID 
+--   AND AD.RS_MODEL_SID = SOURCE.RS_MODEL_SID 
+--   AND AD.PERIOD_SID = SOURCE.PERIOD_SID 
+--   AND AD.QUANTITY_INCLUSION = SOURCE.QUANTITY_INCLUSION 
+--WHEN MATCHED THEN 
+--  UPDATE SET AD.SALES = SOURCE.SALES, 
+--             AD.QUANTITY = SOURCE.QUANTITY, 
+--             AD.DISCOUNT = SOURCE.DISCOUNT 
+--WHEN NOT MATCHED THEN 
+--  INSERT ( [PERIOD_SID], 
+--           [RS_MODEL_SID], 
+--           [SALES], 
+--           [QUANTITY], 
+--           [DISCOUNT], 
+--           [QUANTITY_INCLUSION], 
+--           [CCP_DETAILS_SID] ) 
+--  VALUES( SOURCE.[PERIOD_SID], 
+--          SOURCE.[RS_MODEL_SID], 
+--          SOURCE.[SALES], 
+--          SOURCE.[QUANTITY], 
+--          SOURCE.[DISCOUNT], 
+--          SOURCE.[QUANTITY_INCLUSION], 
+--          SOURCE.[CCP_DETAILS_SID] ); </sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1046</xloc>
+      <yloc>1519</yloc>
+      </entry>
+    <entry>
+      <name>SNAP</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1055</xloc>
+      <yloc>733</yloc>
+      </entry>
+    <entry>
+      <name>RETENTION_LOGIC</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${MAIL_FILE_PATH}&#47;new&#47;ZIP_FILE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1167</xloc>
+      <yloc>2234</yloc>
+      </entry>
+    <entry>
+      <name>REPROCESSING_INVALID_DATA 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;GETTING_FILE_NAME.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>986</xloc>
+      <yloc>216</yloc>
+      </entry>
+    <entry>
+      <name>Check if a folder is empty</name>
+      <description/>
+      <type>FOLDER_IS_EMPTY</type>
+      <foldername>${INBOUND_FILE_PATH}&#47;ACTUAL_MASTER_INTERFACE&#47;Input&#47;</foldername>
+      <include_subfolders>N</include_subfolders>
+      <specify_wildcard>N</specify_wildcard>
+      <wildcard/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>595</xloc>
+      <yloc>2155</yloc>
+      </entry>
+    <entry>
+      <name>SET_STAG_COUNT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;SET_STAG_COUNT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>602</xloc>
+      <yloc>290</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE STAG TABLE 2</name>
+      <description/>
+      <type>TRUNCATE_TABLES</type>
+      <connection>BPI DB</connection>
+      <arg_from_previous>N</arg_from_previous>
+      <fields>
+        <field>
+          <name>STAG_ACTUAL_MASTER</name>
+          <schemaname/>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>830</xloc>
+      <yloc>136</yloc>
+      </entry>
+  </entries>
+  <hops>
+    <hop>
+      <from>TRUNCATE STAG TABLE</from>
+      <to>TRUNCATE INTERFACE TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CHECKING FILE</from>
+      <to>VALIDATING FILE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATAFETCH</from>
+      <to>MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE STAG TABLE</from>
+      <to>MAIL (3)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTERFACE TABLE</from>
+      <to>MAIL (4)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATING FILE</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CHECKING FILE</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>VALIDATIONS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>START</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL</from>
+      <to>STOP PROCESS AUDIT (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (2)</from>
+      <to>STOP PROCESS AUDIT (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (3)</from>
+      <to>STOP PROCESS AUDIT (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MAIL (4)</from>
+      <to>STOP PROCESS AUDIT (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (2)</from>
+      <to>STOP PROCESS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATING FILE</from>
+      <to>HANDLING_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>HANDLING_AUDIT</from>
+      <to>DATAFETCH</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>HANDLING_AUDIT</from>
+      <to>MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATAFETCH</from>
+      <to>STAG</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATIONS 2</from>
+      <to>TRUNCATE STAG TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATIONS</from>
+      <to>SQL 3 2 2 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SQL 3 2 2 3</from>
+      <to>SQL 3 2 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATIONS 2</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>INVALID_INDICATOR</from>
+      <to>DUPLICATE RECORD IN STAGING</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DUPLICATE RECORD IN STAGING</from>
+      <to>DUPLICATE RECORD</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MASTER_TABLE_INSERT</from>
+      <to>ADD_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MASTER_TABLE_INSERT</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DUPLICATE RECORD</from>
+      <to>VALIDATION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION</from>
+      <to>VALIDATION UPDATE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>INVALID_INDICATOR</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ADD_COUNT</from>
+      <to>VALIDATIONS 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION UPDATE</from>
+      <to>ADD_COUNT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ADD_COUNT 2</from>
+      <to>MASTER_TABLE_INSERT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION UPDATE</from>
+      <to>MASTER_TABLE_INSERT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MASTER_TABLE_INSERT</from>
+      <to>ACTUAL FUNCTION</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ACTUAL FUNCTION</from>
+      <to>VALIDATIONS 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>MASTER_TABLE_INSERT</from>
+      <to>VALIDATIONS 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STAG</from>
+      <to>MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ADD_COUNT 2</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION UPDATE</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATION</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DUPLICATE RECORD</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DUPLICATE RECORD IN STAGING</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>INVALID_INDICATOR</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ACTUAL FUNCTION</from>
+      <to>MAIL (2)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STAG</from>
+      <to>SNAP</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SNAP</from>
+      <to>INVALID_INDICATOR</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SNAP</from>
+      <to>MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT (3)</from>
+      <to>RETENTION_LOGIC</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA 2</from>
+      <to>CHECKING FILE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTERFACE TABLE</from>
+      <to>Check if a folder is empty</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty</from>
+      <to>STOP PROCESS AUDIT (3)</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Check if a folder is empty</from>
+      <to>STOP PROCESS AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>SET_STAG_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_STAG_COUNT</from>
+      <to>REPROCESSING_INVALID_DATA</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>TRUNCATE STAG TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE STAG TABLE 2</from>
+      <to>REPROCESSING_INVALID_DATA 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+  </hops>
+  <notepads>
+  </notepads>
+</job>

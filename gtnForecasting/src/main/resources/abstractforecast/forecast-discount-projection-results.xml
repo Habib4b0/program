@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" id="mainPanel" xmlns:c="urn:import:org.asi.ui.custommenubar">
+    <VerticalLayout id="dsVerticalLayout" spacing="true"
+		margin="true" immediate="true">
+
+        <Panel id="discountProjectionResultsSelection" caption="Discount Projection Results Selection" >
+            <VerticalLayout styleName = "width-auto"   margin="true">  
+                <!--<GridLayout columns="1" rows="1"  immediate="true" width="100%">-->
+                    
+                <GridLayout spacing="true" margin="false" 
+                            immediate="true" columns="10" rows="2"  styleName="adjustCaption" id="dprGridLayoutScreen">   
+<!--                <HorizontalLayout id="firstRowLayout">
+                    <HorizontalLayout>
+                    -->
+                        <Label caption="Frequency:" contentMode="HTML" />
+                    <ComboBox id="frequencyDdlb" nullSelectionAllowed="true"
+                              immediate="true" styleName="comboxsize"/>
+<!--                    </HorizontalLayout> 
+                    <HorizontalLayout>-->
+                    <Label id="discountOpgLabel"  value="Discount: " contentMode="HTML" immediate="true" />
+                            <OptionGroup multiSelect="false" id="discountOpg" enabled="true" immediate="true" styleName = "horizontal"/>
+                       
+<!--                    </HorizontalLayout> 
+                    <HorizontalLayout>                        -->
+                        <Label caption="Projection Period Order: " contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="periodOrderOpg" styleName="horizontal"
+                                     enabled="true" immediate="true" />
+                        <Label value="Therapeutic Class:" id="labelTherapeutic" contentMode="HTML" width="130px" visible="false" />
+                    <ComboBox id="therapeuticClass" nullSelectionAllowed="false"
+                              inputPrompt="-Select One" immediate="true" visible="false" />
+<!--                    </HorizontalLayout> 
+                </HorizontalLayout>-->
+                <Label caption="" contentMode="HTML" />
+                <Label caption="" contentMode="HTML" />
+<!--                <HorizontalLayout id="secondRowLayout">
+                        <HorizontalLayout>-->
+                            <Label caption="History: " contentMode="HTML" />
+                            <ComboBox id="historyDdlb" nullSelectionAllowed="true"
+                              immediate="true" styleName="comboxsize"/>
+<!--                        </HorizontalLayout> 
+                        <HorizontalLayout id="discountLayout" >-->
+                         <Label caption="Actuals/Projections:" id="labelActualsProjections" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="actualOrProjectionsOpg" 
+                                 enabled="true" immediate="true" styleName="horizontal"/>  
+<!--                        </HorizontalLayout>
+                        <HorizontalLayout>-->
+                        
+                        <Label value="Variables" id="labelVar" contentMode="HTML" />
+                         <c:CustomMenuBar id="variableMenu" styleName="custommenumulticheck"/>
+                         
+<!--                        <Label caption="Variables:" id="labelVarView" contentMode="HTML" styleName="labelresultalign"/>
+                                <OptionGroup multiSelect="true" id="variablesview" enabled="true" styleName="horizontal" />-->
+                                
+                         <Label caption="Pivot View:" id="labelPivotView" contentMode="HTML" />
+                        <OptionGroup multiSelect="false" id="pivotViewOpg" styleName="horizontal"
+                                     enabled="true" immediate="true" />
+                         <Label value="Brand" id="labelBrand" visible="false" contentMode="HTML" />
+                    <ComboBox id="brand" nullSelectionAllowed="false"
+                              inputPrompt="-Select One" immediate="true" visible="false" />
+<!--                        </HorizontalLayout>
+                </HorizontalLayout> -->
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+        
+        <Panel width = "100%"  styleName = "forecast-tab">
+            <VerticalLayout spacing="true" margin="true" styleName = "width-auto" >   
+                <GridLayout immediate="true" rows="1" columns="15" margin="false" spacing="true"  styleName="adjustCaption">
+                <HorizontalLayout id="generateBtnLayout">
+                    <!--<HorizontalLayout spacing="true" margin="false"immediate="true">-->
+                    <Button id="generateBtn" caption="GENERATE"></Button>
+                    <Button id="resetBtn" caption="RESET"></Button>
+                 </HorizontalLayout>
+                    <HorizontalLayout id="optionalLayout">
+                    <Label caption="Level: " id="levelLab" contentMode="HTML" />
+                    <ComboBox id="levelDdlb" nullSelectionAllowed="true" styleName="comboxsize"/>
+                    <Button id="expandBtn" caption="EXPAND"></Button>
+                    <Button id="collapseBtn" caption="COLLAPSE"></Button>
+                    <Label id="groupDdlbLabel" caption="Group: " contentMode="HTML" />
+                    <NativeSelect id="groupDdlb" nullSelectionAllowed="true"
+                          immediate="true" styleName="comboxsize"/>
+                    <Label caption="Level Filter: "  id="levelFilterLab" contentMode="HTML" />
+                    <ComboBox id="levelFilterDdlb" nullSelectionAllowed="true"
+                          immediate="true" styleName="comboxsize"/>
+                    <Label caption="View: "  id="viewLab" contentMode="HTML"></Label>
+                    <OptionGroup multiSelect="false" id="viewOpg" enabled="true"
+                             immediate="true" styleName="horizontal" />
+                    <ComboBox id="customDdlb" nullSelectionAllowed="true"
+                          immediate="true" styleName="comboxsize"/>
+                    <Button id="newBtn" caption="NEW"></Button>
+                    <Button id="editBtn" caption="EDIT"></Button>
+                  </HorizontalLayout>
+                    
+                <!--</HorizontalLayout>-->
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+            
+        <Panel caption="Period Pivot View" id="tablePanel">
+            <VerticalLayout id="verticalLayout" spacing="true"
+                            margin="true" immediate="true">
+                <VerticalLayout id="tableVerticalLayout" spacing="false" margin="false" immediate="true">
+                                    </VerticalLayout>
+                        <VerticalLayout  spacing="true" margin="false" immediate="true">
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="excelBtn" primaryStyleName="link"></Button>
+                    <Button id="graphBtn" primaryStyleName="link"></Button>
+                </HorizontalLayout>
+                 </VerticalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+
+
+
+</Panel>

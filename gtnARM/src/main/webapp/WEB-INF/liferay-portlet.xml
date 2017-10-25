@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 4.3.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_4_3_0.dtd">
+
+<liferay-portlet-app>
+    <portlet>
+        <portlet-name>AdjustmentReserveConfiguration</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>AdjustmentRateConfiguration</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>AccrualReconciliationManagement</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>FixedDollarAdjustment</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>AdjustmentSummary</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>AdjustmentConfig</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>BalanceSummaryReport</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>AccountConfiguration</portlet-name>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+</liferay-portlet-app>

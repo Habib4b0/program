@@ -1,0 +1,31 @@
+<Panel xmlns:c="urn:import:org.asi.ui.custommenubar">
+<VerticalLayout spacing="true"  immediate="true" margin="true">
+    <Panel  margin="true" immediate="true" spacing="true" caption="Data Selection">
+        <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+            <GridLayout spacing="true" id="dataSelecionGrid"
+                        immediate="true" columns="10" rows="1">
+                <Label value="Level:" contentMode="HTML" />
+                <OptionGroup multiSelect="false" id="level" immediate="true" enable="true" styleName = "horizontal"/>
+                <Label id = "reserveAccountLabel" caption=" Reserve Account: "  contentMode="HTML" />
+                <c:CustomMenuBar id="reserveAccount" styleName="custommenumulticheck" />
+                <Label caption=" Variables: " contentMode="HTML" />
+                <c:CustomMenuBar id="variables" styleName="custommenumulticheck" />
+                <Label id="amountFilterLabel" caption=" Amount Filter " contentMode="HTML" />
+                <c:CustomMenuBar id="amountFilterDdlb" styleName="custommenumulticheck" />
+                <Button id="reset" caption="RESET" />
+                <Button id="generate" caption="GENERATE" />
+            </GridLayout>
+        </VerticalLayout>
+    </Panel> 
+    <Panel immediate="true" caption="Results">
+        <VerticalLayout>
+        <VerticalLayout id="resultTableLayout" immediate="true">
+               
+        </VerticalLayout >
+        <HorizontalLayout margin="true" immediate="true" styleName = "width-auto">
+        <Button id="export" caption="" />
+        </HorizontalLayout> 
+        </VerticalLayout>
+    </Panel>  
+</VerticalLayout>
+</Panel>

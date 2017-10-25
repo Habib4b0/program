@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable"
+       xmlns:b="urn:import:org.asi.ui.customtextfield"
+       xmlns:c="urn:import:org.asi.ui.customcombobox"  >
+    
+    <VerticalLayout margin="true" spacing="false" >
+        
+        <Panel id="panelM" caption="Supplemental Variable Selection" width="100%">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <Label value="Variables: " contentMode="HTML" />
+                <OptionGroup multiSelect="true" id="variablesForMandated" enabled="true" immediate="true"  />
+            </HorizontalLayout>
+        </Panel>
+        
+        <Panel id="panelNM">
+            <VerticalLayout styleName = "width-auto"> 
+                <HorizontalLayout spacing="false">
+                    <Panel caption="Discount Projection Selection"  styleName = "forecast-tab" margin = "false" spacing="false">
+                        <HorizontalLayout styleName = "width-auto"  margin="true">       
+<!--                            <GridLayout rows="2" columns="6" margin="false" spacing="true">
+                                <Label caption="Frequency: " contentMode="HTML"/>
+                                <ComboBox id="frequencyDdlb" styleName = "comboxsize" nullSelectionAllowed = "true" />
+                                <Label caption="Actuals/Projections: " contentMode="HTML" styleName="labelresultalign"/>
+                                <OptionGroup multiSelect="false" id="actualsProjs"  enable="true" styleName="optiongroupwidth horizontal"/> 
+                                <Label value="ProjectionType: " id="projTypeLb" contentMode="HTML" width="110"/>
+                                <OptionGroup id="projType"  immediate="true" enable="true" /> 
+                                <Label caption="History: " contentMode="HTML"  />
+                                <ComboBox id="historyDdlb" stylename = "comboxsize" nullSelectionAllowed = "true" />
+                                <Label caption="Projection Period Order: " contentMode="HTML" width="165px" />
+                                <OptionGroup multiSelect="false" id="periodOrder" enable="true" styleName="optiongroupwidth horizontal"/>   
+                                                                <Label value="Variables: " id="variablesLb" contentMode="HTML" visible="false"/>
+                                <OptionGroup multiSelect="true" id="variables" enabled="true" immediate="true"  spacing="true" visible="false"/>
+                                
+                                <Label value="Discount Type: " id="discTypeLb" contentMode="HTML" width="110" />
+                                <OptionGroup multiSelect="false" id="discType" immediate="true" enable="true" />
+                            </GridLayout>-->
+
+                            <GridLayout  id="gridlay" spacing="true" margin="false" immediate="true" rows="2" columns="6" >
+
+<!--                                <Label value="Frequency: " contentMode="HTML" width="80px" />
+                                <ComboBox id="frequencyDdlb" immediate="true" />
+                                <Label caption="Actuals/Projections:" contentMode="HTML" width="127px" />
+                                <OptionGroup id="actualsProjs" enabled="true" styleName="optiongroupwidth horizontal" />
+                                <Label caption="Projection Period Order:" contentMode="HTML" width="165px" />
+                                <OptionGroup id="periodOrder" enabled="true" styleName="optiongroupwidth horizontal" />
+                        
+                                <Label caption="History: " contentMode="HTML" styleName="labelresultalign"/>
+                                <ComboBox id="historyDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
+                        
+                        
+                                <Label caption="Variables:" contentMode="HTML" styleName="labelresultalign"/>
+                                <OptionGroup multiSelect="true" id="variables" enabled="true" styleName="optiongroupwidth horizontal" />
+                        
+                                <Label value="ProjectionType: " id="projTypeLb" contentMode="HTML" width="110"/>
+                                <OptionGroup id="projType"  immediate="true" enable="true" />
+                        
+                                <Label value="Discount Type: " id="discTypeLb" contentMode="HTML" width="110" />
+                                <OptionGroup multiSelect="false" id="discType" immediate="true" enable="true" />-->
+                            </GridLayout>
+                            <Panel caption="Alternate History" id="alternateHistoryPanel" styleName="alternate-history-panel" spacing="true" margin="true">
+                                <GridLayout spacing="true" margin="false" immediate="true" rows="1" columns="4" styleName="adjustCaption">
+                                    <Label value="Contract:" contentMode="HTML" />
+                                    <b:CustomTextField id="contract" inputPrompt="" immediate="true" styleName="searchicon" />
+                                    <Label value="Brand:" contentMode="HTML" />
+                                    <b:CustomTextField id="brand" inputPrompt="" immediate="true" styleName="searchicon" />
+                                </GridLayout>
+                            </Panel>
+                        </HorizontalLayout>
+                    </Panel>
+                
+                    <Panel caption = "Program Level" id="programLevelPanel" width="100%" height="100%" margin = "false" spacing="false">
+                        <VerticalLayout  margin="true" >       
+                            <GridLayout rows="2" columns="6" margin="false" spacing="false">
+                                <Label caption="Level: " contentMode="HTML" styleName="labelresultalign"/>  
+                                <OptionGroup id="level" multiSelect="false" enabled="true" styleName = "horizontal"></OptionGroup>
+                                <Button id="programSelectionLookup" caption="Program Selection: " contentMode="HTML" />  
+                                <ComboBox id="programSelection" styleName="comboxsize" nullSelectionAllowed="true"></ComboBox>
+                                <Label caption="Year Selection: " contentMode="HTML" width = "130px" styleName="labelresultalign"/>
+                                <ComboBox id="yearSelection" styleName="comboxsize" nullSelectionAllowed="true"></ComboBox>
+                            </GridLayout>                   
+                        </VerticalLayout>
+                    </Panel> 
+                    
+                </HorizontalLayout> 
+            </VerticalLayout> 
+        </Panel>
+        
+        <HorizontalLayout spacing="true" margin="true" immediate="true">
+            <Button id="generateBtn" caption="GENERATE"></Button>
+            <Button id="resetBtn" caption="RESET"></Button>
+        </HorizontalLayout>
+        
+        <Panel width="100%" caption = "Discount Projection" margin="true" >
+            <VerticalLayout immediate="true" spacing ="true" margin="true" caption="Forecast Adjustment" >
+                
+                <TabSheet id="tabSheet" immediate="true" margin="true" spacing ="true" /> 
+                <Panel caption="Mass Update" id="massUpdatePanel" width="100%" margin="true" spacing ="true" />
+                
+                <VerticalLayout id="forecastTabVlayout" styleName = "width-auto"  margin="true">      
+                      <GridLayout rows="1" columns="7" margin="false" spacing="true" styleName="adjustCaption"> 
+                        <Label caption="Methodology:" contentMode="HTML" />
+                        <ComboBox id="methodologyDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                        <Label id="lblStartForecastTab" caption="Start Period: " contentMode="HTML" width = "100px" />
+                        <ComboBox id="startPeriodForecastTab" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                        <Label id="lblEndForecastTab" caption="End Period: " contentMode="HTML" width = "100px"/>
+                        <ComboBox id="endPeriodForecastTab" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                        <Button id="calculateBtn" caption="CALCULATE" enabled="true"/>
+                    </GridLayout>
+                </VerticalLayout>
+                
+                <!--                    </TabSheet>
+                <TabSheet caption="Mass Update" id="tabSheet2" immediate="true" > -->
+                <!--<Panel caption="Mass Update" width="100%" styleName = "forecast-tab">-->
+                
+                <VerticalLayout immediate="true" id="massUpdateVlayout" styleName = "width-auto" margin="true">      
+                    <GridLayout rows="1" columns="16" margin="false" spacing="true" styleName="adjustCaption">
+                        <OptionGroup id="massCheck" enabled="true" immediate="true" styleName = "horizontal"/>
+                        <Label caption="Field: " contentMode="HTML" />
+                        <ComboBox id="fieldDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                        <Label caption="Value: " contentMode="HTML" />
+                        <ComboBox id="valueDdlb" nullSelectionAllowed = "true" styleName = "comboxsize" visible = "false"/>
+                        <b:CustomTextField id="valueLookUp" styleName="searchicon"  enable="true" nullSelectionAllowed = "true" visible = "false"/>
+
+                        <TextField id="value" enabled="true" />
+                        <OptionGroup multiSelect="false" id="valueOption" enabled="true" visible="false" immediate="true" styleName = "horizontal"  />
+                        <Label id="lblStart" caption="Start Period: " contentMode="HTML" width = "100px" />
+                        <ComboBox id="startPeriod" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                        <Label id="lblEnd" caption="End Period: " contentMode="HTML" width = "100px"/>
+                        <ComboBox id="endPeriod" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                        <Button id="populateBtn" caption="POPULATE" />
+                    </GridLayout>
+                </VerticalLayout>
+                
+                
+                <VerticalLayout id="forecastAdjustmentVlayout" styleName = "width-auto"  margin="true">      
+                    <GridLayout spacing="true" margin="false" immediate="true" rows="1" columns="13" styleName="adjustCaption">
+                        <Label caption="Type: " contentMode="HTML" />  
+                        <OptionGroup multiSelect="false" id="type" enable="true" styleName = "horizontal" />
+                        <Label caption="Basis: " contentMode="HTML" />  
+                        <OptionGroup multiSelect="false" id="basis" enable="true" styleName = "horizontal"/>
+                        <Label caption="Adjustment: " contentMode="HTML" />  
+                        <TextField id="adjustment" enable="true"/>
+                        <Label caption="Allocation Methodology: " contentMode="HTML" width = "175px"/>
+                        <ComboBox id="allocMethodology" nullSelectionAllowed = "true" styleName = "comboxsize"/>   
+                        <Label caption="Adjustment Programs: " id="adjprogramsLb" contentMode="HTML" width = "155px"/>  
+                        <OptionGroup multiSelect="false" id="adjprograms" enable="true" styleName = "horizontal"/> 
+                        <Label caption="Adjustment Periods: " contentMode="HTML" width = "140px"/>  
+                        <OptionGroup multiSelect="false" id="adjperiods" enable="true" styleName = "horizontal"/> 
+                                                
+                        <Button id="adjustBtn" caption="ADJUST"></Button>
+                    </GridLayout>
+                </VerticalLayout>
+            
+          
+                <Panel>
+                    <VerticalLayout  styleName = "width-auto" margin="true">      
+                        <GridLayout rows="1" columns="15" margin="false" spacing="true" styleName="adjustCaption forecast-tab" > 
+                            <HorizontalLayout spacing="false" margin="true">
+                                <Label caption="Level: " contentMode="HTML" width = "50px"/>
+                                <ComboBox id="levelDdlb" enabled="true"  nullSelectionAllowed = "true" styleName = "comboxsize"/>
+                                <Button id="expandBtn" caption="EXPAND" enabled="true"/>
+                                <Button id="collapseBtn" caption="COLLAPSE" enabled="true"/>
+                                <Label caption="Group:" id="groupFilterLb" contentMode="HTML" width = "56px" visible = "false"/>
+                                <ComboBox id="groupFilterDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" visible = "false"/>
+                                <Label caption="Level Filter: " contentMode="HTML" width="83px"/>
+                                <ComboBox id="levelFilterDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" />
+                                <HorizontalLayout id="viewHlayout">
+                                    <Label caption="View: " contentMode="HTML" width = "47px"/>
+                                    <OptionGroup id="view" enabled="true" immediate="true" styleName = "horizontal"/>
+                                    <ComboBox id="viewDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" />
+                                    <Button id="newBtn" caption="NEW" />
+                                    <Button id="editBtn" caption="EDIT" />
+
+                                </HorizontalLayout>               
+                            </HorizontalLayout>               
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel>
+                <!--<a:FreezeFilterTreeTable styleName="table-header-normal" id="resultsTable" height="400px" pageLength="8" immediate="true" />--> 
+
+                <VerticalLayout id="resultsTableLayout"  styleName="projectionTable" spacing ="true" margin="false">
+                </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="false">
+                    <Button id="excelExport" primaryStyleName="link"/>   
+                    <Button id="altHistoryBtn" caption="ALT HISTORY"/>
+                    <Button id="refreshBtn" caption="REFRESH"/>
+                    <Button id="resetBtnForTable" caption="RESET"/>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>
+  

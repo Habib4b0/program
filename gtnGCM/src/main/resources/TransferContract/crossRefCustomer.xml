@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable">
+    <VerticalLayout spacing="true" margin="true" immediate="true">
+        <HorizontalLayout spacing="true" margin="true">
+            <VerticalLayout spacing="true" margin="false" immediate="true">
+                <Panel caption="Results – Transfer To">
+                    <VerticalLayout  spacing="true" margin="true">
+                        <TreeTable id="toResultTableCustomer" styleName="table-header-normal" pageLength="10" />
+                        <HorizontalLayout>
+                            <Button id="fromPopulateBtn" caption="POPULATE" alignment="BOTTOM_LEFT" />
+                            <Button id="fromtransferBtn" caption="TRANSFER" alignment="BOTTOM_LEFT" />  
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                <Panel caption="Component Information">
+                    <VerticalLayout  spacing="true" margin="true">
+                        <HorizontalLayout spacing = "true" margin = "true">
+                            <GridLayout spacing="true" immediate="true" columns="6" rows="2">
+                            <Label caption="CPF ID: " contentMode="HTML" />
+                            <TextField id="cfpId" immediate="true" />
+                            <Label caption="CFP Number: " contentMode="HTML" />
+                            <TextField id="cfpNumber" immediate="true" />
+                            <Label caption="CPF Name: " contentMode="HTML" />
+                            <TextField id="cfpName" immediate="true" />
+<!--                        </HorizontalLayout>
+                        <HorizontalLayout>-->
+                            <Label caption="Status: " contentMode="HTML" />
+                            <TextField id="status" immediate="true" />
+                            <Label caption="Start Date: " contentMode="HTML" />
+                            <TextField id="startDate" immediate="true" />
+                            <Label caption="End Date: " contentMode="HTML" />
+                            <TextField id="endDate" immediate="true" />
+                            </GridLayout>
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>
+                <Panel caption="Component Details">
+                    <VerticalLayout margin = "true">
+                        <table:ExtFilterTable id="componentDetailsTable" styleName="table-header-normal" pageLength="10"/>
+                    </VerticalLayout>
+                </Panel>
+            </VerticalLayout>
+            <Panel caption="Company Family Plan Details">
+                <VerticalLayout  spacing="true" margin="true">
+                    <Panel caption="Cross Reference View">
+                        <HorizontalLayout>
+                            <OptionGroup id="matchGroup" immediate="true" />
+                            <CheckBox id="allComponents" contentMode="HTML" />
+                        </HorizontalLayout>
+                    </Panel>
+                    <Panel caption="Mass Update">
+                        <HorizontalLayout  spacing="true" margin="true">
+                            <OptionGroup id="massEnable" immediate="true" />
+                            <Label caption="Field: " contentMode="HTML" />
+                            <ComboBox id="massField" contentMode="HTML" />
+                            <Label caption="Value: " contentMode="HTML" />
+                            <Button id="massPopulate" caption="POPULATE" alignment="BOTTOM_LEFT" />
+                        </HorizontalLayout>
+                    </Panel>
+                    <table:ExtFilterTable id="cfpResults" styleName="table-header-normal" pageLength="23"/>
+                    <Button id="cfpReset" caption="RESET" alignment="BOTTOM_LEFT" />
+                </VerticalLayout>
+            </Panel>
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

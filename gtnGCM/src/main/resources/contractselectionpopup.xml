@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable"  xmlns:p="urn:vaadin:parent">
+    <VerticalLayout margin="true">
+        <Panel caption="Contract Selection">
+            <HorizontalLayout id="hLayout1" spacing="true" margin="true">
+                  <Label caption="Select Number of Contracts to Create:" contentMode="HTML" />
+                   <ComboBox id="contractscount" immediate="true" />
+            </HorizontalLayout> 
+        </Panel>
+    </VerticalLayout>
+</Panel>
+
+
+    

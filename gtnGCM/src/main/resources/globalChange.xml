@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="globalChangeVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="globalChangePanel0" caption="Global Change Management">
+            <HorizontalLayout id="horizontalLayout0" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="promoteTpToChLayout0" immediate="true" columns="10" rows="1">
+                    <Label value="Process: " contentMode="HTML" styleName="label-margin-top-size"  />
+                    <ComboBox id="process" immediate="true" width="205px"/>
+                    <Label value="Update Type: " contentMode="HTML" styleName="label-margin-top-size" width="96px"  />
+                    <ComboBox id="updateType" immediate="true" width="205px"/>
+                    <Label value="Customer: " contentMode="HTML" styleName="label-margin-top-size"  />
+                    <OptionGroup multiSelect="false" id="customerSelectRadio" immediate="true" enable="true" styleName = "horizontal"/>
+                    <Label value="Mode: " contentMode="HTML" styleName="label-margin-top-size"  />
+                    <OptionGroup multiSelect="false" id="modeSelectRadio" immediate="true" enable="true" styleName = "horizontal"/>
+                </GridLayout>
+            </HorizontalLayout>
+            
+        </Panel>
+        <VerticalLayout id="layout" immediate="true">
+        </VerticalLayout>
+    </VerticalLayout>
+</Panel>

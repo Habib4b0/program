@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel  xmlns:p="urn:import:org.asi.ui.extfilteringtable.paged" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="parentVerticalLayout" spacing="true"
+                    margin="true" immediate="true">
+        <Panel id="selectionCriteria" caption="Selection Criteria">
+            <!--<HorizontalLayout id="selectionCriteriahoriLayout" spacing="true" margin="true" immediate="true">-->
+                <!--<GridLayout spacing="true"  id="selectionCriteriaGridLayout" immediate="true" columns="10" rows="1">-->
+                   <HorizontalLayout margin="true"
+                                      spacing="true" styleName="width-auto">
+                    <Label value="Contract No:" contentMode="HTML" />
+                    <TextField id="contractNo" immediate="true" enable="false"/>
+                    
+                    <Label value="Contract Name:" contentMode="HTML" />
+                    <TextField id="contractName"  immediate="true" />
+                    
+                    <Label value="Contract Type:" contentMode="HTML" />
+                    <TextField id="contractType" immediate="true" />
+                    
+                    <Label value="Start Date:" contentMode="HTML"/>
+                    <TextField id="startDate" immediate="true" />
+                    
+                    <Label value="End Date:" contentMode="HTML" />
+                    <TextField id="endDate" immediate="true" />
+                    
+                <!--</GridLayout>-->
+                
+            </HorizontalLayout>
+        </Panel>
+       
+        <Panel id="contractProcessingDashboard" caption="Contract Processing Dashboard" >
+            <VerticalLayout width="100%">
+                <HorizontalLayout width="100%">
+                    <VerticalLayout spacing="true" width="60%">
+                        <Panel id="componentSelection" caption="Component Selection" height="30%">
+                            <HorizontalLayout margin="true" spacing="true">
+                                <VerticalLayout>
+                                    <HorizontalLayout margin="true" spacing="true">
+                                        <!--<GridLayout spacing="true"  id="componentSelectionGrid" immediate="true" columns="2" rows="1" >-->
+                                            <Label value="Component Type:" contentMode="HTML" />
+                                            <ComboBox id="componentTypeddlb" immediate="true" width="208px"/>
+                                        <!--</GridLayout>-->
+                                    </HorizontalLayout>
+                                    <HorizontalLayout id="componentSelectionLayout" margin="true" spacing="true">
+                                        <GridLayout spacing="true"  id="cfpComponent" immediate="true" columns="6" rows="2">
+                                            <Label value="CFP ID:" contentMode="HTML"  />
+                                            <TextField id="cfpId" immediate="true" />
+                                            <Label value="CFP NO:" contentMode="HTML"  />
+                                            <TextField id="cfpNo" immediate="true" />
+                                            <Label value="CFP Name:" contentMode="HTML"   />
+                                            <TextField id="cfpName" immediate="true" />
+                        
+                                            <Label value="CFP Status:" contentMode="HTML" />
+                                            <ComboBox id="cfpStatus" immediate="true"  width="208px"/>
+                                            <Label value="CFP Type:" contentMode="HTML"  width="75px"/>
+                                            <ComboBox id="cfpType" immediate="true"  width="208px"/>
+                                            <Label value="CFP Start Date:" contentMode="HTML"  width="102px"/>
+                                            <PopupDateField id="cfpStartDate" immediate="true" />
+                                            <Label value="CFP End Date:" contentMode="HTML"  width="102px"/>
+                                            <PopupDateField id="cfpEndDate" immediate="true" />
+                                            
+                                
+                                        </GridLayout>
+
+
+                                        <GridLayout spacing="true"  id="ifpComponent" immediate="true" columns="6" rows="2">
+                                            <Label value="IFP ID:" contentMode="HTML" />
+                                            <TextField id="ifpId" immediate="true" />
+                                            <Label value="IFP NO:" contentMode="HTML" />
+                                            <TextField id="ifpNo" immediate="true" />
+                                            <Label value="IFP Name:" contentMode="HTML" />
+                                            <TextField id="ifpName" immediate="true" />
+                                            
+                                            <Label value="IFP Status:" contentMode="HTML"  />
+                                            <ComboBox id="ifpStatus" immediate="true" width="208px"/>
+                                            <Label value="IFP Start Date:" contentMode="HTML" width="102px"/>
+                                            <PopupDateField id="ifpStartDate" immediate="true" />
+                                            <Label value="IFP Type:" contentMode="HTML" />
+                                            <ComboBox id="ifpType" immediate="true"  width="208px"/>
+                                            <Label value="IFP End Date:" contentMode="HTML"  width="102px"/>
+                                            <PopupDateField id="ifpEndDate" immediate="true" />
+                                
+                                
+                            </GridLayout>
+
+                                        <GridLayout spacing="true"  id="psComponent" immediate="true" columns="6" rows="2">
+                                            <Label value="PS ID:" contentMode="HTML" />
+                                            <TextField id="psId" immediate="true" />
+                                            <Label value="PS NO:" contentMode="HTML"  />
+                                            <TextField id="psNo" immediate="true" />
+                                            <Label value="PS Name:" contentMode="HTML" />
+                                            <TextField id="psName" immediate="true" />
+                        
+                                
+                                            <Label value="PS Status:" contentMode="HTML" />
+                                            <ComboBox id="psStatus" immediate="true"  width="208px"/>
+                                            <Label value="PS Start Date:" contentMode="HTML" width="100px"/>
+                                            <PopupDateField id="psStartDate" immediate="true" />
+                                            <Label value="PS Type:" contentMode="HTML" />
+                                            <ComboBox id="psType" immediate="true"  width="208px"/>
+                                            <Label value="PS End Date:" contentMode="HTML"  width="100px"/>
+                                            <PopupDateField id="psEndDate" immediate="true" />
+                                
+                                        </GridLayout>
+
+                                        <GridLayout spacing="true"  id="rsComponent" immediate="true" columns="6" rows="4">
+                                            <Label value="RS ID:" contentMode="HTML" />
+                                            <TextField id="rsId" immediate="true" />
+                                            <Label value="RS Status:" contentMode="HTML" />
+                                            <ComboBox id="rsStatusDdlb" immediate="true" width="208px"/>
+                                            <Label value="RS Type:" contentMode="HTML" />
+                                            <ComboBox id="rsType" immediate="true" width="208px"/>
+                        
+                                            <Label value="RS Number:" contentMode="HTML" />
+                                            <TextField id="rsNumber" immediate="true"  />
+                                            <Label value="Start Date:" contentMode="HTML" />
+                                            <PopupDateField id="rsStartDate" immediate="true" />
+                                            <Label value="RS Program Type:" contentMode="HTML" width="126px"/>
+                                            <ComboBox id="rsProgramType" immediate="true" width="208px"/>
+                                            
+                                            <Label value="RS Name:" contentMode="HTML" />
+                                            <TextField id="rsName" immediate="true"   />
+                                            <Label value="End Date:" contentMode="HTML" />
+                                            <PopupDateField id="rsEndDate" immediate="true" />
+                                            <Label value="Rebate Plan Level:" contentMode="HTML" width="126px"/>
+                                            <ComboBox id="rebatePlanLevel" immediate="true" width="208px"/>
+                                        
+                                            <Label value="Payment Frequency:" contentMode="HTML" width="140px"/>
+                                            <ComboBox id="paymentFrequency" immediate="true" width="208px"/>
+                                            <Label value="Payment method:" contentMode="HTML" width="126px"/>
+                                            <ComboBox id="paymentMethod" immediate="true" width="208px"/>
+                                        </GridLayout>
+                                    </HorizontalLayout>
+                                </VerticalLayout>
+                            </HorizontalLayout>
+                        </Panel>
+                        <Panel id="componentDetails" caption="Component Details-Item Search" width="100%" height="20%">
+                            <VerticalLayout width="100%">
+                                <HorizontalLayout margin="true">
+                                    <GridLayout spacing="true"  id="componentSelectionGrid" immediate="true" columns="5" rows="1" >
+                                        <Label value="Search Field:" contentMode="HTML" width="100px"/>
+                                        <ComboBox id="searchField" immediate="true"/>
+                                        <Label value="Search Value:" contentMode="HTML" width="100px"/>
+                                        <GridLayout spacing="true"   immediate="true" columns="3" rows="1" >
+                                             <TextField id="searchValue" inputPrompt="" immediate="true" width="140px"/>
+                                             <ComboBox id="searchValueStatusDdlb" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true" />
+                                             <PopupDateField id="searchDatePeriod" enabled="true" immediate="true" />
+                                        </GridLayout>
+                                        <Button id="searchBtn" caption="SEARCH" contentMode="HTML" />
+                                    </GridLayout>
+                                </HorizontalLayout>
+                                <VerticalLayout id="tableLayout" caption="Results"
+                                                width="100%">
+                                
+                                </VerticalLayout>
+                                <HorizontalLayout margin="true">
+                                    <Button id="addBtn" caption="ADD" />
+                                </HorizontalLayout>
+                            </VerticalLayout>
+                     
+                        </Panel>
+                        <Panel id="componentDetailsSelectedItemPanel" caption="Component Details-Selected Items" width="100%" height="30%">
+                            <VerticalLayout spacing="true" margin="true">
+                                <Panel id="massUpdatePanel" caption="Mass Update">
+                                    <HorizontalLayout id="massUpdateLayout" spacing="true" margin="true" immediate="true">
+                                        <GridLayout spacing="true"  id="massUpdateGrid" immediate="true" columns="7" rows="1">
+                                            <OptionGroup multiSelect="false" id="massUpdateRadio" immediate="true" enable="true" styleName = "horizontal"/>
+                                            <Label caption="Field: " contentMode="HTML" />
+                                            <ComboBox id="fieldDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true" />
+                                            <Label caption="Value: " contentMode="HTML" />
+                                            <ComboBox id="valueDdlb" styleName="comboxsize" enable="true" nullSelectionAllowed = "true" />
+                                            <!--<TextField id="valueTxt" inputPrompt="" immediate="true" visible="true"/>-->
+                                            <!--<Label caption="Start Period: " contentMode="HTML" />-->
+                                            <PopupDateField id="datePeriod" enabled="true" immediate="true" />
+                                            <!--<Label caption="End Period: " contentMode="HTML" />-->
+                                            <!--<PopupDateField id="endPeriod" enabled="true" immediate="true" />-->
+                                            <Button id="populateBtn" caption="POPULATE" />
+                                        </GridLayout>
+                                    </HorizontalLayout>
+                                </Panel>
+                                <VerticalLayout id="tableLayout1" caption="Results"
+                                                spacing="true" width="100%">
+                                
+                                </VerticalLayout>
+                                <HorizontalLayout spcing="true" margin="true">
+                                    <Button id="removeBtn" caption="REMOVE" />
+                                    <Button id="addToTree" caption="ADD TO TREE" />
+                                </HorizontalLayout>
+                            </VerticalLayout>
+                        </Panel>
+                    </VerticalLayout>
+                
+                    <VerticalLayout spacing="true"  width="40%" height="100%">
+                        <Panel id="contractDashBoardResults" caption="Contract DashBoard Results" width="100%"  height="100%">
+                            <VerticalLayout >
+                                <TreeTable id="dashboardResultsTable" 
+                                           styleName="table-header-normal"  pageLength="8" immediate="true" />
+                        
+                                <HorizontalLayout spcing="true" margin="true">
+                                    <Button id="levelRemoveBtn" caption="REMOVE" />
+                                    <Button id="levelPopulateBtn" caption ="POPULATE"/>
+                                </HorizontalLayout>
+                            </VerticalLayout>
+                        </Panel>
+                
+                        <Panel id="contractComponentDetails" caption="Contract Component Details" width="100%"  height="100%">
+                            <VerticalLayout spacing="true" margin="true" styleName="width-auto">
+                                    <GridLayout spacing="true"  id="contractDetailsGrid" immediate="true" columns="4" rows="1">
+                                        <Label id="fromCDLabelNo" Value="Rebate Schedule No:" contentMode="HTML" width="160px"/>
+                                        <TextField id="fromCDNo" inputPrompt="" immediate="true" visible="true" />
+                                        <Label id ="fromCDLabelName" Value="Rebate Schedule Name:" contentMode="HTML" width="160px"/>
+                                        <TextField id="fromCDName" inputPrompt="" immediate="true" visible="true" />
+                                    </GridLayout>
+                                <a:ExtFilterTable id="levelDetailsResultsTable" 
+                                                  styleName="table-header-normal"  immediate="true" />
+                            </VerticalLayout>
+                        </Panel>
+                    </VerticalLayout>
+                </HorizontalLayout>
+                
+            
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

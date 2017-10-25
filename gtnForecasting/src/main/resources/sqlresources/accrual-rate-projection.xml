@@ -1,0 +1,1124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<sql>
+    <entity id="save-accrual-sales-actuals">
+        <query> 
+            <![CDATA[
+
+            MERGE    ACCRUAL_SALES_ACTUALS	 AS TARGET
+                            USING ( 
+                            SELECT PROJECTION_MASTER_SID,
+            ITEM_MASTER_SID,
+            PERIOD_SID,
+            TOTAL_UNITS,
+            EXCLUDED_UNITS,
+            NET_UNITS,
+            PRICE,
+            SALES,
+            EXCLUDED_DOLLARS,
+            DEMAND,
+            ADJUSTED_DEMAND
+                            FROM dbo.ST_ACCRUAL_SALES_ACTUALS
+                       
+                            ) AS SOURCE 
+                            ON (TARGET.PROJECTION_MASTER_SID=SOURCE.PROJECTION_MASTER_SID
+                                AND TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID 
+                                AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID)
+                            WHEN MATCHED 
+                            THEN 
+                            UPDATE SET 
+            TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID,
+            TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+            TARGET.TOTAL_UNITS=SOURCE.TOTAL_UNITS,
+            TARGET.EXCLUDED_UNITS=SOURCE.EXCLUDED_UNITS,
+            TARGET.NET_UNITS=SOURCE.NET_UNITS,
+            TARGET.PRICE=SOURCE.PRICE,
+            TARGET.SALES=SOURCE.SALES,
+            TARGET.EXCLUDED_DOLLARS = SOURCE.EXCLUDED_DOLLARS,
+            TARGET.DEMAND=SOURCE.DEMAND,
+            TARGET.ADJUSTED_DEMAND=SOURCE.ADJUSTED_DEMAND
+
+                            WHEN NOT MATCHED BY TARGET
+                            THEN 
+                            INSERT VALUES(SOURCE.PROJECTION_MASTER_SID,
+            SOURCE.ITEM_MASTER_SID,
+            SOURCE.PERIOD_SID,
+            SOURCE.TOTAL_UNITS,
+            SOURCE.EXCLUDED_UNITS,
+            SOURCE.NET_UNITS,
+            SOURCE.PRICE,
+            SOURCE.SALES,
+            SOURCE.EXCLUDED_DOLLARS,
+            SOURCE.DEMAND,
+            SOURCE.ADJUSTED_DEMAND);;
+
+
+
+
+
+                  
+
+
+
+            
+        ]]>
+        </query> 
+    </entity>    
+    
+    
+    <entity id="save-accrual-sales-details">
+        <query> 
+            <![CDATA[
+            MERGE    ACCRUAL_SALES_DETAILS	 AS TARGET
+                USING ( 
+                SELECT PROJECTION_MASTER_SID,
+            ITEM_MASTER_SID,
+            PERIOD_SID,
+            TOTAL_UNITS,
+            EXCLUDED_UNITS,
+            NET_UNITS,
+            PRICE,
+            SALES,
+            EXCLUDED_DOLLARS,
+            DEMAND,
+            ADJUSTED_DEMAND
+                            FROM dbo.ST_ACCRUAL_SALES_DETAILS
+                            ) AS SOURCE 
+                            ON (TARGET.PROJECTION_MASTER_SID=SOURCE.PROJECTION_MASTER_SID
+                                AND TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID 
+                                AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID)
+                            WHEN MATCHED 
+                            THEN 
+                            UPDATE SET 
+            TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID,
+            TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+            TARGET.TOTAL_UNITS=SOURCE.TOTAL_UNITS,
+            TARGET.EXCLUDED_UNITS=SOURCE.EXCLUDED_UNITS,
+            TARGET.NET_UNITS=SOURCE.NET_UNITS,
+            TARGET.PRICE=SOURCE.PRICE,
+            TARGET.SALES=SOURCE.SALES,
+            TARGET.EXCLUDED_DOLLARS = SOURCE.EXCLUDED_DOLLARS,
+            TARGET.DEMAND=SOURCE.DEMAND,
+            TARGET.ADJUSTED_DEMAND=SOURCE.ADJUSTED_DEMAND
+
+                            WHEN NOT MATCHED BY TARGET
+                            THEN 
+                            INSERT VALUES(SOURCE.PROJECTION_MASTER_SID,
+            SOURCE.ITEM_MASTER_SID,
+            SOURCE.PERIOD_SID,
+            SOURCE.TOTAL_UNITS,
+            SOURCE.EXCLUDED_UNITS,
+            SOURCE.NET_UNITS,
+            SOURCE.PRICE,
+            SOURCE.SALES,
+            SOURCE.EXCLUDED_DOLLARS,
+            SOURCE.DEMAND,
+            SOURCE.ADJUSTED_DEMAND);;
+            ]]>
+        </query> 
+    </entity>    
+    
+    <entity id="save-accrual-rate-actuals">
+        <query> 
+            <![CDATA[
+     MERGE ACCRUAL_RATE_ACTUALS AS TARGET
+USING (SELECT 
+             B.ACCRUAL_PROJ_DETAILS_SID,
+             B.CCP_DETAILS_SID,
+              PERIOD_SID,
+              ACCRUAL_RATE,
+              ACCRUAL_AMOUNT,
+              PAYMENTS,
+              DETAILS_ACCRUAL_RATE,
+              DETAILS_ACCRUAL_AMOUNT,
+              EFFECTIVE_ACCRUAL_RATE
+       FROM   dbo.ST_ACCRUAL_RATE_ACTUALS A
+	        JOIN  ACCRUAL_PROJ_DETAILS B ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
+			     AND A.RS_MODEL_SID=B.RS_MODEL_SID
+		WHERE B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID
+                            ) AS SOURCE 
+ON ( TARGET.ACCRUAL_PROJ_DETAILS_SID = SOURCE.ACCRUAL_PROJ_DETAILS_SID
+     AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID )
+WHEN MATCHED THEN
+                            UPDATE SET 
+             TARGET.PERIOD_SID = SOURCE.PERIOD_SID,
+             TARGET.ACCRUAL_RATE = SOURCE.ACCRUAL_RATE,
+             TARGET.ACCRUAL_AMOUNT = SOURCE.ACCRUAL_AMOUNT,
+             TARGET.PAYMENTS = SOURCE.PAYMENTS,
+             TARGET.DETAILS_ACCRUAL_RATE = SOURCE.DETAILS_ACCRUAL_RATE,
+             TARGET.DETAILS_ACCRUAL_AMOUNT = SOURCE.DETAILS_ACCRUAL_AMOUNT,
+             TARGET.EFFECTIVE_ACCRUAL_RATE = SOURCE.EFFECTIVE_ACCRUAL_RATE
+WHEN NOT MATCHED BY TARGET THEN
+  INSERT
+  VALUES(
+         SOURCE.ACCRUAL_PROJ_DETAILS_SID,
+            SOURCE.PERIOD_SID,
+            SOURCE.ACCRUAL_RATE,
+            SOURCE.ACCRUAL_AMOUNT,
+            SOURCE.PAYMENTS,
+            SOURCE.DETAILS_ACCRUAL_RATE,
+            SOURCE.DETAILS_ACCRUAL_AMOUNT,
+            SOURCE.EFFECTIVE_ACCRUAL_RATE);;
+            
+                ]]>
+        </query> 
+    </entity>  
+    
+    <entity id="save-accrual-rate-details">
+        <query> 
+            <![CDATA[
+    
+                MERGE    ACCRUAL_RATE_DETAILS	 AS TARGET
+                            USING ( SELECT
+              B.ACCRUAL_PROJ_DETAILS_SID,
+              B.CCP_DETAILS_SID,
+              PERIOD_SID,
+              ACCRUAL_RATE,
+              ACCRUAL_AMOUNT,
+              PAYMENTS,
+              DETAILS_ACCRUAL_RATE,
+              DETAILS_ACCRUAL_AMOUNT,
+              EFFECTIVE_ACCRUAL_RATE
+       FROM   ST_ACCRUAL_RATE_DETAILS A
+	        JOIN  ACCRUAL_PROJ_DETAILS B ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
+			     AND A.RS_MODEL_SID=B.RS_MODEL_SID
+		WHERE B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID
+                            ) AS SOURCE 
+                            ON (TARGET.ACCRUAL_PROJ_DETAILS_SID=SOURCE.ACCRUAL_PROJ_DETAILS_SID
+                            AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID)
+                            WHEN MATCHED 
+                            THEN 
+                            UPDATE SET 
+            TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+            TARGET.ACCRUAL_RATE=SOURCE.ACCRUAL_RATE,
+            TARGET.ACCRUAL_AMOUNT=SOURCE.ACCRUAL_AMOUNT,
+            TARGET.PAYMENTS=SOURCE.PAYMENTS,
+            TARGET.DETAILS_ACCRUAL_RATE=SOURCE.DETAILS_ACCRUAL_RATE,
+            TARGET.DETAILS_ACCRUAL_AMOUNT=SOURCE.DETAILS_ACCRUAL_AMOUNT,
+            TARGET.EFFECTIVE_ACCRUAL_RATE=SOURCE.EFFECTIVE_ACCRUAL_RATE
+
+
+            WHEN NOT MATCHED BY TARGET
+                            THEN 
+                            INSERT VALUES(SOURCE.ACCRUAL_PROJ_DETAILS_SID,
+            SOURCE.PERIOD_SID,
+            SOURCE.ACCRUAL_RATE,
+            SOURCE.ACCRUAL_AMOUNT,
+            SOURCE.PAYMENTS,
+            SOURCE.DETAILS_ACCRUAL_RATE,
+            SOURCE.DETAILS_ACCRUAL_AMOUNT,
+            SOURCE.EFFECTIVE_ACCRUAL_RATE);;
+    
+                ]]>
+        </query> 
+    </entity>  
+    
+    <entity id="save-accrual-details-actuals">
+        <query> 
+            <![CDATA[
+    
+                 MERGE    ACCRUAL_DETAILS_ACTUALS	 AS TARGET
+                            USING ( 
+                            SELECT PROJECTION_MASTER_SID,
+                            ITEM_MASTER_SID,
+                            PERIOD_SID,
+                            COMPANY_MASTER_SID,
+                            GROSS_TRADE_SALES,
+                            INVENTORY_WITHDRAWALS,
+                            ELIGIBLE_GROSS_TRADE_SALES,
+                            PERIOD_BASIS_PRICE_CHANGE,
+                            GTS_ACCRUAL_BASIS
+                            FROM dbo.ST_ACCRUAL_DETAILS_ACTUALS
+                            ) AS SOURCE 
+                            ON (TARGET.PROJECTION_MASTER_SID=SOURCE.PROJECTION_MASTER_SID
+                                AND TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID
+                                AND TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID
+                                AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID)
+                            WHEN MATCHED 
+                            THEN 
+                            UPDATE SET 
+            TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID,
+            TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+            TARGET.COMPANY_MASTER_SID=SOURCE.COMPANY_MASTER_SID,
+            TARGET.GROSS_TRADE_SALES=SOURCE.GROSS_TRADE_SALES,
+            TARGET.INVENTORY_WITHDRAWALS=SOURCE.INVENTORY_WITHDRAWALS,
+            TARGET.ELIGIBLE_GROSS_TRADE_SALES=SOURCE.ELIGIBLE_GROSS_TRADE_SALES,
+            TARGET.PERIOD_BASIS_PRICE_CHANGE=SOURCE.PERIOD_BASIS_PRICE_CHANGE,
+            TARGET.GTS_ACCRUAL_BASIS=SOURCE.GTS_ACCRUAL_BASIS
+
+                            WHEN NOT MATCHED BY TARGET
+                            THEN 
+                            INSERT VALUES(SOURCE.PROJECTION_MASTER_SID,
+            SOURCE.ITEM_MASTER_SID,
+            SOURCE.PERIOD_SID,
+            SOURCE.COMPANY_MASTER_SID,
+            SOURCE.GROSS_TRADE_SALES,
+            SOURCE.INVENTORY_WITHDRAWALS,
+            SOURCE.ELIGIBLE_GROSS_TRADE_SALES,
+            SOURCE.PERIOD_BASIS_PRICE_CHANGE,
+            SOURCE.GTS_ACCRUAL_BASIS);;
+    
+                ]]>
+        </query> 
+    </entity>  
+    
+    <entity id="save-accrual-details-info">
+        <query> 
+            <![CDATA[
+            MERGE    ACCRUAL_DETAILS_INFO	 AS TARGET
+                            USING ( 
+                            SELECT  PROJECTION_MASTER_SID,
+                                    ITEM_MASTER_SID,
+                                    PERIOD_SID,
+                                    COMPANY_MASTER_SID,
+                                    GROSS_TRADE_SALES,
+                                    INVENTORY_WITHDRAWALS,
+                                    ELIGIBLE_GROSS_TRADE_SALES,
+                                    PERIOD_BASIS_PRICE_CHANGE,
+                                    GTS_ACCRUAL_BASIS
+                            FROM dbo.ST_ACCRUAL_DETAILS_INFO
+                            ) AS SOURCE 
+                            ON (TARGET.PROJECTION_MASTER_SID=SOURCE.PROJECTION_MASTER_SID
+                                AND TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID
+                                AND TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID
+                                AND TARGET.PERIOD_SID = SOURCE.PERIOD_SID)
+                            WHEN MATCHED 
+                            THEN 
+                            UPDATE SET 
+            TARGET.ITEM_MASTER_SID=SOURCE.ITEM_MASTER_SID,
+            TARGET.PERIOD_SID=SOURCE.PERIOD_SID,
+            TARGET.COMPANY_MASTER_SID=SOURCE.COMPANY_MASTER_SID,
+            TARGET.GROSS_TRADE_SALES=SOURCE.GROSS_TRADE_SALES,
+            TARGET.INVENTORY_WITHDRAWALS=SOURCE.INVENTORY_WITHDRAWALS,
+            TARGET.ELIGIBLE_GROSS_TRADE_SALES=SOURCE.ELIGIBLE_GROSS_TRADE_SALES,
+            TARGET.PERIOD_BASIS_PRICE_CHANGE=SOURCE.PERIOD_BASIS_PRICE_CHANGE,
+            TARGET.GTS_ACCRUAL_BASIS=SOURCE.GTS_ACCRUAL_BASIS
+
+                            WHEN NOT MATCHED BY TARGET
+                            THEN 
+                            INSERT VALUES(SOURCE.PROJECTION_MASTER_SID,
+            SOURCE.ITEM_MASTER_SID,
+            SOURCE.PERIOD_SID,
+            SOURCE.COMPANY_MASTER_SID,
+            SOURCE.GROSS_TRADE_SALES,
+            SOURCE.INVENTORY_WITHDRAWALS,
+            SOURCE.ELIGIBLE_GROSS_TRADE_SALES,
+            SOURCE.PERIOD_BASIS_PRICE_CHANGE,
+            SOURCE.GTS_ACCRUAL_BASIS);;
+                ]]>
+        </query> 
+    </entity>  
+    
+    <entity id="save-accrual-exclusion-details">
+        <query> 
+            <![CDATA[
+                        MERGE    EXCLUSION_DETAILS	 AS TARGET
+                            USING ( 
+                            SELECT PROJECTION_MASTER_SID,COMPANY_MASTER_SID
+                            FROM dbo.ST_EXCLUSION_DETAILS
+                            ) AS SOURCE 
+                            ON (TARGET.PROJECTION_MASTER_SID=SOURCE.PROJECTION_MASTER_SID
+                            AND TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID)
+
+                            WHEN MATCHED 
+
+                            THEN 
+                            UPDATE SET 
+            TARGET.COMPANY_MASTER_SID=SOURCE.COMPANY_MASTER_SID
+            WHEN NOT MATCHED BY TARGET
+                            THEN 
+                            INSERT VALUES(SOURCE.PROJECTION_MASTER_SID,
+            SOURCE.COMPANY_MASTER_SID);;
+                ]]>
+        </query> 
+    </entity>  
+    
+    <entity id="delete-accrual-rate-actual-before-insert">
+        <query> 
+            <![CDATA[
+                DELETE R
+                    FROM   ST_ACCRUAL_RATE_ACTUALS R;
+                           
+                ]]>
+        </query> 
+    </entity>  
+    
+    <entity id="delete-accrual-rate-details-before-insert">
+        <query> 
+            <![CDATA[
+                DELETE R
+                    FROM   ST_ACCRUAL_RATE_DETAILS R;
+                    
+                ]]>
+        </query> 
+    </entity>  
+    
+
+    <entity id="get-data-for-details">
+        <query> 
+            <![CDATA[
+            
+                DECLARE @PROJECTION_MASTER_SID INT = #PROJECTION_MASTER_SID
+               ,@ITEM_MASTER_SID INT = #ITEM_MASTER_SID
+               ,@COMPANY_MASTER_SID INT = #COMPANY_MASTER_SID
+               ,@BRAND_MASTER_SID INT = #BRAND_MASTER_SID
+               ,@SELECTED_RATE_BASIS VARCHAR(100)= '#SELECTED_RATE_BASIS'
+               
+
+        IF OBJECT_ID('TEMPDB..#ARP_RATE_DETAILS_CCP') IS NOT NULL
+               DROP TABLE #ARP_RATE_DETAILS_CCP
+
+        SELECT DISTINCT PD.PROJECTION_MASTER_SID
+               ,CD.COMPANY_MASTER_SID
+               ,IM.BRAND_MASTER_SID
+               ,IM.ITEM_MASTER_SID
+               ,CD.CCP_DETAILS_SID
+        INTO #ARP_RATE_DETAILS_CCP
+        FROM ST_ACCRUAL_PROJ_DETAILS PD
+        JOIN CCP_DETAILS CD ON PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+               AND PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+               AND (
+                      CD.COMPANY_MASTER_SID = @COMPANY_MASTER_SID
+                      OR @COMPANY_MASTER_SID IS NULL
+                      )
+        JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+               AND (
+                      IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+                      OR @ITEM_MASTER_SID IS NULL
+                      )
+               AND (
+                      IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+                      OR @BRAND_MASTER_SID IS NULL
+                      )
+
+        
+
+                       DECLARE @SALES TABLE
+                   (
+                   PERIOD_SID                 INT,
+                   EXCLUDED_DOLLARS           NUMERIC(22, 6),
+                   DEMAND                     NUMERIC(22, 6),
+                   ADJUSTED_DEMAND            NUMERIC(22, 6)
+                   )
+
+           INSERT INTO @SALES
+                   (PERIOD_SID,
+                   EXCLUDED_DOLLARS,
+                   DEMAND,
+                   ADJUSTED_DEMAND)
+           SELECT PERIOD_SID,
+                   Sum(EXCLUDED_DOLLARS),
+                   Sum(DEMAND),
+                   Sum(ADJUSTED_DEMAND)
+           FROM   ST_ACCRUAL_SALES_ACTUALS STA
+           WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+              )
+
+           GROUP  BY PERIOD_SID
+           UNION ALL
+           SELECT PERIOD_SID,
+                   Sum(EXCLUDED_DOLLARS),
+                   Sum(DEMAND),
+                   Sum(ADJUSTED_DEMAND)
+           FROM   dbo.ST_ACCRUAL_SALES_DETAILS STA
+           WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+              )
+
+           GROUP  BY PERIOD_SID
+           ORDER  BY PERIOD_SID;
+		  		
+           DECLARE @DETAILS TABLE
+                   (
+                   PERIOD_SID            INT,
+                   GROSS_TRADE_SALES     NUMERIC(22, 6),
+                   INVENTORY_WITHDRAWALS NUMERIC(22, 6),
+                   ELIGIBLE_GROSS_TRADE_SALES NUMERIC(22, 6),
+                   PERIOD_BASIS_PRICE_CHANGE  NUMERIC(22, 6),
+                   GTS_ACCRUAL_BASIS          NUMERIC(22, 6)
+                   )
+
+           INSERT INTO @DETAILS
+                   (PERIOD_SID,
+                   GROSS_TRADE_SALES,
+                   INVENTORY_WITHDRAWALS,
+                   ELIGIBLE_GROSS_TRADE_SALES,
+                   PERIOD_BASIS_PRICE_CHANGE,
+                   GTS_ACCRUAL_BASIS)
+           SELECT PERIOD_SID,
+                   Sum(GROSS_TRADE_SALES),
+                   Sum(INVENTORY_WITHDRAWALS),
+                   Sum(ELIGIBLE_GROSS_TRADE_SALES),
+                   Avg(PERIOD_BASIS_PRICE_CHANGE),
+                   Sum(GTS_ACCRUAL_BASIS)
+           FROM   ST_ACCRUAL_DETAILS_ACTUALS STA
+           WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+           AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+                     AND A.COMPANY_MASTER_SID = STA.COMPANY_MASTER_SID
+              )
+
+           GROUP  BY PERIOD_SID
+           UNION ALL
+           SELECT PERIOD_SID,
+                   Sum(GROSS_TRADE_SALES),
+                   Sum(INVENTORY_WITHDRAWALS),
+                   Sum(ELIGIBLE_GROSS_TRADE_SALES),
+                   Avg(PERIOD_BASIS_PRICE_CHANGE),
+                   Sum(GTS_ACCRUAL_BASIS)
+           FROM   dbo.ST_ACCRUAL_DETAILS_INFO STA
+           WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                  AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+                     AND A.COMPANY_MASTER_SID = STA.COMPANY_MASTER_SID
+              )
+
+           GROUP  BY PERIOD_SID
+           ORDER  BY PERIOD_SID;
+
+           DECLARE @RATES TABLE
+                   (
+                PERIOD_SID             INT,
+                PAYMENTS               NUMERIC(22, 6),
+                DETAILS_ACCRUAL_RATE   NUMERIC(22, 6),
+                DETAILS_ACCRUAL_AMOUNT NUMERIC(22, 6),
+                EFFECTIVE_ACCRUAL_RATE NUMERIC(22, 6)
+                   )
+
+           INSERT INTO @RATES
+               (PERIOD_SID,
+                   PAYMENTS,
+                   DETAILS_ACCRUAL_RATE,
+                   DETAILS_ACCRUAL_AMOUNT,
+                   EFFECTIVE_ACCRUAL_RATE)
+           SELECT PERIOD_SID,
+                   Sum(PAYMENTS),
+                   Sum(DETAILS_ACCRUAL_RATE),
+                   Sum(DETAILS_ACCRUAL_AMOUNT),
+                   Sum(EFFECTIVE_ACCRUAL_RATE)
+           FROM   ST_ACCRUAL_PROJ_DETAILS AD
+           JOIN   ST_ACCRUAL_RATE_ACTUALS ARA ON AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID AND
+          AD.CCP_DETAILS_SID = ARA.CCP_DETAILS_SID
+		   AND AD.RS_MODEL_SID=ARA.RS_MODEL_SID
+                   AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+                     AND A.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+              )
+
+           GROUP  BY PERIOD_SID
+
+           UNION ALL
+
+           SELECT PERIOD_SID,
+                   Sum(PAYMENTS),
+                   Sum(DETAILS_ACCRUAL_RATE),
+                   Sum(DETAILS_ACCRUAL_AMOUNT),
+                   Sum(EFFECTIVE_ACCRUAL_RATE)
+           FROM   ST_ACCRUAL_PROJ_DETAILS AD
+           JOIN   dbo.ST_ACCRUAL_RATE_DETAILS ARD ON AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+		                  AND AD.RS_MODEL_SID=ARD.RS_MODEL_SID AND
+						          AD.CCP_DETAILS_SID= ARD.CCP_DETAILS_SID
+                                                          
+            AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+                     AND A.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+              )
+
+           GROUP  BY PERIOD_SID
+           ORDER  BY PERIOD_SID;
+		  
+           SELECT    P."MONTH",
+                     P."YEAR",
+                   ISNULL(GROSS_TRADE_SALES, 0) AS GROSS_TRADE_SALES
+                   ,ISNULL(EXCLUDED_DOLLARS, 0) AS EXCLUDED_DOLLARS
+                   ,(ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) AS ELIGIBLE_GROSS_TRADE_SALES
+                   ,(ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0) * 100) AS PERIOD_BASIS_PRICE_CHANGE
+                   ,((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) * (1 + ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0))) AS GTS_ACCRUAL_BASIS
+                   ,INVENTORY_WITHDRAWALS
+                   ,DEMAND
+                   ,ADJUSTED_DEMAND
+                   ,PAYMENTS
+                                      ,(PAYMENTS / NULLIF(CASE
+                                       WHEN @SELECTED_RATE_BASIS = 'GROSS_TRADE_SALES' THEN GROSS_TRADE_SALES
+                                       WHEN @SELECTED_RATE_BASIS = 'DEMAND' THEN DEMAND
+                                       WHEN @SELECTED_RATE_BASIS = 'ADJUSTED_DEMAND' THEN ADJUSTED_DEMAND
+                                       WHEN @SELECTED_RATE_BASIS = 'INVENTORY_WITHDRAWALS' THEN INVENTORY_WITHDRAWALS
+                                     END, 0) ) * 100 AS ACCRUAL_RATE
+                           ,(PAYMENTS / NULLIF(CASE
+                                       WHEN @SELECTED_RATE_BASIS = 'GROSS_TRADE_SALES' THEN GROSS_TRADE_SALES
+                                       WHEN @SELECTED_RATE_BASIS = 'DEMAND' THEN DEMAND
+                                       WHEN @SELECTED_RATE_BASIS = 'ADJUSTED_DEMAND' THEN ADJUSTED_DEMAND
+                                       WHEN @SELECTED_RATE_BASIS = 'INVENTORY_WITHDRAWALS' THEN INVENTORY_WITHDRAWALS
+                                     END, 0) ) * ((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) * (1 + ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0))) AS DETAILS_ACCRUAL_AMOUNT
+                           ,(((PAYMENTS / NULLIF(CASE
+                                       WHEN @SELECTED_RATE_BASIS = 'GROSS_TRADE_SALES' THEN GROSS_TRADE_SALES
+                                       WHEN @SELECTED_RATE_BASIS = 'DEMAND' THEN DEMAND
+                                       WHEN @SELECTED_RATE_BASIS = 'ADJUSTED_DEMAND' THEN ADJUSTED_DEMAND
+                                       WHEN @SELECTED_RATE_BASIS = 'INVENTORY_WITHDRAWALS' THEN INVENTORY_WITHDRAWALS
+                                     END, 0) ) * ((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) * (1 + ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0)))) / nullif((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)), 0)) * 100 AS EFFECTIVE_ACCRUAL_RATE
+
+                   FROM @SALES SD
+           JOIN dbo.PERIOD P ON P.PERIOD_SID = SD.PERIOD_SID
+           LEFT JOIN @RATES RD ON RD.PERIOD_SID = SD.PERIOD_SID
+           LEFT JOIN @DETAILS D ON D.PERIOD_SID = SD.PERIOD_SID;
+
+       ]]>
+        </query> 
+    </entity>  
+    
+    
+    <entity id="get-data-for-details-view">
+        <query> 
+            <![CDATA[
+             
+            
+     DECLARE @PROJECTION_MASTER_SID INT = #PROJECTION_MASTER_SID
+       ,@ITEM_MASTER_SID INT = #ITEM_MASTER_SID
+       ,@COMPANY_MASTER_SID INT = #COMPANY_MASTER_SID
+       ,@BRAND_MASTER_SID INT = #BRAND_MASTER_SID
+       ,@FIELD_VALUES VARCHAR(100)
+
+IF OBJECT_ID('TEMPDB..#ARP_RATE_DETAILS_CCP') IS NOT NULL
+       DROP TABLE #ARP_RATE_DETAILS_CCP
+
+SELECT DISTINCT PD.PROJECTION_MASTER_SID
+       ,CD.COMPANY_MASTER_SID
+       ,IM.BRAND_MASTER_SID
+       ,IM.ITEM_MASTER_SID
+       ,CD.CCP_DETAILS_SID
+INTO #ARP_RATE_DETAILS_CCP
+FROM ACCRUAL_PROJ_DETAILS PD
+JOIN CCP_DETAILS CD ON PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+       AND PD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+       AND (
+              CD.COMPANY_MASTER_SID = @COMPANY_MASTER_SID
+              OR @COMPANY_MASTER_SID IS NULL
+              )
+JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       AND (
+              IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+              OR @ITEM_MASTER_SID IS NULL
+              )
+       AND (
+              IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL
+              )
+
+SELECT @FIELD_VALUES = FIELD_VALUES
+FROM ACCRUAL_PROJ_SELECTION
+WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+       AND SCREEN_NAME = 'Rate'
+       AND FIELD_NAME = 'Rate Basis'
+
+            
+            DECLARE @SALES TABLE (
+                    PERIOD_SID INT
+                    ,EXCLUDED_DOLLARS NUMERIC(22, 6)
+                    ,DEMAND NUMERIC(22, 6)
+                    ,ADJUSTED_DEMAND NUMERIC(22, 6)
+                    )
+
+            INSERT INTO @SALES (
+                    PERIOD_SID
+                    ,EXCLUDED_DOLLARS
+                    ,DEMAND
+                    ,ADJUSTED_DEMAND
+                    )
+            SELECT PERIOD_SID
+                    ,Sum(EXCLUDED_DOLLARS)
+                    ,Sum(DEMAND)
+                    ,Sum(ADJUSTED_DEMAND)
+            FROM ACCRUAL_SALES_ACTUALS STA
+            WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+              )
+
+            GROUP BY PERIOD_SID
+
+            UNION ALL
+
+            SELECT PERIOD_SID
+                    ,Sum(EXCLUDED_DOLLARS)
+                    ,Sum(DEMAND)
+                    ,Sum(ADJUSTED_DEMAND)
+            FROM ACCRUAL_SALES_DETAILS STA
+            WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                   AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+              )
+
+            
+            GROUP BY PERIOD_SID
+            ORDER BY PERIOD_SID;
+
+            DECLARE @DETAILS TABLE (
+                    PERIOD_SID INT
+                    ,GROSS_TRADE_SALES NUMERIC(22, 6)
+                    ,INVENTORY_WITHDRAWALS NUMERIC(22, 6)
+                    ,ELIGIBLE_GROSS_TRADE_SALES NUMERIC(22, 6)
+                    ,PERIOD_BASIS_PRICE_CHANGE NUMERIC(22, 6)
+                    ,GTS_ACCRUAL_BASIS NUMERIC(22, 6)
+                    )
+
+            INSERT INTO @DETAILS (
+                    PERIOD_SID
+                    ,GROSS_TRADE_SALES
+                    ,INVENTORY_WITHDRAWALS
+                    ,ELIGIBLE_GROSS_TRADE_SALES
+                    ,PERIOD_BASIS_PRICE_CHANGE
+                    ,GTS_ACCRUAL_BASIS
+                    )
+            SELECT PERIOD_SID
+                    ,Sum(GROSS_TRADE_SALES)
+                    ,Sum(INVENTORY_WITHDRAWALS)
+                    ,Sum(ELIGIBLE_GROSS_TRADE_SALES)
+                    ,Avg(PERIOD_BASIS_PRICE_CHANGE)
+                    ,Sum(GTS_ACCRUAL_BASIS)
+            FROM ACCRUAL_DETAILS_ACTUALS STA
+            WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+                     AND A.COMPANY_MASTER_SID=STA.COMPANY_MASTER_SID
+              )
+
+            GROUP BY PERIOD_SID
+
+            UNION ALL
+
+            SELECT PERIOD_SID
+                    ,Sum(GROSS_TRADE_SALES)
+                    ,Sum(INVENTORY_WITHDRAWALS)
+                    ,Sum(ELIGIBLE_GROSS_TRADE_SALES)
+                    ,Avg(PERIOD_BASIS_PRICE_CHANGE)
+                    ,Sum(GTS_ACCRUAL_BASIS)
+            FROM ACCRUAL_DETAILS_INFO STA
+            WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+            AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = STA.PROJECTION_MASTER_SID
+                     AND A.ITEM_MASTER_SID = STA.ITEM_MASTER_SID
+                     AND A.COMPANY_MASTER_SID=STA.COMPANY_MASTER_SID
+              )
+
+            GROUP BY PERIOD_SID
+            ORDER BY PERIOD_SID;
+
+            DECLARE @RATES TABLE (
+                    PERIOD_SID INT
+                    ,PAYMENTS NUMERIC(22, 6)
+                    ,DETAILS_ACCRUAL_RATE NUMERIC(22, 6)
+                    ,DETAILS_ACCRUAL_AMOUNT NUMERIC(22, 6)
+                    ,EFFECTIVE_ACCRUAL_RATE NUMERIC(22, 6)
+                    )
+
+            INSERT INTO @RATES (
+                    PERIOD_SID
+                    ,PAYMENTS
+                    ,DETAILS_ACCRUAL_RATE
+                    ,DETAILS_ACCRUAL_AMOUNT
+                    ,EFFECTIVE_ACCRUAL_RATE
+                    )
+            SELECT PERIOD_SID
+                    ,Sum(PAYMENTS)
+                    ,Sum(DETAILS_ACCRUAL_RATE)
+                    ,Sum(DETAILS_ACCRUAL_AMOUNT)
+                    ,Sum(EFFECTIVE_ACCRUAL_RATE)
+            FROM dbo.ACCRUAL_PROJ_DETAILS AD
+            JOIN ACCRUAL_RATE_ACTUALS ARA ON AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                    AND ad.ACCRUAL_PROJ_DETAILS_SID = ara.ACCRUAL_PROJ_DETAILS_SID
+                    AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+                     AND A.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+              )
+
+            GROUP BY PERIOD_SID
+
+            UNION ALL
+
+            SELECT PERIOD_SID
+                    ,Sum(PAYMENTS)
+                    ,Sum(DETAILS_ACCRUAL_RATE)
+                    ,Sum(DETAILS_ACCRUAL_AMOUNT)
+                    ,Sum(EFFECTIVE_ACCRUAL_RATE)
+            FROM dbo.ACCRUAL_PROJ_DETAILS AD
+            JOIN ACCRUAL_RATE_DETAILS ARD ON AD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                    AND ad.ACCRUAL_PROJ_DETAILS_SID = ard.ACCRUAL_PROJ_DETAILS_SID
+                    AND EXISTS (
+              SELECT 1
+              FROM #ARP_RATE_DETAILS_CCP A
+              WHERE A.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+                     AND A.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+              )
+
+            GROUP BY PERIOD_SID
+            ORDER BY PERIOD_SID;
+
+            SELECT P."MONTH"
+                    ,P."YEAR"
+                    ,ISNULL(GROSS_TRADE_SALES, 0) AS GROSS_TRADE_SALES
+                    ,ISNULL(EXCLUDED_DOLLARS, 0) AS EXCLUDED_DOLLARS
+                    ,(ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) AS ELIGIBLE_GROSS_TRADE_SALES
+                    ,(ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0) * 100) AS PERIOD_BASIS_PRICE_CHANGE
+                    ,((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) * (1 + ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0))) AS GTS_ACCRUAL_BASIS
+                    ,INVENTORY_WITHDRAWALS
+                    ,DEMAND
+                    ,ADJUSTED_DEMAND
+                    ,PAYMENTS
+                    ,(PAYMENTS / NULLIF(CASE
+                                       WHEN @FIELD_VALUES = 'Forecasted Ex-Factory Sales - Customer/Product' THEN GROSS_TRADE_SALES
+                                       WHEN @FIELD_VALUES = 'Forecasted Demand' THEN DEMAND
+                                       WHEN @FIELD_VALUES = 'Forecasted Adjusted Demand' THEN ADJUSTED_DEMAND
+                                       WHEN @FIELD_VALUES = 'Forecasted Inventory Withdrawals - Detail' THEN INVENTORY_WITHDRAWALS
+                                     END, 0) ) * 100 AS ACCRUAL_RATE
+       ,(PAYMENTS / NULLIF(CASE
+                                       WHEN @FIELD_VALUES = 'Forecasted Ex-Factory Sales - Customer/Product' THEN GROSS_TRADE_SALES
+                                       WHEN @FIELD_VALUES = 'Forecasted Demand' THEN DEMAND
+                                       WHEN @FIELD_VALUES = 'Forecasted Adjusted Demand' THEN ADJUSTED_DEMAND
+                                       WHEN @FIELD_VALUES = 'Forecasted Inventory Withdrawals - Detail' THEN INVENTORY_WITHDRAWALS
+                                     END, 0) ) * ((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) * (1 + ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0))) AS DETAILS_ACCRUAL_AMOUNT
+       ,(((PAYMENTS / NULLIF(CASE
+                                       WHEN @FIELD_VALUES = 'Forecasted Ex-Factory Sales - Customer/Product' THEN GROSS_TRADE_SALES
+                                       WHEN @FIELD_VALUES = 'Forecasted Demand' THEN DEMAND
+                                       WHEN @FIELD_VALUES = 'Forecasted Adjusted Demand' THEN ADJUSTED_DEMAND
+                                       WHEN @FIELD_VALUES = 'Forecasted Inventory Withdrawals - Detail' THEN INVENTORY_WITHDRAWALS
+                                     END, 0) ) * ((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)) * (1 + ISNULL(PERIOD_BASIS_PRICE_CHANGE, 0)))) / nullif((ISNULL(GROSS_TRADE_SALES, 0) + ISNULL(EXCLUDED_DOLLARS, 0)), 0)) * 100 AS EFFECTIVE_ACCRUAL_RATE
+
+                    
+            FROM @SALES SD
+            JOIN dbo.PERIOD P ON P.PERIOD_SID = SD.PERIOD_SID
+            LEFT JOIN @RATES RD ON RD.PERIOD_SID = SD.PERIOD_SID
+            LEFT JOIN @DETAILS D ON D.PERIOD_SID = SD.PERIOD_SID;
+
+         ]]>
+        </query> 
+    </entity> 
+    
+
+<entity id="InsertAccrualCCPValue">
+        <query> 
+            <![CDATA[
+   IF Object_id('tempdb..#COMP_CONT') IS NOT NULL
+  DROP TABLE #COMP_CONT
+
+CREATE TABLE #COMP_CONT
+  (
+     COMPANY_MASTER_SID  INT,
+     CONTRACT_MASTER_SID INT
+  );
+
+WITH contract
+     AS (@CONTRACT),
+     company
+     AS (@CUSTOMER)
+     
+     INSERT INTO #COMP_CONT
+            (COMPANY_MASTER_SID,
+             CONTRACT_MASTER_SID
+             )
+SELECT COM.RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
+       C.RELATIONSHIP_LEVEL_VALUES   AS CONTRACT_MASTER_SID
+      
+FROM   COMPANY COM
+       JOIN CONTRACT C
+         ON @FILTER + '%' -- LHS Should have bigger level no than RHS
+IF Object_id('tempdb..#ITEM') IS NOT NULL
+  DROP TABLE #ITEM
+
+CREATE TABLE #ITEM
+  (
+     ITEM_MASTER_SID INT
+  
+  );
+
+INSERT INTO #ITEM
+            (ITEM_MASTER_SID)
+@PRODUCT
+
+INSERT INTO ST_ACCRUAL_PROJ_DETAILS
+            (CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PROJECTION_MASTER_SID,
+             RS_CONTRACT_SID)
+SELECT DISTINCT CD.CCP_DETAILS_SID,
+              R1.RS_MODEL_SID,
+       @PROJECTION_MASTER_SID PROJECTION_MASTER_SID,
+              R1.RS_CONTRACT_SID
+FROM   #COMP_CONT CC
+       JOIN CCP_DETAILS CD
+         ON CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+            AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+       JOIN #ITEM I
+         ON I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN RS_CONTRACT R1
+         ON R1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+       JOIN RS_CONTRACT_DETAILS R2
+         ON R2.RS_CONTRACT_SID = R1.RS_CONTRACT_SID
+            AND R2.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       WHERE  R1.INBOUND_STATUS <> 'D'
+              AND R2.INBOUND_STATUS <> 'D'
+              AND EXISTS(SELECT 1
+                         FROM   CFP_CONTRACT CFP1
+                         JOIN CFP_CONTRACT_DETAILS CFP2
+                           ON CFP1.CFP_CONTRACT_SID = CFP2.CFP_CONTRACT_SID
+                                                         AND R1.CFP_CONTRACT_SID = CFP1.CFP_CONTRACT_SID
+                  WHERE  COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                         AND CFP1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID)
+      @SELECTION   ;    
+    ]]>
+        </query> 
+    </entity> 
+
+    
+    <entity id="InsertAccrualTempSale">
+        <query> 
+            <![CDATA[
+
+INSERT INTO ST_ACCRUAL_SALES_ACTUALS(PROJECTION_MASTER_SID,
+ITEM_MASTER_SID,
+PERIOD_SID,
+TOTAL_UNITS,
+EXCLUDED_UNITS,
+NET_UNITS,
+PRICE,
+SALES,
+EXCLUDED_DOLLARS,
+DEMAND,
+ADJUSTED_DEMAND
+			)
+		SELECT A.PROJECTION_MASTER_SID,
+			A.ITEM_MASTER_SID,
+A.PERIOD_SID,
+A.TOTAL_UNITS,
+A.EXCLUDED_UNITS,
+A.NET_UNITS,
+A.PRICE,
+A.SALES,
+A.EXCLUDED_DOLLARS,
+A.DEMAND,
+A.ADJUSTED_DEMAND
+
+		FROM dbo.ACCRUAL_SALES_ACTUALS A
+			
+		WHERE A.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+
+
+INSERT INTO ST_ACCRUAL_SALES_DETAILS(PROJECTION_MASTER_SID,
+ITEM_MASTER_SID,
+PERIOD_SID,
+TOTAL_UNITS,
+EXCLUDED_UNITS,
+NET_UNITS,
+PRICE,
+SALES,
+EXCLUDED_DOLLARS,
+DEMAND,
+ADJUSTED_DEMAND
+			)
+		SELECT A.PROJECTION_MASTER_SID,
+			A.ITEM_MASTER_SID,
+A.PERIOD_SID,
+A.TOTAL_UNITS,
+A.EXCLUDED_UNITS,
+A.NET_UNITS,
+A.PRICE,
+A.SALES,
+A.EXCLUDED_DOLLARS,
+A.DEMAND,
+A.ADJUSTED_DEMAND
+
+		FROM dbo.ACCRUAL_SALES_DETAILS A
+			
+		WHERE A.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+  ]]>
+        </query> 
+    </entity> 
+    
+    <entity id="InsertAccrualTempRateActuals">
+        <query> 
+            <![CDATA[
+
+INSERT INTO ST_ACCRUAL_RATE_ACTUALS(CCP_DETAILS_SID,
+ RS_MODEL_SID,
+PERIOD_SID,
+ACCRUAL_RATE,
+ACCRUAL_AMOUNT,
+PAYMENTS,
+DETAILS_ACCRUAL_RATE,
+DETAILS_ACCRUAL_AMOUNT,
+EFFECTIVE_ACCRUAL_RATE)
+SELECT CCP_DETAILS_SID, 
+RS_MODEL_SID,
+A.PERIOD_SID,
+A.ACCRUAL_RATE,
+A.ACCRUAL_AMOUNT,
+A.PAYMENTS,
+A.DETAILS_ACCRUAL_RATE,
+A.DETAILS_ACCRUAL_AMOUNT,
+A.EFFECTIVE_ACCRUAL_RATE
+FROM dbo.ACCRUAL_RATE_ACTUALS A
+JOIN 
+ACCRUAL_PROJ_DETAILS B
+ON 
+A.ACCRUAL_PROJ_DETAILS_SID=B.ACCRUAL_PROJ_DETAILS_SID
+WHERE 
+  B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;              
+ 
+
+ ]]>
+        </query> 
+    </entity> 
+    <entity id="InsertAccrualTempRateDetails">
+        <query> 
+            <![CDATA[
+                   
+
+INSERT INTO ST_ACCRUAL_RATE_DETAILS(CCP_DETAILS_SID,
+ RS_MODEL_SID,
+PERIOD_SID,
+ACCRUAL_RATE,
+ACCRUAL_AMOUNT,
+PAYMENTS,
+DETAILS_ACCRUAL_RATE,
+DETAILS_ACCRUAL_AMOUNT,
+EFFECTIVE_ACCRUAL_RATE)
+SELECT CCP_DETAILS_SID, 
+RS_MODEL_SID,
+A.PERIOD_SID,
+A.ACCRUAL_RATE,
+A.ACCRUAL_AMOUNT,
+A.PAYMENTS,
+A.DETAILS_ACCRUAL_RATE,
+A.DETAILS_ACCRUAL_AMOUNT,
+A.EFFECTIVE_ACCRUAL_RATE
+FROM dbo.ACCRUAL_RATE_DETAILS A,ACCRUAL_PROJ_DETAILS B
+WHERE A.ACCRUAL_PROJ_DETAILS_SID=B.ACCRUAL_PROJ_DETAILS_SID  AND 
+  B.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;  
+            ]]>
+        </query> 
+    </entity>  
+        
+    <entity id="InsertAccrualTempDetails">
+        <query> 
+            <![CDATA[
+                
+INSERT INTO ST_ACCRUAL_DETAILS_ACTUALS (PROJECTION_MASTER_SID,
+ITEM_MASTER_SID,PERIOD_SID,COMPANY_MASTER_SID,GROSS_TRADE_SALES,INVENTORY_WITHDRAWALS,ELIGIBLE_GROSS_TRADE_SALES,
+PERIOD_BASIS_PRICE_CHANGE,
+GTS_ACCRUAL_BASIS
+			)
+		SELECT A.PROJECTION_MASTER_SID,
+		       A.ITEM_MASTER_SID,
+                       A.PERIOD_SID,
+                       A.COMPANY_MASTER_SID,
+                       A.GROSS_TRADE_SALES,
+                       A.INVENTORY_WITHDRAWALS,
+                       A.ELIGIBLE_GROSS_TRADE_SALES,
+                        A.PERIOD_BASIS_PRICE_CHANGE,
+                        A.GTS_ACCRUAL_BASIS
+
+		FROM dbo.ACCRUAL_DETAILS_ACTUALS A
+		WHERE A.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+
+INSERT INTO ST_ACCRUAL_DETAILS_INFO (PROJECTION_MASTER_SID,
+ITEM_MASTER_SID,PERIOD_SID,COMPANY_MASTER_SID,GROSS_TRADE_SALES,INVENTORY_WITHDRAWALS,ELIGIBLE_GROSS_TRADE_SALES,
+PERIOD_BASIS_PRICE_CHANGE,
+GTS_ACCRUAL_BASIS
+			)
+		SELECT  A.PROJECTION_MASTER_SID,
+                        A.ITEM_MASTER_SID,
+                        A.PERIOD_SID,
+                        A.COMPANY_MASTER_SID,
+                        A.GROSS_TRADE_SALES,
+                        A.INVENTORY_WITHDRAWALS,
+                        A.ELIGIBLE_GROSS_TRADE_SALES,
+                        A.PERIOD_BASIS_PRICE_CHANGE,
+                        A.GTS_ACCRUAL_BASIS
+
+		FROM dbo.ACCRUAL_DETAILS_INFO A
+		WHERE A.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;                
+       
+ ]]>
+        </query> 
+    </entity> 
+   
+    <entity id="InsertAccrualTempExclusion">
+        <query> 
+            <![CDATA[
+INSERT INTO ST_EXCLUSION_DETAILS(PROJECTION_MASTER_SID,
+COMPANY_MASTER_SID
+			)
+		SELECT A.PROJECTION_MASTER_SID,
+			A.COMPANY_MASTER_SID
+
+		FROM dbo.EXCLUSION_DETAILS A
+			
+		WHERE A.PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID;
+ ]]>
+        </query> 
+    </entity> 
+    
+    <entity id="save-accrual-proj-details">
+        <query> 
+            <![CDATA[
+             
+           INSERT INTO ACCRUAL_PROJ_DETAILS (PROJECTION_MASTER_SID,CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID) 
+           SELECT DISTINCT @PROJECTION_MASTER_SID , 
+                   CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID
+           FROM  ST_ACCRUAL_PROJ_DETAILS 
+             ]]>
+      
+        </query> 
+    </entity> 
+    <entity id="InsertAccrualProjTemp">
+        <query> 
+            <![CDATA[
+             
+           INSERT INTO ST_ACCRUAL_PROJ_DETAILS (PROJECTION_MASTER_SID,CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID) 
+           SELECT PROJECTION_MASTER_SID , 
+                   CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID
+           FROM  ACCRUAL_PROJ_DETAILS WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+             ]]>
+      
+        </query> 
+    </entity> 
+   
+    
+    </sql>  

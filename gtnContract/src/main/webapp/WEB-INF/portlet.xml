@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+	version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>Header</portlet-name>
+		<display-name>Header</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+			<value>com.stpl.app.contract.contractheader.ui.ContractHeaderUI</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>Header</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>	
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>Dashboard</portlet-name>
+		<display-name>Dashboard</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.app.contract.dashboard.ui.DashboardUI</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>Dashboard</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>	
+
+</portlet-app>

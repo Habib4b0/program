@@ -1,0 +1,30 @@
+The Shell scripts should be executed in below order:
+
+	
+1.  Company_Master_Intf.sh
+2.  Company_Parent_Intf.sh
+3.  Company_TradeClass_Intf.sh
+4.  Company_Identifier_Intf.sh
+5.  Item_Master_Intf.sh
+6.  Item_Identifier_Intf.sh
+7.  Item_Pricing_Intf.sh
+8.  Contract_Header_Intf.sh
+9.  Company_Family_Plan_Intf.sh
+10. Item_Family_Plan_Intf.sh
+11. Price_Schedule_Intf.sh
+12. Rebate_Plan_Intf.sh
+13. Rebate_Schedule_Intf.sh
+14. Actual_Master_Intf.sh
+15. Item_Hierarchy_Intf.sh
+16. Sales_Master_Intf.sh
+17. Forecasting_Sales_Intf.sh
+18. GL_Balance_Intf.sh
+19. CPI_Index_Intf.sh
+20. Formula_Details_Intf.sh
+21. Master_Data_Attrb_Intf.sh	
+22. Item_Hierarchy_Defn_Intf.sh
+23. Best_Price_Intf.sh
+24. Average_Shelf_Life_Intf.sh
+25. GL_Cost_Center_Intf.sh
+26. Lot_Master_Intf.sh
+

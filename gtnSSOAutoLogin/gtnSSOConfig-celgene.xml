@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+<gtnSSOConfig>
+	<ssotype>spnego</ssotype> <!-- specify saml or spnego -->
+	<spnego>
+		<spnego.allow.basic>true</spnego.allow.basic>
+		<spnego.allow.localhost>false</spnego.allow.localhost>
+		<spnego.allow.unsecure.basic>true</spnego.allow.unsecure.basic>
+		<spnego.login.client.module>spnego-client</spnego.login.client.module>
+		<spnego.krb5.conf>/path to conf/krb5.conf</spnego.krb5.conf>
+		<spnego.login.conf></spnego.login.conf>
+		<spnego.login.server.module>spnego-server</spnego.login.server.module>
+		<spnego.prompt.ntlm>true</spnego.prompt.ntlm>
+		<spnego.logger.level>1</spnego.logger.level>
+		<spnego.preauth.username>UserName</spnego.preauth.username>
+		<spnego.preauth.password>Password</spnego.preauth.password>
+	</spnego>
+</gtnSSOConfig>

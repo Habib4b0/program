@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql> 
+    <entity id="selected-hierarchy-no">
+        <query>
+            <![CDATA[
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO,
+                CCP_DETAILS_SID)
+                SELECT HIERARCHY_NO,CH.CCP_DETAILS_SID
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
+                [?SELECTED_HIERARCHY_JOIN]
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="custom-view-count-query">
+        <query>
+            <![CDATA[    
+                SELECT
+                    COUNT(DISTINCT SHN.HIERARCHY_NO)
+                FROM
+                    #SELECTED_HIERARCHY_NO SHN;        
+            ]]>
+        </query>
+    </entity>	
+    
+    <entity id="custom-view-hiearchy-no-query">
+        <query>
+            <![CDATA[    
+                SELECT
+                    DISTINCT SHN.HIERARCHY_NO
+                FROM
+                    #SELECTED_HIERARCHY_NO SHN
+                ORDER BY SHN.HIERARCHY_NO
+                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;        
+            ]]>
+        </query>
+    </entity>	
+    
+    <entity id="hiearchy-no-count-query">
+        <query>
+            <![CDATA[    
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+
+                INSERT INTO #SELECTED_HIERARCHY_NO 
+                (HIERARCHY_NO,
+                CCP_DETAILS_SID)
+                SELECT HIERARCHY_NO,CH.CCP_DETAILS_SID
+                FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
+                [?TAB_BASED_JOIN]
+
+                SELECT COUNT(DISTINCT HIERARCHY_NO) 
+                FROM #SELECTED_HIERARCHY_NO;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="hiearchy-no-query">
+        <query>
+            <![CDATA[    
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+
+                INSERT INTO #SELECTED_HIERARCHY_NO 
+                (HIERARCHY_NO,
+                CCP_DETAILS_SID)
+                SELECT HIERARCHY_NO,CH.CCP_DETAILS_SID
+                FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
+                [?TAB_BASED_JOIN]
+
+                SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO
+                ORDER BY HIERARCHY_NO
+                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
+            ]]>
+        </query>
+    </entity>	
+     <entity id="Drop.DynamicTempTables">
+        <query> 
+            <![CDATA[
+     DECLARE @SQL        VARCHAR(MAX)='',
+        @USER    INT=@USER_ID,
+        @SESSION VARCHAR(100)='@SESSION_ID'
+
+SET @SQL = (SELECT Concat('DROP TABLE ', Quotename(Upper(NAME)), '; ')
+            FROM   SYS.TABLES
+            WHERE  NAME LIKE Concat('ST_%', @USER, '_', @SESSION, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
+            FOR XML PATH (''))
+--select @sql
+EXEC( @SQL ) 
+   ]]>
+        </query> 
+    </entity>
+</sql>

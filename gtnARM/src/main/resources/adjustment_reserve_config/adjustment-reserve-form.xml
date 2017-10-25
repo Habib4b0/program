@@ -1,0 +1,71 @@
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+    <VerticalLayout margin="true" spacing = "true" width="100%" height="100%">
+        <Panel caption = "Selection Criteria" width="100%" height="100%">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true" id="searchLayout" immediate="true" columns="6" rows="2">
+                    <Label id="labelCompanyRes" value="Company" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="companyDdlbRes" enable="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelBusinessRes" value="Business Unit" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="businessDdlbRes" enable="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelDeductionCategoryRes" value="Deduction Category" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="deductionCategoryDdlbRes" enabled="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelDeductionTypeRes" value="Deduction Type" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="deductionTypeDdlbRes" enable="true" immediate="true" width="205px"/>
+          
+                    <Label id="labelDeductionProgramRes" value="Deduction Program" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="deductionProgramDdlbRes" enable="true" immediate="true" width="205px"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="resetBtnRes" caption="RESET" />
+            <Button id="searchBtnRes" caption="SEARCH" />
+        </HorizontalLayout>
+        <Panel caption="Configuration Details" width="100%" height="100%">
+            <VerticalLayout spacing="true">
+                <Panel id="addPanelRes" width="100%" height="100%" >
+                    <HorizontalLayout spacing="true" margin="true">
+                        <Label id="labelConfigurationTypeRes" value="Configuration Type"  contentMode="HTML" immediate="true"   />
+                        <OptionGroup id="configurationTypeOpgRes" enable="true" immediate="true" styleName="horizontal"/>
+            
+                        <Label id="labelMassUpdate" value="Mass Update :" immediate="true"   />
+            
+                        <Label id="labelFieldRes" value="Field" immediate="true"   />
+                        <ComboBox id="massfieldDdlbRes" enabled="true" immediate="true" />
+            
+                        <Label id="labelValueRes" value="Value" immediate="true"  />
+                        <TextField id="massValueRes" enable="true" immediate="true" />
+                    
+                        <ComboBox id="massValueDdlbRes" enable="true" immediate="true" />
+                        <Button id="populateBtn" caption="POPULATE" />
+                        <Label value="" immediate="true" width="100px" />
+                        <Label id="labelViewRes" value="View" immediate="true"  />
+                        <OptionGroup id="viewOpgRes" enable="true" immediate="true" styleName="horizontal" width="245px"/>
+                    </HorizontalLayout>
+                </Panel>
+                <VerticalLayout  id="resultsTableLayoutRes" width="100%" height="100%">
+                </VerticalLayout>
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout id="searchFormLayoutRes" spacing="true">
+            <Button id="addBtnRes" caption="ADD" />
+            <Button id="editBtnRes" caption="EDIT" />
+            <Button id="viewBtnRes" caption="VIEW" />
+            <Button id="copyBtnRes" caption="COPY" />
+            <Button id="deleteBtnRes" caption="DELETE" />
+            <Button id="excelBtnRes" />
+        </HorizontalLayout>
+        <HorizontalLayout id="addFormLayoutRes" width="100%" spacing="true">
+            <Button id="resetLineBtnRes" caption="RESET" />
+            <Button id="addLineBtnRes" caption="ADD LINE" />
+            <Button id="removeLineBtnRes" caption="REMOVE LINE" />
+            <Button id="copyLineBtnRes" caption="COPY LINE" />
+            <Button id="saveBtnRes" caption="SAVE" />
+            <Button id="closeBtnRes" caption="CLOSE" />
+            <Button id="exportBtnRes" caption="" styleName="rightalignbutton"/>
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

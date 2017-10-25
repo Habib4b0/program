@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!--<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable">-->
+<VerticalLayout spacing="true" margin="true" immediate="true" xmlns:table="urn:import:org.asi.ui.extfilteringtable">
+    <Panel>
+        <HorizontalLayout spacing="true" margin="true" immediate="true">
+            <Label value="Component Type: " contentMode="HTML" />
+            <ComboBox id="componentType" immediate="true" width="205px"/>
+            <Label value="Search Field: " contentMode="HTML" />
+            <ComboBox id="searchField" immediate="true" width="205px"/>
+            <Label value="Value: " contentMode="HTML" />
+            <TextField id="value" immediate="true" />
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET"  />
+        </HorizontalLayout>
+    </Panel>
+    <Panel>
+    <HorizontalLayout margin = "true">
+        <GridLayout spacing="true" immediate="true" columns="2" rows="2" width="100%">
+        <!--<VerticalLayout spacing="true" margin="true" >-->
+            <Panel id="panel1" caption="Results – Transfer From" width="100%">
+                <VerticalLayout spacing="true" margin="true" >
+                    <TreeTable id="fromResultTable" styleName="table-header-normal" pageLength="10"/>
+                    <HorizontalLayout>
+                        <Button id="fromPopulateBtn" caption="POPULATE" alignment="BOTTOM_LEFT" />
+                        <Button id="fromtransferBtn" caption="TRANSFER" alignment="BOTTOM_LEFT" />  
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </Panel>
+            
+            <Panel id="panel2" caption="Results – Transfer To" width="100%">
+                <VerticalLayout spacing="true" margin="true">
+                    <TreeTable id="toResultTable"  styleName="table-header-normal" pageLength="10"/>
+                    <HorizontalLayout>
+                        <Button id="toPopulateBtn" caption="POPULATE" alignment="BOTTOM_LEFT" />
+                        <Button id="toRemoveBtn" caption="REMOVE" alignment="BOTTOM_LEFT" />  
+                        <Button id="toResetBtn" caption="RESET" alignment="BOTTOM_LEFT" />  
+                    </HorizontalLayout>
+                </VerticalLayout>
+            </Panel>
+            <Panel id="panel3" caption="Component Details" width="100%">
+                <VerticalLayout spacing="true" margin="true">
+                    <HorizontalLayout>
+                        <Label id="fromCDLabelNo" value="Rebate Shedule No: " contentMode="HTML" />
+                        <TextField id="fromCDNo" immediate="true"/>
+                        <Label id="fromCDLabelName" value="Rebate Shedule Name: " contentMode="HTML" />
+                        <TextField id="fromCDName" immediate="true"/>
+                    </HorizontalLayout>
+                    <table:ExtFilterTable id="fromCDResultTable"  styleName="table-header-normal" pageLength="10"/>
+                </VerticalLayout>
+            </Panel>
+<!--        </VerticalLayout>
+        <VerticalLayout spacing="true" margin="true" >-->
+            
+            <Panel id="panel4" caption="Component Details" width="100%">
+                <VerticalLayout spacing="true" margin="true">
+                    <HorizontalLayout>
+                        <Label id="toCDLabelNo" value="Rebate Shedule No: " contentMode="HTML" />
+                        <TextField id="toCDNo" immediate="true" />
+                        <Label id="toCDLabelName" value="Rebate Shedule Name: " contentMode="HTML" />
+                        <TextField id="toCDName" immediate="true" />
+                    </HorizontalLayout>
+                    <table:ExtFilterTable id="toCDResultTable"  styleName="table-header-normal" pageLength="10"/>
+                </VerticalLayout>
+            </Panel>
+        <!--</VerticalLayout>-->
+        </GridLayout>
+    </HorizontalLayout>
+    </Panel>
+    <HorizontalLayout>
+        <Button id="close" caption="CLOSE" alignment="BOTTOM_LEFT" />
+        <Button id="next" caption="NEXT" alignment="BOTTOM_LEFT" /> 
+    </HorizontalLayout>
+       
+</VerticalLayout>
+<!--</Panel>-->

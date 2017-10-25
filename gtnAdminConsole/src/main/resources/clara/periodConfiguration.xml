@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout margin="true" spacing="true" >
+         <p:ErrorLabel id="errorMsg"/>
+        <Panel id="selectionPanel" caption="Selection">
+           <HorizontalLayout >
+                <GridLayout immediate="true" rows="1" columns="8" margin="true"  >
+                    
+                    <Label id="module" value="Module" contentMode="HTML" immediate="true"  styleName ="lableright"/>
+                    <ComboBox id="modules" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true"/>  
+                    <Label id="businessProcessLabel" value="Business Process" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                    <ComboBox id="businessProcess" enabled="true" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" width="200px" />
+                    <Label id="companyLabel" value="Company" contentMode="HTML" immediate="true"  styleName ="lableright"/>
+                    <ComboBox id="company" enabled="true" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true"/>
+                    <Label id="businessUnitLabel" value="Business Unit" contentMode="HTML" immediate="true"  styleName ="lableright"/>
+                    <ComboBox id="businessUnit" enabled="true" immediate="true"  width="215px"/>
+                  
+                </GridLayout>
+             </HorizontalLayout>
+        </Panel>   
+        
+        <Panel id="periodConfig" caption="Period Configuration">
+             <HorizontalLayout>
+            <VerticalLayout  margin="true" spacing="true">
+                <HorizontalLayout id="periodLayout" spacing="true" margin="true" >
+                    <Label id="periodViewLabel" value="Period View" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                    <OptionGroup id="periodView" enabled="true" immediate="true" styleName = "horizontal" />
+                </HorizontalLayout>
+                            
+                <GridLayout immediate="true" rows="1" columns="2" margin="false" spacing="true" >
+                    <Panel id="fromPeriod" caption="From Period"> 
+                        <GridLayout id="fromPeriodGrid" immediate="true" rows="4" columns="4" margin="false"  >  
+                            <Label value="Mode" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="fromMode" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Default Mode" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="fromDefaultMode" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Frequency" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="fromFrequency" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Default Frequency" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="fromDefaultFrequency" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Period" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <PopupDateField id="fromPeriodDate" immediate="true"/>
+                            <!--  <TextField id="fromPeriodText" enabled="true" immediate="true" />  -->
+                            <Label value="Default Period" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <PopupDateField id="fromDefaultPeriodDate" immediate="true"/>
+                            <!-- <TextField id="fromDefaultPeriodDaa" enabled="true" immediate="true" />  -->
+                            <Label value="Date" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <TextField id="fromDate" enabled="false" immediate="true" />  
+                            <Label value="Default Date" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <TextField id="fromDefaultDate" enabled="false" immediate="true" />  
+                        </GridLayout>
+                    </Panel>
+                    <Panel id="toPeriod" caption="To Period">  
+                        <GridLayout  id="toPeriodGrid"  immediate="true" rows="4" columns="4" margin="false"  >
+                           <Label value="Mode" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="toMode" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Default Mode" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="toDefaultMode" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Frequency" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="toFrequency" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Default Frequency" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <ComboBox id="toDefaultFrequency" nullSelectionAllowed="true" inputPrompt="-Select One-" immediate="true" /> 
+                            <Label value="Period" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <PopupDateField id="toPeriodDate" immediate="true"/>
+                            <!-- <TextField id="toPeriodText" enabled="true" immediate="true" /> -->
+                            <Label value="Default Period" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <PopupDateField id="toDefaultPeriodDate" immediate="true"/>
+                            <!--<TextField id="toDefaultPeriod" enabled="true" immediate="true" />  -->
+                            <Label value="Date" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <TextField id="toDate" enabled="false" immediate="true" />  
+                            <Label value="Default Date" contentMode="HTML" immediate="true"  styleName ="lableright" />
+                            <TextField id="toDefaultDate" enabled="false" immediate="true" />  
+                        </GridLayout>
+                    </Panel>
+                                
+                </GridLayout>
+                
+            </VerticalLayout>
+             </HorizontalLayout>
+        </Panel> 
+        <Panel caption="Results" id="resultsTable">
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>  
+        </Panel>
+         <HorizontalLayout id="buttonLayout" spacing="true" margin="true" >
+                    <Button id="saveBtn" caption="SAVE" immediate="true" />
+                    <Button id="resetBtn" caption="RESET" immediate="true" />
+        <HorizontalLayout spacing="true" margin="false" styleName="responsiveGrid" >
+            <Button id="excelExport" immediate="true" primaryStyleName="link" />
+        </HorizontalLayout>
+                        </HorizontalLayout>
+
+                                                         
+    </VerticalLayout>
+</Panel>

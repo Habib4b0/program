@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" >
+
+    <VerticalLayout id="mainLayout"  margin="true" spacing="true" >
+       
+        <Panel caption="Select Parameters" width="100%">
+            <VerticalLayout  margin="true" spacing="true">
+                <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" >
+                    <Label value="Job Name " id ="selecteDateLable" contentMode="HTML" immediate="true" width="100px" styleName ="lableright" />
+                    <TextField id="jobName" enabled="true" immediate="true" />  
+                    <OptionGroup id="selectType"  enabled="true" immediate="true" styleName = "horizontal" /> 
+                </HorizontalLayout>
+                <HorizontalLayout  spacing="true" margin="true" >
+                    <Label value=" "  contentMode="HTML" immediate="true" width="173px" styleName ="lableright"  />
+                    <Button id="searchBtn" caption="SEARCH" immediate="true" />
+
+                </HorizontalLayout>
+                 
+                
+            </VerticalLayout>
+        </Panel>  
+        <Panel caption="Results" id="resultsTable">
+            <VerticalLayout id="tableLayout">
+               
+            </VerticalLayout>  
+        </Panel>
+        <HorizontalLayout>
+            <Button id="excelExport" />
+        </HorizontalLayout>                                 
+    </VerticalLayout>
+</Panel>

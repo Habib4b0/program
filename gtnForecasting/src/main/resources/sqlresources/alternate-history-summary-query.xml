@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+        
+    <entity id="alternate-histroy-sales-summary">
+        <query> 
+            <![CDATA[  
+               SELECT ACCOUNT_GROWTH,
+       PRODUCT_GROWTH,
+       PROJECTION_SALES,
+       PROJECTION_UNITS,
+       actualSales,
+       actualUnits,
+       YEARS,
+       PERIODS,
+       CALCULATION_PERIODS,
+       METHODOLOGY,
+       HIERARCHY_NO,
+       RCOUNT,
+       actualProj,
+       checkrec,
+       UNCHECK_COUNT,
+       CCPCOUNT,
+       HIERARCHY_INDICATOR,
+       USER_GROUP
+FROM   (SELECT 0.0                               AS ACCOUNT_GROWTH,
+               0.0                               AS PRODUCT_GROWTH,
+               NULL                              AS PROJECTION_SALES,
+               NULL                              AS PROJECTION_UNITS,
+               NULL                              AS actualSales,
+               Sum(SAHL.ACTUAL_UNITS)            AS actualUnits,
+               p."YEAR"                          AS YEARS,
+               p.QUARTER                         AS PERIODS,
+               '-'                               AS CALCULATION_PERIODS,
+               '-'                               AS METHODOLOGY,
+               PD.HIERARCHY_NO,
+               Count(*)                          AS RCOUNT,
+               1                                 AS actualProj,
+               1                                 AS checkrec,
+               1                                 AS UNCHECK_COUNT,
+               1                                 AS CCPCOUNT,
+               '@HIERARCHY_INDICATOR'                               AS HIERARCHY_INDICATOR,
+               '0'                               AS USER_GROUP,
+               Dense_rank()
+                 OVER(
+                   ORDER BY PD.HIERARCHY_NO ASC) AS TEMP_INDEX
+                                FROM   ST_ALTERNATE_HIST_ALLOCATION SAHL
+               JOIN #SELECTED_HIERARCHY_NO PD
+                 ON SAHL.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = SAHL.PERIOD_SID
+        GROUP  BY  @FREQUENCY_GROUP@,
+                    p."YEAR",
+                  PD.HIERARCHY_NO)MAINQ
+                            WHERE  MAINQ.TEMP_INDEX > @START
+                                   AND MAINQ.TEMP_INDEX <= ( @START+@END )
+                            ORDER BY MAINQ.HIERARCHY_NO,
+                                 MAINQ.YEARS,
+                                 MAINQ.PERIODS 
+            ]]>
+        </query>
+    </entity>    
+    <entity id="alternate-histroy-sales-summary-pivot">
+        <query> 
+            <![CDATA[  
+    
+SELECT I."YEAR"                                AS YEARS,
+       I.PERIOD                               AS PERIODS,
+       Sum(A.ACTUAL_SALES)                     AS SALES_ACTUAL_SALES,
+       Sum(A.HISTORY_PROJECTION_SALES)         AS SALES_PROJECTION_SALES,
+       Sum(Isnull(A.ACTUAL_UNITS, 0)
+           + Isnull(SAHL.ACTUAL_UNITS, 0))     AS ACTUAL_UNITS,
+       Sum(Isnull(A.HISTORY_PROJECTION_UNITS, 0)
+           + Isnull(SAHL.PROJECTION_UNITS, 0)) AS PROJECTION_UNITS
+FROM   #SELECTED_HIERARCHY_NO E
+       JOIN ST_NM_SALES_PROJECTION_MASTER B
+         ON B.ccp_details_sid = E.ccp_details_sid
+       JOIN ST_NM_ACTUAL_SALES A
+         ON A.ccp_details_sid = E.ccp_details_sid
+            AND B.ccp_details_sid = A.ccp_details_sid
+       JOIN #PERIOD I
+         ON A.PERIOD_SID = I.PERIOD_SID
+            AND I.@PERIOD_DATE
+       LEFT JOIN ST_ALTERNATE_HIST_ALLOCATION SAHL
+              ON SAHL.ccp_details_sid = A.ccp_details_sid
+                 AND A.PERIOD_SID = I.PERIOD_SID
+                 AND SAHL.PERIOD_SID = A.PERIOD_SID
+GROUP  BY
+          I."YEAR",
+          I.PERIOD 
+    ]]>
+        </query>
+    </entity> 
+    
+    <entity id="alternate-histroy-period-date">
+        <query> 
+            <![CDATA[  
+                DECLARE @FREQUENCY CHAR(1)='?F'
+             
+            IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+            DROP TABLE #PERIOD
+
+            SELECT PERIOD_SID,
+            YEAR,
+            PERIOD = CASE
+            WHEN @FREQUENCY = 'M' THEN  MONTH
+            WHEN @FREQUENCY = 'Q' THEN  QUARTER
+            WHEN @FREQUENCY = 'S' THEN  SEMI_ANNUAL
+            ELSE YEAR 
+            END,
+            PERIOD_DATE
+            INTO   #PERIOD
+            FROM   PERIOD
+              ]]>
+        </query>
+    </entity> 
+     
+            
+    
+    
+</sql>

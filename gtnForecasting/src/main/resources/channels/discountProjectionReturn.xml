@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable"
+       xmlns:b="urn:import:org.asi.ui.customtextfield">
+    <VerticalLayout margin="true" spacing="true" >
+<!--        <Panel caption="Data Selection">
+            <HorizontalLayout spacing="true" immediate="true" margin = "true"> 
+                <GridLayout immediate="true" rows="2" columns="6" width="70%" spacing="true" styleName="adjustCaption">
+                    <Label caption="Projection Name: " contentMode="HTML" width="70" />  
+                    <TextField id="prjName" width = "178px" immediate="true" enable="true" />
+                    <Label caption="Discount: " contentMode="HTML" width="70" />  
+                    <TextField id="discount" width = "178px" immediate="true" enable="true" />
+                    <Label caption="Customer Group: " contentMode="HTML" width="70" />  
+                    <TextField id="custGroup" width = "178px" immediate="true" enable="true" />
+                    <Label caption="Company: " contentMode="HTML" width="70" />  
+                    <TextField id="company" width = "178px" immediate="true" enable="true" />
+                    <Label caption="Sub-Discount: " contentMode="HTML" width="70" />  
+                    <TextField id="subDisc" width = "178px" immediate="true" enable="true" />
+                    <Label caption="ProductGroup: " contentMode="HTML" width="70" />  
+                    <TextField id="prdGroup" width = "178px" immediate="true" enable="true" />
+                </GridLayout>
+            </HorizontalLayout>   
+        </Panel>-->
+        <Panel caption="Discount Projection Selection">
+            <HorizontalLayout spacing="true"
+                              immediate="true" margin = "true">
+                <GridLayout immediate="true" rows="2" columns="8" width="70%" spacing="true" styleName="adjustCaption">
+                    <Label caption="Frequency: " contentMode="HTML" width="70" />
+                    <ComboBox id="frequencyDdlb" immediate="true"  description="Select One" />
+                    <Label value="Product Type: " contentMode="HTML" width="165" />
+                    <OptionGroup id="prodType"  width="350px"  immediate="true" enable="true" />                     
+                    <Label value="NDC Type " contentMode="HTML" width="110"/>
+                    <ComboBox id="ndcType" immediate="true"  description="Select One" />
+                   
+                    <Label value="Therapeutic Class" contentMode="HTML" width="120"/>
+                    <ComboBox id="therapeutic" immediate="true"  description="Select One" />                    
+
+                    <Label caption="History: " contentMode="HTML" width="70" />
+                    <ComboBox id="historyDdlb" immediate="true"  description="Select One" />                    
+                    <Label value="Projection Period Order: " contentMode="HTML" width="165"/>
+                    <OptionGroup multiSelect="false" id="periodOrder" immediate="true" enable="true"/> 
+                    <Label value="Lag +: " contentMode="HTML" width="110" />
+                    <TextField id="lag" width = "178px" immediate="true" enable="true" />
+                </GridLayout>
+                
+                
+                <Panel caption="Alternate History" styleName="alternate-history-panel" spacing="false" margin="true" >
+                    <GridLayout spacing="false" margin="true" immediate="true"
+                                                    rows="1" columns="2" styleName="adjustCaption" height="40px">					
+                        <Label caption="Brand:" contentMode="HTML" />
+                        <b:CustomTextField id="brand" inputPrompt="" immediate="true"
+                                                                   styleName="searchicon" />
+                    </GridLayout>
+                </Panel>
+            </HorizontalLayout> 
+        </Panel>
+        <HorizontalLayout spacing="true"  
+                          immediate="true">
+            <Button id="generateBtn" caption="GENERATE"></Button>
+            <Button id="resetBtn" caption="RESET"></Button>
+        </HorizontalLayout>
+            
+        <Panel caption = "Discount Projection">
+            <VerticalLayout spacing="true" margin="true"  immediate="true" > 
+                       <Panel caption="Mass Update">
+                                <VerticalLayout margin="true" > 
+                                    <HorizontalLayout  spacing="false" margin="false" styleName="adjustCaption">			
+                                        <GridLayout spacing="true" margin="false" immediate="true" rows="1" columns="10" styleName="adjustCaption">
+                                            <OptionGroup id="massCheck" enabled="true" immediate="true" />
+                                            <Label value="Field: " contentMode="HTML" width="45px"/>
+                                            <ComboBox id="fieldDdlb" enabled="true" immediate="true" styleName="comboxsize"/>
+                                            <Label value="Value: " contentMode="HTML"  width="45px"/>
+                                            <TextField id="valueMass" enabled="true" immediate="true" visible="true" width="165"/>
+                                             <ComboBox id="reasonCodeDdlb" enabled="true" immediate="true" styleName="comboxsize"/>
+                                            <Button id="populate" caption="POPULATE" />
+                                        </GridLayout>   
+                                    </HorizontalLayout> 
+                                </VerticalLayout>
+                            </Panel>     
+                  <VerticalLayout spacing="false" margin="false" immediate="true" id="tableLayout"  styleName="projectionTable" width="100%">          
+                </VerticalLayout>
+                 <HorizontalLayout  spacing="false" margin="false" styleName="adjustCaption">	
+                <Button id="excelExport" primaryStyleName="link"/>   
+                 <Button id="calculate" caption="CALCULATE" />
+                  <Button id="removeHistory" caption="REMOVE HISTORY" />
+                </HorizontalLayout> 
+            </VerticalLayout>
+        </Panel>
+        
+    </VerticalLayout>
+</Panel>

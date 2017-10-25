@@ -1,0 +1,450 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.stpl.ifs</groupId>
+	<artifactId>R2_ETL</artifactId>
+	<!-- <version>0.0.1-SNAPSHOT</version> -->
+	<version>1.0</version>
+	<packaging>war</packaging>
+	<name>R2_ETL</name>
+
+	<properties>
+
+		<build.profile.id>dev</build.profile.id>
+		<skip.integration.tests>true</skip.integration.tests>
+		<skip.unit.tests>false</skip.unit.tests>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<org.springframework-version>3.2.0.RELEASE</org.springframework-version>
+
+	</properties>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<build.profile.id>dev</build.profile.id>
+			</properties>
+		</profile>
+		<profile>
+			<id>integration-test</id>
+			<properties>
+				<build.profile.id>integration-test</build.profile.id>
+				<skip.integration.tests>false</skip.integration.tests>
+				<skip.unit.tests>true</skip.unit.tests>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<finalName>R2_ETL</finalName>
+		<filters>
+			<filter>profiles/${build.profile.id}/config.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/messages*.properties</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/messages*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<!-- <plugin> <groupId>org.simplericity.jettyconsole</groupId> <artifactId>jetty-console-maven-plugin</artifactId> 
+				<version>1.48</version> <executions> <execution> <goals> <goal>createconsole</goal> 
+				</goals> </execution> </executions> <configuration> <additionalDependencies> 
+				<additionalDependency> <artifactId>jetty-console-requestlog-plugin</artifactId> 
+				</additionalDependency> <additionalDependency> <artifactId>jetty-console-gzip-plugin</artifactId> 
+				</additionalDependency> <additionalDependency> <artifactId>jetty-console-ajp-plugin</artifactId> 
+				</additionalDependency> <additionalDependency> <artifactId>jetty-console-startstop-plugin</artifactId> 
+				</additionalDependency> </additionalDependencies> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<!-- <executions> <execution> <id>add-integration-test-sources</id> <phase>generate-test-sources</phase> 
+					<goals> <goal>add-test-source</goal> </goals> <configuration> <sources> <source>src/integration-test/java</source> 
+					</sources> </configuration> </execution> <execution> <id>add-integration-test-resources</id> 
+					<phase>generate-test-resources</phase> <goals> <goal>add-test-resource</goal> 
+					</goals> <configuration> <resources> <resource> <directory>src/integration-test/resources</directory> 
+					</resource> </resources> </configuration> </execution> </executions> -->
+			</plugin>
+			<!-- Used for unit tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12</version>
+				<configuration>
+					<skipTests>${skip.unit.tests}</skipTests>
+					<excludes>
+						<exclude>**/IT*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<!-- Used for integration tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12</version>
+				<executions>
+					<!-- States that both integration-test and verify goals of the Failsafe 
+						Maven plugin are executed. -->
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<!-- Skips integration tests if the value of skip.integration.tests 
+								property is true -->
+							<skipTests>${skip.integration.tests}</skipTests>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				<version>2.3.2</version> <configuration> <fork>true</fork> <source>1.6</source> 
+				<target>1.6</target> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-jar-plugin</artifactId> <version>2.3.1</version> <configuration> 
+				<source>1.6</source> <target>1.6</target> <archive> <manifest> <addClasspath>true</addClasspath> 
+				</manifest> </archive> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-assembly-plugin</artifactId> <version>2.2.1</version> <configuration> 
+				<descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> </descriptorRefs> 
+				</configuration> <executions> <execution> <id>assemble-all</id> <phase>package</phase> 
+				<goals> <goal>single</goal> </goals> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<!-- <plugin> <groupId>org.mortbay.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> 
+				<version>8.1.5.v20120716</version> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-site-plugin</artifactId> <version>3.1</version> <configuration> 
+				<reportPlugins> <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
+				<version>2.5.2</version> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-javadoc-plugin</artifactId> <version>2.9</version> </plugin> 
+				</reportPlugins> </configuration> </plugin> -->
+
+			<!-- for TomCat -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<warSourceDirectory>${basedir}/target/web</warSourceDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>tomcat-run</id>
+						<goals>
+							<goal>exec-war-only</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<path>BPI_ETL</path>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<additionalProjectnatures>
+						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+					</additionalBuildcommands>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>org.test.int1.Main</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+		<!-- ETL dependencies -->
+
+		<!-- <dependency> <groupId>org.bpi.etl</groupId> <artifactId>etl-core</artifactId> 
+			<version>1.0</version> </dependency> <dependency> <groupId>org.bpi.etl</groupId> 
+			<artifactId>etl-db</artifactId> <version>1.0</version> </dependency> <dependency> 
+			<groupId>org.bpi.etl</groupId> <artifactId>etl-engine</artifactId> <version>1.0</version> 
+			</dependency> <dependency> <groupId>org.bpi.etl</groupId> <artifactId>etl-ui-swt</artifactId> 
+			<version>1.0</version> </dependency> -->
+		<dependency>
+			<groupId>com.bpi.etl</groupId>
+			<artifactId>etl-core</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bpi.etl</groupId>
+			<artifactId>etl-db</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bpi.etl</groupId>
+			<artifactId>etl-engine</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bpi.etl</groupId>
+			<artifactId>etl-ui-swt</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.5.16</version>
+		</dependency>
+		<dependency>
+			<groupId>rhino</groupId>
+			<artifactId>js</artifactId>
+			<version>1.7R2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<!-- UUID generator, only called directly by mule-core -->
+		<dependency>
+			<groupId>org.safehaus.jug</groupId>
+			<artifactId>jug</artifactId>
+			<version>2.0.0</version>
+			<classifier>asl</classifier>
+		</dependency>
+		<!-- Assuming the tranformation is stored in MySql database -->
+
+		<dependency>
+			<groupId>commons-vfs</groupId>
+			<artifactId>commons-vfs</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.jtds</groupId>
+			<artifactId>jtds</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>3.0</version> 
+		</dependency>
+
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- excel -->
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+		</dependency>
+
+
+		<!-- JSON processing -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.9</version>
+		</dependency>
+
+		<!-- Servlet API 3.0 -->
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>3.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Apache Commons -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<!-- Logging -->
+		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
+			<version>${org.slf4j-version}</version> </dependency> <dependency> <groupId>org.slf4j</groupId> 
+			<artifactId>jcl-over-slf4j</artifactId> <version>${org.slf4j-version}</version> 
+			<scope>runtime</scope> </dependency> <dependency> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-log4j12</artifactId> <version>${org.slf4j-version}</version> 
+			<scope>runtime</scope> </dependency> -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>apache-log4j-extras</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+
+		<!-- Joda -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.spi</artifactId>
+			<version>3.0.0.CR3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.core</artifactId>
+			<version>3.0.0.CR3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.trilead</groupId>
+			<artifactId>trilead-ssh2</artifactId>
+			<version>1.0.0-build215</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.50</version>
+		</dependency>
+		<dependency>
+			<artifactId>geronimo-stax-api_1.0_spec</artifactId>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.8</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+
+
+	</dependencies>
+
+</project>

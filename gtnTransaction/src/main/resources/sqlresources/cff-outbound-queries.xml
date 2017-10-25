@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="cff-outbound-search-query">
+        <query> 
+            <![CDATA[
+                
+                SELECT 
+                        ?COUNT
+                FROM
+                    ST_CFF_OUTBOUND_MASTER ST 
+                    JOIN CFF_OUTBOUND_MASTER  B ON ST.CFF_DETAILS_SID = B.CFF_DETAILS_SID
+                    AND ST.RS_MODEL_SID = B.RS_MODEL_SID 
+                    AND ST.PERIOD_SID = B.PERIOD_SID  
+
+                    LEFT JOIN HELPER_TABLE CFT
+                        ON CFT.HELPER_TABLE_SID = B."TYPE" LEFT JOIN HELPER_TABLE HT1
+                        ON HT1.HELPER_TABLE_SID = B.CONTRACT_TYPE LEFT JOIN HELPER_TABLE HT2
+                        ON HT2.HELPER_TABLE_SID = B.DEDUCTION_CATEGORY LEFT JOIN HELPER_TABLE HT3
+                        ON HT3.HELPER_TABLE_SID = B.DEDUCTION_TYPE LEFT JOIN HELPER_TABLE HT4
+                        ON HT4.HELPER_TABLE_SID = B.DEDUCTION_PROGRAM LEFT JOIN HELPER_TABLE HT5
+                        ON HT5.HELPER_TABLE_SID = B.DEDUCTION_INCLUSION LEFT JOIN HELPER_TABLE HT6
+                        ON HT6.HELPER_TABLE_SID = B.DEDUCTION_CATEGORY1 LEFT JOIN HELPER_TABLE HT7
+                        ON HT7.HELPER_TABLE_SID = B.DEDUCTION_CATEGORY2 LEFT JOIN HELPER_TABLE HT8
+                        ON HT8.HELPER_TABLE_SID = B.DEDUCTION_CATEGORY3 LEFT JOIN HELPER_TABLE HT9
+                        ON HT9.HELPER_TABLE_sid = B.DEDUCTION_CATEGORY4 LEFT JOIN HELPER_TABLE HT10
+                        ON HT10.HELPER_TABLE_SID = B.DEDUCTION_CATEGORY5 LEFT JOIN HELPER_TABLE HT11
+                        ON HT11.HELPER_TABLE_sid = B.DEDUCTION_CATEGORY6
+                        
+                
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="cff-outbound-insert-query">
+        <query> 
+            <![CDATA[
+                
+                DECLARE @USER_ID INT = ?USERID ,
+                        @SESSION_ID INT = ?SESSIONID
+
+                INSERT INTO ST_CFF_OUTBOUND_MASTER
+                (CFF_DETAILS_SID, RS_MODEL_SID, PERIOD_SID, USER_ID,SESSION_ID)
+
+                SELECT CFF_DETAILS_SID,RS_MODEL_SID,PERIOD_SID,@USER_ID,@SESSION_ID FROM CFF_OUTBOUND_MASTER CFF ?SEARCHFILTER
+                
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="search-select">
+        <query>
+            <![CDATA[
+                FINANCIAL_FORECAST_ID,
+                FINANCIAL_FORECAST_NAME,
+                CFT.DESCRIPTION AS "TYPE",
+                PROJECT_ID,
+                PROJECTION_NAME,
+                YEAR,
+                MONTH,
+                CONTRACT_ID as CONTRACT_ID,
+                CONTRACT_NO as CONTRACT_NO,
+                CONTRACT_NAME as CONTRACT_NAME,
+                CASE
+                    WHEN HT1.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT1.DESCRIPTION
+                END AS CONTRACT_TYPE,
+                CONTRACT_HOLDER_ID as CONTRACT_HOLDER_ID,
+                CONTRACT_HOLDER_NO as CONTRACT_HOLDER_NO,
+                CONTRACT_HOLDER_NAME as CONTRACT_HOLDER_NAME,
+                CUSTOMER_ID as CUSTOMER_ID,
+                CUSTOMER_NO as CUSTOMER_NO,
+                CUSTOMER_NAME as CUSTOMER_NAME,
+                ITEM_ID as ITEM_ID,
+                ITEM_NO as ITEM_NO,
+                ITEM_NAME as ITEM_NAME,
+                SALES_DOLLARS,
+                SALES_UNITS,
+                SALES_INCLUSION,
+                DEDUCTION_ID as DEDUCTION_ID,
+                DEDUCTION_NO as DEDUCTION_NO,
+                DEDUCTION_NAME as DEDUCTION_NAME,
+                CASE
+                    WHEN HT2.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT2.DESCRIPTION
+                END AS DEDUCTION_CATEGORY,
+                CASE
+                    WHEN HT3.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT3.DESCRIPTION
+                END AS DEDUCTION_TYPE,
+                CASE
+                    WHEN HT4.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT4.DESCRIPTION
+                END AS DEDUCTION_PROGRAM,
+                CASE
+                    WHEN HT5.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT5.DESCRIPTION
+                END AS DEDUCTION_INCLUSION,
+                CASE
+                    WHEN HT6.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT6.DESCRIPTION
+                END AS DEDUCTION_CATEGORY1,
+                CASE
+                    WHEN HT7.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT7.DESCRIPTION
+                END AS DEDUCTION_CATEGORY2,
+                CASE
+                    WHEN HT8.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT8.DESCRIPTION
+                END AS DEDUCTION_CATEGORY3,
+                CASE
+                    WHEN HT9.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT9.DESCRIPTION
+                END AS DEDUCTION_CATEGORY4,
+                CASE
+                    WHEN HT10.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT10.DESCRIPTION
+                END AS DEDUCTION_CATEGORY5,
+                CASE
+                    WHEN HT11.DESCRIPTION = '-Select One-'
+                    THEN NULL
+                    ELSE HT11.DESCRIPTION
+                END AS DEDUCTION_CATEGORY6,
+                DEDUCTION_DOLLARS,
+                DEDUCTION_RATE,
+                DEDUCTION_PER_UNIT,
+                NET_SALES_DOLLAR,
+                COGS_AMOUNT,
+                COGS_PER_UNIT,
+                NET_PROFIT_DOLLARS,
+                NET_PROFIT_PER_UNIT,
+                COMPANY_ID as COMPANY_ID,
+                COMPANY_NO as COMPANY_NO,
+                COMPANY_NAME as COMPANY_NAME,
+                BUSINESS_UNIT_ID as BUSINESS_UNIT_ID,
+                BUSINESS_UNIT_NO as BUSINESS_UNIT_NO,
+                BUSINESS_UNIT_NAME as BUSINESS_UNIT_NAME,
+                FINANCIAL_FORECAST_CREATION_DATE,
+                FINANCIAL_FORECAST_APPROVAL_DATE,
+                OUTBOUND_STATUS,
+                ORIGINAL_BATCH_ID,
+                ST.CHECK_RECORD,
+                ST.CFF_DETAILS_SID,
+                ST.RS_MODEL_SID,
+                ST.PERIOD_SID
+            ]]>
+        </query>
+    </entity>
+    
+    
+</sql>

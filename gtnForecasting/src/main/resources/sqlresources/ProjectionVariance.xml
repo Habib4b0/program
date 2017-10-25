@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="ccpQuery">
+        <query> 
+            <![CDATA[
+  DECLARE @CCP TABLE
+  (
+     ID                     INT IDENTITY( 1, 1 ),
+     RELATIONSHIP_LEVEL_SID INT,
+     CCP_DETAILS_SID        INT,
+     HIERARCHY_NO           VARCHAR(50)
+     UNIQUE NONCLUSTERED( CCP_DETAILS_SID, ID )
+  )
+
+INSERT INTO @CCP
+            (
+             CCP_DETAILS_SID,
+             HIERARCHY_NO)
+SELECT CCP_DETAILS_SID,? FROM ST_CCP_HIERARCHY
+WHERE ?='?%'
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="PVComparisonQuery">
+        <query>
+            <![CDATA[
+                IF OBJECT_ID('TEMPDB.DBO.#PROJECTION_DETAILS', 'U') IS NOT NULL
+                DROP TABLE #PROJECTION_DETAILS;
+
+                SELECT PROJECTION_DETAILS_SID,CCP_DETAILS_SID
+                INTO #PROJECTION_DETAILS
+                FROM PROJECTION_MASTER PM
+                INNER JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+                        AND PM.PROJECTION_MASTER_SID IN ( ?PROJECTIONMASTERSID )
+                        
+                ?COUNT
+
+                SELECT PM.PROJECTION_NAME
+                        ,PM.PROJECTION_DESCRIPTION
+                        ,CASE 
+                                WHEN Count(DISTINCT HT.DESCRIPTION) > 1
+                                        THEN 'MULTIPLE'
+                                ELSE Max(HT.DESCRIPTION)
+                                END AS MARKET_TYPE
+                        ,CASE 
+                                WHEN Count(DISTINCT CM.COMPANY_NO) > 1
+                                        THEN 'MULTIPLE'
+                                ELSE Max(CM.COMPANY_NO)
+                                END AS CONTRACT_HOLDER
+                        ,CASE 
+                                WHEN Count(DISTINCT C.CONTRACT_NO) > 1
+                                        THEN 'MULTIPLE'
+                                ELSE Max(C.CONTRACT_NO)
+                                END AS CONTRACT
+                        ,CASE 
+                                WHEN Count(DISTINCT BM.BRAND_NAME) > 1
+                                        THEN 'MULTIPLE'
+                                ELSE Max(BM.BRAND_NAME)
+                                END AS BRAND
+                        ,CASE 
+                                WHEN Count(DISTINCT IM.ITEM_NO) > 1
+                                        THEN 'MULTIPLE'
+                                ELSE Max(IM.ITEM_NO)
+                                END AS ITEM_NO
+                        ,CASE 
+                                WHEN Count(DISTINCT IM.ITEM_NAME) > 1
+                                        THEN 'MULTIPLE'
+                                ELSE Max(IM.ITEM_NAME)
+                                END AS ITEM_NAME
+                        ,PM.PROJECTION_MASTER_SID
+                        ,PM.CREATED_DATE
+                        ,PM.CREATED_BY
+                FROM PROJECTION_MASTER PM
+                
+                ?WORKFLOWJOIN
+                
+                INNER JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+                AND PM.PROJECTION_MASTER_SID NOT IN ( ?PROJECTIONMASTERSID )
+                INNER JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                INNER JOIN CONTRACT_MASTER C ON C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+                JOIN #PROJECTION_DETAILS CUR_PD ON CUR_PD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                LEFT JOIN HELPER_TABLE HT ON C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+                        AND (HT.LIST_NAME = 'CONTRACT_TYPE')
+                LEFT JOIN COMPANY_MASTER CM ON C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                LEFT JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                WHERE
+            ]]>
+        </query>
+    </entity>
+</sql>

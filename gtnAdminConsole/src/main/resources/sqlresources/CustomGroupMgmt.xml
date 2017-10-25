@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+    <entity id="getCustomerDetailsCount">
+        <query>
+            <![CDATA[
+            DECLARE @IDS  VARCHAR(max) = '?';
+            DECLARE @TRADE_CLASS_NAME  VARCHAR(MAX) =  '?';
+           SELECT COUNT (*) FROM (SELECT
+    CM.ORGANIZATION_KEY,
+    CM.COMPANY_ID,
+    CM.COMPANY_NO,
+    CM.COMPANY_NAME,
+    CTC.DESCRIPTION COMPANY_TRADE_CLASS,
+    CTC.TRADE_CLASS_START_DATE,
+    CTC.TRADE_CLASS_END_DATE,
+    HT_CT.DESCRIPTION COMPANY_TYPE,
+    HT_CS.DESCRIPTION COMPANY_STATUS,
+    CM.COMPANY_END_DATE,
+    NULL AS UDC1,
+    NULL AS UDC2,
+    NULL AS UDC3,
+    NULL AS UDC4,
+    NULL AS UDC5,
+    NULL AS UDC6,
+    CM.COMPANY_GROUP,
+    CM.FINANCIAL_SYSTEM,
+    CM.ADDRESS1,
+    CM.ADDRESS2,
+    CM.CITY,
+    HT_ST.DESCRIPTION STATE,
+    CM.ZIP_CODE,
+    HT_CN.DESCRIPTION COUNTRY,
+    CM.REGION_CODE,
+    CPD.PARENT_COMPANY_MASTER_SID,
+    CPD.PARENT_START_DATE,
+    CPD.PARENT_END_DATE,
+    CM.COMPANY_START_DATE,
+    CPD.PRIOR_PARENT_START_DATE,
+    CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CM.LIVES
+FROM 
+     COMPANY_MASTER CM 
+     OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                 
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD 
+		 JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID 
+		 JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_ST
+         ON CM.STATE = HT_ST.HELPER_TABLE_SID 
+         AND HT_ST.DESCRIPTION LIKE '?'
+		 LEFT JOIN HELPER_TABLE HT_CN
+         ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND CM.COMPANY_NO LIKE '?'
+    AND ((CTC.DESCRIPTION LIKE @TRADE_CLASS_NAME and @TRADE_CLASS_NAME <> '%') OR (@TRADE_CLASS_NAME = '%') )
+    AND HT_CS.DESCRIPTION LIKE '?'
+    AND CM.COMPANY_NAME LIKE '?'
+    AND HT_CT.DESCRIPTION LIKE '?'
+    AND (CM.CITY LIKE '?' OR CM.CITY IS NULL)
+    AND (CM.ZIP_CODE LIKE '?' OR CM.ZIP_CODE IS NULL)
+    AND CM.COMPANY_MASTER_SID NOT IN(SELECT TOKEN FROM UDF_SPLITSTRING(@IDS,','))
+    ?
+ ) AS CO
+     ]]>
+        </query>
+    </entity>
+    <entity id="getCustomerDetails">
+        <query>
+            <![CDATA[
+    DECLARE @IDS  VARCHAR(max) = '?';
+    DECLARE @TRADE_CLASS_NAME  VARCHAR(MAX) =  '?';
+    SELECT
+    CM.ORGANIZATION_KEY,
+    CM.COMPANY_ID,
+    CM.COMPANY_NO,
+    CM.COMPANY_NAME,
+    CTC.DESCRIPTION COMPANY_TRADE_CLASS,
+    CTC.TRADE_CLASS_START_DATE,
+    CTC.TRADE_CLASS_END_DATE,
+    HT_CT.DESCRIPTION COMPANY_TYPE,
+    HT_CS.DESCRIPTION COMPANY_STATUS,
+    CM.COMPANY_END_DATE,
+    NULL AS UDC1,
+    NULL AS UDC2,
+    NULL AS UDC3,
+    NULL AS UDC4,
+    NULL AS UDC5,
+    NULL AS UDC6,
+    CM.COMPANY_GROUP,
+    CM.FINANCIAL_SYSTEM,
+    CM.ADDRESS1,
+    CM.ADDRESS2,
+    CM.CITY,
+    HT_ST.DESCRIPTION STATE,
+    CM.ZIP_CODE,
+    HT_CN.DESCRIPTION COUNTRY,
+    CM.REGION_CODE,
+    CPD.PARENT_COMPANY_MASTER_SID,
+    CPD.PARENT_START_DATE,
+    CPD.PARENT_END_DATE,
+    CM.COMPANY_START_DATE,
+    CPD.PRIOR_PARENT_START_DATE,
+    CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CM.LIVES
+FROM 
+     COMPANY_MASTER CM  
+        OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                 
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD 
+		 JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID 
+		 JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_ST
+         ON CM.STATE = HT_ST.HELPER_TABLE_SID 
+         AND HT_ST.DESCRIPTION LIKE '?'
+		 LEFT JOIN HELPER_TABLE HT_CN
+         ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND CM.COMPANY_NO LIKE '?'
+    AND ((CTC.DESCRIPTION LIKE @TRADE_CLASS_NAME and @TRADE_CLASS_NAME <> '%') OR (@TRADE_CLASS_NAME = '%') )
+    AND HT_CS.DESCRIPTION LIKE '?'
+    AND CM.COMPANY_NAME LIKE '?'
+    AND HT_CT.DESCRIPTION LIKE '?'
+    AND (CM.CITY LIKE '?' OR CM.CITY IS NULL)
+    AND (CM.ZIP_CODE LIKE '?' OR CM.ZIP_CODE IS NULL)
+    AND CM.COMPANY_MASTER_SID NOT IN(SELECT TOKEN FROM UDF_SPLITSTRING(@IDS,','))
+    ?
+    ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+     
+        ]]>
+        </query>
+    </entity>
+    
+    <entity id="getSelectedCustomerDetailsCount">
+        <query>
+            <![CDATA[
+     DECLARE @IDS  VARCHAR(max) = '?';
+           
+           SELECT COUNT (*) FROM (SELECT
+    CM.ORGANIZATION_KEY,
+    CM.COMPANY_ID,
+    CM.COMPANY_NO,
+    CM.COMPANY_NAME,
+    CTC.DESCRIPTION COMPANY_TRADE_CLASS,
+    CTC.TRADE_CLASS_START_DATE,
+    CTC.TRADE_CLASS_END_DATE,
+    HT_CT.DESCRIPTION COMPANY_TYPE,
+    HT_CS.DESCRIPTION COMPANY_STATUS,
+    CM.COMPANY_END_DATE,
+    NULL AS UDC1,
+    NULL AS UDC2,
+    NULL AS UDC3,
+    NULL AS UDC4,
+    NULL AS UDC5,
+    NULL AS UDC6,
+    CM.COMPANY_GROUP,
+    CM.FINANCIAL_SYSTEM,
+    CM.ADDRESS1,
+    CM.ADDRESS2,
+    CM.CITY,
+    HT_ST.DESCRIPTION STATE,
+    CM.ZIP_CODE,
+    HT_CN.DESCRIPTION COUNTRY,
+    CM.REGION_CODE,
+    CPD.PARENT_COMPANY_MASTER_SID,
+    CPD.PARENT_START_DATE,
+    CPD.PARENT_END_DATE,
+    CM.COMPANY_START_DATE,
+    CPD.PRIOR_PARENT_START_DATE,
+    CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CM.LIVES
+FROM 
+     COMPANY_MASTER CM 
+OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                 
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD 
+		 JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID 
+		 JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_ST
+         ON CM.STATE = HT_ST.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_CN
+         ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID 
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND CM.COMPANY_MASTER_SID IN(SELECT TOKEN FROM UDF_SPLITSTRING(@IDS,','))
+    ?
+ ) AS CO
+     ]]>
+        </query>
+    </entity>
+    <entity id="getSelectedCustomerDetails">
+        <query>
+            <![CDATA[
+             DECLARE @IDS  VARCHAR(max) = '?';
+           SELECT
+    CM.ORGANIZATION_KEY,
+    CM.COMPANY_ID,
+    CM.COMPANY_NO,
+    CM.COMPANY_NAME,
+    CTC.DESCRIPTION COMPANY_TRADE_CLASS,
+    CTC.TRADE_CLASS_START_DATE,
+    CTC.TRADE_CLASS_END_DATE,
+    HT_CT.DESCRIPTION COMPANY_TYPE,
+    HT_CS.DESCRIPTION COMPANY_STATUS,
+    CM.COMPANY_END_DATE,
+    NULL AS UDC1,
+    NULL AS UDC2,
+    NULL AS UDC3,
+    NULL AS UDC4,
+    NULL AS UDC5,
+    NULL AS UDC6,
+    CM.COMPANY_GROUP,
+    CM.FINANCIAL_SYSTEM,
+    CM.ADDRESS1,
+    CM.ADDRESS2,
+    CM.CITY,
+    HT_ST.DESCRIPTION STATE,
+    CM.ZIP_CODE,
+    HT_CN.DESCRIPTION COUNTRY,
+    CM.REGION_CODE,
+    CPD.PARENT_COMPANY_MASTER_SID,
+    CPD.PARENT_START_DATE,
+    CPD.PARENT_END_DATE,
+    CM.COMPANY_START_DATE,
+    CPD.PRIOR_PARENT_START_DATE,
+    CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CM.LIVES
+FROM 
+     COMPANY_MASTER CM 
+     OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                 
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD 
+		 JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID 
+		 JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_ST
+         ON CM.STATE = HT_ST.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_CN
+         ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND CM.COMPANY_MASTER_SID IN(SELECT TOKEN FROM UDF_SPLITSTRING(@IDS,','))
+    ?
+    ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]]>
+        </query>
+    </entity>
+    
+    <entity id="getCustomerDetailsForCombinations">
+        <query>
+            <![CDATA[
+           DECLARE @TRADE_CLASS_NAME  VARCHAR(MAX) =  '?';
+           SELECT
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID
+    FROM 
+     COMPANY_MASTER CM 
+     OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                 
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD 
+		 JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID 
+		 JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID 
+		 LEFT JOIN HELPER_TABLE HT_ST
+         ON CM.STATE = HT_ST.HELPER_TABLE_SID 
+         AND HT_ST.DESCRIPTION LIKE '?'
+		 LEFT JOIN HELPER_TABLE HT_CN
+         ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND CM.COMPANY_NO LIKE '?'
+    AND ((CTC.DESCRIPTION LIKE @TRADE_CLASS_NAME and @TRADE_CLASS_NAME <> '%') OR (@TRADE_CLASS_NAME = '%') )
+    AND HT_CS.DESCRIPTION LIKE '?'
+    AND CM.COMPANY_NAME LIKE '?'
+    AND HT_CT.DESCRIPTION LIKE '?'
+    AND (CM.CITY LIKE '?' OR CM.CITY IS NULL)
+    AND (CM.ZIP_CODE LIKE '?' OR CM.ZIP_CODE IS NULL)
+    ?
+    ? 
+     
+        ]]>
+        </query>
+    </entity>
+    
+    <entity id="insert-Add-Mode">
+        <query>
+            <![CDATA[
+DECLARE @CGM_ID INT;
+
+DECLARE @IDS  VARCHAR(MAX) = '?';
+DECLARE @USER_ID  VARCHAR(MAX) = '?';
+
+INSERT
+    INTO
+        dbo.COMPANY_GROUP(
+            COMPANY_GROUP_NO,
+            COMPANY_GROUP_NAME,
+            COMPANY_GROUP_DESCRIPTION,
+            CREATED_DATE,
+            MODIFIED_DATE,
+            CREATED_BY,
+            VERSION_NO,
+            COMPANY_FILTER
+        )
+    VALUES(
+        '?',
+        '?',
+        '?',
+        getdate(),
+        getdate(),
+        @USER_ID,
+        1,
+        '?'
+    ) SELECT
+        @CGM_ID = Scope_identity() 
+        
+        INSERT
+    INTO
+        dbo.COMPANY_GROUP_DETAILS(
+            COMPANY_GROUP_SID,
+            COMPANY_MASTER_SID,
+            COMPANY_TRADECLASS_SID,
+            COMPANY_PARENT_DETAILS_SID,
+            VERSION_NO,
+            CREATED_BY,
+            CREATED_DATE,
+            MODIFIED_DATE
+        ) 
+     
+    SELECT
+    @CGM_ID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CMM.VERSION_NO,
+    @USER_ID,
+    getdate(),
+    getdate()
+FROM
+    COMPANY_MASTER CM LEFT JOIN COMPANY_TRADE_CLASS CTC
+         ON CM.COMPANY_MASTER_SID = CTC.COMPANY_MASTER_SID
+              AND (CTC.MODIFIED_DATE=(SELECT MAX(MODIFIED_DATE) FROM COMPANY_TRADE_CLASS
+
+                                                 WHERE COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID
+                                                  GROUP BY COMPANY_MASTER_SID) OR CTC.MODIFIED_DATE IS NULL)
+              LEFT JOIN COMPANY_PARENT_DETAILS CPD
+         ON CM.COMPANY_MASTER_SID = CPD.COMPANY_MASTER_SID
+               AND (CPD.MODIFIED_DATE=(SELECT MAX(MODIFIED_DATE) FROM COMPANY_PARENT_DETAILS
+
+                                                 where COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID
+                                                  GROUP BY COMPANY_MASTER_SID) OR CPD.MODIFIED_DATE IS NULL)
+              JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+              JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+              JOIN HELPER_TABLE HT_TC
+         ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+              LEFT JOIN HELPER_TABLE HT_ST
+         ON CM.STATE = HT_ST.HELPER_TABLE_SID
+         AND HT_ST.DESCRIPTION LIKE '%'
+              LEFT JOIN HELPER_TABLE HT_CN
+         ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID JOIN COMPANY_GROUP CMM
+        ON CMM.COMPANY_GROUP_SID = @CGM_ID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND CM.COMPANY_MASTER_SID IN(SELECT TOKEN FROM UDF_SPLITSTRING(@IDS,','))
+    
+  SELECT COMPANY_GROUP_SID,VERSION_NO FROM dbo.COMPANY_GROUP WHERE COMPANY_GROUP_SID= @CGM_ID
+     
+        ]]>
+        </query>
+    </entity>
+    <entity id="update-Edit-Mode">
+        <query>
+            <![CDATA[
+DECLARE @COMPANY_GROUP_SID  INT =?,
+        @COMPANY_MASTER_SID VARCHAR(MAX)='?',
+        @VERSION_NO         VARCHAR(10)=?;
+ 
+ UPDATE dbo.COMPANY_GROUP SET VERSION_NO=@VERSION_NO WHERE COMPANY_GROUP_SID=@COMPANY_GROUP_SID
+ 
+IF Object_id('TEMPDB..#TEMP_DETAILS') IS NOT NULL
+  DROP TABLE #TEMP_DETAILS
+ 
+SELECT @COMPANY_GROUP_SID          AS COMPANY_GROUP_SID,
+       CM.COMPANY_MASTER_SID,
+       CTC.COMPANY_TRADE_CLASS_SID AS COMPANY_TRADE_CLASS_SID,
+       CPD.COMPANY_PARENT_DETAILS_SID,
+       @VERSION_NO                 AS VERSION_NO
+INTO   #TEMP_DETAILS
+FROM   COMPANY_MASTER CM
+       LEFT JOIN COMPANY_TRADE_CLASS CTC
+              ON CM.COMPANY_MASTER_SID = CTC.COMPANY_MASTER_SID
+                 AND CM.COMPANY_MASTER_SID IN (SELECT token
+                                               FROM   [dbo].[Udf_splitstring](@COMPANY_MASTER_SID, ','))
+                 AND ( CTC.MODIFIED_DATE = (SELECT Max(MODIFIED_DATE)
+                                            FROM   COMPANY_TRADE_CLASS
+                                            WHERE  COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                                            GROUP  BY COMPANY_MASTER_SID)
+                        OR CTC.MODIFIED_DATE IS NULL )
+       LEFT JOIN COMPANY_PARENT_DETAILS CPD
+              ON CM.COMPANY_MASTER_SID = CPD.COMPANY_MASTER_SID
+                 AND ( CPD.MODIFIED_DATE = (SELECT Max(MODIFIED_DATE)
+                                            FROM   COMPANY_PARENT_DETAILS
+                                            WHERE  COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                                            GROUP  BY COMPANY_MASTER_SID)
+                        OR CPD.MODIFIED_DATE IS NULL )
+       JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+       JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_TC
+         ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_ST
+              ON CM.STATE = HT_ST.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_CN
+              ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+       WHERE CM.COMPANY_MASTER_SID IN (SELECT token
+            FROM   [dbo].[Udf_splitstring](@COMPANY_MASTER_SID, ','));
+ 
+MERGE INTO COMPANY_GROUP_DETAILS AS TARGET
+USING #TEMP_DETAILS AS SOURCE
+ON TARGET.COMPANY_GROUP_SID = SOURCE.COMPANY_GROUP_SID
+   AND TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID
+   AND TARGET.COMPANY_TRADECLASS_SID = SOURCE.COMPANY_TRADE_CLASS_SID
+   AND TARGET.COMPANY_PARENT_DETAILS_SID = SOURCE.COMPANY_PARENT_DETAILS_SID
+   WHEN MATCHED AND ( TARGET.COMPANY_GROUP_SID = SOURCE.COMPANY_GROUP_SID ) THEN
+  UPDATE SET VERSION_NO = @VERSION_NO
+WHEN NOT MATCHED BY TARGET THEN
+  INSERT (COMPANY_GROUP_SID,
+          COMPANY_MASTER_SID,
+          COMPANY_TRADECLASS_SID,
+          COMPANY_PARENT_DETAILS_SID,
+          VERSION_NO)
+  VALUES (SOURCE.COMPANY_GROUP_SID,
+          SOURCE.COMPANY_MASTER_SID,
+          SOURCE.COMPANY_TRADE_CLASS_SID,
+          SOURCE.COMPANY_PARENT_DETAILS_SID,
+          SOURCE.VERSION_NO)
+WHEN NOT MATCHED BY SOURCE  AND (TARGET.COMPANY_GROUP_SID=@COMPANY_GROUP_SID) THEN
+  DELETE;;
+
+ SELECT COMPANY_GROUP_SID,VERSION_NO FROM dbo.COMPANY_GROUP WHERE COMPANY_GROUP_SID= @COMPANY_GROUP_SID
+
+     
+        ]]>
+        </query>
+    </entity>
+    <entity id="getSelectedCompaniesSid">
+        <query>
+            <![CDATA[
+SELECT
+    COMPANY_GROUP_SID,
+    COMPANY_MASTER_SID
+FROM
+    dbo.COMPANY_GROUP_DETAILS
+WHERE
+    COMPANY_GROUP_SID = ?
+     
+        ]]>
+        </query>
+    </entity>
+    <entity id="getSelectedCompanyListCount">
+        <query>
+            <![CDATA[
+    SELECT COUNT(*) FROM (  SELECT
+    CM.ORGANIZATION_KEY,
+    CM.COMPANY_ID,
+    CM.COMPANY_NO,
+    CM.COMPANY_NAME,
+    CTC.DESCRIPTION COMPANY_TRADE_CLASS,
+    CTC.TRADE_CLASS_START_DATE,
+    CTC.TRADE_CLASS_END_DATE,
+    HT_CT.DESCRIPTION COMPANY_TYPE,
+    HT_CS.DESCRIPTION COMPANY_STATUS,
+    CM.COMPANY_END_DATE,
+    NULL AS UDC1,
+    NULL AS UDC2,
+    NULL AS UDC3,
+    NULL AS UDC4,
+    NULL AS UDC5,
+    NULL AS UDC6,
+    CM.COMPANY_GROUP,
+    CM.FINANCIAL_SYSTEM,
+    CM.ADDRESS1,
+    CM.ADDRESS2,
+    CM.CITY,
+    HT_ST.DESCRIPTION STATE,
+    CM.ZIP_CODE,
+    HT_CN.DESCRIPTION COUNTRY,
+    CM.REGION_CODE,
+    CPD.PARENT_COMPANY_MASTER_SID,
+    CPD.PARENT_START_DATE,
+    CPD.PARENT_END_DATE,
+    CM.COMPANY_START_DATE,
+    CPD.PRIOR_PARENT_START_DATE,
+    CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CM.LIVES
+FROM
+    HIST_COMPANY_GROUP_DETAILS GD JOIN COMPANY_MASTER CM
+        ON CM.COMPANY_MASTER_SID = GD.COMPANY_MASTER_SID 
+    OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD 
+       JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+       JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_ST
+              ON CM.STATE = HT_ST.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_CN
+              ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND GD.ACTION_FLAG <> 'D'
+    AND GD.COMPANY_GROUP_SID = ? 
+    AND GD.VERSION_NO=?
+    ? ) AS CC
+     
+        ]]>
+        </query>
+    </entity>
+    <entity id="getSelectedCompanyList">
+        <query>
+            <![CDATA[
+    SELECT
+    CM.ORGANIZATION_KEY,
+    CM.COMPANY_ID,
+    CM.COMPANY_NO,
+    CM.COMPANY_NAME,
+    CTC.DESCRIPTION COMPANY_TRADE_CLASS,
+    CTC.TRADE_CLASS_START_DATE,
+    CTC.TRADE_CLASS_END_DATE,
+    HT_CT.DESCRIPTION COMPANY_TYPE,
+    HT_CS.DESCRIPTION COMPANY_STATUS,
+    CM.COMPANY_END_DATE,
+    NULL AS UDC1,
+    NULL AS UDC2,
+    NULL AS UDC3,
+    NULL AS UDC4,
+    NULL AS UDC5,
+    NULL AS UDC6,
+    CM.COMPANY_GROUP,
+    CM.FINANCIAL_SYSTEM,
+    CM.ADDRESS1,
+    CM.ADDRESS2,
+    CM.CITY,
+    HT_ST.DESCRIPTION STATE,
+    CM.ZIP_CODE,
+    HT_CN.DESCRIPTION COUNTRY,
+    CM.REGION_CODE,
+    CPD.PARENT_COMPANY_MASTER_SID,
+    CPD.PARENT_START_DATE,
+    CPD.PARENT_END_DATE,
+    CM.COMPANY_START_DATE,
+    CPD.PRIOR_PARENT_START_DATE,
+    CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+    CM.COMPANY_MASTER_SID,
+    CTC.COMPANY_TRADE_CLASS_SID,
+    CPD.COMPANY_PARENT_DETAILS_SID,
+    CM.LIVES
+FROM
+  HIST_COMPANY_GROUP_DETAILS GD JOIN COMPANY_MASTER CM
+        ON CM.COMPANY_MASTER_SID = GD.COMPANY_MASTER_SID  
+    OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CTC.COMPANY_TRADE_CLASS, 
+                              CTC.TRADE_CLASS_START_DATE, 
+                              CTC.TRADE_CLASS_END_DATE, 
+                              CTC.COMPANY_TRADE_CLASS_SID, 
+                              CTC.COMPANY_MASTER_SID,HT_TC.DESCRIPTION  AS DESCRIPTION
+                     FROM     COMPANY_TRADE_CLASS CTC 
+					  INNER JOIN HELPER_TABLE HT_TC
+                      ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+                     WHERE    CTC.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+
+                     ORDER BY CTC.MODIFIED_DATE DESC)CTC 
+       OUTER APPLY 
+            ( 
+                     SELECT TOP 1 
+                              CPD.COMPANY_MASTER_SID , 
+                              CPD.PARENT_COMPANY_MASTER_SID, 
+                              CPD.PARENT_START_DATE, 
+                              CPD.PARENT_END_DATE, 
+                              CPD.PRIOR_PARENT_START_DATE, 
+                              CPD.PRIOR_PARENT_CMPY_MASTER_SID, 
+                              CPD.COMPANY_PARENT_DETAILS_SID 
+                     FROM     COMPANY_PARENT_DETAILS CPD 
+                     WHERE     CPD.COMPANY_MASTER_SID =CM.COMPANY_MASTER_SID 
+                     ORDER BY CPD.MODIFIED_DATE DESC)CPD  
+       JOIN HELPER_TABLE HT_CT
+         ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+       JOIN HELPER_TABLE HT_CS
+         ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_ST
+              ON CM.STATE = HT_ST.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_CN
+              ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+WHERE
+    CM.INBOUND_STATUS <> 'D'
+    AND GD.ACTION_FLAG <> 'D'
+    AND GD.COMPANY_GROUP_SID = ?
+    AND GD.VERSION_NO=?
+    ? ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]]>
+        </query>
+    </entity>
+     
+    <entity id="getSelectedCompaniesSidForView">
+        <query>
+            <![CDATA[
+SELECT
+    COMPANY_GROUP_SID,
+    COMPANY_MASTER_SID
+FROM
+    HIST_COMPANY_GROUP_DETAILS
+WHERE
+    COMPANY_GROUP_SID = ?
+     
+        ]]>
+        </query>
+    </entity>
+     
+    <entity id="loadComboBox_Where_Desc_Not_Ends_with_LY">
+        <query>
+            <![CDATA[
+
+select
+	HELPER_TABLE_SID,
+	DESCRIPTION
+from
+	dbo.HELPER_TABLE
+where
+	LIST_NAME like 'FORECAST_FREQUENCY'
+	AND DESCRIPTION NOT like '%LY%'
+     order by HELPER_TABLE_SID 
+        ]]>
+        </query>
+    </entity>
+    
+</sql>

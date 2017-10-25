@@ -1,0 +1,347 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.stpl.app.gtnforecasting.projectionresults.logic.tablelogic;
+
+import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.projectionresults.logic.MProjectionResultsLogic;
+import com.stpl.app.gtnforecasting.projectionresults.logic.NMProjectionResultsLogic;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Container;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtTreeContainer;
+import com.stpl.ifs.ui.extfilteringtable.PageTreeLogicBase;
+import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.ui.util.NumericConstants;
+import org.jboss.logging.Logger;
+
+/**
+ *
+ * @author sibi
+ */
+public class ProjectionResultsTableLogic extends PageTreeTableLogic {
+
+    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    public  NMProjectionResultsLogic nmProjectionResultsLogic = new NMProjectionResultsLogic();
+    public  MProjectionResultsLogic mProjectionResultsLogic= new MProjectionResultsLogic();
+    boolean firstGenerated = false;
+    private static final Logger LOGGER = Logger.getLogger(ProjectionResultsTableLogic.class);        
+
+    @Override
+    public GtnSmallHashMap loadData(int start, int offset) {
+        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        GtnSmallHashMap map = new GtnSmallHashMap();
+        if (firstGenerated && offset > 0) {
+            try {
+                List<String> indexList = new ArrayList<String>();
+                for (int i = 0; i < getNonFetchableData().size(); i++) {
+                    indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
+                }
+                projSelDTO.setNonFetchableIndex(indexList);
+                List<ProjectionResultsDTO> list = loadDataByForecastName(getLastParent(), start, offset);
+                int i = start;
+                if(!list.isEmpty()){
+                for (ProjectionResultsDTO dto : list) {
+                    while (projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + i)) {
+                        i++;
+                    }
+                    map.put(i, dto);
+                    i++;
+                }
+                }
+                projSelDTO.clearNonFetchableIndex();
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+        LOGGER.debug("loadData ended "+map.size());
+        return map;
+    }
+
+    @Override
+    public int getCount() {
+        LOGGER.debug("getCount initiated with firstGenerated=" + firstGenerated);
+        int count = 0;
+        if (firstGenerated) {
+            try {            
+                count = getCountByForecastName(getLastParent());
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+        LOGGER.debug("getCount ended with count=" + count);
+        return count;
+    }
+
+    @Override
+    public Object configureContainer(Object object, Container datasource) {
+        ProjectionResultsDTO dto = (ProjectionResultsDTO) object;
+        ((ExtTreeContainer<ProjectionResultsDTO>) datasource).addBean(dto);
+        if (dto.getParent() == 1) {
+            ((ExtTreeContainer<ProjectionResultsDTO>) datasource).setChildrenAllowed(dto, true);
+        } else {
+            ((ExtTreeContainer<ProjectionResultsDTO>) datasource).setChildrenAllowed(dto, false);
+        }
+        return dto;
+    }
+
+    @Override
+    public void setColumnIdToFilterValue(Object prop, Object value) {
+        super.setColumnIdToFilterValue(prop, value);
+        Object groupDdlb = getColumnIdToFilterValue(Constant.GROUP);
+        if (groupDdlb != null) {
+            if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                projSelDTO.setGroupFilter(String.valueOf(groupDdlb));
+            }
+            clearAll();
+        }
+    }
+    
+    public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO) {
+        this.projSelDTO = projSelDTO;
+        clearAll();
+        firstGenerated = true;
+        setCurrentPage(1);
+    }
+
+    protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) throws PortalException, SystemException {
+        int count = getCountByForecastName(parentId);               
+        PageTreeLogicBase.LevelMap levelMap = new PageTreeLogicBase.LevelMap(count, getColumnIdToFilterMap());
+        addlevelMap(treeLevel, levelMap);
+        String productHierarchyNo = projSelDTO.getProductHierarchyNo();
+        String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo();
+        String hierarchyNo = projSelDTO.getHierarchyNo();
+        int levelNo = projSelDTO.getTreeLevelNo();
+        if (expandLevelNo >= levelNo) {
+            if (projSelDTO.isGroupCount()) {
+                String customTreeLevel = treeLevel + (count) + ".";
+                ProjectionResultsDTO dto = new ProjectionResultsDTO();
+                dto.setLevelNo(projSelDTO.getLevelNo());
+                dto.setTreeLevelNo(projSelDTO.getTreeLevelNo());
+                dto.setParentNode(projSelDTO.getParentNode());
+                dto.setGroup(projSelDTO.getGroupFilter());
+                dto.setLevelValue(projSelDTO.getLevelValue());
+                dto.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
+                dto.setHierarchyNo(hierarchyNo);
+                if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
+                    dto.setCustomerHierarchyNo(dto.getHierarchyNo());
+                    dto.setProductHierarchyNo(productHierarchyNo);
+                } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                    dto.setProductHierarchyNo(dto.getHierarchyNo());
+                    dto.setCustomerHierarchyNo(customerHierarchyNo);
+                }
+                dto.setOnExpandTotalRow(1);
+                dto.setParent(1);
+                addExpandedTreeList(customTreeLevel, dto);
+                recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
+            } else {
+                 List<Leveldto> levelList =Collections.EMPTY_LIST;
+                if(projSelDTO.getLevelCount()!=0){
+                levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), StringUtils.EMPTY, 0, projSelDTO.getLevelCount(), projSelDTO.getHierarchyIndicator(), levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(),projSelDTO.getCustRelationshipBuilderSid(),projSelDTO.getProdRelationshipBuilderSid(), false, true , projSelDTO.getDiscountNoList(),projSelDTO);
+                }
+                int size = levelList.size();
+                int index = count - size + 1;
+                for (int j = 0; j < size; j++) {
+                    Leveldto levelDto = levelList.get(j);
+                    String customTreeLevel = treeLevel + (index + j) + ".";
+                    ProjectionResultsDTO dto = new ProjectionResultsDTO();
+                    dto.setLevelNo(levelDto.getLevelNo());
+                    dto.setTreeLevelNo(levelDto.getTreeLevelNo());
+                    dto.setParentNode(levelDto.getParentNode());
+                    dto.setGroup(projSelDTO.getSessionDTO().getLevelValueDiscription(levelDto.getHierarchyNo(), levelDto.getHierarchyIndicator()));
+                    dto.setLevelValue(levelDto.getRelationshipLevelValue());
+                    dto.setHierarchyIndicator(levelDto.getHierarchyIndicator());
+                    dto.setHierarchyNo(levelDto.getHierarchyNo());
+                    if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
+                        dto.setCustomerHierarchyNo(dto.getHierarchyNo());
+                        dto.setProductHierarchyNo(productHierarchyNo);
+                    } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                        dto.setProductHierarchyNo(dto.getHierarchyNo());
+                        dto.setCustomerHierarchyNo(customerHierarchyNo);
+                    }
+                    dto.setOnExpandTotalRow(1);
+                    dto.setParent(1);
+                    addExpandedTreeList(customTreeLevel, dto);
+                    recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
+                }
+            }
+        }
+    }
+    protected void recursivelyLoadExpandDataForNM(Object parentId, String treeLevel, int expandLevelNo) throws PortalException, SystemException  {
+        int count = getCountByForecastName(parentId);     
+        CommonLogic commonLogic = new CommonLogic();        
+        PageTreeLogicBase.LevelMap levelMap = new PageTreeLogicBase.LevelMap(count, getColumnIdToFilterMap());
+        addlevelMap(treeLevel, levelMap);
+        String productHierarchyNo = projSelDTO.getProductHierarchyNo();
+        String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo();
+        String hierarchyNo = projSelDTO.getHierarchyNo();
+        int levelNo = projSelDTO.getTreeLevelNo();
+        if (expandLevelNo >= levelNo) {
+            if (projSelDTO.isGroupCount()) {
+                String customTreeLevel = treeLevel + (count) + ".";
+                ProjectionResultsDTO dto = new ProjectionResultsDTO();
+                dto.setLevelNo(projSelDTO.getLevelNo());
+                dto.setTreeLevelNo(projSelDTO.getTreeLevelNo());
+                dto.setParentNode(projSelDTO.getParentNode());
+                dto.setGroup(projSelDTO.getGroupFilter());
+                dto.setLevelValue(projSelDTO.getLevelValue());
+                dto.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
+                dto.setHierarchyNo(hierarchyNo);
+                if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
+                    dto.setCustomerHierarchyNo(dto.getHierarchyNo());
+                    dto.setProductHierarchyNo(productHierarchyNo);
+                } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                    dto.setProductHierarchyNo(dto.getHierarchyNo());
+                    dto.setCustomerHierarchyNo(customerHierarchyNo);
+                }
+                dto.setOnExpandTotalRow(1);
+                dto.setParent(1);
+                addExpandedTreeList(customTreeLevel, dto);
+                recursivelyLoadExpandDataForNM(dto, customTreeLevel, expandLevelNo);
+            } else {
+                 List<String> detailsList =Collections.EMPTY_LIST;
+                  List<String> hierarchyNoList = Collections.EMPTY_LIST;
+                 String hierarchy=StringUtils.EMPTY;
+                String hierarchyIndicator=StringUtils.EMPTY;
+                 Map<String, List> relationshipLevelDetailsMap =Collections.EMPTY_MAP ;
+                if(projSelDTO.getLevelCount()!=0){
+                    if (projSelDTO.isIsCustomHierarchy()) {
+
+                 hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
+              relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+                hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO,  0, projSelDTO.getLevelCount());     
+                
+            } else {
+               relationshipLevelDetailsMap =  projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+               hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO,  0, projSelDTO.getLevelCount());
+                    
+                    hierarchyIndicator=projSelDTO.getHierarchyIndicator();
+            }
+                }
+                int size = hierarchyNoList.size();
+                int index = count - size + 1;
+                for (int j = 0; j < size; j++) {
+                    hierarchy=hierarchyNoList.get(j);
+                    detailsList= relationshipLevelDetailsMap.get(hierarchy);
+                    String customTreeLevel = treeLevel + (index + j) + ".";
+                    ProjectionResultsDTO dto = new ProjectionResultsDTO();
+                    dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO)));
+                     dto.setTreeLevelNo(levelNo);
+                    dto.setGroup(detailsList.get(0));
+                    dto.setLevelValue(detailsList.get(NumericConstants.THREE));
+                    dto.setHierarchyNo(hierarchy);
+                    dto.setHierarchyIndicator(hierarchyIndicator);
+                    if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
+                        dto.setCustomerHierarchyNo(dto.getHierarchyNo());
+                        dto.setProductHierarchyNo(productHierarchyNo);
+                    } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                        dto.setProductHierarchyNo(dto.getHierarchyNo());
+                        dto.setCustomerHierarchyNo(customerHierarchyNo);
+                    }
+                    dto.setOnExpandTotalRow(1);
+                    dto.setParent(1);
+                    addExpandedTreeList(customTreeLevel, dto);
+                    recursivelyLoadExpandDataForNM(dto, customTreeLevel, expandLevelNo);
+                }
+            }
+        }
+    }
+
+    public void loadExpandData(int levelNo) throws PortalException, SystemException {
+        if(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())){
+        recursivelyLoadExpandData(new Object(), StringUtils.EMPTY, levelNo);
+        }else{
+          recursivelyLoadExpandDataForNM(new Object(), StringUtils.EMPTY, levelNo);   
+        }
+       
+        setRecordCount(getCalculatedTotalRecordCount());
+        setCurrentPage(getTotalAmountOfPages());
+    }
+
+    public void groupChange() {
+        clearAll();
+        setCurrentPage(1);
+    }
+
+    @Override
+    protected void createCurrentPageStart() {
+        setCurrentPageProgress(true);
+        setRefresh(Boolean.FALSE);
+    }
+
+    @Override
+    protected void createCurrentPageEnd() {
+        setCurrentPageProgress(false);
+        setRefresh(Boolean.TRUE);
+    }
+
+    @Override
+    protected void expandCollapseStart(boolean isExpand) {
+        setExpandCollapseProgress(true);
+    }
+
+    @Override
+    protected void expandCollapseEnd(boolean isExpand) {
+        setExpandCollapseProgress(false);
+    }
+    
+    /**
+     * 
+     * @param parentId
+     * @return 
+     */
+    private int getCountByForecastName(final Object parentId) throws PortalException, SystemException {
+        int count;
+        String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
+        switch (screenName) {
+            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
+                count = nmProjectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
+                break;
+            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
+                count = mProjectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true, projSelDTO);
+                break;
+           
+            default:
+                LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
+                count = nmProjectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
+                break;
+        }
+        return count;
+    }
+    
+    private List<ProjectionResultsDTO> loadDataByForecastName(final Object parentId, final int start, final int offset) throws PortalException, SystemException {
+        List<ProjectionResultsDTO> list;
+        String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
+        LOGGER.debug("Screen Name is "+screenName);
+        switch (screenName) {
+            case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
+                LOGGER.debug("Projection results load data method with start = "+start+" and offset = "+offset);
+                list = nmProjectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+                break;
+            case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
+                list = mProjectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+                break;
+           
+            default:
+                LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
+                list = nmProjectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+                break;
+        }
+        return list;
+    }
+    
+}

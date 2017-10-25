@@ -1,0 +1,1603 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.gcm.itemmanagement.itemabstract.logic;
+
+import com.stpl.app.gcm.common.HelperListUtil;
+import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
+import com.stpl.app.gcm.itemmanagement.add.dto.AddItemTableDTO;
+import com.stpl.app.gcm.itemmanagement.add.dto.SummaryDTO;
+import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
+import static com.stpl.app.gcm.itemmanagement.index.form.ItemManagementLookup.LOGGER;
+import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
+import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
+import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentInfoDTO;
+import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
+import com.stpl.app.gcm.itemmanagement.itemabstract.dto.FormulaDTO;
+import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractFilter;
+import com.stpl.app.gcm.itemmanagement.itemabstract.lazyload.DdlbCriteria;
+import com.stpl.app.gcm.itemmanagement.itemabstract.lazyload.LoadDdlbDAO;
+import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
+import com.stpl.app.gcm.util.CommonUtils;
+import com.stpl.app.gcm.util.Constants;
+import static com.stpl.app.gcm.util.Constants.ANNUALLY;
+import static com.stpl.app.gcm.util.Constants.FrequencyConstants.MONTHLY;
+import static com.stpl.app.gcm.util.Constants.FrequencyConstants.MONTHS;
+import static com.stpl.app.gcm.util.Constants.FrequencyConstants.QUARTERS;
+import static com.stpl.app.gcm.util.Constants.FrequencyConstants.SEMI_ANNUAL;
+import static com.stpl.app.gcm.util.Constants.FrequencyConstants.SEMI_ANNUALLY;
+import static com.stpl.app.gcm.util.Constants.FrequencyConstants.YEARS;
+import com.stpl.app.gcm.util.Constants.IndicatorConstants;
+import static com.stpl.app.gcm.util.Constants.QUARTERLY;
+import static com.stpl.app.gcm.util.Constants.SPACE;
+import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.HelperDTO;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.ui.ComboBox;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import org.apache.commons.lang.StringUtils;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+
+/**
+ *
+ * @author mohamed.hameed
+ */
+public class AbstractLogic {
+
+    static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    public static final Map<String, List> ddlbMap = new HashMap<String, List>();
+    private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private static final AbstractLogic logic = new AbstractLogic();
+    /**
+     * The helper list util.
+     */
+    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+
+    private AbstractLogic() {
+
+    }
+
+    public static final AbstractLogic getInstance() {
+        return logic;
+    }
+
+    public void LazyLoadDdlb(final ComboBox comboBox, String countFlag, String findFlag, Boolean isFilter) {
+        final List inputList = new ArrayList();
+        inputList.add(countFlag);
+        inputList.add(findFlag);
+        LazyContainer containerData = new LazyContainer(HelperDTO.class, new LoadDdlbDAO(inputList, isFilter), new DdlbCriteria());
+        comboBox.setPageLength(NumericConstants.SEVEN);
+        comboBox.setContainerDataSource(containerData);
+        if (isFilter) {
+            comboBox.setNullSelectionItemId(ddlbShowAllValue);
+        } else {
+            comboBox.setNullSelectionItemId(ddlbDefaultValue);
+        }
+        comboBox.setNullSelectionAllowed(true);
+        comboBox.setImmediate(true);
+        comboBox.setItemCaptionPropertyId("description");
+        containerData.setMinFilterLength(0);
+    }
+
+    public int getDdlbCount(String QueryName, final List<String> input) {
+        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+        if (!list.isEmpty()) {
+            Object obj = list.get(0);
+            int count = obj == null ? 0 : (Integer) obj;
+            return count;
+        }
+        return 0;
+    }
+
+    public List<HelperDTO> getDdlbList(String QueryName, final List<String> input, final Boolean isFilter) {
+        List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
+        List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+        if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
+            if (isFilter) {
+                HelperDTO defaultValue = new HelperDTO(0, Constants.SHOW_ALL);
+                resultList.add(defaultValue);
+            } else {
+                HelperDTO defaultValue = new HelperDTO(0, IndicatorConstants.SELECT_ONE.getConstant());
+                resultList.add(defaultValue);
+            }
+        }
+        for (Object[] str : list) {
+            if (!str[1].equals(String.valueOf(IndicatorConstants.SELECT_ONE.getConstant()))) {
+                HelperDTO dto = new HelperDTO();
+                dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                dto.setDescription(str[1] == null ? Constants.ZEROSTRING: String.valueOf(str[1]));
+                resultList.add(dto);
+            }
+        }
+        return resultList;
+    }
+
+    public int getContractCount(SelectionDTO selection, AddItemTableDTO binderDto) {
+        List input = getInput(selection, binderDto);
+        List<Object[]> list = ItemQueries.getItemData(input, selection.getCountQueryName(), null);
+        Object obj = list.get(0);
+        int count = obj == null ? 0 : (Integer) obj;
+        return count;
+    }
+
+    public List getContractResults(SelectionDTO selection, int start, int offset, AddItemTableDTO binderDto) {
+
+        List input = getInput(selection, binderDto);
+        input.add(start);
+        input.add(offset);
+        List<Object[]> list = ItemQueries.getItemData(input, selection.getDataQueryName(), null);
+        return setContractDetailsData(list, selection, input.get(1).toString());
+    }
+
+    private List<AbstractContractSearchDTO> setContractDetailsData(List<Object[]> list, SelectionDTO selection, String screenName) {
+        List<AbstractContractSearchDTO> resultList = new ArrayList<AbstractContractSearchDTO>();
+
+        for (Object[] str : list) {
+            AbstractContractSearchDTO dto = new AbstractContractSearchDTO();
+            dto.setProjectionId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            if (!String.valueOf(str[1]).equals("Approved")) {
+                dto.setWorkFlowStatus(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            }
+            dto.setContractHolder(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setContractNo(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+            dto.setContractName(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
+            dto.setMarketType(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
+            dto.setStartDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
+            dto.setEndDate(str[NumericConstants.SEVEN] == null ? null : (Date) str[NumericConstants.SEVEN]);
+            HelperDTO status = new HelperDTO();
+            status.setId(str[NumericConstants.EIGHT] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.EIGHT])));
+            status.setDescription(str[NumericConstants.FORTY_THREE] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_THREE])));
+            dto.setStatus(status);
+            dto.setItemStartDate(str[NumericConstants.NINE] == null ? null : (Date) str[NumericConstants.NINE]);
+            dto.setItemEndDate(str[NumericConstants.TEN] == null ? null : (Date) str[NumericConstants.TEN]);
+
+            dto.setCpStartDate(str[NumericConstants.ELEVEN] == null ? null : (Date) str[NumericConstants.ELEVEN]);
+            dto.setCpEndDate(str[NumericConstants.TWELVE] == null ? null : (Date) str[NumericConstants.TWELVE]);
+            dto.setContractPrice(str[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTEEN]));
+            dto.setPrice(str[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
+            dto.setPriceProtectionStartDate(str[NumericConstants.FIFTEEN] == null ? null : (Date) str[NumericConstants.FIFTEEN]);
+            dto.setPriceProtectionEndDate(str[NumericConstants.SIXTEEN] == null ? null : (Date) str[NumericConstants.SIXTEEN]);
+            HelperDTO priceToleranceType = new HelperDTO();
+            priceToleranceType.setId(str[NumericConstants.SEVENTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVENTEEN])));
+            priceToleranceType.setDescription(str[NumericConstants.FORTY_FOUR] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_FOUR])));
+            dto.setPriceToleranceType(priceToleranceType);
+            dto.setPriceTolerance(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
+            HelperDTO priceTolerance = new HelperDTO();
+            HelperDTO priceToleranceFrequency = new HelperDTO();
+            priceToleranceFrequency.setId(str[NumericConstants.NINETEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.NINETEEN])));
+            priceToleranceFrequency.setDescription(str[NumericConstants.FORTY_FIVE] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_FIVE])));
+            dto.setPriceToleranceFrequency(priceToleranceFrequency);
+            priceTolerance.setId(str[NumericConstants.TWENTY] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY])));
+            priceTolerance.setDescription(str[NumericConstants.FORTY_SIX] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_SIX])));
+            dto.setPriceToleranceInterval(priceTolerance);
+            dto.setBasePrice(str[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_ONE]));
+            dto.setRSStartDate(str[NumericConstants.TWENTY_TWO] == null ? null : (Date) str[NumericConstants.TWENTY_TWO]);
+            dto.setRSEndDate(str[NumericConstants.TWENTY_THREE] == null ? null : (Date) str[NumericConstants.TWENTY_THREE]);
+            dto.setFormulaId(str[NumericConstants.TWENTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_FOUR]));
+            dto.setFormulaMethodId(str[NumericConstants.TWENTY_FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_FIVE]));
+            dto.setRebateAmount(str[NumericConstants.TWENTY_SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_SIX]));
+            dto.setCfpNO(str[NumericConstants.TWENTY_SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_SEVEN]));
+            dto.setCfpName(str[NumericConstants.TWENTY_EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_EIGHT]));
+            dto.setIfpNo(str[NumericConstants.TWENTY_NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_NINE]));
+            dto.setIfpName(str[NumericConstants.THIRTY] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY]));
+            dto.setPsNo(str[NumericConstants.THIRTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_ONE]));
+            dto.setPsName(str[NumericConstants.THIRTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_TWO]));
+            dto.setRsNo(str[NumericConstants.THIRTY_THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_THREE]));
+            dto.setRsName(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
+            dto.setRarCategory(str[NumericConstants.THIRTY_FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FIVE]));
+            dto.setCheckRecord(str[NumericConstants.THIRTY_SIX] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.THIRTY_SIX]);
+            dto.setContractMasterSid(str[NumericConstants.THIRTY_SEVEN] == null ? 0 : Integer.valueOf(str[NumericConstants.THIRTY_SEVEN].toString()));
+            dto.setCfpContractSid(str[NumericConstants.THIRTY_EIGHT] == null ? 0 : Integer.valueOf(str[NumericConstants.THIRTY_EIGHT].toString()));
+            dto.setIfpConteractSid(str[NumericConstants.THIRTY_NINE] == null ? 0 : Integer.valueOf(str[NumericConstants.THIRTY_NINE].toString()));
+            dto.setPsContractSid(str[NumericConstants.FORTY] == null ? 0 : Integer.valueOf(str[NumericConstants.FORTY].toString()));
+            dto.setRsContractSid(str[NumericConstants.FORTY_ONE] == null ? 0 : Integer.valueOf(str[NumericConstants.FORTY_ONE].toString()));
+            dto.setItemMasterSid(str[NumericConstants.FORTY_TWO] == null ? 0 : Integer.valueOf(str[NumericConstants.FORTY_TWO].toString()));
+            if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                dto.setTransferScreenName(screenName);
+                selection.setTransferScreenName(screenName);
+            }
+
+            resultList.add(dto);
+        }
+        return resultList;
+    }
+
+    public static List getResultsInput(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(selection.getButtonMode());
+        return input;
+    }
+
+    public static List getCurrentInput(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(ConstantsUtil.CURRENT_COONTRACT);
+        return input;
+    }
+
+    public static List getTransferInput(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(ConstantsUtil.TRANSFER_CONTRACT);
+        return input;
+    }
+
+    public static List getResultsSummary(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(ConstantsUtil.SUMMARY);
+        return input;
+    }
+
+    public static List getCurrentSummary(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(ConstantsUtil.CURRENT_SUMMARY);
+        return input;
+    }
+
+    public static List getTransferSummary(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(ConstantsUtil.TRANSFER_SUMMARY);
+        return input;
+    }
+
+    public static Integer getContractSid(SelectionDTO selection) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        List<Object[]> list = ItemQueries.getItemData(input, "getContractMasterSid", null);
+        return getCount(list);
+    }
+
+    public static Object getItemIds(List<ItemIndexDto> itemList) {
+        List itemIdList = new ArrayList();
+        for (ItemIndexDto dto : itemList) {
+            itemIdList.add(dto.getSystemId());
+        }
+        return CommonUtils.getListToString(itemIdList);
+    }
+
+    public static Object getItemIdsAsString(List<ItemIndexDto> itemList) {
+        StringBuilder result = new StringBuilder();
+        for (ItemIndexDto dto : itemList) {
+            result.append(dto.getSystemId() + ",");
+        }
+          result.deleteCharAt(result.length() - 1);
+        return result.toString();
+    }
+
+    public int getComponentInfoCount(final ComponentInfoDTO binderDto, final SelectionDTO selection) {
+        List inputList = getComponentInfoSelection(binderDto, selection);
+        List<Object[]> list = ItemQueries.getItemData(inputList, selection.getComponentCount(), null);
+        return getCount(list);
+    }
+
+    public List<ComponentInfoDTO> getComponentInfoResults(final ComponentInfoDTO binderDto, final SelectionDTO selection) {
+        List<Object[]> list = ItemQueries.getItemData(getComponentInfoSelection(binderDto, selection), selection.getComponentLoad(), null);
+        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        if (selection.getComponent().equalsIgnoreCase(Constants.CFP)) {
+            finalResult = getCustomizedCFPComponentInfo(list);
+        } else if (selection.getComponent().equals(Constants.IFP)) {
+            finalResult = getCustomizedIFPComponentInfo(list);
+        } else if (selection.getComponent().equals(Constants.PS)) {
+            finalResult = getCustomizedPSComponentInfo(list);
+        } else if (selection.getComponent().equals(Constants.RS)) {
+            finalResult = getCustomizedRSComponentInfo(list);
+        }
+        return finalResult;
+    }
+
+    public List<ComponentInfoDTO> getCustomizedCFPComponentInfo(final List<Object[]> list) {
+        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        for (Object[] str : list) {
+            ComponentInfoDTO dto = new ComponentInfoDTO();
+            dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            dto.setItemName(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            dto.setItemStatus(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setStartDate(str[NumericConstants.THREE] == null ? null : (Date) (str[NumericConstants.THREE]));
+            dto.setEndDate(str[NumericConstants.FOUR] == null ? null : (Date) (str[NumericConstants.FOUR]));
+            dto.setStatus(str[NumericConstants.FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIVE]));
+            dto.setTradeClass(str[NumericConstants.SIX] == null || Constants.SELECT_ONE.equalsIgnoreCase(String.valueOf(str[NumericConstants.SIX])) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
+            dto.setAttachedDate(str[NumericConstants.SEVEN] == null ? null : (Date) (str[NumericConstants.SEVEN]));
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    public List<ComponentInfoDTO> getCustomizedIFPComponentInfo(final List<Object[]> list) {
+        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        for (Object[] str : list) {
+            ComponentInfoDTO dto = new ComponentInfoDTO();
+            dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            dto.setItemName(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            dto.setBrand(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setStatus(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+            dto.setStartDate(str[NumericConstants.FOUR] == null ? null : (Date) (str[NumericConstants.FOUR]));
+            dto.setEndDate(str[NumericConstants.FIVE] == null ? null : (Date) (str[NumericConstants.FIVE]));
+            dto.setAttachedDate(str[NumericConstants.SIX] == null ? null : (Date) (str[NumericConstants.SIX]));
+
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    public List<ComponentInfoDTO> getCustomizedPSComponentInfo(final List<Object[]> list) {
+        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        for (Object[] str : list) {
+            ComponentInfoDTO dto = new ComponentInfoDTO();
+            dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            dto.setItemName(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            dto.setBrand(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setStatus(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+            dto.setStartDate(str[NumericConstants.FOUR] == null ? null : (Date) (str[NumericConstants.FOUR]));
+            dto.setEndDate(str[NumericConstants.FIVE] == null ? null : (Date) (str[NumericConstants.FIVE]));
+            dto.setPriceType(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
+            dto.setPricePlanNo(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
+            dto.setPricePlanName(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
+            dto.setPriceProtectionStatus(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
+            dto.setPriceProtectionStartDate(str[NumericConstants.TEN] == null ? null : (Date) str[NumericConstants.TEN]);
+            dto.setPriceProtectionEndDate(str[NumericConstants.ELEVEN] == null ? null : (Date) str[NumericConstants.ELEVEN]);
+            dto.setPriceProtectionPriceType(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWELVE]));
+            dto.setPriceToleranceInterval(str[NumericConstants.THIRTEEN] == null || str[NumericConstants.THIRTEEN].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTEEN]));
+            dto.setPriceToleranceFrequency(str[NumericConstants.FOURTEEN] == null || str[NumericConstants.FOURTEEN].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
+            dto.setPriceToleranceType(str[NumericConstants.FIFTEEN] == null || str[NumericConstants.FIFTEEN].equals(IndicatorConstants.SELECT_ONE.getConstant()) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTEEN]));
+            dto.setMaxIncrementalChange(str[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTEEN]));
+            dto.setPriceTolerance(str[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVENTEEN]));
+            dto.setResetEligible(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
+            dto.setResetType(str[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINETEEN]));
+            dto.setResetDate(str[NumericConstants.TWENTY] == null ? null : (Date) str[NumericConstants.TWENTY]);
+            dto.setResetInterval(str[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_ONE]));
+            dto.setResetFrequency(str[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_TWO]));
+            dto.setAttachedDate(str[NumericConstants.TWENTY_THREE] == null ? null : (Date) (str[NumericConstants.TWENTY_THREE]));
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    public List<ComponentInfoDTO> getCustomizedRSComponentInfo(final List<Object[]> list) {
+        List<ComponentInfoDTO> finalResult = new ArrayList<ComponentInfoDTO>();
+        for (Object[] str : list) {
+            ComponentInfoDTO dto = new ComponentInfoDTO();
+            dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            dto.setItemName(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            dto.setBrand(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setStatus(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+            dto.setStartDate(str[NumericConstants.FOUR] == null ? null : (Date) (str[NumericConstants.FOUR]));
+            dto.setEndDate(str[NumericConstants.FIVE] == null ? null : (Date) (str[NumericConstants.FIVE]));
+            dto.setFormulaType(str[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIX]));
+            dto.setFormulaId(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
+            dto.setFormulaName(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
+            dto.setRebatePlanId(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
+            dto.setRebatePlanName(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
+            dto.setRebateAmount(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
+            dto.setBundleNo(str[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWELVE]));
+            dto.setAttachedDate(str[NumericConstants.THIRTEEN] == null ? null : (Date) (str[NumericConstants.THIRTEEN]));
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    private List getComponentInfoSelection(ComponentInfoDTO binderDto, SelectionDTO selection) {
+        List<Object> input = new ArrayList();
+        input.add(binderDto.getSystemId());
+        if (selection.getComponent().equals(Constants.RS)) {
+            if (binderDto.getRsType_DTO() != null) {
+                input.add(binderDto.getRsType_DTO().getId());
+            } else {
+                input.add("%");
+            }
+            if (binderDto.getRsProgramType_DTO() != null) {
+                input.add(binderDto.getRsProgramType_DTO().getId());
+            } else {
+                input.add("%");
+            }
+            if (binderDto.getRsCategory_DTO() != null) {
+                input.add(binderDto.getRsCategory_DTO().getId());
+            } else {
+                input.add("%");
+            }
+            if (binderDto.getPaymentFrequency_DTO() != null) {
+                input.add(binderDto.getPaymentFrequency_DTO().getId());
+            } else {
+                input.add("%");
+            }
+            if (binderDto.getRebatePlanLevel_DTO() != null) {
+                input.add(binderDto.getRebatePlanLevel_DTO().getId());
+            } else {
+                input.add("%");
+            }
+        }
+        StringBuilder sql = AbstractFilter.getInstance().getComponentfilterQueryGenerator(selection.getComponent(), selection.getFilters());
+        if (sql != null) {
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        if (binderDto.getIsCount()) {
+            input.add(binderDto.getStartIndex());
+            input.add(binderDto.getEndIndex());
+        }
+        return input;
+
+    }
+
+    public static int getCount(List<Object[]> list) {
+        if (!list.isEmpty()) {
+            Object obj = list.get(0);
+            int count = obj == null ? 0 : (Integer) obj;
+            return count;
+        }
+        return 0;
+    }
+
+    public static int getDataCount(List<Object[]> list) {
+        if (!list.isEmpty()) {
+            Object[] obj = list.get(0);
+            int count = obj[0] == null ? 0 : 1;
+            return count;
+        }
+        return 0;
+    }
+
+    public ComponentInfoDTO getComponentTextFields(final String componentFlag,Integer systemid,boolean isItemAddTab) {
+        List input = new ArrayList();
+        ComponentInfoDTO dto = new ComponentInfoDTO();
+        if (isItemAddTab) {
+            input.add(systemid);
+        } else {
+            input.add(1);
+        }
+        List<Object[]> list = ItemQueries.getItemData(input, componentFlag, null);
+        for (Object[] str : list) {
+            dto.setComponenId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            dto.setComponenNumber(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            dto.setComponenName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setComponentStatus(str[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THREE]));
+            dto.setComponentType(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
+            dto.setComponentStartDate(str[NumericConstants.FIVE] == null ? null : (Date) str[NumericConstants.FIVE]);
+            dto.setComponentEndDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
+            if (componentFlag.equals("RS text")) {
+                dto.setRsType_Value(str[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
+                dto.setRebateFrequency_Value(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
+                dto.setRsProgramType_Value(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
+                dto.setRsCategory_Value(str[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
+                dto.setPaymentFrequency_Value(str[NumericConstants.TEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
+                dto.setRebatePlanLevel_Value(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
+            }
+        }
+        return dto;
+    }
+
+    public int getFormulaIdCount(FormulaDTO binderDto, SelectionDTO selection) {
+        List<Object[]> list = ItemQueries.getItemData(getFormulaIdInput(binderDto), selection.getCountQueryName(), null);
+        Object obj = list.get(0);
+        int count = obj == null ? 0 : (Integer) obj;
+        return count;
+    }
+
+    public List<FormulaDTO> getFormulaIdRecords(FormulaDTO binderDto, SelectionDTO selection) {
+        List<FormulaDTO> finalResult = new ArrayList<FormulaDTO>();
+        List<Object[]> list = ItemQueries.getItemData(getFormulaIdInput(binderDto), selection.getDataQueryName(), null);
+        for (Object[] str : list) {
+            FormulaDTO dto = new FormulaDTO();
+            dto.setFormulaId(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
+            dto.setFormulaNo(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
+            dto.setFormulaName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
+            dto.setFormulaSid(str[NumericConstants.THREE] == null ? 0 : (Integer) (str[NumericConstants.THREE]));
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    private List getFormulaIdInput(FormulaDTO binderDto) {
+        List<Object> input = new ArrayList();
+        if (binderDto.getFormulaId() != null && !binderDto.getFormulaId().isEmpty()) {
+            input.add(binderDto.getFormulaId().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getFormulaNo() != null && !binderDto.getFormulaNo().isEmpty()) {
+            input.add(binderDto.getFormulaNo().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getFormulaName() != null && !binderDto.getFormulaName().isEmpty()) {
+            input.add(binderDto.getFormulaName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.isIsCount()) {
+            input.add(binderDto.getStartIndex());
+            input.add(binderDto.getEndIndex());
+        }
+        return input;
+    }
+
+    public void LazyTableLoadDdlb(ComboBox comboBox, String load_Item_Status_Count, String load_Item_Status) {
+        final List inputList = new ArrayList();
+        inputList.add(load_Item_Status_Count);
+        inputList.add(load_Item_Status);
+        LazyContainer containerData = new LazyContainer(HelperDTO.class, new LoadDdlbDAO(inputList, true), new DdlbCriteria());
+        comboBox.setPageLength(NumericConstants.SEVEN);
+        comboBox.setContainerDataSource(containerData);
+        comboBox.setNullSelectionItemId(ddlbDefaultValue);
+        comboBox.setNullSelectionAllowed(true);
+        comboBox.setImmediate(true);
+        comboBox.setItemCaptionPropertyId("description");
+        containerData.setMinFilterLength(0);
+    }
+
+    public Boolean getEditedItemDetails(final AbstractContractSearchDTO compDTO, final SelectionDTO selection) {
+        selection.setIsContractUpdate(false);
+        List input = getEditedItemInput(compDTO, selection);
+        String queryname = null;
+        if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+
+            queryname = "Abstract Data update For Add";
+            if (compDTO.getCaseNo().equals(NumericConstants.SEVENTEEN)) {
+                queryname = "Abstract Data update CheckRecord For Add";
+            }
+        } else {
+            queryname = "Abstract Data update";
+            if (compDTO.getCaseNo().equals(NumericConstants.SEVENTEEN)) {
+                queryname = "Abstract Data update CheckRecord";
+            }
+        }
+        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
+        return isUpdated;
+    }
+
+    public Boolean getEditedPopulateItemDetails(final AbstractContractSearchDTO compDTO, final SelectionDTO selection) {
+        List input;
+        String queryname = null;
+        if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+            selection.setIsContractUpdate(true);
+            queryname = "Abstract FieldFactory Values Update";
+            if (compDTO.getCaseNo().equals(NumericConstants.SEVENTEEN)) {
+                selection.setIsContractUpdate(false);
+                queryname = "Abstract Data update CheckRecord For Add";
+            }
+            input = getEditedItemInput(compDTO, selection);
+        } else {
+            queryname = "Abstract FieldFactory Values Update";
+            selection.setIsContractUpdate(true);
+            if (compDTO.getCaseNo().equals(NumericConstants.SEVENTEEN)) {
+                selection.setIsContractUpdate(false);
+                queryname = "Abstract Data update CheckRecord";
+            }
+            input = getEditedItemInput(compDTO, selection);
+        }
+        Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
+
+        return isUpdated;
+    }
+
+    public List getEditedItemInput(AbstractContractSearchDTO compDTO, SelectionDTO selection) {
+        List<Object> input = new ArrayList();
+        input.add(compDTO.getColumnName());
+        switch (compDTO.getCaseNo()) {
+            case NumericConstants.ONE:
+                input.add(compDTO.getItemStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getItemStartDate())) : null);
+                break;
+            case NumericConstants.TWO:
+                input.add(compDTO.getItemEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getItemEndDate())) : null);
+                break;
+            case NumericConstants.THREE:
+                input.add(compDTO.getPriceToleranceType() != null ? compDTO.getPriceToleranceType().getId() : null);
+                break;
+            case NumericConstants.FOUR:
+                input.add(compDTO.getCpStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getCpStartDate())) : null);
+                break;
+            case NumericConstants.FIVE:
+                input.add(compDTO.getCpEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getCpEndDate())) : null);
+                break;
+            case NumericConstants.SIX:
+                input.add(compDTO.getStatus() != null ? compDTO.getStatus().getId() : null);
+                break;
+            case NumericConstants.SEVEN:
+                input.add(compDTO.getPriceTolerance() != null && !compDTO.getPriceTolerance().isEmpty() ? compDTO.getPriceTolerance() : null);
+                break;
+            case NumericConstants.EIGHT:
+                input.add(compDTO.getPriceProtectionStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getPriceProtectionStartDate())) : null);
+                break;
+            case NumericConstants.NINE:
+                input.add(compDTO.getPriceProtectionEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getPriceProtectionEndDate())) : null);
+                break;
+            case NumericConstants.TEN:
+                input.add(compDTO.getPriceToleranceType() != null ? compDTO.getPriceToleranceType().getId() : null);
+                break;
+            case NumericConstants.ELEVEN:
+                input.add(compDTO.getPriceToleranceInterval() != null ? compDTO.getPriceToleranceInterval().getId() : null);
+                break;
+            case NumericConstants.TWELVE:
+                input.add(compDTO.getPriceToleranceFrequency() != null ? compDTO.getPriceToleranceFrequency().getId() : null);
+                break;
+            case NumericConstants.THIRTEEN:
+                input.add(compDTO.getBasePrice() != null && !compDTO.getBasePrice().isEmpty() ? compDTO.getBasePrice() : null);
+                break;
+            case NumericConstants.FOURTEEN:
+                input.add(compDTO.getStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getStartDate())) : null);
+                break;
+            case NumericConstants.FIFTEEN:
+                input.add(compDTO.getPrice() != null && !compDTO.getPrice().isEmpty() ? compDTO.getPrice() : null);
+                break;
+            case NumericConstants.SIXTEEN:
+                input.add(compDTO.getEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getEndDate())) : null);
+                break;
+            case NumericConstants.SEVENTEEN:
+                input.add(compDTO.getCheckRecord() ? 1 : 0);
+                break;
+            case NumericConstants.EIGHTEEN:
+                input.add(compDTO.getContractPrice() != null && !compDTO.getContractPrice().isEmpty() ? compDTO.getContractPrice() : null);
+                break;
+            case NumericConstants.NINETEEN:
+                input.add(compDTO.getRSStartDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getRSStartDate())) : null);
+                break;
+            case NumericConstants.TWENTY:
+                input.add(compDTO.getRSEndDate() != null ? setQuotes(CommonUtils.DBDate.format(compDTO.getRSEndDate())) : null);
+                break;
+            case NumericConstants.TWENTY_ONE:
+                input.add(compDTO.getRebateAmount() != null && !compDTO.getRebateAmount().isEmpty() ? compDTO.getRebateAmount() : null);
+                break;
+            case NumericConstants.TWENTY_TWO:
+                input.add(compDTO.getFormulaMethodId() != null && !compDTO.getFormulaMethodId().isEmpty() ? compDTO.getFormulaMethodId() : null);
+                break;
+            case NumericConstants.TWENTY_THREE:
+                input.add(compDTO.getTempSid() != null && compDTO.getTempSid() != 0 ? compDTO.getTempSid() : null);
+                break;
+            case NumericConstants.TWENTY_FOUR:
+                input.add(compDTO.getTempSid() != null && compDTO.getTempSid() != 0 ? compDTO.getTempSid() : null);
+                break;
+        }
+
+        if (!selection.isIsContractUpdate()) { // Condition check for identification of - For check record =1 update values
+            input.add(compDTO.getContractMasterSid());
+            input.add(compDTO.getCfpContractSid());
+            input.add(compDTO.getIfpConteractSid());
+            input.add(compDTO.getPsContractSid());
+            input.add(compDTO.getRsContractSid());
+            input.add(selection.getSessionId());
+            if (!selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+                input.add(compDTO.getProjectionId());
+                input.add(compDTO.getItemMasterSid());
+            }
+
+            if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
+                if (compDTO.getTransferScreenName().equals(ConstantsUtil.CURRENT_COONTRACT)) {
+                    input.add(ConstantsUtil.CURRENT_COONTRACT);
+                } else {
+                    input.add(ConstantsUtil.TRANSFER_CONTRACT);
+                }
+            } else if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                if (compDTO.getTransferScreenName().equals(ConstantsUtil.CURRENT_COONTRACT)) {
+                    input.add(ConstantsUtil.CURRENT_COONTRACT);
+                } else {
+                    input.add(ConstantsUtil.TRANSFER_CONTRACT);
+                }
+            } else {
+                input.add(selection.getButtonMode());
+            }
+        } else {
+            if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                if (compDTO.getTransferScreenName().equals(ConstantsUtil.CURRENT_COONTRACT)) {
+                    input.addAll(getCurrentInput(selection));
+                } else {
+                    input.addAll(getTransferInput(selection));
+                }
+            } else {
+                input.addAll(getResultsInput(selection));
+            }
+        }
+
+        return input;
+    }
+
+    public boolean getItemDetails(AddItemTableDTO dto, SelectionDTO selection) {
+        Boolean isUpdated = ItemQueries.itemUpdate(getEditedInput(dto, selection), "Abstract Data update");
+        return isUpdated;
+    }
+
+    private List getEditedInput(AddItemTableDTO dto, SelectionDTO selection) {
+        List<Object> input = new ArrayList();
+        input.add(dto.getColumnName());
+        switch (dto.getCaseNo()) {
+            case NumericConstants.ONE:
+                input.add(dto.getItemStartDate() != null ? CommonUtils.DBDate.format(dto.getItemStartDate()) : null);
+                break;
+            case NumericConstants.TWO:
+                input.add(dto.getItemEndDate() != null ? CommonUtils.DBDate.format(dto.getItemEndDate()) : null);
+                break;
+            case NumericConstants.THREE:
+                input.add(dto.getPriceToleranceType() != null ? dto.getPriceToleranceType() : null);
+                break;
+            case NumericConstants.FOUR:
+                input.add(dto.getCpStartDate() != null ? CommonUtils.DBDate.format(dto.getCpStartDate()) : null);
+                break;
+            case NumericConstants.FIVE:
+                input.add(dto.getCpEndDate() != null ? CommonUtils.DBDate.format(dto.getCpEndDate()) : null);
+                break;
+            case NumericConstants.SIX:
+                input.add(dto.getStatus() != null ? dto.getStatus().getId() : null);
+                break;
+            case NumericConstants.SEVEN:
+                input.add(dto.getPriceTolerance() != null && !dto.getPriceTolerance().isEmpty() ? dto.getPriceTolerance() : null);
+                break;
+            case NumericConstants.EIGHT:
+                input.add(dto.getPriceProtectionStartDate() != null ? CommonUtils.DBDate.format(dto.getPriceProtectionStartDate()) : null);
+                break;
+            case NumericConstants.NINE:
+                input.add(dto.getPriceProtectionEndDate() != null ? CommonUtils.DBDate.format(dto.getPriceProtectionEndDate()) : null);
+                break;
+            case NumericConstants.TEN:
+                input.add(dto.getPriceToleranceType() != null ? dto.getPriceToleranceType().getId() : null);
+                break;
+            case NumericConstants.ELEVEN:
+                input.add(dto.getPriceToleranceInterval() != null ? dto.getPriceToleranceInterval() : null);
+                break;
+            case NumericConstants.TWELVE:
+                input.add(dto.getPriceToleranceFrequency() != null ? dto.getPriceToleranceFrequency() : null);
+                break;
+            case NumericConstants.THIRTEEN:
+                input.add(dto.getBasePrice() != null && !dto.getBasePrice().isEmpty() ? dto.getBasePrice() : null);
+                break;
+            case NumericConstants.FOURTEEN:
+                input.add(dto.getStartDate() != null ? CommonUtils.DBDate.format(dto.getStartDate()) : null);
+                break;
+            case NumericConstants.FIFTEEN:
+                input.add(dto.getPrice() != null ? dto.getPrice() : null);
+                break;
+            case NumericConstants.SIXTEEN:
+                input.add(dto.getEndDate() != null ? CommonUtils.DBDate.format(dto.getEndDate()) : null);
+                break;
+            case NumericConstants.SEVENTEEN:
+                input.add(dto.getCheckRecord() != null ? dto.getCheckRecord() : null);
+                break;
+            case NumericConstants.EIGHTEEN:
+                input.add(dto.getRSStartDate() != null ? CommonUtils.DBDate.format(dto.getRSStartDate()) : null);
+                break;
+            case NumericConstants.NINETEEN:
+                input.add(dto.getRSEndDate() != null ? CommonUtils.DBDate.format(dto.getRSEndDate()) : null);
+                break;
+            case NumericConstants.TWENTY:
+                input.add(dto.getRebateAmount() != null ? dto.getRebateAmount() : null);
+                break;
+            case NumericConstants.TWENTY_ONE:
+                input.add(dto.getFormulaMethodId() != null ? dto.getFormulaMethodId() : null);
+                break;
+
+        }
+
+        input.add(dto.getContractSid());
+        input.add(dto.getCfpContractSid());
+        input.add(dto.getIfpConteractSid());
+        input.add(dto.getPsContractSid());
+        input.add(dto.getRsContractSid());
+        input.add(selection.getSessionId());
+        input.add(selection.getButtonMode());
+        return input;
+    }
+
+    public Boolean massUpdateItemDetails(final List input) {
+        Boolean isUpdated = ItemQueries.itemUpdate(input, "Abstract Mass update");
+        return isUpdated;
+    }
+
+    private List getInput(SelectionDTO selection, AddItemTableDTO binderDto) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(selection.getButtonMode());
+        if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
+            input.add(binderDto.getContractNo_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getContractName_SID() != null && !binderDto.getContractName_SID().isEmpty()) {
+            input.add(binderDto.getContractName_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getContractHolder_SID() != null && !binderDto.getContractHolder_SID().isEmpty()) {
+            input.add(binderDto.getContractHolder_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getStartDate() != null) {
+            input.add(" AND ( cm.START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getItemStartDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+
+        if (binderDto.getEndDate() != null) {
+            input.add(" AND ( CM.END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+
+        if (binderDto.getMarketType_DTO() != null) {
+            input.add(binderDto.getMarketType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+
+        if (binderDto.getCfp_SID() != null && !binderDto.getCfp_SID().isEmpty()) {
+            input.add(binderDto.getCfp_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
+            input.add(binderDto.getCustomer_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
+            input.add(binderDto.getCustomer_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+
+        if (binderDto.getIfp_SID() != null && !binderDto.getIfp_SID().isEmpty()) {
+            input.add(binderDto.getIfp_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getPs_SID() != null && !binderDto.getPs_SID().isEmpty()) {
+            input.add(binderDto.getPs_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getRs_SID() != null && !binderDto.getRs_SID().isEmpty()) {
+            input.add(binderDto.getRs_SID().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        StringBuilder sql = AbstractFilter.getInstance().contractfilterQueryGenerator(selection.getFilters());
+        if (!(sql == null)) {
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        return input;
+    }
+
+    public List<AbstractContractSearchDTO> getContractResults(SelectionDTO selection,int start, int offset, List input) {
+        input.add(start);
+        input.add(offset);
+        List<Object[]> list = ItemQueries.getItemData(input, selection.getDataQueryName(), null);
+        if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+            return setContractDetailsData(list, selection, input.get(NumericConstants.TWO).toString());
+        } else {
+            return setContractDetailsData(list, selection, input.get(1).toString());
+        }
+    }
+
+    public int getContractCount(SelectionDTO selection, List input) {
+        List<Object[]> list = ItemQueries.getItemData(input, selection.getCountQueryName(), null);
+        Object obj = list.isEmpty() ? 0 : list.get(0);
+        int count = obj == null ? 0 : (Integer) obj;
+        return count;
+    }
+
+    public static List getIfpIdsWithAllItems(List input, String queryName) {
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
+        List l = new ArrayList();
+        for (Object[] str : list) {
+            l.add(String.valueOf(str[1]));
+        }
+        return l;
+    }
+
+    public static List getcancelRemoveInput(SelectionDTO selection, SummaryDTO tableValue) {
+        List input = new ArrayList();
+        input.add(selection.getSessionId());
+        input.add(tableValue.getContractSid());
+        input.add(tableValue.getIfpSid());
+        input.add(tableValue.getCfpSid());
+        input.add(tableValue.getPsSid());
+        input.add(tableValue.getRsSid());
+        return input;
+    }
+
+    public void checkAllInsert(boolean checked, SelectionDTO selection) {
+        List input = new ArrayList();
+        if (checked) {
+            input.add(1);
+        } else {
+            input.add(0);
+        }
+        input.addAll(AbstractLogic.getResultsInput(selection));
+        ItemQueries.itemUpdate(input, "Check All contract");
+    }
+
+    /**
+     * Abtsract lookup count
+     *
+     * @param binderDto
+     * @param selection
+     * @param filters
+     * @return int
+     */
+    public int getLookUpSearchCount(ComponentLookUpDTO binderDto, SelectionDTO selection) {
+        List<Object[]> list = getLookUpRecords(binderDto, selection, selection.getCountQueryName());
+        Object obj = list.get(0);
+        int count = obj == null ? 0 : (Integer) obj;
+        return count;
+    }
+
+    /**
+     * Get Input
+     *
+     * @param binderDto
+     * @param selection
+     * @return
+     */
+    private List getCFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
+        final List input = new ArrayList();
+        if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
+            input.add(binderDto.getComponentId().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
+            input.add(binderDto.getComponentName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+
+        if (binderDto.getCategory() != null && !binderDto.getCategory().isEmpty()) {
+            input.add(binderDto.getCategory().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getStartDate() != null) {
+            input.add(" AND ( CC.CFP_START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+
+        if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
+            input.add(binderDto.getComponentNo().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
+            input.add(binderDto.getComponentType().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+
+        if (binderDto.getComponentStatus_DTO() != null) {
+            input.add(binderDto.getComponentStatus_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getEndDate() != null) {
+            input.add(" AND ( CC.CFP_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        StringBuilder sql = AbstractFilter.getInstance().lookUpfilterQueryGenerator(Constants.CFP, selection.getFilters());
+        if (sql != null) {
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        if (binderDto.isIsCount()) {
+            input.add(binderDto.getStartIndex());
+            input.add(binderDto.getEndIndex());
+        }
+        return input;
+    }
+
+    /**
+     * Get Input
+     *
+     * @param binderDto
+     * @param selection
+     * @return
+     */
+    private List getIFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
+        final List input = new ArrayList();
+        if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
+            input.add(binderDto.getComponentName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
+            input.add(binderDto.getComponentNo().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
+            input.add(binderDto.getComponentType().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentStatus_DTO() != null) {
+            input.add(binderDto.getComponentStatus_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getCategory() != null && !binderDto.getCategory().isEmpty()) {
+            input.add(binderDto.getCategory().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getStartDate() != null) {
+            input.add(" AND ( IFP_C.IFP_START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        if (binderDto.getEndDate() != null) {
+            input.add(" AND ( IFP_C.IFP_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        StringBuilder sql = AbstractFilter.getInstance().lookUpfilterQueryGenerator(Constants.IFP, selection.getFilters());
+        if (sql != null) {
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        if (binderDto.isIsCount()) {
+            input.add(binderDto.getStartIndex());
+            input.add(binderDto.getEndIndex());
+        }
+        return input;
+    }
+
+    /**
+     * Get Input
+     *
+     * @param binderDto
+     * @param selection
+     * @return
+     */
+    private List getPSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
+        final List input = new ArrayList();
+        if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
+            input.add(binderDto.getComponentName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
+            input.add(binderDto.getComponentNo().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
+            input.add(binderDto.getComponentType().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentStatus_DTO() != null) {
+            input.add(binderDto.getComponentStatus_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getCategory() != null && !binderDto.getCategory().isEmpty()) {
+            input.add(binderDto.getCategory().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getStartDate() != null) {
+            input.add(" AND ( PS_C.PS_START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        if (binderDto.getEndDate() != null) {
+            input.add(" AND ( PS_C.PS_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        StringBuilder sql = AbstractFilter.getInstance().lookUpfilterQueryGenerator(Constants.PS, selection.getFilters());
+        if (sql != null) {
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        if (binderDto.isIsCount()) {
+            input.add(binderDto.getStartIndex());
+            input.add(binderDto.getEndIndex());
+        }
+        return input;
+    }
+
+    /**
+     * Get Input
+     *
+     * @param binderDto
+     * @param selection
+     * @return
+     */
+    private List getRSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
+        final List input = new ArrayList();
+        if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
+            input.add(binderDto.getComponentId().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
+            input.add(binderDto.getComponentNo().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
+            input.add(binderDto.getComponentName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getRsProgramType_DTO() != null) {
+            input.add(binderDto.getRsProgramType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
+            input.add(binderDto.getComponentType().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentStatus_DTO() != null) {
+            input.add(binderDto.getComponentStatus_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getComponentCategory_DTO() != null) {
+            input.add(binderDto.getComponentCategory_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (binderDto.getStartDate() != null) {
+            input.add(" AND ( RS_C.RS_START_DATE  >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        if (binderDto.getEndDate() != null) {
+            input.add(" AND ( RS_C.RS_END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+        } else {
+            input.add(" ");
+        }
+        StringBuilder sql = AbstractFilter.getInstance().lookUpfilterQueryGenerator(Constants.RS, selection.getFilters());
+        if (sql != null) {
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        if (binderDto.isIsCount()) {
+            input.add(binderDto.getStartIndex());
+            input.add(binderDto.getEndIndex());
+        }
+        return input;
+    }
+
+    /**
+     * Results method for Lookup abstract
+     *
+     * @param binderDto
+     * @param selection
+     * @return
+     */
+    public List getLookUpSearchResults(ComponentLookUpDTO binderDto, SelectionDTO selection) {
+        List<Object[]> list = getLookUpRecords(binderDto, selection, selection.getDataQueryName());
+        List<ComponentLookUpDTO> resultList = new ArrayList<ComponentLookUpDTO>();
+        if (selection.getOperation().equals(Constants.CFP)) {
+            resultList = setCFPLookUpData(list);
+        } else if (selection.getOperation().equals(Constants.IFP)) {
+            resultList = setIFPLookUpData(list);
+        } else if (selection.getOperation().equals(Constants.PS)) {
+            resultList = setPSLookUpData(list);
+        } else if (selection.getOperation().equals(Constants.RS)) {
+            resultList = setRSLookUpData(list);
+        }
+        return resultList;
+    }
+
+    /**
+     * Common customization
+     *
+     * @param binderDto
+     * @param selection
+     * @param queryName
+     * @return list of object
+     */
+    private List<Object[]> getLookUpRecords(ComponentLookUpDTO binderDto, SelectionDTO selection, String queryName) {
+        List input = new ArrayList();
+        if (selection.getOperation().equals(Constants.CFP)) {
+            input = getCFPLookUpInput(binderDto, selection);
+        } else if (selection.getOperation().equals(Constants.IFP)) {
+            input = getIFPLookUpInput(binderDto, selection);
+        } else if (selection.getOperation().equals(Constants.PS)) {
+            input = getPSLookUpInput(binderDto, selection);
+        } else if (selection.getOperation().equals(Constants.RS)) {
+            input = getRSLookUpInput(binderDto, selection);
+        }
+        List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
+        return list;
+    }
+
+    /**
+     * Set Data
+     *
+     * @param list
+     * @return
+     */
+    private List setCFPLookUpData(List<Object[]> list) {
+        List finalResult = new ArrayList();
+        for (Object[] str : list) {
+            ComponentLookUpDTO dto = new ComponentLookUpDTO();
+            dto.setComponentId(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentNo(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentName(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setComponentType(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setCategory(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setDesignation(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setPlanId(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setPlanName(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
+            dto.setTradeClass(ObjNullCheck(str[NumericConstants.NINE]) ? StringUtils.EMPTY : (String) str[NumericConstants.NINE]);
+            dto.setStartDate(ObjNullCheck(str[NumericConstants.TEN]) ? null : (Date) str[NumericConstants.TEN]);
+            dto.setEndDate(ObjNullCheck(str[NumericConstants.ELEVEN]) ? null : (Date) str[NumericConstants.ELEVEN]);
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    /**
+     * Set Data
+     *
+     * @param list
+     * @return
+     */
+    private List setIFPLookUpData(List<Object[]> list) {
+        List finalResult = new ArrayList();
+        for (Object[] str : list) {
+            ComponentLookUpDTO dto = new ComponentLookUpDTO();
+            dto.setComponentNo(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentName(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentType(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setCategory(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setDesignation(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setPlanId(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setPlanName(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setStartDate(ObjNullCheck(str[NumericConstants.EIGHT]) ? null : (Date) str[NumericConstants.EIGHT]);
+            dto.setEndDate(ObjNullCheck(str[NumericConstants.NINE]) ? null : (Date) str[NumericConstants.NINE]);
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    /**
+     * Set Data
+     *
+     * @param list
+     * @return
+     */
+    private List setPSLookUpData(List<Object[]> list) {
+        List finalResult = new ArrayList();
+        for (Object[] str : list) {
+            ComponentLookUpDTO dto = new ComponentLookUpDTO();
+            dto.setComponentNo(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentName(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentType(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setCategory(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setTradeClass(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setDesignation(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setPlanId(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setPlanName(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
+            dto.setStartDate(ObjNullCheck(str[NumericConstants.NINE]) ? null : (Date) str[NumericConstants.NINE]);
+            dto.setEndDate(ObjNullCheck(str[NumericConstants.TEN]) ? null : (Date) str[NumericConstants.TEN]);
+
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    /**
+     * Set Data
+     *
+     * @param list
+     * @return
+     */
+    private List setRSLookUpData(List<Object[]> list) {
+        List finalResult = new ArrayList();
+        for (Object[] str : list) {
+            ComponentLookUpDTO dto = new ComponentLookUpDTO();
+            dto.setComponentId(ObjNullCheck(str[0]) ? StringUtils.EMPTY : (String) str[0]);
+            dto.setComponentNo(ObjNullCheck(str[1]) ? StringUtils.EMPTY : (String) str[1]);
+            dto.setComponentName(ObjNullCheck(str[NumericConstants.TWO]) ? StringUtils.EMPTY : (String) str[NumericConstants.TWO]);
+            dto.setComponentType(ObjNullCheck(str[NumericConstants.THREE]) ? StringUtils.EMPTY : (String) str[NumericConstants.THREE]);
+            dto.setRsProgramType(ObjNullCheck(str[NumericConstants.FOUR]) ? StringUtils.EMPTY : (String) str[NumericConstants.FOUR]);
+            dto.setCategory(ObjNullCheck(str[NumericConstants.FIVE]) ? StringUtils.EMPTY : (String) str[NumericConstants.FIVE]);
+            dto.setTradeClass(ObjNullCheck(str[NumericConstants.SIX]) ? StringUtils.EMPTY : (String) str[NumericConstants.SIX]);
+            dto.setDesignation(ObjNullCheck(str[NumericConstants.SEVEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.SEVEN]);
+            dto.setPlanId(ObjNullCheck(str[NumericConstants.EIGHT]) ? StringUtils.EMPTY : (String) str[NumericConstants.EIGHT]);
+            dto.setPlanName(ObjNullCheck(str[NumericConstants.NINE]) ? StringUtils.EMPTY : (String) str[NumericConstants.NINE]);
+            dto.setComponentStatus(ObjNullCheck(str[NumericConstants.TEN]) ? StringUtils.EMPTY : (String) str[NumericConstants.TEN]);
+            dto.setStartDate(ObjNullCheck(str[NumericConstants.ELEVEN]) ? null : (Date) str[NumericConstants.ELEVEN]);
+            dto.setEndDate(ObjNullCheck(str[NumericConstants.TWELVE]) ? null : (Date) str[NumericConstants.TWELVE]);
+            finalResult.add(dto);
+        }
+        return finalResult;
+    }
+
+    public static Boolean ObjNullCheck(Object obj) {
+        if (obj == null || Constants.NULL.equals(obj) || Constants.SELECT_ONE.contains(String.valueOf(obj))) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+
+    public static void loaDDLB(final ComboBox comboBox, String columnName, String tableName, Boolean isFilter, String queryName) {
+        comboBox.setPageLength(NumericConstants.SEVEN);
+        BeanItemContainer<HelperDTO> container = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        comboBox.setContainerDataSource(container);
+        if (isFilter) {
+            comboBox.setNullSelectionItemId(ddlbShowAllValue);
+        } else {
+            comboBox.setNullSelectionItemId(ddlbDefaultValue);
+        }
+        comboBox.setNullSelectionAllowed(true);
+        comboBox.setImmediate(true);
+        comboBox.setItemCaptionPropertyId("description");
+        comboBox.addItems(getDDLBList(columnName, tableName, isFilter, queryName));
+    }
+
+    public static List getDDLBList(String columnName, String tableName, Boolean isFilter, String queryName) {
+        String comboboxName = tableName + "-" + columnName;
+        if (ddlbMap.get(comboboxName) == null) {
+            List input = new ArrayList();
+            input.add(tableName);
+            input.add(columnName);
+            List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
+            List<HelperDTO> resultList = new ArrayList<HelperDTO>();
+            if (isFilter) {
+                HelperDTO defaultValue = new HelperDTO(0, Constants.SHOW_ALL);
+                resultList.add(defaultValue);
+            } else {
+                HelperDTO defaultValue = new HelperDTO(0, IndicatorConstants.SELECT_ONE.getConstant());
+                resultList.add(defaultValue);
+            }
+
+            for (Object[] str : list) {
+                if (!str[1].equals(String.valueOf(IndicatorConstants.SELECT_ONE.getConstant()))) {
+                    HelperDTO dto = new HelperDTO();
+                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
+                    resultList.add(dto);
+                }
+            }
+
+            ddlbMap.put(comboboxName, resultList);
+            return resultList;
+        }
+
+        return ddlbMap.get(comboboxName);
+    }
+
+    public static Object getItemName(List<ItemIndexDto> itemList) {
+        List itemIdList = new ArrayList();
+        for (ItemIndexDto dto : itemList) {
+            itemIdList.add(dto.getItemName());
+        }
+        return CommonUtils.getListToString(itemIdList);
+    }
+
+    public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
+        Connection connection = null;
+        DataSource datasource;
+        CallableStatement statement = null;
+        ResultSet rs = null;
+        List<Object[]> objectList = new ArrayList<Object[]>();
+        try {
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            if (datasource != null) {
+                connection = datasource.getConnection();
+            }
+            if (connection != null) {
+                String procedureToCall = "{call " + procedureName;
+                int noOfArgs = orderedArgs.length;
+                for (int i = 0; i < noOfArgs; i++) {
+                    if (i == 0) {
+                        procedureToCall += "(";
+                    }
+                    procedureToCall += "?,";
+                    if (i == noOfArgs - 1) {
+                        procedureToCall += ")";
+                    }
+                }
+                procedureToCall = procedureToCall.replace(",)", ")");
+                procedureToCall += "}";
+                statement = connection.prepareCall(procedureToCall);
+                for (int i = 0; i < noOfArgs; i++) {
+                    statement.setObject(i + 1, orderedArgs[i]);
+                }
+                rs = statement.executeQuery();
+
+                objectList = convertResultSetToList(rs);
+
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+           
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                 LOGGER.error(e);
+            }
+            try {
+                statement.close();
+            } catch (Exception e) {
+                 LOGGER.error(e);
+            }
+            try {
+                connection.close();
+
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+            try {
+                System.gc();
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+        return objectList;
+    }
+
+    private static List<Object[]> convertResultSetToList(ResultSet rs) {
+        List<Object[]> objList = new ArrayList<Object[]>();
+
+        try {
+            ResultSetMetaData rsMetaData = rs.getMetaData();
+            int columnCount = rsMetaData.getColumnCount();
+            Object[] header = new Object[columnCount];
+            for (int i = 1; i <= columnCount; ++i) {
+                Object label = rsMetaData.getColumnLabel(i);
+                header[i - 1] = label;
+            }
+            while (rs.next()) {
+                Object[] str = new Object[columnCount];
+                for (int i = 1; i <= columnCount; ++i) {
+                    Object obj = rs.getObject(i);
+                    str[i - 1] = obj;
+                }
+                objList.add(str);
+            }
+        } catch (Exception ex) {
+             LOGGER.error(ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                 LOGGER.error(ex);
+            }
+        }
+        return objList;
+    }
+
+    /**
+     * Date check
+     *
+     * @param dto
+     * @param selection
+     * @param columnName
+     * @return Date
+     */
+    public Date getStartDateCheck(final AbstractContractSearchDTO dto, final SelectionDTO selection, final String columnName) {
+        selection.setIsContractUpdate(false);
+        List input = getEditedItemInput(dto, selection);
+        input.remove(0);
+        input.add(0, columnName);
+        String query = "endDateBeforeStartDate";
+        if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
+            query = "endDateBeforeStartDateAdd";
+        }
+        List<Object[]> list = ItemQueries.getItemData(input, query, null);
+        Date startDate = null;
+        if (!list.isEmpty()) {
+            Object obj = list.get(0);
+            startDate = obj == null ? null : (Date) obj;
+        }
+        return startDate;
+    }
+
+    private String setQuotes(String date) {
+        return CommonUtils.QUOTES + date + CommonUtils.QUOTES;
+    }
+
+    /**
+     * Load history.
+     *
+     * @param frequency the frequency
+     * @return the list
+     */
+    public static final List<String> loadHistory(String frequency, String period) {
+        List<String> history = new ArrayList<String>();
+        int endValue = 0;
+        String freq = StringUtils.EMPTY;
+        if (ANNUALLY.equals(frequency)) {
+            endValue = NumericConstants.THREE;
+            freq = YEARS.getConstant();
+        } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
+
+            endValue = NumericConstants.SIX;
+            freq = SEMI_ANNUAL.getConstant();
+        } else if (QUARTERLY.equals(frequency)) {
+
+            endValue = NumericConstants.TWELVE;
+            freq = QUARTERS.getConstant();
+        } else if (MONTHLY.getConstant().equals(frequency)) {
+
+            endValue = NumericConstants.THIRTY_SIX;
+            freq = MONTHS.getConstant();
+        }
+
+        for (int i = 1; i <= endValue; i++) {
+            if ((i == 1) && (QUARTERS.getConstant().equals(freq) || MONTHS.getConstant().equals(freq) || YEARS.getConstant().equals(freq))) {
+                period = freq.replace("s", StringUtils.EMPTY);
+                history.add(String.valueOf(i) + SPACE + period);
+            } else {
+                history.add(String.valueOf(i) + SPACE + freq);
+            }
+        }
+
+        return history;
+    }
+
+    public ComboBox loadComboBox(final ComboBox select,
+            String listName, boolean isFilter) {
+        select.removeAllItems();
+        final HelperDTO defaultValue = new HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
+        select.setValidationVisible(true);
+        select.setImmediate(true);
+        select.setNullSelectionAllowed(true);
+        select.setNullSelectionItemId(defaultValue);
+        select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
+        select.setData(listName);
+        List<HelperDTO> helperList = new ArrayList<HelperDTO>();
+        helperList.add(defaultValue);
+        BeanItemContainer<HelperDTO> resultContainer = new BeanItemContainer<HelperDTO>(HelperDTO.class);
+        if (helperListUtil.getListNameMap().get(listName) != null) {
+            helperList.addAll(helperListUtil.getListNameMap().get(listName));
+        }
+        resultContainer.addAll(helperList);
+        select.setContainerDataSource(resultContainer);
+        select.select(defaultValue);
+        select.markAsDirty();
+        select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+        select.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
+                    select.select(defaultValue);
+                }
+                select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
+            }
+        });
+        return select;
+    }
+}

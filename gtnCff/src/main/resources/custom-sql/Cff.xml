@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<custom-sql>
+    
+    <sql id="loadLatestCCP">
+      <![CDATA[
+            ;WITH CTE
+                  AS (SELECT Row_number()OVER(PARTITION BY CCP_DETAILS_SID ORDER BY WM.CREATED_DATE DESC) RN,
+                             WORKFLOW_MASTER_SID,
+                             WORKFLOW_ID,
+                             WM.PROJECTION_MASTER_SID,
+                             PM.PROJECTION_NAME,
+                             PM.FORECASTING_TYPE,
+                             CCP_DETAILS_SID,
+                             WORKFLOW_STATUS=HT.[DESCRIPTION],
+                             APPROVED_BY,
+                             WM.MODIFIED_DATE,
+                             WM.CREATED_BY,
+                             WM.CREATED_DATE
+                      FROM   PROJECTION_MASTER PM, WORKFLOW_MASTER WM
+                             INNER JOIN PROJECTION_DETAILS PD
+                                     ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                             INNER JOIN HELPER_TABLE HT
+                                     ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                      WHERE  HT.[DESCRIPTION] = 'Approved' and PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID)
+              SELECT DISTINCT WORKFLOW_MASTER_SID,
+                    WORKFLOW_ID,
+                    PROJECTION_MASTER_SID,
+                    PROJECTION_NAME,
+                    FORECASTING_TYPE,
+                    WORKFLOW_STATUS,
+                    APPROVED_BY,
+                    MODIFIED_DATE,
+                    CREATED_BY,
+                    CREATED_DATE
+              FROM  CTE
+              WHERE  RN = 1
+        ]]>        
+    </sql>
+    
+    <sql id="getCffDetails">
+        <![CDATA[
+                select DISTINCT WM.WORKFLOW_MASTER_SID,
+                    WM.WORKFLOW_ID,
+                    PM.PROJECTION_MASTER_SID,
+                    PM.PROJECTION_NAME,
+                    PM.FORECASTING_TYPE,
+                    WM.WORKFLOW_STATUS_ID,
+                    WM.APPROVED_BY,
+                    WM.MODIFIED_DATE,
+                    WM.CREATED_BY,
+                    WM.CREATED_DATE
+               from PROJECTION_MASTER PM, WORKFLOW_MASTER WM,CFF_DETAILS CD
+               where CD.PROJECTION_MASTER_SID=WM.PROJECTION_MASTER_SID AND CD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+        ]]> 
+    </sql>
+    
+    <sql id="saveCffResults">
+		<![CDATA[
+                
+        ;WITH CTE
+                  AS (SELECT Row_number()OVER(PARTITION BY CCP_DETAILS_SID ORDER BY WM.CREATED_DATE DESC) RN,
+                             WORKFLOW_MASTER_SID,
+                             WORKFLOW_ID,
+                             WM.PROJECTION_MASTER_SID,
+                             PM.PROJECTION_NAME,
+                             PM.FORECASTING_TYPE,
+                             CCP_DETAILS_SID,
+                             WORKFLOW_STATUS=HT.[DESCRIPTION],
+                             APPROVED_BY,
+                             WM.MODIFIED_DATE,
+                             WM.CREATED_BY,
+                             WM.CREATED_DATE
+                      FROM   PROJECTION_MASTER PM, WORKFLOW_MASTER WM
+                             INNER JOIN PROJECTION_DETAILS PD
+                                     ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                             INNER JOIN HELPER_TABLE HT
+                                     ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                      WHERE  HT.[DESCRIPTION] = 'Approved' and PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID)
+              SELECT CCP_DETAILS_SID,
+                    PROJECTION_MASTER_SID 
+              FROM  CTE
+              WHERE  RN = 1
+
+    ]]> 
+    </sql>
+    <sql id="getCffSearchResults">
+        <![CDATA[
+           ;WITH CFF
+   AS (SELECT cm.CFF_MASTER_SID,
+            cff_name,
+            cff_type= ht.description,
+            rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+            approval_status= h.DESCRIPTION,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            cm.inbound_status,
+            CM.CREATED_DATE,
+            cm.CREATED_BY,
+            h.description
+            FROM   cff_master cm
+                INNER JOIN CFF_APPROVAL_DETAILS cad
+                           ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                INNER JOIN helper_table ht
+                           ON cm.CFF_TYPE = ht.helper_table_sid
+                INNER JOIN HELPER_TABLE h
+                           ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS),
+                Pagination
+        AS (SELECT CFF_MASTER_SID,
+            cff_name,
+            cff_type,
+            approval_status,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            inbound_status,
+            CREATED_DATE,
+            description
+            pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+            FROM   CFF
+            WHERE  rn = 1)
+      SELECT CFF_MASTER_SID,
+                   cff_name,
+                   cff_type,
+                   approval_status,
+                   APPROVED_DATE,
+                   APPROVED_BY,
+                   ACTIVE_FROM_DATE,
+                   ACTIVE_TO_DATE,
+                   inbound_status,
+                   CREATED_DATE,
+                   description
+         FROM   Pagination where inbound_status <> 'D'
+         AND CFF_MASTER_SID like '?' 
+         AND  CFF_NAME like '?' AND CFF_TYPE like '?' AND APPROVAL_STATUS like '?'
+         AND CREATED_DATE >= '?' AND  CREATED_DATE <= '?' AND  APPROVED_DATE >= '?'
+         AND  APPROVED_DATE <= '?' ORDER BY  ? OFFSET ?  
+         ROWS FETCH NEXT ? ROWS ONLY
+
+        ]]>
+    </sql>
+    <sql id="getPriorName">
+        <![CDATA[
+                SELECT CM.CFF_MASTER_SID,CM.CFF_TYPE,CM.CFF_NAME,htable.DESCRIPTION from CFF_MASTER CM 
+                LEFT JOIN CFF_DETAILS CD on CM.CFF_MASTER_SID=CD.CFF_MASTER_SID
+                LEFT JOIN CFF_APPROVAL_DETAILS CAD on CAD.CFF_MASTER_SID=CM.CFF_MASTER_SID
+                LEFT JOIN HELPER_TABLE HTABLE on HTABLE.HELPER_TABLE_SID=CAD.APPROVAL_STATUS
+                WHERE HTABLE.DESCRIPTION like 'Approved' AND            
+        ]]> 
+    </sql>
+    <sql id="getCffSearchCount">
+        <![CDATA[
+            ;WITH CFF
+   AS (SELECT cm.CFF_MASTER_SID,
+            cff_name,
+            cff_type= ht.description,
+            rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+            approval_status= h.DESCRIPTION,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            cm.inbound_status,
+            CM.CREATED_DATE,
+            cm.CREATED_BY
+            FROM   cff_master cm
+                INNER JOIN CFF_APPROVAL_DETAILS cad
+                           ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                INNER JOIN helper_table ht
+                           ON cm.CFF_TYPE = ht.helper_table_sid
+                INNER JOIN HELPER_TABLE h
+                           ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS),
+                Pagination
+        AS (SELECT CFF_MASTER_SID,
+            cff_name,
+            cff_type,
+            approval_status,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            inbound_status,
+            CREATED_DATE,
+            pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+            FROM   CFF
+            WHERE  rn = 1)
+    SELECT distinct count(CFF_MASTER_SID)
+    FROM   Pagination where inbound_status <> 'D' AND CFF_MASTER_SID like '?' 
+    AND  CFF_NAME like '?' AND CFF_TYPE like '?' AND APPROVAL_STATUS like '?'
+    AND CREATED_DATE >= '?' AND  CREATED_DATE <= '?' AND  APPROVED_DATE >= '?'
+    AND  APPROVED_DATE <= '?'
+        ]]>
+    </sql>
+    
+    <sql id="getLastApprovedCFF">
+            <![CDATA[ 
+                     ;WITH CFF
+                 AS (SELECT cm.CFF_MASTER_SID,
+                         cff_name,
+                         cff_type= ht.description,
+                         rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+                         approval_status= h.DESCRIPTION,
+                         APPROVED_DATE,
+                         APPROVED_BY,
+                         ACTIVE_FROM_DATE,
+                         ACTIVE_TO_DATE,
+                         cm.inbound_status
+
+                         FROM   cff_master cm
+                             INNER JOIN CFF_APPROVAL_DETAILS cad
+                                        ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                             INNER JOIN helper_table ht
+                                        ON cm.CFF_TYPE = ht.helper_table_sid
+                             INNER JOIN HELPER_TABLE h
+                                        ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS
+                             WHERE  h.[DESCRIPTION] = 'Approved'),
+                            Pagination 
+                     AS (SELECT CFF_MASTER_SID,
+                         cff_name,
+                         cff_type,
+                         approval_status,
+                         APPROVED_DATE,
+                         APPROVED_BY,
+                         ACTIVE_FROM_DATE,
+                         ACTIVE_TO_DATE,
+                         inbound_status,
+                         pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+                         FROM   CFF
+                         WHERE  rn = 1)
+                 SELECT CFF_MASTER_SID,
+                        APPROVED_DATE,
+                        inbound_status
+
+                 FROM   Pagination where inbound_status <> 'D' ORDER BY APPROVED_DATE DESC
+
+            ]]>
+    </sql>
+    
+     <sql id="saveCffMaster">
+    <![CDATA[
+    INSERT INTO dbo.CFF_MASTER (CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,
+    CUSTOMER_HIER_VERSION_NO, COMPANY_GROUP_SID, CUSTOMER_HIERARCHY_INNER_LEVEL, CUST_RELATIONSHIP_BUILDER_SID, COMPANY_MASTER_SID, PRODUCT_HIERARCHY_SID,
+    PRODUCT_HIERARCHY_LEVEL, PRODUCT_HIER_VERSION_NO, ITEM_GROUP_SID, PRODUCT_HIERARCHY_INNER_LEVEL, PROD_RELATIONSHIP_BUILDER_SID, INBOUND_STATUS, CREATED_BY,
+    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE) VALUES ('@CFF_TYPE','@CFF_NAME','@ACTIVE_FROM_DATE', '@ACTIVE_TO_DATE', '@CFF_OFFICIAL',
+    '@CUSTOMER_HIERARCHY_SID', '@CUSTOMER_HIERARCHY_LEVEL', '@CUSTOMER_HIER_VERSION_NO', '@COMPANY_GROUP_SID',
+    '@CUSTOMER_HIERARCHY_INNER_LEVEL', '@CUST_RELATIONSHIP_BUILDER_SID', '@COMPANY_MASTER_SID', '@PRODUCT_HIERARCHY_SID',
+    '@PRODUCT_HIERARCHY_LEVEL', '@PRODUCT_HIER_VERSION_NO', '@ITEM_GROUP_SID', '@PRODUCT_HIERARCHY_INNER_LEVEL',
+    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE') 
+    
+      ]]> 
+    </sql>
+    
+</custom-sql>

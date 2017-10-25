@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel xmlns:p="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:b="urn:import:org.asi.ui.customtextfield">
+    <VerticalLayout margin="true" spacing="true" >
+        <p:ErrorLabel id="errorMsg"/>
+        <Panel caption="Search Criteria">
+            <VerticalLayout  id="searchLayout" styleName = "bootstrap-search-criteria">
+                <HorizontalLayout spacing="true" styleName="responsiveTabGrid" >
+                    <CssLayout immediate="true" width="100%" height="100%">
+                        <Label id="label1"  contentMode="HTML" />
+                        <TextField id="text1" immediate="true" inputPrompt="" />
+                        <Label id="label2" contentMode="HTML" />
+                        <TextField id="text2" immediate="true" inputPrompt="" />
+                        <Label id="label3" contentMode="HTML" />
+                        <TextField id="text3" immediate="true" inputPrompt="" />
+                        <Label id="label4" contentMode="HTML" />
+                        <ComboBox id="combo1" immediate="true" nullSelectionAllowed="true" inputPrompt="-Select One-" />
+                        <Label id="label5" contentMode="HTML" />
+                        <ComboBox id="combo2" immediate="true" nullSelectionAllowed="true" inputPrompt="-Select One-" />
+                        <Label id="label6" contentMode="HTML" />
+                        <TextField id="text4" immediate="true" inputPrompt="" />
+                        <Label id="label7" contentMode="HTML" />
+                        <b:CustomTextField id="text5" styleName="searchicon" inputPrompt="" readOnly="true"/>
+                    </CssLayout>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true" margin="false" styleName="responsiveTabGrid" >
+            <CssLayout immediate="true" width="100%" height="100%">
+                <Button id="searchBtn" caption="SEARCH" immediate="true"/>
+                <Button id="resetBtn" caption="RESET" immediate="true" />
+            </CssLayout>
+        </HorizontalLayout>
+<!--        <HorizontalLayout styleName="prev-next-layout">
+            <Button id="prevColumn" caption="&lt;&lt;" immediate="true" styleName="prev-column-button"/>
+            <Button id="nextColumn"  caption="&gt;&gt;" immediate="true" styleName="next-column-button" />
+        </HorizontalLayout>-->
+            
+        <Panel caption="Results"  >
+            <VerticalLayout id="tableLayout">
+                <HorizontalLayout id="controlLayout"/>
+            </VerticalLayout>      
+        </Panel>
+        <HorizontalLayout spacing="true" margin="false" styleName="responsiveTabGrid" >
+            <CssLayout immediate="true" width="100%" height="100%">
+                <Button id="addBtn" caption="ADD" immediate="true"/>
+                <Button id="editBtn" caption="EDIT" immediate="true" />
+                <Button id="viewBtn" caption="VIEW" immediate="true" />
+                <Button id="excel" immediate="true" primaryStyleName="link" />
+            </CssLayout>
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

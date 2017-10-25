@@ -1,0 +1,38 @@
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+    <VerticalLayout margin="true" spacing = "true" width="100%" height="100%">
+        <Panel caption = "Adjustment Type" width="100%" height="100%">
+            <HorizontalLayout spacing="true" id="fieldLayout" margin="true" immediate="true">
+                <GridLayout spacing="true" id="searchLayout" immediate="true" columns="6" rows="2">
+                    <Label id="labelMode" value="Mode" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="modeDdlb" enable="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelTransName" value="Adjustment Type Name" immediate="true" styleName="label-margin-top-size" />
+                    <TextField id="transactionName" enable="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelTransDesc" value="Adjustment Type Desc" immediate="true" styleName="label-margin-top-size" />
+                    <TextField id="transactionDesc" enabled="true" immediate="true" width="205px"/>
+            
+                    <Label id="labelMethodology" value="Methodology" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="methodology" enable="true" immediate="true" width="205px"/>
+          
+                    <Label id="labelredemptionPeriod" value="Redemption Period" immediate="true" styleName="label-margin-top-size" />
+                    <ComboBox id="redemptionPeriod" enable="true" immediate="true" width="205px"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="resetBtnRes" caption="RESET" />
+        </HorizontalLayout>
+        <Panel caption="Results" width="100%" height="100%">
+            <VerticalLayout  id="resultsTableLayoutRes" width="100%" height="100%">
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout id="searchFormLayoutRes"  width="100%" spacing="true">
+            <Button id="deleteBtnRes" caption="DELETE" />
+            <Button id="saveBtnRes" caption="SAVE" />
+            <Button id="historyBtn" caption="HISTORY" />
+            <Button id="excelBtnRes" />
+        </HorizontalLayout>
+       
+    </VerticalLayout>
+</Panel>

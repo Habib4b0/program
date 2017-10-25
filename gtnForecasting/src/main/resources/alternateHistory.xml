@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<VerticalLayout spacing="true">
+
+    <TabSheet id="tabSheet" immediate="true">
+
+    </TabSheet>
+    <HorizontalLayout spacing="true" margin="true">
+        <Button id="previousBtn" caption="PREVIOUS" />
+        <Button id="nextBtn" caption="NEXT" />
+        <Button id="closeBtn" caption="CLOSE" />
+        <Button id="populateBtn" caption="POPULATE" />
+    </HorizontalLayout>
+</VerticalLayout>

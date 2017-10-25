@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To change this template, choose Tools | Templates and open the template 
+in the editor. -->
+
+<Panel xmlns:table="urn:import:org.asi.ui.extfilteringtable"
+       xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield"
+       id="mainPanel">
+    <VerticalLayout id="globalChangeVerticalLayout-item"
+                    spacing="true" margin="true" immediate="true" styleName = "width-auto">
+        <Panel id="itemSearch" caption="Item Search" width="100%" styleName="adjustCaption">
+            <VerticalLayout id="globalChangeVerticalLayout"
+                            spacing="true" margin="true" immediate="true">
+                <Panel id="itemSearch1"  width="100%" styleName="adjustCaption">
+                    <HorizontalLayout id="horizontalLayout" spacing="true"
+                                      margin="true" immediate="true">
+                        <GridLayout spacing="true" id="itemSearchGrid"
+                                    immediate="true" columns="10" rows="3" styleName = "forecast-tab">
+                            <Label caption="Item ID: " contentMode="HTML" />
+                            <TextField id="itemId" immediate="true" width="180px"/>
+                            <Label caption="Item Name: " contentMode="HTML" />
+                            <TextField id="itemName" immediate="true"  width="180px" />
+                            <Label caption="Therapeutic Class: " contentMode="HTML" />
+                            <ComboBox id="therapeuticClass" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Form: " contentMode="HTML" />
+                            <ComboBox id="form" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Identifier Type:" contentMode="HTML" />
+                            <ComboBox id="identifierType" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Item No: " contentMode="HTML" />
+                            <TextField id="itemNo" immediate="true"  width="180px"/>
+                            <Label caption="Item Desc: " contentMode="HTML" />
+                            <TextField id="itemDesc" immediate="true"  width="180px"/>
+                            <Label caption="Brand:" contentMode="HTML" />
+                            <ComboBox id="brand" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Strength:" contentMode="HTML" />
+                            <ComboBox id="strength" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Identifier: " contentMode="HTML" />
+                            <TextField id="identifier" immediate="true"  width="180px"/>
+                            <Label caption="Company:" contentMode="HTML" />
+                            <ComboBox id="company" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Place Holder:" contentMode="HTML" />
+                            <ComboBox id="placeHolder" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="NDC 9: " contentMode="HTML" />
+                            <TextField id="ndc9" immediate="true"  width="180px"/>
+                            <Label caption="Item Category:" contentMode="HTML" />
+                            <ComboBox id="itemCategory" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                            <Label caption="Item Type:" contentMode="HTML" />
+                            <ComboBox id="itemType" nullSelectionAllowed="true"
+                                      styleName="comboxsize" immediate="true" />
+                        </GridLayout>
+
+                    </HorizontalLayout>
+                </Panel>
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="searchBtn" immediate="true" caption="SEARCH" />
+                    <Button id="resetBtn" immediate="true" caption="RESET" />
+                </HorizontalLayout>
+                <VerticalLayout id="tableLayout" caption="Results"
+                                spacing="true" width="100%">
+                    <!--                    <a:ExtFilterTable id="itemResults" styleName="table-header-normal"
+                    immediate="true" selectable="true" />-->
+                </VerticalLayout>
+                 <Button id="excelBtn" immediate="true" caption="" />
+                <HorizontalLayout>
+                    <Button id="tableReset" immediate="true" caption="RESET" />
+                    <Button id="addBtn" immediate="true" caption="ADD" />
+                    <Button id="editBtn" immediate="true" caption="EDIT" />
+                    <Button id="deleteBtn" immediate="true" caption="DELETE" />
+                    <Button id="transferBtn" immediate="true" caption="TRANSFER" />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

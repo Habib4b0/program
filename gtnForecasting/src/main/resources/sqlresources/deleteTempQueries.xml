@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="nm.dleteTemp">
+        <query> 
+            <![CDATA[
+            
+                DELETE FROM dbo.ST_NM_SALES_PROJECTION WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                DELETE FROM dbo.ST_NM_ACTUAL_SALES WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                DELETE FROM dbo.ST_NM_SALES_PROJECTION_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+            
+                DELETE FROM dbo.ST_NM_PPA_PROJECTION WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                DELETE FROM dbo.ST_NM_ACTUAL_PPA WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                DELETE FROM dbo.ST_NM_PPA_PROJECTION_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                
+                DELETE FROM dbo.ST_NM_DISCOUNT_PROJECTION WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                DELETE FROM dbo.ST_NM_ACTUAL_DISCOUNT WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                DELETE FROM dbo.ST_NM_DISCOUNT_PROJ_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                
+                DELETE FROM dbo.ST_NM_ASSUMPTIONS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+           ]]>
+        </query> 
+    </entity> 
+    <entity id="m.dleteTemp">
+        <query> 
+            <![CDATA[
+                              
+                 DELETE FROM dbo.ST_M_SALES_PROJECTION WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_M_ACTUAL_SALES WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_M_SALES_PROJECTION_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_M_SUPPLEMENTAL_DISC_ACTUALS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_M_SUPPLEMENTAL_DISC_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_M_SUPPLEMENTAL_DISC_PROJ WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_M_ASSUMPTIONS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+           ]]>
+        </query> 
+    </entity> 
+    <entity id="returns.dleteTemp">
+        <query> 
+            <![CDATA[
+                        
+                 DELETE FROM dbo.ST_RETURNS_PROJ_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_RETURNS_PROJ_DETAILS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+                 DELETE FROM dbo.ST_RETURNS_ACTUALS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+           ]]>
+        </query> 
+    </entity> 
+    <entity id="accural.dleteTemp">
+        <query> 
+            <![CDATA[
+                               
+               DELETE FROM dbo.ST_RETURNS_PROJ_MASTER WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_RETURNS_PROJ_DETAILS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_RETURNS_ACTUALS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_ACCRUAL_DETAILS_ACTUALS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_ACCRUAL_DETAILS_INFO WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_ACCRUAL_SALES_ACTUALS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_ACCRUAL_SALES_DETAILS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+               DELETE FROM dbo.ST_EXCLUSION_DETAILS WHERE USER_ID=?UID? and LAST_MODIFIED_DATE < DATEADD(hh,-?TIME?,GETDATE());
+           ]]>
+        </query> 
+    </entity>
+     
+    <entity id="Drop.DynamicTempTables">
+        <query> 
+            <![CDATA[
+     DECLARE @SQL        VARCHAR(MAX)='',
+        @USER    INT=@USER_ID,
+        @SESSION VARCHAR(100)='@SESSION_ID'
+
+SET @SQL = (SELECT Concat('DROP TABLE ', Quotename(Upper(NAME)), '; ')
+            FROM   SYS.TABLES
+            WHERE  NAME LIKE Concat('ST_%', @USER, '_', @SESSION, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
+            FOR XML PATH (''))
+--select @sql
+EXEC( @SQL ) 
+   ]]>
+        </query> 
+    </entity>
+    
+</sql>

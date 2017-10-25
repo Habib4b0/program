@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+<entity id="mandated-sales-projections-query-new">
+    <query>
+        <![CDATA[
+            IF Object_id('TEMPDB..#ST_M_SALES_PROJECTION') IS NOT NULL
+            DROP TABLE #ST_M_SALES_PROJECTION
+
+            SELECT SHN.HIERARCHY_NO,           
+                   P."YEAR" ,
+                   P.@FRE@ ,
+                   SUM(MSP.PROJECTION_SALES) AS PROJECTION_SALES ,
+                   SUM(MSP.PROJECTION_UNITS) AS PROJECTION_UNITS ,
+                   AVG(MSP.ACCOUNT_GROWTH) AS ACCOUNT_GROWTH ,
+                   AVG(MSP.PRODUCT_GROWTH) AS PRODUCT_GROWTH ,
+                   COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT INTO #ST_M_SALES_PROJECTION
+            FROM #SELECTED_HIERARCHY_NO SHN
+            JOIN ST_M_SALES_PROJECTION MSP ON MSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+            JOIN PERIOD P ON P.PERIOD_SID = MSP.PERIOD_SID    
+            GROUP BY SHN.HIERARCHY_NO,             
+                     P."YEAR",
+                     P.@FRE@;
+
+            IF Object_id('TEMPDB..#ST_M_ACTUAL_SALES') IS NOT NULL
+            DROP TABLE #ST_M_ACTUAL_SALES
+            SELECT SHN.HIERARCHY_NO,
+                   P."YEAR",
+                   P.@FRE@,
+                   Sum(MSP.ACTUAL_SALES) AS ACTUAL_SALES,
+                   Sum(MSP.ACTUAL_UNITS) AS ACTUAL_UNITS INTO #ST_M_ACTUAL_SALES
+            FROM #SELECTED_HIERARCHY_NO SHN
+            JOIN ST_M_ACTUAL_SALES MSP ON MSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+            JOIN PERIOD P ON P.PERIOD_SID = MSP.PERIOD_SID    
+            GROUP BY SHN.HIERARCHY_NO,             
+                     P."YEAR",
+                     P.@FRE@;
+
+
+
+            SELECT MAINQ.YEARS,
+	           MAINQ.PERIODS,
+	           MAINQ.actualsales,
+	           MAINQ.projection_sales,
+	           MAINQ.actualunits,
+                   MAINQ.projection_units,
+                   MAINQ.Flag
+            FROM
+              (SELECT Q.projection_sales,
+			Q.projection_units,
+			Q.actualsales,
+			Q.actualunits,
+			Q.YEARS,
+			Q.PERIODS,
+                        Q.Flag,
+                      Dense_rank() OVER(
+                                        ORDER BY Q.HIERARCHY_NO ASC) AS TEMP_INDEX
+               FROM
+                 (SELECT '0' AS PROJECTION_SALES,
+					'0' AS PROJECTION_UNITS,
+					MAS.ACTUAL_SALES AS actualSales,
+					MAS.ACTUAL_UNITS AS actualUnits,
+					"YEAR" AS YEARS,
+					@FRE@ AS PERIODS,
+					MAS.HIERARCHY_NO,
+                                        'ACT' as Flag
+                  FROM #ST_M_ACTUAL_SALES MAS
+                  UNION ALL SELECT MSP.PROJECTION_SALES,
+					MSP.PROJECTION_UNITS,
+					'0' AS ACTUAL_SALES,
+					'0' AS ACTUAL_UNITS,
+					"YEAR" AS YEARS,
+					@FRE@ AS PERIODS,
+					MSP.HIERARCHY_NO,
+                                        'PROJ' as Flag
+                  FROM #ST_M_SALES_PROJECTION MSP
+                  ) Q) MAINQ
+            ORDER BY 
+                    MAINQ.YEARS,
+                    MAINQ.PERIODS;
+            ]]>
+        </query>
+    </entity>
+    <entity id="mandated-sales-projections-query-new-annual">
+    <query>
+        <![CDATA[
+            IF Object_id('TEMPDB..#ST_M_SALES_PROJECTION') IS NOT NULL
+            DROP TABLE #ST_M_SALES_PROJECTION
+
+            SELECT SHN.HIERARCHY_NO,           
+                   P."YEAR" ,
+                  
+                   SUM(MSP.PROJECTION_SALES) AS PROJECTION_SALES ,
+                   SUM(MSP.PROJECTION_UNITS) AS PROJECTION_UNITS ,
+                   AVG(MSP.ACCOUNT_GROWTH) AS ACCOUNT_GROWTH ,
+                   AVG(MSP.PRODUCT_GROWTH) AS PRODUCT_GROWTH ,
+                   COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT INTO #ST_M_SALES_PROJECTION
+            FROM #SELECTED_HIERARCHY_NO SHN
+            JOIN ST_M_SALES_PROJECTION MSP ON MSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+            JOIN PERIOD P ON P.PERIOD_SID = MSP.PERIOD_SID    
+            GROUP BY SHN.HIERARCHY_NO,             
+                     P."YEAR";
+
+            IF Object_id('TEMPDB..#ST_M_ACTUAL_SALES') IS NOT NULL
+            DROP TABLE #ST_M_ACTUAL_SALES
+            SELECT SHN.HIERARCHY_NO,
+                   P."YEAR",
+                   
+                   Sum(MSP.ACTUAL_SALES) AS ACTUAL_SALES,
+                   Sum(MSP.ACTUAL_UNITS) AS ACTUAL_UNITS INTO #ST_M_ACTUAL_SALES
+            FROM #SELECTED_HIERARCHY_NO SHN
+            JOIN ST_M_ACTUAL_SALES MSP ON MSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
+            JOIN PERIOD P ON P.PERIOD_SID = MSP.PERIOD_SID    
+            GROUP BY SHN.HIERARCHY_NO,             
+                     P."YEAR";
+
+
+
+            SELECT MAINQ.YEARS,
+	           MAINQ.PERIODS,
+	           MAINQ.actualsales,
+	           MAINQ.projection_sales,
+	           MAINQ.actualunits,
+                   MAINQ.projection_units,
+                   MAINQ.Flag
+            FROM
+              (SELECT Q.projection_sales,
+			Q.projection_units,
+			Q.actualsales,
+			Q.actualunits,
+			Q.YEARS,
+			Q.PERIODS,
+                        Q.Flag,
+                      Dense_rank() OVER(
+                                        ORDER BY Q.HIERARCHY_NO ASC) AS TEMP_INDEX
+               FROM
+                 (SELECT '0' AS PROJECTION_SALES,
+					'0' AS PROJECTION_UNITS,
+					MAS.ACTUAL_SALES AS actualSales,
+					MAS.ACTUAL_UNITS AS actualUnits,
+					"YEAR" AS YEARS,
+					@FRE@ AS PERIODS,
+					MAS.HIERARCHY_NO,
+                                         'ACT'  as Flag
+                  FROM #ST_M_ACTUAL_SALES MAS
+                  UNION ALL SELECT MSP.PROJECTION_SALES,
+					MSP.PROJECTION_UNITS,
+					'0' AS ACTUAL_SALES,
+					'0' AS ACTUAL_UNITS,
+					"YEAR" AS YEARS,
+					@FRE@ AS PERIODS,
+					MSP.HIERARCHY_NO,
+                                        'PROJ' as Flag
+                  FROM #ST_M_SALES_PROJECTION MSP
+                  ) Q) MAINQ
+            ORDER BY 
+                    MAINQ.YEARS,
+                    MAINQ.PERIODS;
+            ]]>
+        </query>
+    </entity>
+  </sql>

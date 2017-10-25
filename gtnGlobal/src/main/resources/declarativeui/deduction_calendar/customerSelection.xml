@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<VerticalLayout margin="true"  spacing="true" immediate="true" width="100%" height="100%"  
+                xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.customcombobox"      
+                xmlns:a="urn:import:org.asi.ui.extfilteringtable" >
+
+    <Panel caption="Customer Search" id = "customerSearchPanel">
+        <VerticalLayout margin="true" immediate="true">
+            <HorizontalLayout immediate="true" styleName="responsiveTabGrid">
+                <CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
+                    <Label id="customerNoLb" value="Customer No"  contentMode="HTML" immediate="true"/>
+                    <TextField id="customerNo" enabled="true" immediate="true" />
+                    <Label id="tradeClassLb" value="Trade Class"  contentMode="HTML" immediate="true"/>
+                    <ComboBox id="tradeClassDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" /> 
+                    <Label id="customerStatusLb" value="Customer Status" contentMode="HTML"  />
+                    <ComboBox id="customerStatusDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" /> 
+                    <Label id="stateLb" value="State"  contentMode="HTML" immediate="true"/>
+                    <TextField id="state" enabled="true" immediate="true" />
+                    <Label id="customerNameLb" value="Customer Name" contentMode="HTML" immediate="true"/>
+                    <TextField id="customerName" enabled="true" immediate="true" />                     
+                    <Label id="customerTypeLb" value="Customer Type" contentMode="HTML"  />
+                    <ComboBox id="customerTypeDdlb" nullSelectionAllowed="false" inputPrompt="-Select One" immediate="true" />                      
+                    <Label id="cityLb" value="City"  contentMode="HTML" immediate="true"/>
+                    <TextField id="city" enabled="true" immediate="true" />                     
+                    <Label id="zipcodeLb" value="Zip Code"  contentMode="HTML" immediate="true"/>
+                    <TextField id="zipCode" enabled="true" immediate="true" /> 
+                </CssLayout>
+            </HorizontalLayout>
+        </VerticalLayout>                       
+    </Panel>
+    <HorizontalLayout id = "searchHLayout" spacing="true" margin="false" styleName="responsiveTabGrid" >
+        <CssLayout immediate="true" width="100%" height="100%">
+            <Button id="searchBtn" caption="SEARCH" immediate="true"/>  
+            <Button id="resetBtn" caption="RESET" immediate="true" />       
+        </CssLayout>
+    </HorizontalLayout>
+    <Panel caption="Results" id="availableResultsTablePanel" spacing="true" >
+            <!--<a:ExtFilterTable id="availableCustomersTable" selectable="true" immediate="true" />-->
+            <VerticalLayout id="availResultsTableLayout" margin = "true" spacing = "true" />
+    </Panel>
+    <HorizontalLayout id="includeButtonLayout" spacing="true" margin="false" styleName="responsiveTabGrid" >
+        <Button id="addBtn" caption="ADD" immediate="true"/>
+        <Button id="addallBtn" caption="ADD ALL" immediate="true" />
+        <Button id="availableExportBtn" caption="" immediate="true" />
+    </HorizontalLayout>
+    <Panel caption="Selected Customers" id="selectedResultsTablePanel" spacing="true" height = "630px" >
+         <VerticalLayout id="selectedResultsTableLayout" margin = "true" spacing = "true" />
+<!--        <VerticalLayout spacing="true" margin="true">
+            <a:ExtFilterTable id="selectedCustomersTable" selectable="true" immediate="true" />
+        </VerticalLayout>-->
+    </Panel>
+    <HorizontalLayout id="excludeButtonLayout" spacing="true" margin="false" styleName="responsiveTabGrid" >
+        <Button id="removeBtn" caption="REMOVE" immediate="true"/>
+        <Button id="removeallBtn" caption="REMOVE ALL" immediate="true" />
+        <Button id="selectedExportBtn" caption="" immediate="true" />
+    </HorizontalLayout>
+</VerticalLayout>

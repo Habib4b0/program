@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             version="2.0">  
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>ActualsMaster</portlet-name>
+        <display-name>ActualsMaster</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Actual Master</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>GLBalanceMaster</portlet-name>
+        <display-name>GL Balance Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.transactional.glbalance.ui.GLBalanceUI</value>-->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>GLBalanceMaster</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>CPI Master</portlet-name>
+        <display-name>CPI Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>CPI Master</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+
+    </portlet>
+
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>GlCostCenterMaster</portlet-name>
+        <display-name>Gl Cost Center Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>GlCostCenterMaster</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <!-- Added by Mani -->
+    <portlet>
+        <description>Portlet for Sales Master</description>
+        <portlet-name>SalesMaster</portlet-name>
+        <display-name>SalesMaster</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.transactional.sales.ui.SalesUI</value>-->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Sales Master</title>
+            <short-title>Sales Master</short-title>
+            <keywords>sales</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>AverageShelfLife</portlet-name>
+        <display-name>AverageShelfLife</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>AverageShelfLife</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>ItemHierarchy</portlet-name>
+        <display-name>ItemHierarchy</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>ItemHierarchy</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <!-- Added by Mani -->
+    <!-- Start of code by Mani -->
+    <portlet>
+        <description>Forecast Sales</description>
+        <portlet-name>ForecastSales</portlet-name>
+        <display-name>ForecastSales</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>ForecastSales</title>
+            <short-title>Forecast Sales</short-title>
+            <keywords>Forecast Sales</keywords>
+        </portlet-info>
+    </portlet>
+    <!-- End of code by Mani -->
+
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>ItemHierarchyDefinition</portlet-name>
+        <display-name>ItemHierarchyDefinition</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Item Hierarchy Definition</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>LotMaster</portlet-name>
+        <display-name>LotMaster</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>LotMaster</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Write here a short description about your portlet.</description>
+        <portlet-name>MasterDataAttributeMaster</portlet-name>
+        <display-name>MasterDataAttributeMaster</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <!--<value>com.stpl.app.application.MyVaadinPortlet</value> -->
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>MasterDataAttributeMaster</title>
+            <short-title>Portlet Short Title</short-title>
+            <keywords>put keywords here</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>BestPrice Interface</description>
+        <portlet-name>BestPrice</portlet-name>
+        <display-name>BestPrice</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>BestPrice</title>
+            <short-title>Best Price</short-title>
+            <keywords>BestPrice</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>FormulaDetails Interface</description>
+        <portlet-name>FormulaDetails</portlet-name>
+        <display-name>FormulaDetails</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>FormulaDetails</title>
+            <short-title>Formula Details</short-title>
+            <keywords>FormulaDetails</keywords>
+        </portlet-info>
+    </portlet>
+	
+    <portlet>
+        <description>Audit Inbound Interface</description>
+        <portlet-name>AuditInbound</portlet-name>
+        <display-name>AuditInbound</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>AuditInbound</title>
+            <short-title>Audit Inbound</short-title>
+            <keywords>AuditInbound</keywords>
+        </portlet-info>
+    </portlet>
+	
+    <portlet>
+        <description>Accrual Details</description>
+        <portlet-name>AccrualDetails</portlet-name>
+        <display-name>AccrualDetails</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Accrual Details</title>
+            <short-title>Accrual Details</short-title>
+            <keywords>AccrualDetails</keywords>
+        </portlet-info>
+    </portlet> 
+    <portlet>
+        <description>Invalid Record Count</description>
+        <portlet-name>InvalidRecordCount</portlet-name>
+        <display-name>InvalidRecordCount</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Invalid Record Count</title>
+            <short-title>InvalidRecordCount</short-title>
+            <keywords>InvalidRecordCount</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Demand</description>
+        <portlet-name>Demand</portlet-name>
+        <display-name>Demand</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Demand</title>
+            <short-title>Demand</short-title>
+            <keywords>Demand</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>InventoryWithdrawalSummary</description>
+        <portlet-name>InventoryWithdrawalSummary</portlet-name>
+        <display-name>InventoryWithdrawalSummary</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Inventory Withdrawal Summary</title>
+            <short-title>Inventory Withdrawal Summary</short-title>
+            <keywords>Inventory Withdrawal Summary</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Returns</description>
+        <portlet-name>Returns</portlet-name>
+        <display-name>Returns</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Returns</title>
+            <short-title>Returns</short-title>
+            <keywords>Returns</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Customer Sales</description>
+        <portlet-name>CustomerSales</portlet-name>
+        <display-name>CustomerSales</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>CustomerSales</title>
+            <short-title>Customer Sales</short-title>
+            <keywords>CustomerSales</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Actual GTS Customer Product</description>
+        <portlet-name>ActualGTSCustomerProduct</portlet-name>
+        <display-name>ActualGTSCustomerProduct</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>ActualGTSCustomerProduct</title>
+            <short-title>Actual GTS Customer Product</short-title>
+            <keywords>ActualGTSCustomerProduct</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Accural Rate Projection</description>
+        <portlet-name>AccrualRateProjection</portlet-name>
+        <display-name>AccrualRateProjection</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Accural Rate Projection</title>
+            <short-title>Accural Rate Projection</short-title>
+            <keywords>Accural Rate Projection</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+       
+        <description>Consolidated Financial Forecast</description>
+        <portlet-name>ConsolidatedFinancialForecast</portlet-name>
+        <display-name>ConsolidatedFinancialForecast</display-name>
+        
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>ConsolidatedFinancialForecast</title>
+            <short-title>Consolidated Financial Forecast</short-title>
+            <keywords>ConsolidatedFinancialForecast</keywords>
+        </portlet-info>
+    </portlet>
+    
+    <portlet>
+        <description>Global Files Item Identifier</description>
+        <portlet-name>Global Files Item Identifier</portlet-name>
+        <display-name>Global Files Item Identifier</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Item Identifier</title>
+            <short-title>Global Files Item Identifier</short-title>
+            <keywords>Global Files Item Identifier</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Global Files Item Pricing</description>
+        <portlet-name>Global Files Item Pricing</portlet-name>
+        <display-name>Global Files Item Pricing</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Item Pricing</title>
+            <short-title>Global Files Item Pricing</short-title>
+            <keywords>Global Files Item Pricing</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Global Files Company Identifier</description>
+        <portlet-name>Global Files Company Identifier</portlet-name>
+        <display-name>Global Files Company Identifier</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Company Identifier</title>
+            <short-title>Global Files Company Identifier</short-title>
+            <keywords>Global Files Company Identifier</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Global Files Company Parent</description>
+        <portlet-name>Global Files Company Parent</portlet-name>
+        <display-name>Global Files Company Parent</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Company Parent</title>
+            <short-title>Global Files Company Parent</short-title>
+            <keywords>Global Files Company Parent</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Global Files Company Trade Class</description>
+        <portlet-name>Global Files Company Trade Class</portlet-name>
+        <display-name>Global Files Company Trade Class</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Company Trade Class</title>
+            <short-title>Global Files Company Trade Class</short-title>
+            <keywords>Global Files Company Trade Class</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Global Files Item Master</description>
+        <portlet-name>Global Files Item Master</portlet-name>
+        <display-name>Global Files Item Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Item Master</title>
+            <short-title>Global Files Item Master</short-title>
+            <keywords>Global Files Item Master</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Global Files Company Master</description>
+        <portlet-name>Global Files Company Master</portlet-name>
+        <display-name>Global Files Company Master</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Global Files Company Master</title>
+            <short-title>Global Files Company Master</short-title>
+            <keywords>Global Files Company Master</keywords>
+        </portlet-info>
+    </portlet>
+     <portlet>
+        <description>Return Reserve Actual</description>
+        <portlet-name>ReturnReserveActual</portlet-name>
+        <display-name>ReturnReserveActual</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Return Reserve Actual</title>
+            <short-title>Return Reserve Actual</short-title>
+            <keywords>ReturnReserveActual</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Adjustment Details</description>
+        <portlet-name>AdjustmentDetails</portlet-name>
+        <display-name>AdjustmentDetails</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.transactional.common.ui.TransactionMgmtUI</value>
+
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Adjustment Details</title>
+            <short-title>Adjustment Details</short-title>
+            <keywords>AdjustmentDetails</keywords>
+        </portlet-info>
+    </portlet>
+</portlet-app>
+
+

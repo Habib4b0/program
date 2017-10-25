@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable"
+        xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
+        xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+    <VerticalLayout id="promoteTpToChVerticalLayout" spacing="true"
+                    margin="true" immediate="true" styleName = "width-auto">
+        
+        <Panel id="removeDiscountPanel1" caption="Search Criteria">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="8" rows="4">
+                    
+                    <Label caption="PS No: " contentMode="HTML" />
+                    <TextField id="psNo" inputPrompt="" immediate="true"/>
+                    <Label caption="PS Type: " contentMode="HTML" />
+                    <ComboBox id="psType" immediate="true" width="205px"/>
+                    <Label caption="PS Status: " contentMode="HTML" />
+                    <ComboBox id="psStatus" immediate="true" width="205px"/>
+                    <Label caption="PS End Date:" contentMode="HTML" />
+                    <PopupDateField id="psEndDate" inputPrompt="" />    
+                    
+                    <Label caption="PS Name: " contentMode="HTML" />
+                    <TextField id="psName" inputPrompt="" immediate="true"/>
+                     <Label caption="PS Category " contentMode="HTML" />
+                    <ComboBox id="psCategory" inputPrompt="" immediate="true" width="205px"/>              
+                    <Label caption="PS Start Date:" contentMode="HTML" />
+                    <PopupDateField id="psStartDate" inputPrompt="" /> 
+                                        
+                </GridLayout>                
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout >
+            <Button id="searchBtn" caption="SEARCH"  />
+            <Button id="resetBtn" caption="RESET"  />
+        </HorizontalLayout>
+        <Panel id="removeDiscountPanel2" caption="Results">
+            <VerticalLayout styleName="width-auto" >
+                <VerticalLayout id="psTableLayout"  immediate="true">
+                </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="true">
+                    <Button id="selectBtn" caption="SELECT"  />
+                    <Button id="closeBtn" caption="CLOSE"  />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

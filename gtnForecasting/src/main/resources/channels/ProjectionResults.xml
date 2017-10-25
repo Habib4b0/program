@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" id="mainPanel">
+    <VerticalLayout id="dsVerticalLayout" spacing="false"
+                    margin="true" immediate="true" styleName="forecast-projection-results forecast-tab-adjust">
+
+        <Panel id="panel1" styleName = "forecast-tab" caption="Projection Results Selection">
+            <VerticalLayout styleName = "width-auto"  margin="true">   
+                <GridLayout spacing="false" margin="false" id="dsLayout" immediate="true" columns="6" rows="2"  styleName="adjustCaption">
+                    <Label value="Frequency: " contentMode="HTML" />
+                    <ComboBox id="frequency" nullSelectionAllowed="true" immediate="true" styleName="comboxsize"/>
+                    <Label value="Sales/Units: " contentMode="HTML" immediate="true"/>
+                    <OptionGroup multiSelect="false" id="salesOrUnits" styleName="horizontal" enabled="true" immediate="true" />
+                    <Label value="Projection Period Order: " contentMode="HTML"  width = "165px" />
+                    <!--<HorizontalLayout width="200px">-->
+                        <OptionGroup multiSelect="false" id="periodOrder" styleName="horizontal" enabled="true" immediate="true" />
+                    <!--</HorizontalLayout>-->
+                    <Label value="History: " contentMode="HTML" />
+                    <ComboBox id="history" nullSelectionAllowed="true" immediate="true" styleName="comboxsize"/>
+                    <Label value="Actuals/Projections: " contentMode="HTML"  />
+                    <OptionGroup multiSelect="false" id="actualOrProj" styleName="horizontal" enabled="true" immediate="true" />
+                    <Label value="Pivot View: " contentMode="HTML" />
+                    <HorizontalLayout width="200px">
+                        <OptionGroup multiSelect="false" id="pivotView" styleName="horizontal" enabled="true" immediate="true"/>
+                    </HorizontalLayout>
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+        <Panel width="100%" styleName = "forecast-tab">
+            <VerticalLayout styleName = "width-auto"  margin="true">   
+                <GridLayout spacing="false" margin="false" immediate="true" columns="15" rows="1"  styleName="adjustCaption">
+                    <Button id="generateBtn" caption="GENERATE"></Button>
+                    <Button id="resetBtn" caption="RESET"></Button>
+                    <Label value="Level: " contentMode="HTML" />
+                    <ComboBox id="level" nullSelectionAllowed="true" styleName="comboxsize"/>
+                    <Button id="expandBtn" caption="EXPAND"></Button>
+                    <Button id="collapseBtn" caption="COLLAPSE"></Button>
+                    <Label value="Level Filter: " contentMode="HTML" />
+                    <ComboBox id="levelFilter" nullSelectionAllowed="true" immediate="true" styleName="comboxsize"/>
+                    <Label value="View: " contentMode="HTML" ></Label>
+                    <OptionGroup multiSelect="false" id="view" enabled="true" immediate="true"  styleName="horizontal" />
+                    <ComboBox id="customDdlb" nullSelectionAllowed="true" immediate="true" styleName="comboxsize"/>
+                    <Button id="newBtn" caption="NEW"></Button>
+                    <Button id="editBtn" caption="EDIT"></Button>
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+        <Panel caption="Period Pivot View" id="tablePanel">
+            <VerticalLayout id="verticalLayout" spacing="false"
+                            margin="false" immediate="true">
+                            <VerticalLayout id="tableVerticalLayout" spacing="false"
+                                    margin="false" immediate="true">
+                                    </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="false">
+                    <Button id="excelBtn" primaryStyleName="link"></Button>
+                    <Button id="graphBtn" primaryStyleName="link"></Button>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+	
+    </VerticalLayout>
+
+
+
+</Panel>

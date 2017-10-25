@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+    <!-- Portlet for NonMandated -->
+    <portlet>
+        <description>Commercial Portlet</description>
+        <portlet-name>Commercial</portlet-name>
+        <display-name>Commercial</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.gtnforecasting.ui.ForecastUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Commercial Forecasting</title>
+            <short-title>Commercial Forecasting</short-title>
+            <keywords>Commercial Forecasting</keywords>
+        </portlet-info>
+    </portlet>
+        
+    <portlet>
+        <description>Government</description>
+        <portlet-name>Government</portlet-name>
+        <display-name>Government</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.gtnforecasting.ui.ForecastUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Government Forecasting</title>
+            <short-title>Government Forecasting</short-title>
+            <keywords>Government</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Returns portlet</description>
+        <portlet-name>Returns</portlet-name>
+        <display-name>Returns</display-name>
+
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.gtnforecasting.ui.ForecastUI</value>
+        </init-param>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+
+
+        <portlet-info>
+            <title>Returns Forecasting</title>
+            <short-title>Returns Forecasting</short-title>
+            <keywords>Returns Forecasting</keywords>
+        </portlet-info>
+    </portlet>
+    
+    <portlet>
+        <description>Price Type Forecasting</description>
+        <portlet-name>PriceTypeForecasting</portlet-name>
+        <display-name>PriceTypeForecasting</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Price Type Forecasting</title>
+            <short-title>Price Type Forecasting</short-title>
+            <keywords>Price Type Forecasting</keywords>
+        </portlet-info>
+    </portlet>
+    <portlet>
+        <description>Accrual Rate Projection</description>
+        <portlet-name>AccrualRateProjection</portlet-name>
+        <display-name>Accrual Rate Projection</display-name>
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>UI</name>
+            <value>com.stpl.app.gtnforecasting.ui.ForecastUI</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Accrual Rate Projection Data Selection</title>
+            <short-title>Accrual Rate Projection Data Selection</short-title>
+            <keywords>Accrual Rate Projection</keywords>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:p="urn:import:com.stpl.app.gcm.ui.errorhandling">
+    <VerticalLayout spacing="true" margin="true" immediate="true">
+         <p:ErrorLabel id="errorMsg"/> 
+        <Panel caption="Search Criteria">
+                <HorizontalLayout spacing="true" margin="true" immediate="true">
+                    <GridLayout spacing="true"  columns="6" rows="6">
+                        <Label caption="Contract Holder: " contentMode="HTML" />
+                        <b:CustomTextField id="contractHolder" immediate="true" />
+                        <Label caption="Market Type: " contentMode="HTML" />
+                        <ComboBox id="marketType" immediate="true" width="205px"/>
+                        <Label caption="Company Family Plan: " contentMode="HTML" />
+                        <TextField id="companyFamilyPlan" immediate="true" />
+                        <Label caption="Contract No: " contentMode="HTML" />
+                        <TextField id="contractNo" immediate="true" />
+                        <Label caption="Start Date: " contentMode="HTML" />
+                        <PopupDateField id="startDate" immediate="true" />
+                        <Label caption="Item Family Plan: " contentMode="HTML" />
+                        <TextField id="itemFamilyPlan" immediate="true" />
+                        <Label caption="Contract Name: " contentMode="HTML" />
+                        <TextField id="contractName" immediate="true" />
+                        <Label caption="End Date: " contentMode="HTML" />
+                        <PopupDateField id="endDate" immediate="true" />
+                        <Label caption="Price Schedule: " contentMode="HTML" />
+                        <TextField id="priceSchedule" immediate="true" />
+                        <Label caption="Customer No: " contentMode="HTML" />
+                        <TextField id="customerNo" immediate="true" />
+                        <Label caption="Item No: " contentMode="HTML" />
+                        <TextField id="itemNo" immediate="true" />
+                        <Label caption="Rebate Schedule: " contentMode="HTML" />
+                        <TextField id="rebateSchedule" immediate="true" />
+                        <Label caption="Customer Name: " contentMode="HTML" />
+                        <TextField id="customerName" immediate="true" />
+                        <Label caption="Item Name: " contentMode="HTML" />
+                        <TextField id="itemName" immediate="true" />
+                        <Label caption="" contentMode="HTML" />
+                        <Label caption="" contentMode="HTML" />
+                        <VerticalLayout  spacing="true">
+                        <Button id="searchBtn" caption="SEARCH"  />
+                        </VerticalLayout>
+                    </GridLayout>
+                    <Panel  caption="Alias Details">
+                        <HorizontalLayout spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true"  columns="4" rows="2">
+                            <Label caption="Type: " contentMode="HTML" />
+                            <ComboBox id="aliasType" immediate="true" />
+                            <Label caption="Start Date: " contentMode="HTML" />
+                            <PopupDateField id="aliasStartDate" immediate="true" />
+                            <Label caption="Number: " contentMode="HTML" />
+                            <TextField id="aliasNumber" immediate="true" />
+                            <Label caption="End Date: " contentMode="HTML" />
+                            <PopupDateField id="aliasEndDate" immediate="true" />
+                        </GridLayout>
+                        </HorizontalLayout>
+                    </Panel>
+                </HorizontalLayout>
+        </Panel>
+        <Panel caption="Results">
+            <VerticalLayout  spacing="true" margin="true">
+                <table:ExtFilterTable id="resultTable" styleName="table-header-normal" pageLength="10"/>
+                <HorizontalLayout>
+                    <Button id="resetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
+                    <Button id="transferBtn" caption="TRANSFER" alignment="BOTTOM_LEFT" />  
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

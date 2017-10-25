@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+<gtnSSOConfig>
+	<ssotype>saml</ssotype> <!-- specify saml or spnego -->
+	<saml>
+		<idp.url>https://allergandev.okta.com/app/allergandev_bpitechnologies_1/exk1arab43x5QUKUE1d8/sso/saml</idp.url>
+		<issuer.public.cert>/opt/bpigtn/conf/okta-allergan.cert</issuer.public.cert>
+		<log.saml.response>true</log.saml.response>
+		<issuer>http://www.okta.com/exk1arab43x5QUKUE1d8</issuer>
+		<relaystate>BPIGTNRelay</relaystate>
+	</saml>
+
+</gtnSSOConfig>

@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+   
+    <entity id="get-data-for-rates-arp">
+        <query> 
+                    <![CDATA[
+        IF OBJECT_ID('TEMPDB..#TEMP_CAL') IS NOT NULL
+  DROP TABLE #TEMP_CAL
+
+	SELECT ITEM_MASTER_SID,ITEM_NO,ITEM_NAME,CCP_DETAILS_SID,
+			RS_MODEL_SID INTO #TEMP_CAL FROM(SELECT  IM.ITEM_MASTER_SID,ITEM_NO,ITEM_NAME,APD.CCP_DETAILS_SID,
+						APD.RS_MODEL_SID,DENSE_RANK() OVER(ORDER BY IM.ITEM_MASTER_SID  ) AS DN 
+	FROM ST_ACCRUAL_PROJ_DETAILS APD
+	JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = APD.CCP_DETAILS_SID
+		AND APD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+		JOIN ITEM_MASTER IM 
+		ON 
+		IM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID)A
+                WHERE DN BETWEEN case when @START<>0 then @START+1
+                else @START end AND @START+@OFFSET 
+	
+select NDC11,
+MONTH,
+YEAR,
+ACCRUAL_RATE,
+ACCRUAL_AMOUNT,
+ITEM_NAME
+from 
+(
+SELECT I.ITEM_NO AS NDC11
+	,P."MONTH" AS MONTH
+	,P."YEAR" AS YEAR
+	,SUM(ACCRUAL_RATE) * 100 AS ACCRUAL_RATE
+	,SUM(ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT
+        ,I.ITEM_NAME AS ITEM_NAME
+FROM 
+#TEMP_CAL I
+INNER JOIN 
+ ST_ACCRUAL_RATE_ACTUALS ARA ON 
+   I.CCP_DETAILS_SID = ARA.CCP_DETAILS_SID
+    AND I.RS_MODEL_SID = ARA.RS_MODEL_SID
+JOIN "PERIOD" P ON P.PERIOD_SID = ARA.PERIOD_SID
+	AND P.PERIOD_DATE >= '@START_TIME_STAMP'
+GROUP BY I.ITEM_NO,I.ITEM_NAME
+	,P."YEAR"
+	,P."MONTH"
+
+UNION ALL
+
+SELECT I.ITEM_NO AS NDC11
+	,P."MONTH" AS MONTH
+	,P."YEAR" AS YEAR
+	,SUM(ACCRUAL_RATE) * 100 AS ACCRUAL_RATE
+	,SUM(ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT
+        ,I.ITEM_NAME AS ITEM_NAME
+FROM 
+#TEMP_CAL I
+INNER JOIN 
+ ST_ACCRUAL_RATE_DETAILS ARA ON   
+I.CCP_DETAILS_SID = ARA.CCP_DETAILS_SID
+AND I.RS_MODEL_SID = ARA.RS_MODEL_SID
+JOIN "PERIOD" P ON P.PERIOD_SID = ARA.PERIOD_SID
+	AND P.PERIOD_DATE <= '@END_TIME_STAMP'
+GROUP BY I.ITEM_NO,I.ITEM_NAME
+	,P."YEAR"
+	,P."MONTH")a
+	order by NDC11,ITEM_NAME,year,month
+
+
+
+                    ]]>
+        </query>
+    </entity>
+    
+    <entity id="get-data-for-rates-arp-view">
+        <query> 
+                    <![CDATA[
+                            IF OBJECT_ID('TEMPDB..#TEMP_CAL') IS NOT NULL
+                      DROP TABLE #TEMP_CAL
+
+                            SELECT ITEM_MASTER_SID,ITEM_NO,ITEM_NAME,ACCRUAL_PROJ_DETAILS_SID INTO #TEMP_CAL FROM(SELECT  IM.ITEM_MASTER_SID,ITEM_NO,ITEM_NAME,ACCRUAL_PROJ_DETAILS_SID,DENSE_RANK() OVER(ORDER BY IM.ITEM_MASTER_SID  ) AS DN 
+                            FROM ACCRUAL_PROJ_DETAILS APD
+                            JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = APD.CCP_DETAILS_SID
+                                    AND APD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                    JOIN ITEM_MASTER IM 
+                                    ON 
+                                    IM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID)A
+                            WHERE DN BETWEEN @START AND @OFFSET
+
+                    select NDC11,
+                    MONTH,
+                    YEAR,
+                    ACCRUAL_RATE,
+                    ACCRUAL_AMOUNT,
+                    ITEM_NAME
+                    from 
+                    (
+                    SELECT I.ITEM_NO AS NDC11
+                            ,P."MONTH" AS MONTH
+                            ,P."YEAR" AS YEAR
+                            ,SUM(ACCRUAL_RATE) * 100 AS ACCRUAL_RATE
+                            ,SUM(ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT
+                            ,I.ITEM_NAME AS ITEM_NAME
+                    FROM 
+                    #TEMP_CAL I
+                    INNER JOIN 
+                     ACCRUAL_RATE_ACTUALS ARA ON I.ACCRUAL_PROJ_DETAILS_SID = ARA.ACCRUAL_PROJ_DETAILS_SID
+                    JOIN "PERIOD" P ON P.PERIOD_SID = ARA.PERIOD_SID
+                            AND P.PERIOD_DATE >= '@START_TIME_STAMP'
+                    GROUP BY I.ITEM_NO,I.ITEM_NAME
+                            ,P."YEAR"
+                            ,P."MONTH"
+
+                    UNION ALL
+
+                    SELECT I.ITEM_NO AS NDC11
+                            ,P."MONTH" AS MONTH
+                            ,P."YEAR" AS YEAR
+                            ,SUM(ACCRUAL_RATE) * 100 AS ACCRUAL_RATE
+                            ,SUM(ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT
+                            ,I.ITEM_NAME AS ITEM_NAME
+                    FROM 
+                    #TEMP_CAL I
+                    INNER JOIN 
+                        ACCRUAL_RATE_DETAILS ARA ON I.ACCRUAL_PROJ_DETAILS_SID = ARA.ACCRUAL_PROJ_DETAILS_SID
+                    JOIN "PERIOD" P ON P.PERIOD_SID = ARA.PERIOD_SID
+                            AND P.PERIOD_DATE <= '@END_TIME_STAMP'
+                    GROUP BY I.ITEM_NO,I.ITEM_NAME
+                            ,P."YEAR"
+                            ,P."MONTH")a
+                            order by NDC11,ITEM_NAME,year,month
+
+                    ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="getProjectionRecordsForAccrual-ARP">
+        <query> 
+                    <![CDATA[
+        DECLARE @CNT                   INT=0,
+        @I                     INT=1,
+        @PROJECTION_MASTER_SID INT,
+        @PROJECTION            INT=?PROJECTION_ID,
+        
+IF OBJECT_ID('TEMPDB..#TEMP_MASTER') IS NOT NULL 
+  DROP TABLE #TEMP_MASTER  
+        
+CREATE TABLE #TEMP_MASTER
+  (
+     ID                       INT IDENTITY(1, 1),
+     PROJECTION_MASTER_SID    INT,
+     ACCRUAL_PROJ_DETAILS_SID INT,
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT
+  )
+  IF OBJECT_ID('TEMPDB..#TEMP_MIN_MAX') IS NOT NULL 
+  DROP TABLE #TEMP_MIN_MAX
+  
+CREATE TABLE #TEMP_MIN_MAX
+  (
+     PROJECTED_ACCRUAL_AMOUNT       NUMERIC(22, 6),
+     PROJECTED_ACCRUAL_RATE         NUMERIC(22, 6),
+     YEAR                           INT,
+     QUARTER                        INT,
+     CCP_DETAILS_SID                INT,
+     RS_MODEL_SID                   INT,
+     APPRV_PROJECTED_ACCRUAL_AMOUNT NUMERIC(22, 6),
+     APPRV_PROJECTED_ACCRUAL_RATE   NUMERIC(22, 6),
+     DIFF_AMOUNT                    NUMERIC(22, 6),
+     DIFF_RATE                      NUMERIC(22, 6),
+     [DIFF_AMOUNT_%]                NUMERIC(22, 6),
+     [DIFF_RATE_%]                  NUMERIC(22, 6)
+  )
+    IF OBJECT_ID('TEMPDB..#TEMP_APPROVED') IS NOT NULL 
+  DROP TABLE #TEMP_APPROVED
+CREATE TABLE #TEMP_APPROVED
+  (
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT,
+     PROJECTED_ACCRUAL_AMOUNT NUMERIC(22, 6),
+     PROJECTED_ACCRUAL_RATE   NUMERIC(22, 6),
+     YEAR                     INT,
+     QUARTER                  INT
+  )
+
+INSERT INTO #TEMP_MASTER
+            (PROJECTION_MASTER_SID,
+             ACCRUAL_PROJ_DETAILS_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID)
+SELECT @PROJECTION,
+       ACCRUAL_PROJ_DETAILS_SID,
+       CCP_DETAILS_SID,
+       RS_MODEL_SID
+FROM   ACCRUAL_PROJ_DETAILS
+WHERE  PROJECTION_MASTER_SID = @PROJECTION
+
+    IF OBJECT_ID('TEMPDB..#TEMP_PROJ_DETAILS') IS NOT NULL 
+  DROP TABLE #TEMP_PROJ_DETAILS
+CREATE TABLE #TEMP_PROJ_DETAILS
+  (
+     PROJECTION_MASTER_SID    INT,
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT,
+     ACCRUAL_PROJ_DETAILS_SID INT
+  )
+
+INSERT INTO #TEMP_PROJ_DETAILS
+            (PROJECTION_MASTER_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             ACCRUAL_PROJ_DETAILS_SID)
+SELECT PROJECTION_MASTER_SID,
+       CCP_DETAILS_SID,
+       RS_MODEL_SID,
+       ACCRUAL_PROJ_DETAILS_SID
+FROM   (SELECT WM.PROJECTION_MASTER_SID,
+               OUT_P.CCP_DETAILS_SID,
+               OUT_P.RS_MODEL_SID,
+               OUT_P.ACCRUAL_PROJ_DETAILS_SID,
+               ROW_NUMBER()
+                 OVER(
+                   PARTITION BY CCP_DETAILS_SID, RS_MODEL_SID
+                   ORDER BY WM.MODIFIED_DATE DESC) RNO
+        FROM   WORKFLOW_MASTER WM
+               JOIN (SELECT PM.PROJECTION_MASTER_SID,
+                            TMP.CCP_DETAILS_SID,
+                            TMP.RS_MODEL_SID,
+                            PD.ACCRUAL_PROJ_DETAILS_SID
+                     FROM   #TEMP_MASTER TMP
+                            JOIN ACCRUAL_PROJ_DETAILS PD
+                              ON TMP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                                 AND TMP.RS_MODEL_SID = PD.RS_MODEL_SID
+                            JOIN PROJECTION_MASTER PM
+                              ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                     WHERE  PM.SAVE_FLAG = 1
+                            AND PM.FORECASTING_TYPE = 'AccrualRateProjection') OUT_P
+                 ON WM.PROJECTION_MASTER_SID = OUT_P.PROJECTION_MASTER_SID
+        WHERE  WM.WORKFLOW_STATUS_ID = (SELECT HELPER_TABLE_SID
+                                        FROM   HELPER_TABLE
+                                        WHERE  LIST_NAME = 'WorkFlowStatus'
+                                               AND DESCRIPTION = 'Approved'))A
+WHERE  RNO = 1
+
+INSERT INTO #TEMP_APPROVED
+            (CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PROJECTED_ACCRUAL_AMOUNT,
+             PROJECTED_ACCRUAL_RATE,
+             YEAR,
+             QUARTER)
+SELECT B.CCP_DETAILS_SID,
+       B.RS_MODEL_SID,
+       Sum(A.ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT,
+       Sum(A.ACCRUAL_RATE)   AS ACCRUAL_RATE,
+       YEAR,
+       QUARTER
+FROM   ACCRUAL_RATE_DETAILS A
+       JOIN ACCRUAL_PROJ_DETAILS B
+         ON A.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+       JOIN #TEMP_PROJ_DETAILS CT
+         ON CT.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+            AND CT.RS_MODEL_SID = B.RS_MODEL_SID
+            AND CT.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = A.PERIOD_SID
+WHERE  P.YEAR >= Year(Getdate())
+GROUP  BY P.YEAR,
+          P.QUARTER,
+          B.CCP_DETAILS_SID,
+          B.RS_MODEL_SID
+
+INSERT INTO #TEMP_MIN_MAX
+            (PROJECTED_ACCRUAL_AMOUNT,
+             PROJECTED_ACCRUAL_RATE,
+            YEAR,
+             QUARTER,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             APPRV_PROJECTED_ACCRUAL_AMOUNT,
+             APPRV_PROJECTED_ACCRUAL_RATE,
+             DIFF_AMOUNT,
+             DIFF_RATE,
+             [DIFF_AMOUNT_%],
+             [DIFF_RATE_%])
+SELECT A.PROJECTED_ACCRUAL_AMOUNT,
+       A.PROJECTED_ACCRUAL_RATE,
+       A.YEAR,
+       A.QUARTER,
+       A.CCP_DETAILS_SID,
+       A.RS_MODEL_SID,
+       ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) AS APPRV_PROJECTED_ACCRUAL_AMOUNT,
+       ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0)   AS APPRV_PROJECTED_ACCRUAL_RATE,
+       CASE
+         WHEN ( ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) ) < 0 THEN 0
+         ELSE ( ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) )
+       END                                          AS DIFF_AMOUNT,
+       CASE
+         WHEN ( ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) ) < 0 THEN 0
+         ELSE ( ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) )
+       END                                          AS DIFF_RATE,
+       CASE
+         WHEN ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) ) < 0 THEN 0
+         ELSE ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) )
+       END                                          AS [DIFF_AMOUNT_%],
+       CASE
+         WHEN ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) ) < 0 THEN 0
+         ELSE ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) )
+       END                                          AS [DIFF_RATE_%]
+FROM   (SELECT B.CCP_DETAILS_SID,
+               B.RS_MODEL_SID,
+               Sum(A.ACCRUAL_AMOUNT) AS PROJECTED_ACCRUAL_AMOUNT,
+               Sum(A.ACCRUAL_RATE)   AS PROJECTED_ACCRUAL_RATE,
+               YEAR,
+               QUARTER
+        FROM   ST_ACCRUAL_RATE_DETAILS A
+               JOIN ACCRUAL_PROJ_DETAILS B
+                 ON A.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = A.PERIOD_SID
+   
+        GROUP  BY P.YEAR,
+                  P.QUARTER,
+                  B.CCP_DETAILS_SID,
+                  B.RS_MODEL_SID) A
+       LEFT JOIN #TEMP_APPROVED TEMP_APP
+              ON TEMP_APP.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                 AND TEMP_APP.RS_MODEL_SID = A.RS_MODEL_SID
+                 AND TEMP_APP.YEAR = A.YEAR
+                 AND TEMP_APP.QUARTER = A.QUARTER
+
+SELECT ISNULL(Min(DIFF_AMOUNT), 0)     AS MIN_DIFF_AMOUNT,
+       ISNULL(Max(DIFF_AMOUNT), 0)     AS MAX_DIFF_AMOUNT,
+       ISNULL(Min(DIFF_RATE), 0)       AS MIN_DIFF_RATE,
+       ISNULL(Max(DIFF_RATE), 0)       AS MAX_DIFF_RATE,
+       ISNULL(Min([DIFF_AMOUNT_%]), 0) AS [MIN_DIFF_AMOUNT_%],
+       ISNULL(Max([DIFF_AMOUNT_%]), 0) AS [MAX_DIFF_AMOUNT_%],
+       ISNULL(Min([DIFF_RATE_%]), 0)   AS [MIN_DIFF_RATE_%],
+       ISNULL(Max([DIFF_RATE_%]), 0)   AS [MAX_DIFF_RATE_%]
+FROM   #TEMP_MIN_MAX 
+
+
+                    ]]>
+        </query>
+    </entity>
+    
+     <entity id="ARP-load-customers">
+        <query> 
+                    <![CDATA[
+                SELECT CM.COMPANY_MASTER_SID,
+                       CM.COMPANY_NAME
+                FROM   COMPANY_MASTER CM
+                WHERE  EXISTS(SELECT 1
+                              FROM   @TABLE_NAME ARD
+                                     JOIN CCP_DETAILS CCP
+                                       ON CCP.CCP_DETAILS_SID = ARD.CCP_DETAILS_SID
+                              WHERE  CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                                     AND ARD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID)
+
+                    ]]>
+        </query>
+    </entity>
+     <entity id="ARP-load-brands">
+        <query> 
+                    <![CDATA[
+                SELECT BM.BRAND_MASTER_SID,
+                    BM.BRAND_NAME
+                FROM   BRAND_MASTER BM
+                WHERE  EXISTS (SELECT 1
+                FROM   @TABLE_NAME ARD
+                      JOIN CCP_DETAILS CCP
+                        ON CCP.CCP_DETAILS_SID = ARD.CCP_DETAILS_SID
+                      JOIN COMPANY_MASTER CM
+                        ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
+                      JOIN ITEM_MASTER IM
+                        ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                WHERE  BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                      AND ARD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                      AND CM.COMPANY_MASTER_SID = @COMPANY_MASTER_SID)
+                    ]]>
+        </query>
+    </entity>
+     <entity id="ARP-load-products">
+        <query> 
+                    <![CDATA[
+            SELECT ITEM_MASTER_SID,
+                    ITEM_NAME
+            FROM   ITEM_MASTER IM
+            WHERE  EXISTS (SELECT 1
+            FROM   @TABLE_NAME ARD
+                      JOIN CCP_DETAILS CCP
+                        ON CCP.CCP_DETAILS_SID = ARD.CCP_DETAILS_SID
+                      JOIN COMPANY_MASTER CM
+                        ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+               WHERE  IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                      AND ARD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                      AND CM.COMPANY_MASTER_SID = @COMPANY_MASTER_SID
+                      AND IM.BRAND_MASTER_SID = @BRAND_MASTER_SID )
+
+
+                    ]]>
+        </query>
+    </entity>
+     <entity id="ARP-get-products-count">
+        <query> 
+                    <![CDATA[
+            SELECT count(ITEM_MASTER_SID)
+            FROM   ITEM_MASTER IM
+            WHERE  EXISTS (SELECT 1
+            FROM   @TABLE_NAME ARD
+                      JOIN CCP_DETAILS CCP
+                      ON CCP.CCP_DETAILS_SID = ARD.CCP_DETAILS_SID
+                      WHERE  IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                      AND ARD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID )
+                    ]]>
+        </query>
+    </entity>
+        
+        
+</sql>

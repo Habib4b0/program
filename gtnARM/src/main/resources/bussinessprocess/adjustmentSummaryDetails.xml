@@ -1,0 +1,40 @@
+<Panel  xmlns:cu="urn:import:org.asi.ui.customcombobox" xmlns:cmb="urn:import:org.asi.ui.custommenubar"
+>
+    <VerticalLayout spacing="true" margin="true" immediate="true"  styleName="forecast-dataselection">
+        
+        <Panel id="panel1" caption="Adjustment Selection"  >
+
+            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true">
+                <VerticalLayout>
+                    <GridLayout spacing="true" margin="false" immediate="true" columns="4" rows="2">
+                        <Label caption="Frequency: " contentMode="HTML" width="100px" />
+                        <ComboBox id="frequencyDdlb" width="206px" />
+                        <Label caption="Adjustment Type: " contentMode="HTML" width="100px" />
+                        <cmb:CustomMenuBar id="adjustmentType"  styleName="custommenumulticheck" />
+                        <Label caption="Deduction Level: " contentMode="HTML" width="100px" />
+                        <cu:CustomComboBox id="deductionlevelDdlb" width="206px" />
+                        <Label caption="Deduction Value: " contentMode="HTML" width="100px" />
+                        <cmb:CustomMenuBar id="deductionValue"  styleName="custommenumulticheck" />
+                    </GridLayout>
+                </VerticalLayout>
+                <Panel id="timeperiod" caption="Period Range">
+                    <VerticalLayout  spacing = "true" margin = "true" >
+                        <GridLayout id="gridLayout" immediate="true" columns="4" rows="1">
+                            <Label caption="From:" contentMode="HTML" width="50px"/>
+                            <ComboBox id="fromDate" width="178px" />
+                            <Label caption="To:" contentMode="HTML" width="40px" styleName="labelresultalign"/>
+                            <ComboBox id="toDate" width="178px" />
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel>
+            </HorizontalLayout>
+        </Panel>
+        
+        <HorizontalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+            <Button id="reset" caption="RESET" />
+            <Button id="generate" caption="GENERATE" />
+        </HorizontalLayout> 
+       
+    </VerticalLayout>
+</Panel>
+    

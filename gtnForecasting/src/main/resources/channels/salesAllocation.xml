@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable">
+    <VerticalLayout margin="true" spacing="true" width = "100%">
+        <Panel caption="Sales Allocation Selection"  margin="true" immediate="true">
+            <VerticalLayout styleName = "width-auto"  margin="true">  
+                <GridLayout spacing="false" immediate="true" rows="2" columns="6" styleName="adjustCaption">
+                    <Label value="Frequency: " contentMode="HTML" width="80px" />
+                    <ComboBox id="frequencyDdlb" immediate="true" />
+                    <Label value="View: " contentMode="HTML" width="60px" />
+                    <OptionGroup multiSelect="false" id="view"  style = "horizontal" 
+                                 immediate="true" enable="true" />
+                    <Label value="Projection Period Order: " contentMode="HTML"  width="164px" />
+                    <OptionGroup multiSelect="false" id="periodOrder"   style = "horizontal"
+                                 immediate="true" enable="true" />
+
+                    <Label value="History: " contentMode="HTML" width="60px"/>
+                    <ComboBox id="historyDdlb" immediate="true"
+                              description="Select One" />
+                    <Label value="Level: " contentMode="HTML" width="60px" />
+                    <HorizontalLayout>
+                        <OptionGroup multiSelect="false" id="level" style = "horizontal"
+                                     immediate="true" enable="true" />
+                        <ComboBox multiSelect="false" id="ndcDdlb" width="180px"
+                                  immediate="true" enable="true" />                        
+                    </HorizontalLayout>
+                    <Label value="Therapeutic Class: " contentMode="HTML" width="125px" />
+                    <ComboBox multiSelect="false" id="therapeuticClass"
+                              immediate="true" enable="true" />
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>       
+        <HorizontalLayout spacing="true"  
+                          immediate="true">
+            <Button id="generateBtn" caption="GENERATE"></Button>
+            <Button id="resetBtn" caption="RESET"></Button>
+        </HorizontalLayout>
+      
+        
+        <Panel caption="Sales Allocation"  width="100%">
+            <VerticalLayout spacing="true" margin="true" immediate="true" >
+                <Panel>   
+                    <VerticalLayout styleName = "width-auto">   
+                        <HorizontalLayout spacing="true" immediate="true" >
+                            <Panel caption="Mass Update">
+                                <VerticalLayout margin="true" > 
+                                    <HorizontalLayout  spacing="false" margin="false" styleName="adjustCaption">			
+                                        <GridLayout spacing="false" margin="false" immediate="true" rows="1" columns="10" styleName="adjustCaption">
+                                            <OptionGroup id="massCheck" enabled="true" immediate="true"  style = "horizontal" />
+                                            <Label value="Field: " contentMode="HTML" width="45px"/>
+                                            <ComboBox id="fieldDdlb" enabled="true" immediate="true" styleName="comboxsize"/>
+                                            <Label value="Value: " contentMode="HTML"  width="45px"/>
+                                            <TextField id="valueMass" enabled="true" immediate="true" visible="true"/>
+                                            <Label value="Start Period: " contentMode="HTML" width="90px" />
+                                            <ComboBox id="startPeriod" enabled="true" immediate="true" styleName="comboxsize"/>
+                                            <Label value="End Period: " contentMode="HTML" width="90px" />
+                                            <ComboBox id="endPeriod" enabled="true" immediate="true" styleName="comboxsize"/>
+                                            <Button id="populate" caption="POPULATE" />
+                                        </GridLayout>   
+                                    </HorizontalLayout> 
+                                </VerticalLayout>
+                            </Panel>  
+                            <Panel caption="Forecast Methodology Selection">
+                                <VerticalLayout margin = "true" styleName = "width-auto" > 
+                                    <HorizontalLayout  spacing="true" margin="false" styleName="adjustCaption">
+                                        <Label value="Methodology:" contentMode="HTML" />
+                                        <ComboBox id="methodologyDdlb" enabled="true" immediate="true" styleName="comboxsize"/>
+                                        <Button id="calculate" caption="CALCULATE" />
+                                    </HorizontalLayout>     
+                                </VerticalLayout>
+                            </Panel>                  
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>   
+                <Panel>
+                    <VerticalLayout styleName="width-auto" margin = "true"> 
+                        <HorizontalLayout spacing="true" immediate="true">
+                            <Label value="Level: " contentMode="HTML" />
+                            <ComboBox id="levelDdlb" enabled="true" immediate="true" width="180px" />
+                            <Button id="expand" caption="EXPAND" />
+                            <Button id="collapse" caption="COLLAPSE" />
+                            <Label value="Level Filter: " contentMode="HTML" />
+                            <ComboBox id="levelFilterDdlb" enabled="true" immediate="true" width="180px" />
+                            <Label value="Custom View: " contentMode="HTML" />
+                            <ComboBox id="viewDdlb" enabled="true" immediate="true" width="180px" />
+                            <Button id="newBtn" caption="NEW" />
+                            <Button id="editBtn" caption="EDIT" />
+                        </HorizontalLayout>
+                    </VerticalLayout>
+                </Panel>   
+                <VerticalLayout spacing="false" margin="false" immediate="true" id="tableLayout"  styleName="projectionTable">          
+                </VerticalLayout>
+                <HorizontalLayout spacing="true" margin="false">
+                    <Button id="excelExport" primaryStyleName="link" />
+                    <Button id="refreshBtn" caption="REFRESH" />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>  
+    </VerticalLayout> 
+      
+</Panel>

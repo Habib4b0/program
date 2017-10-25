@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>csvinput_audit</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>&#47;</directory>
+    <parameters>
+        <parameter>
+            <name>D1</name>
+            <default_value>|</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>D2</name>
+            <default_value>,</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>D3</name>
+            <default_value>$</default_value>
+            <description/>
+        </parameter>
+    </parameters>
+    <log>
+<trans-log-table><connection/>
+<schema/>
+<table/>
+<size_limit_lines/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<perf-log-table><connection/>
+<schema/>
+<table/>
+<interval/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>SEQ_NR</id><enabled>Y</enabled><name>SEQ_NR</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>INPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>INPUT_BUFFER_ROWS</name></field><field><id>OUTPUT_BUFFER_ROWS</id><enabled>Y</enabled><name>OUTPUT_BUFFER_ROWS</name></field></perf-log-table>
+<channel-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>LOGGING_OBJECT_TYPE</id><enabled>Y</enabled><name>LOGGING_OBJECT_TYPE</name></field><field><id>OBJECT_NAME</id><enabled>Y</enabled><name>OBJECT_NAME</name></field><field><id>OBJECT_COPY</id><enabled>Y</enabled><name>OBJECT_COPY</name></field><field><id>REPOSITORY_DIRECTORY</id><enabled>Y</enabled><name>REPOSITORY_DIRECTORY</name></field><field><id>FILENAME</id><enabled>Y</enabled><name>FILENAME</name></field><field><id>OBJECT_ID</id><enabled>Y</enabled><name>OBJECT_ID</name></field><field><id>OBJECT_REVISION</id><enabled>Y</enabled><name>OBJECT_REVISION</name></field><field><id>PARENT_CHANNEL_ID</id><enabled>Y</enabled><name>PARENT_CHANNEL_ID</name></field><field><id>ROOT_CHANNEL_ID</id><enabled>Y</enabled><name>ROOT_CHANNEL_ID</name></field></channel-log-table>
+<step-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <created_user>-</created_user>
+  <created_date>2015&#47;09&#47;07 12:26:20.792</created_date>
+  <modified_user>-</modified_user>
+  <modified_date>2015&#47;09&#47;07 12:26:20.792</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>db_etl</name>
+    <server>${BPI_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_DB}</database>
+    <port>1433</port>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>staging</name>
+    <server>${STAGING_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${STAGING_DB}</database>
+    <port>1433</port>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>sys_db</name>
+    <server>${BPI_SYS_HOST}</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>${BPI_SYS_DB}</database>
+    <port>1433</port>
+    <username>${BPI_SYS_USER}</username>
+    <password>${BPI_SYS_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1433</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <order>
+  <hop> <from>Detect empty stream</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>Modified Java Script Value</from><to>GET MAIL PARAMETERS</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Detect empty stream</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT SORT 2</from><to>AUDIT UNIQUE 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>RECEIVED COUNT 2</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>SET AUDIT STATUS 3</to><enabled>Y</enabled> </hop>  <hop> <from>RECEIVED COUNT 2</from><to>SET AUDIT STATUS 3</to><enabled>N</enabled> </hop>  <hop> <from>CSV file input 3</from><to>AUDIT SORT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET AUDIT STATUS 3</from><to>Database join 2</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null 2</from><to>Audit Insert &#47; Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2</from><to>Database join 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2 2</from><to>If field value is null 2</to><enabled>Y</enabled> </hop>  </order>
+  <step>
+    <name>AUDIT SORT 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size>50000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>BATCH_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>635</xloc>
+      <yloc>266</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>AUDIT UNIQUE 2</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>Y</count_rows>
+      <count_field>SENT_COUNT</count_field>
+      <reject_duplicate_row>N</reject_duplicate_row>
+      <error_description>Duplicate record in Staging</error_description>
+    <fields>      <field>        <name>BATCH_ID</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>746</xloc>
+      <yloc>311</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Audit Insert &#47; Update 3</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db_etl</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>APPLICATION_PROCESS</name>
+        <field>APPLICATION_PROCESS</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ZERO</name>
+        <field>AUDIT_INBOUND_SID</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>INTERFACE_RUN_START_DATE</name>
+        <rename>Interface_Run_Start_Date</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>SENT_RECORD_COUNT</name>
+        <rename>SENT_COUNT</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>STATUS</name>
+        <rename>STATUS_A</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>FILE_NAME</name>
+        <rename>FILE_NAME</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>CREATED_BY</name>
+        <rename>userid</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>NEW_DATE</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ADD_COUNT</name>
+        <rename>ZERO</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>753</xloc>
+      <yloc>689</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CSV file input 3</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>${FILE_LOCAL_PATH}&#47;COMPANY_TRADE_CLASS_INTERFACE1.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>|</separator>
+    <enclosure>&quot;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>N</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding/>
+    <fields>
+      <field>
+        <name>TRADE_CLASS_INTERFACE_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>COMPANY_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>TRADE_CLASS_START_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>TRADE_CLASS_END_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>TRADE_CLASS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ADD_CHG_DEL_INDICATOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CREATED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CREATED_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MODIFIED_BY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MODIFIED_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRIOR_TRADE_CLASS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRIOR_TRADE_CLASS_START_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>LAST_UPDATED_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>335</xloc>
+      <yloc>10</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Database join 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>sys_db</connection>
+    <rowlimit>0</rowlimit>
+    <sql>
+SELECT userid as userid
+FROM user_ where screenname=&apos;etluser&apos; </sql>
+    <outer_join>Y</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>751</xloc>
+      <yloc>495</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Database join 2 2 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db_etl</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE() AS NEW_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>658</xloc>
+      <yloc>550</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Detect empty stream</name>
+    <type>DetectEmptyStream</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>982</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>GET MAIL PARAMETERS</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>DESTINATION_ADDRESS</name>
+        <variable>${DESTINATION_ADDRESS}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>DESTINATION_CC</name>
+        <variable>${DESTINATION_CC}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SENDER_ADDRESS</name>
+        <variable>${SENDER_ADDRESS}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SENDER_NAME</name>
+        <variable>${SENDER_NAME}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MAIL_SERVER</name>
+        <variable>${MAIL_SERVER}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MAIL_PORT</name>
+        <variable>${MAIL_PORT}</variable>
+        <type>Number</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>982</xloc>
+      <yloc>333</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>If field value is null 2</name>
+    <type>IfNull</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <replaceAllByValue/>
+      <replaceAllMask/>
+      <selectFields>Y</selectFields>
+      <selectValuesType>N</selectValuesType>
+    <valuetypes>
+      </valuetypes>
+    <fields>
+      <field>
+        <name>userid</name>
+        <value>1</value>
+        <mask/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>751</xloc>
+      <yloc>592</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mail</name>
+    <type>Mail</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <server>MAIL_SERVER</server>
+      <port>MAIL_PORT</port>
+      <destination>DESTINATION_ADDRESS</destination>
+      <destinationCc>DESTINATION_CC</destinationCc>
+      <destinationBCc/>
+      <replyToAddresses/>
+      <replyto>SENDER_ADDRESS</replyto>
+      <replytoname>SENDER_NAME</replytoname>
+      <subject>SUBJECT</subject>
+      <include_date>N</include_date>
+      <include_subfolders>N</include_subfolders>
+      <zipFilenameDynamic>N</zipFilenameDynamic>
+      <isFilenameDynamic>N</isFilenameDynamic>
+      <dynamicFieldname/>
+      <dynamicWildcard/>
+      <dynamicZipFilename/>
+      <sourcefilefoldername/>
+      <sourcewildcard/>
+      <contact_person/>
+      <contact_phone/>
+      <comment>CONTENT</comment>
+      <include_files>N</include_files>
+      <zip_files>N</zip_files>
+      <zip_name/>
+      <zip_limit_size>0</zip_limit_size>
+      <use_auth>N</use_auth>
+      <use_secure_auth>N</use_secure_auth>
+      <auth_user/>
+      <auth_password>Encrypted </auth_password>
+      <only_comment>Y</only_comment>
+      <use_HTML>Y</use_HTML>
+      <use_Priority>N</use_Priority>
+    <encoding>UTF-8</encoding>
+    <priority>normal</priority>
+    <importance>normal</importance>
+    <secureconnectiontype>SSL</secureconnectiontype>
+      <embeddedimages>
+      </embeddedimages>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>982</xloc>
+      <yloc>432</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Modified Java Script Value</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var SUBJECT=&quot;COMPANY_TRADE_CLASS_INTERFACE&quot;+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
+var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present in CSV file.&lt;br&gt;&lt;br&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
+</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
+        <rename>SUBJECT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>CONTENT</name>
+        <rename>CONTENT</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>982</xloc>
+      <yloc>246</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>RECEIVED COUNT 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection/>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT COUNT(*) AS RECEIVED_COUNT FROM STAG_COMPANY_MASTER  where BATCH_ID=?</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+      </field>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>606</xloc>
+      <yloc>394</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SET AUDIT STATUS 3</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var STATUS_A=&quot;R&quot;;
+var APPLICATION_PROCESS=&quot;COMPANY_TRADE_CLASS_INTERFACE&quot;;
+var FILE_NAME=&quot;Company_Trade_Class_Intf_History.ksh&quot;;
+var Interface_Run_Start_Date=new Date();
+var ZERO=0;
+
+</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_A</name>
+        <rename>STATUS_A</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>APPLICATION_PROCESS</name>
+        <rename>APPLICATION_PROCESS</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>FILE_NAME</name>
+        <rename>FILE_NAME</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>Interface_Run_Start_Date</name>
+        <rename>Interface_Run_Start_Date</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>      <field>        <name>ZERO</name>
+        <rename>ZERO</rename>
+        <type>Number</type>
+        <length>16</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>747</xloc>
+      <yloc>414</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+      <error>
+        <source_step>CSV file input 3</source_step>
+        <target_step/>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+</transformation>
